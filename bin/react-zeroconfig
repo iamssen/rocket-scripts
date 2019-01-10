@@ -1,0 +1,68 @@
+#!/usr/bin/env node
+const fs = require('fs');
+const path = require('path');
+
+const getCurrentTime = require('../lib/getCurrentTime');
+const config = require('../lib/createConfig')({
+  command: process.argv[2],
+  appDirectory: process.cwd(),
+  ssenpackDirectory: path.join(__dirname, '..'),
+});
+const packageJson = require(`${process.cwd()}/package.json`);
+
+switch (process.argv[2]) {
+  case 'libs.build':
+    require('../lib/commands/libs.build')(config);
+    break;
+  case 'libs.publish':
+    require('../lib/commands/libs.publish')(config);
+    break;
+  case 'translation.build':
+    require('../lib/commands/translation.build')(config);
+    break;
+  case 'translation.build.watch':
+    require('../lib/commands/translation.build.watch')(config);
+    break;
+  case 'translation.distribute':
+    require('../lib/commands/translation.distribute')(config);
+    break;
+  case 'web.build':
+    require('../lib/commands/web.build')(config);
+    break;
+  case 'web.dev.build':
+    require('../lib/commands/web.dev.build')(config);
+    break;
+  case 'web.dev.build.watch':
+    require('../lib/commands/web.dev.build.watch')(config);
+    break;
+  case 'web.dev.start':
+    require('../lib/commands/web.dev.start')(config);
+    break;
+  case 'web.ssr.build':
+    require('../lib/commands/web.ssr.build')(config);
+    break;
+  case 'web.ssr.dev.build':
+    require('../lib/commands/web.ssr.dev.build')(config);
+    break;
+  case 'web.ssr.dev.build.watch':
+    require('../lib/commands/web.ssr.dev.build.watch')(config);
+    break;
+  case 'web.ssr.dev.start':
+    require('../lib/commands/web.ssr.dev.start')(config);
+    break;
+  default:
+    const command = process.argv[2];
+    
+    if (packageJson.ssenpack.commands && packageJson.ssenpack.commands[command]) {
+      const commandPath = `${process.cwd()}/${packageJson.ssenpack.commands[command]}.js`;
+  
+      if (fs.existsSync(commandPath)) {
+        require(commandPath)(config);
+      } else {
+        console.error(`[${getCurrentTime()}] 💀 "${commandPath}" is undefined.`);
+      }
+    } else {
+      console.error(`[${getCurrentTime()}] 💀 "${command}" is unknown command.`);
+    }
+    break;
+}
