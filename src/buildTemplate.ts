@@ -13,7 +13,6 @@ export = function ({templateDirectory, outputPath}: Params): Promise<void> {
     glob(
       `${templateDirectory}/*.ejs`,
       (error, filePaths) => {
-        console.log('buildTemplate.ts..()', filePaths, templateDirectory);
         if (error) {
           reject(error);
           return;

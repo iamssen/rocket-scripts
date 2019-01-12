@@ -65,7 +65,7 @@ switch (process.argv[2]) {
   default:
     const command = process.argv[2];
     
-    if (packageJson.zeroconfig.commands && packageJson.zeroconfig.commands[command]) {
+    if (packageJson.zeroconfig && packageJson.zeroconfig.commands && packageJson.zeroconfig.commands[command]) {
       const commandPath = `${process.cwd()}/${packageJson.zeroconfig.commands[command]}.js`;
   
       if (fs.existsSync(commandPath)) {
