@@ -1,0 +1,16 @@
+import buildTemplate from '../buildTemplate';
+import getCurrentTime from '../getCurrentTime';
+import { Config } from '../types';
+
+export = function ({appDirectory}: Config) {
+  buildTemplate({
+    templateDirectory: `${appDirectory}/src/_templates`,
+    outputPath: `${appDirectory}/public`,
+  }).then(() => {
+      console.log(`[${getCurrentTime()}] 👍 Template build is successful.`);
+    })
+    .catch(error => {
+      console.error(`[${getCurrentTime()}] 💀 Template build is failed.`);
+      console.error(error);
+    });
+}

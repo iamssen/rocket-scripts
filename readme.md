@@ -1,20 +1,9 @@
-# config.js
+# Installation
 
 ```
-app?:
-  entry: string[]
-  port: number
-  staticFileDirectories: string[]
-  
-  buildPath?: string = ''
-  https?: boolean | { key: string, cert: string } = false
-  vendorFileName?: string = 'vendor'
-  styleFileName?: string = 'style'
-  publicPath?: string = ''
-  
-  ssr?: 
-    port: number
-
-modules?:
-  entry: { [name: string]: { group?: string } }
+npm install react-zeroconfig
 ```
+
+# 😭 Document is not ready
+
+You can see project seed <https://github.com/iamssen/seed>.

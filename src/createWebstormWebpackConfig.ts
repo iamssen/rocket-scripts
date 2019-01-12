@@ -7,7 +7,7 @@ import { Config } from './types';
 const config: Config = createConfig({
   command: 'editor.webpack',
   appDirectory: process.cwd(),
-  ssenpackDirectory: path.join(__dirname, '..'),
+  zeroconfigDirectory: path.join(__dirname, '..'),
 });
 
 export = function (): Configuration {

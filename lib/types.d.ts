@@ -30,9 +30,16 @@ export interface Config {
     };
     command: string;
     appDirectory: string;
-    ssenpackDirectory: string;
+    zeroconfigDirectory: string;
     ssrEnabled: boolean;
 }
 export declare type UserConfig = Partial<Config>;
 export declare type WebpackFunction = (config: Config) => Promise<Configuration>;
-export declare type TranslationStore = Map<string, Map<string, object>>;
+export declare type TranslationType = 'i18next' | 'intl';
+export declare type TranslationNode = string | {
+    [key: string]: TranslationNode;
+};
+export declare type TranslationContent = {
+    [key: string]: TranslationNode;
+};
+export declare type TranslationStore = Map<string, Map<string, TranslationContent>>;

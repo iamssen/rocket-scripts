@@ -3,11 +3,11 @@ import { Configuration } from 'webpack';
 import webpackMerge from 'webpack-merge';
 import { Config } from '../types';
 
-export = (webpackConfig: Configuration) => ({app, appDirectory, ssenpackDirectory}: Config): Promise<Configuration> => {
+export = (webpackConfig: Configuration) => ({app, appDirectory, zeroconfigDirectory}: Config): Promise<Configuration> => {
   const modules: string[] = ['node_modules'];
   
-  if (fs.existsSync(`${ssenpackDirectory}/node_modules`)) {
-    modules.push(`${ssenpackDirectory}/node_modules`);
+  if (fs.existsSync(`${zeroconfigDirectory}/node_modules`)) {
+    modules.push(`${zeroconfigDirectory}/node_modules`);
   }
   
   return Promise.resolve(webpackMerge({
@@ -21,8 +21,8 @@ export = (webpackConfig: Configuration) => ({app, appDirectory, ssenpackDirector
     
     performance: {
       hints: 'warning',
-      maxEntrypointSize: 3000000,
-      maxAssetSize: 2000000,
+      maxEntrypointSize: 30000000,
+      maxAssetSize: 20000000,
     },
     
     stats: {

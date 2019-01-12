@@ -6,6 +6,7 @@ export = function ({appDirectory}: Config) {
   buildTranslation({
     appDirectory: appDirectory,
     outputPath: `${appDirectory}/src/generated/locales.json`,
+    type: 'i18next',
   }).then(() => {
       console.log(`[${getCurrentTime()}] 👍 Translation build is successful.`);
     })

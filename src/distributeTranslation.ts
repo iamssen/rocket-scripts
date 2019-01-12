@@ -1,18 +1,23 @@
+import chalk from 'chalk';
 import fs from 'fs-extra';
 import glob from 'glob';
 import path from 'path';
-import { Config } from './types';
 import getCurrentTime from './getCurrentTime';
-import chalk from 'chalk';
+import { intlFormatToTranslation } from './intlFormatToTranslation';
+import { Config, TranslationContent, TranslationType } from './types';
 
 interface Params {
   filePath: string;
   appDirectory: Config['appDirectory'];
+  type: TranslationType;
 }
 
-export = function ({filePath, appDirectory}: Params): Promise<void> {
+export = function ({filePath, appDirectory, type}: Params): Promise<void> {
   return new Promise((resolve, reject) => {
-    const translationContent: object = fs.readJsonSync(filePath, {encoding: 'utf8'});
+    const localesJsonContent: object = fs.readJsonSync(filePath, {encoding: 'utf8'});
+    const localesContent: {[languageCode: string]: TranslationContent} = type === 'intl'
+      ? intlFormatToTranslation(localesJsonContent)
+      : localesJsonContent as {[languageCode: string]: TranslationContent};
     
     glob(`${appDirectory}/src/**/locales/[a-z][a-z]-[A-Z][A-Z].json`, (error, jsonFiles) => {
       if (error) {
@@ -30,7 +35,7 @@ export = function ({filePath, appDirectory}: Params): Promise<void> {
             const keys: string[] = [...parentKeys, key];
             
             if (typeof content[key] === 'string') {
-              const value: string = keys.reduce((data, k) => data[k], translationContent[languageCode]);
+              const value: string = keys.reduce((data, k) => data[k], localesContent[languageCode]) as string;
               
               if (value !== content[key]) {
                 updated.set(keys.join('.'), [content[key], value]);

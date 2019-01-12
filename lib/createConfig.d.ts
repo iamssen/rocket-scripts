@@ -2,7 +2,7 @@ import { Config } from './types';
 interface Params {
     command: Config['command'];
     appDirectory: Config['appDirectory'];
-    ssenpackDirectory: Config['ssenpackDirectory'];
+    zeroconfigDirectory: Config['zeroconfigDirectory'];
 }
-declare const _default: ({ command, appDirectory, ssenpackDirectory }: Params) => Config;
+declare const _default: ({ command, appDirectory, zeroconfigDirectory }: Params) => Config;
 export = _default;

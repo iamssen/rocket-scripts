@@ -32,19 +32,19 @@ function getDefaultModulesEntry(appDirectory: Config['appDirectory']): Config['m
 interface Params {
   command: Config['command'];
   appDirectory: Config['appDirectory'];
-  ssenpackDirectory: Config['ssenpackDirectory'];
+  zeroconfigDirectory: Config['zeroconfigDirectory'];
 }
 
-export = function ({command, appDirectory, ssenpackDirectory}: Params): Config {
+export = function ({command, appDirectory, zeroconfigDirectory}: Params): Config {
   // tslint:disable:no-any
   const packageJson: {[k: string]: any} = require(`${appDirectory}/package.json`);
   // tslint:enable:no-any
   
-  const userConfig: UserConfig = fs.existsSync(`${process.cwd()}/ssenpack.local.config.js`)
-    ? require(`${appDirectory}/ssenpack.local.config.js`)
-    : fs.existsSync(`${process.cwd()}/ssenpack.config.js`)
-      ? require(`${appDirectory}/ssenpack.config.js`)
-      : packageJson.ssenpack || {};
+  const userConfig: UserConfig = fs.existsSync(`${process.cwd()}/zeroconfig.local.config.js`)
+    ? require(`${appDirectory}/zeroconfig.local.config.js`)
+    : fs.existsSync(`${process.cwd()}/zeroconfig.config.js`)
+      ? require(`${appDirectory}/zeroconfig.config.js`)
+      : packageJson.zeroconfig || {};
   
   const app: Config['app'] = {
     entry: getDefaultEntry(appDirectory),
@@ -77,7 +77,7 @@ export = function ({command, appDirectory, ssenpackDirectory}: Params): Config {
     modules,
     command,
     appDirectory,
-    ssenpackDirectory,
+    zeroconfigDirectory,
     ssrEnabled,
   };
 };

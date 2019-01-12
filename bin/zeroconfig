@@ -6,25 +6,34 @@ const getCurrentTime = require('../lib/getCurrentTime');
 const config = require('../lib/createConfig')({
   command: process.argv[2],
   appDirectory: process.cwd(),
-  ssenpackDirectory: path.join(__dirname, '..'),
+  zeroconfigDirectory: path.join(__dirname, '..'),
 });
 const packageJson = require(`${process.cwd()}/package.json`);
 
 switch (process.argv[2]) {
-  case 'libs.build':
-    require('../lib/commands/libs.build')(config);
+  case 'module.build':
+    require('../lib/commands/module.build')(config);
     break;
-  case 'libs.publish':
-    require('../lib/commands/libs.publish')(config);
+  case 'module.publish':
+    require('../lib/commands/module.publish')(config);
     break;
-  case 'translation.build':
-    require('../lib/commands/translation.build')(config);
+  case 'i18next.build':
+    require('../lib/commands/i18next.build')(config);
     break;
-  case 'translation.build.watch':
-    require('../lib/commands/translation.build.watch')(config);
+  case 'i18next.build.watch':
+    require('../lib/commands/i18next.build.watch')(config);
     break;
-  case 'translation.distribute':
-    require('../lib/commands/translation.distribute')(config);
+  case 'i18next.distribute':
+    require('../lib/commands/i18next.distribute')(config);
+    break;
+  case 'intl.build':
+    require('../lib/commands/intl.build')(config);
+    break;
+  case 'intl.build.watch':
+    require('../lib/commands/intl.build.watch')(config);
+    break;
+  case 'intl.distribute':
+    require('../lib/commands/intl.distribute')(config);
     break;
   case 'web.build':
     require('../lib/commands/web.build')(config);
@@ -50,11 +59,14 @@ switch (process.argv[2]) {
   case 'web.ssr.dev.start':
     require('../lib/commands/web.ssr.dev.start')(config);
     break;
+  case 'template.build':
+    require('../lib/commands/template.build')(config);
+    break;
   default:
     const command = process.argv[2];
     
-    if (packageJson.ssenpack.commands && packageJson.ssenpack.commands[command]) {
-      const commandPath = `${process.cwd()}/${packageJson.ssenpack.commands[command]}.js`;
+    if (packageJson.zeroconfig.commands && packageJson.zeroconfig.commands[command]) {
+      const commandPath = `${process.cwd()}/${packageJson.zeroconfig.commands[command]}.js`;
   
       if (fs.existsSync(commandPath)) {
         require(commandPath)(config);

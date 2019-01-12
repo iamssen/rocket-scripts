@@ -1,7 +1,8 @@
-import { TranslationStore } from './types';
+import { TranslationStore, TranslationType } from './types';
 interface Params {
-    translations: TranslationStore;
+    translationStore: TranslationStore;
     outputPath: string;
+    type: TranslationType;
 }
-declare const _default: ({ translations, outputPath }: Params) => Promise<void>;
+declare const _default: ({ translationStore, outputPath, type }: Params) => Promise<void>;
 export = _default;

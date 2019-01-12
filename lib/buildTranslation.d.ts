@@ -1,7 +1,8 @@
-import { Config } from './types';
+import { Config, TranslationType } from './types';
 interface Params {
     appDirectory: Config['appDirectory'];
     outputPath: string;
+    type: TranslationType;
 }
-declare const _default: ({ appDirectory, outputPath }: Params) => Promise<void>;
+declare const _default: ({ appDirectory, outputPath, type }: Params) => Promise<void>;
 export = _default;

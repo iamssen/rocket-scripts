@@ -1,14 +1,15 @@
 import fs from 'fs-extra';
 import glob from 'glob';
 import exportTranslation from './exportTranslation';
-import { Config, TranslationStore } from './types';
+import { Config, TranslationContent, TranslationStore, TranslationType } from './types';
 
 interface Params {
   appDirectory: Config['appDirectory'];
   outputPath: string;
+  type: TranslationType;
 }
 
-export = function ({appDirectory, outputPath}: Params): Promise<void> {
+export = function ({appDirectory, outputPath, type}: Params): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     glob(
       `${appDirectory}/src/**/locales/[a-z][a-z]-[A-Z][A-Z].json`,
@@ -18,26 +19,27 @@ export = function ({appDirectory, outputPath}: Params): Promise<void> {
           return;
         }
         
-        const translations: TranslationStore = new Map();
+        const translationStore: TranslationStore = new Map();
         
         for (const filePath of filePaths) {
-          const translationJsonContent: object = fs.readJsonSync(filePath, {encoding: 'utf8'});
+          const content: TranslationContent = fs.readJsonSync(filePath, {encoding: 'utf8'});
           const languageCode: string = (/\/([a-z]{2}-[A-Z]{2}).json$/.exec(filePath) as RegExpExecArray)[1];
           
-          if (!translations.has(languageCode)) {
-            translations.set(languageCode, new Map());
+          if (!translationStore.has(languageCode)) {
+            translationStore.set(languageCode, new Map());
           }
           
-          const language: Map<string, object> | undefined = translations.get(languageCode);
+          const languageContentMap: Map<string, TranslationContent> | undefined = translationStore.get(languageCode);
           
-          if (language) {
-            language.set(filePath, translationJsonContent);
+          if (languageContentMap) {
+            languageContentMap.set(filePath, content);
           }
         }
         
         exportTranslation({
-          translations,
+          translationStore,
           outputPath,
+          type,
         }).then(() => resolve());
       });
   });

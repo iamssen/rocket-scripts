@@ -75,6 +75,13 @@ export = () => (config: Config): Promise<Configuration> => {
               ],
             },
             {
+              test: /\.ejs$/,
+              include: `${appDirectory}/src`,
+              use: [
+                require.resolve('raw-loader'),
+              ],
+            },
+            {
               test: /\.txt$/,
               include: `${appDirectory}/src`,
               use: [

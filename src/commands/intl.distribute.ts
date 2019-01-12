@@ -1,7 +1,7 @@
+import fs from 'fs';
 import distributeTranslation from '../distributeTranslation';
 import getCurrentTime from '../getCurrentTime';
 import { Config } from '../types';
-import fs from 'fs';
 
 export = function ({appDirectory}: Config) {
   const filePath: string = `${appDirectory}/src/generated/locales.json`;
@@ -10,6 +10,7 @@ export = function ({appDirectory}: Config) {
     distributeTranslation({
       filePath,
       appDirectory,
+      type: 'intl',
     }).then(() => {
         console.log(`[${getCurrentTime()}] 👍 Translation distribute is successful.`);
       })
