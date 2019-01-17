@@ -50,7 +50,7 @@ export = () => (config: Config): Promise<Configuration> => {
             
             // babel
             {
-              test: /\.(ts|tsx|js|jsx)$/,
+              test: /\.(ts|tsx|jsx)$/,
               include: `${appDirectory}/src`,
               loader: require.resolve('babel-loader'),
               options: {
@@ -78,7 +78,6 @@ export = () => (config: Config): Promise<Configuration> => {
                   require.resolve('@babel/preset-typescript'),
                 ],
                 plugins: [
-                  require.resolve('@babel/plugin-transform-flow-strip-types'),
                   require.resolve('@babel/plugin-transform-destructuring'),
                   [
                     require.resolve('@babel/plugin-proposal-decorators'),
@@ -102,12 +101,6 @@ export = () => (config: Config): Promise<Configuration> => {
                   require.resolve('babel-plugin-dynamic-import-webpack'),
                 ],
                 overrides: [
-                  {
-                    exclude: /\.(ts|tsx)$/,
-                    plugins: [
-                      require.resolve('@babel/plugin-transform-flow-strip-types'),
-                    ],
-                  },
                   {
                     test: /\.(ts|tsx)$/,
                     plugins: [
