@@ -22,11 +22,12 @@ export = ({isProduction}: Params) => ({app, appDirectory}: Config): Promise<Conf
       minimizer: [
         new TerserPlugin({
           terserOptions: {
+            ecma: 5,
             parse: {
               ecma: 8,
             },
             compress: {
-              ecma: 5,
+              //ecma: 5,
               warnings: false,
               comparisons: false,
               inline: 2,
