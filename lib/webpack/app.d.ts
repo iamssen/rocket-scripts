@@ -1,4 +1,4 @@
-import { Configuration } from 'webpack';
+import webpack from 'webpack';
 import { Config } from '../types';
-declare const _default: () => (config: Config) => Promise<Configuration>;
+declare const _default: () => (config: Config) => Promise<webpack.Configuration>;
 export = _default;

@@ -1,3 +1,4 @@
+import path from 'path';
 import { Configuration, LibraryTarget } from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import { Config } from '../types';
@@ -11,7 +12,7 @@ export = () => (config: Config): Promise<Configuration> => {
     target,
     
     entry: {
-      index: `${appDirectory}/src/_entry/ssr`,
+      index: path.join(appDirectory, 'src/_entry/ssr'),
     },
     
     output: {

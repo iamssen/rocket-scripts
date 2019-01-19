@@ -1,3 +1,4 @@
+import path from 'path';
 import getCurrentTime from '../getCurrentTime';
 import { Config } from '../types';
 import watchTranslation from '../watchTranslation';
@@ -5,7 +6,7 @@ import watchTranslation from '../watchTranslation';
 export = function ({appDirectory}: Config) {
   watchTranslation({
     appDirectory: appDirectory,
-    outputPath: `${appDirectory}/src/generated/locales.json`,
+    outputPath: path.join(appDirectory, 'src/generated/locales.json'),
     type: 'intl',
   }).subscribe(
     () => {

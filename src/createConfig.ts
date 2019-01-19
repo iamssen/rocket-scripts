@@ -1,12 +1,13 @@
 import fs from 'fs';
+import path from 'path';
 import { Config, UserConfig } from './types';
 
 function getDefaultEntry(appDirectory: Config['appDirectory']): string[] {
-  const entryDirectories: string[] = fs.readdirSync(`${appDirectory}/src/_entry/client`);
+  const entryDirectories: string[] = fs.readdirSync(path.join(appDirectory, 'src/_entry/client'));
   const entry: string[] = [];
   
   for (const entryName of entryDirectories) {
-    if (fs.statSync(`${appDirectory}/src/_entry/client/${entryName}`).isDirectory()) {
+    if (fs.statSync(path.join(appDirectory, 'src/_entry/client', entryName)).isDirectory()) {
       entry.push(entryName);
     }
   }
@@ -15,13 +16,13 @@ function getDefaultEntry(appDirectory: Config['appDirectory']): string[] {
 }
 
 function getDefaultModulesEntry(appDirectory: Config['appDirectory']): Config['modules']['entry'] {
-  if (!fs.existsSync(`${appDirectory}/src/_modules`) || !fs.statSync(`${appDirectory}/src/_modules`).isDirectory()) return {};
+  if (!fs.existsSync(path.join(appDirectory, 'src/_modules')) || !fs.statSync(path.join(appDirectory, 'src/_modules')).isDirectory()) return {};
   
-  const entryDirectories: string[] = fs.readdirSync(`${appDirectory}/src/_modules`);
+  const entryDirectories: string[] = fs.readdirSync(path.join(appDirectory, 'src/_modules'));
   const entry: Config['modules']['entry'] = {};
   
   for (const entryName of entryDirectories) {
-    if (fs.statSync(`${appDirectory}/src/_modules/${entryName}`).isDirectory()) {
+    if (fs.statSync(path.join(appDirectory, 'src/_modules', entryName)).isDirectory()) {
       entry[entryName] = {};
     }
   }
@@ -37,13 +38,13 @@ interface Params {
 
 export = function ({command, appDirectory, zeroconfigDirectory}: Params): Config {
   // tslint:disable:no-any
-  const packageJson: {[k: string]: any} = require(`${appDirectory}/package.json`);
+  const packageJson: {[k: string]: any} = require(path.join(appDirectory, 'package.json'));
   // tslint:enable:no-any
   
-  const userConfig: UserConfig = fs.existsSync(`${process.cwd()}/zeroconfig.local.config.js`)
-    ? require(`${appDirectory}/zeroconfig.local.config.js`)
-    : fs.existsSync(`${process.cwd()}/zeroconfig.config.js`)
-      ? require(`${appDirectory}/zeroconfig.config.js`)
+  const userConfig: UserConfig = fs.existsSync(path.join(process.cwd(), 'zeroconfig.local.config.js'))
+    ? require(path.join(appDirectory, 'zeroconfig.local.config.js'))
+    : fs.existsSync(path.join(process.cwd(), 'zeroconfig.config.js'))
+      ? require(path.join(appDirectory, 'zeroconfig.config.js'))
       : packageJson.zeroconfig || {};
   
   const app: Config['app'] = {
@@ -70,7 +71,7 @@ export = function ({command, appDirectory, zeroconfigDirectory}: Params): Config
     ...(userConfig.modules || {}),
   };
   
-  const ssrEnabled: boolean = fs.existsSync(`${appDirectory}/src/_entry/ssr`) && fs.statSync(`${appDirectory}/src/_entry/ssr`).isDirectory();
+  const ssrEnabled: boolean = fs.existsSync(path.join(appDirectory, 'src/_entry/ssr')) && fs.statSync(path.join(appDirectory, 'src/_entry/ssr')).isDirectory();
   
   return {
     app,

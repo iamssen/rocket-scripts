@@ -1,4 +1,5 @@
-import ts, { JsxEmit, ModuleKind, Program, ScriptTarget, ModuleResolutionKind } from 'typescript';
+import path from 'path';
+import ts, { JsxEmit, ModuleKind, ModuleResolutionKind, Program, ScriptTarget } from 'typescript';
 import { Config } from './types';
 
 interface Params {
@@ -35,8 +36,8 @@ export = function ({file, appDirectory}: Params): Promise<void> {
     ],
     
     typeRoots: [
-      `${appDirectory}/node_modules/@types`,
-      `${appDirectory}/dist/libs`,
+      path.join(appDirectory, 'node_modules/@types'),
+      path.join(appDirectory, 'dist/libs'),
     ],
     //baseUrl:
   });

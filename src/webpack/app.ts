@@ -1,10 +1,10 @@
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin-alt';
+import path from 'path';
 import typescriptFormatter from 'react-dev-utils/typescriptFormatter';
 import resolve from 'resolve';
-import { Configuration } from 'webpack';
+import webpack, { Configuration } from 'webpack';
 import getAlias from '../getAlias';
 import { Config } from '../types';
-import webpack from 'webpack';
 
 export = () => (config: Config): Promise<Configuration> => {
   const {app, appDirectory} = config;
@@ -28,8 +28,8 @@ export = () => (config: Config): Promise<Configuration> => {
             {
               loader: require.resolve('tslint-loader'),
               options: {
-                configFile: `${appDirectory}/tslint.json`,
-                tsConfigFile: `${appDirectory}/tsconfig.json`,
+                configFile: path.join(appDirectory, 'tslint.json'),
+                tsConfigFile: path.join(appDirectory, 'tsconfig.json'),
               },
             },
           ],
@@ -40,7 +40,7 @@ export = () => (config: Config): Promise<Configuration> => {
             // convert files to data url
             {
               test: [/\.png$/],
-              include: `${appDirectory}/src`,
+              include: path.join(appDirectory, 'src'),
               loader: require.resolve('url-loader'),
               options: {
                 limit: 10000,
@@ -51,7 +51,7 @@ export = () => (config: Config): Promise<Configuration> => {
             // babel
             {
               test: /\.(ts|tsx|jsx)$/,
-              include: `${appDirectory}/src`,
+              include: path.join(appDirectory, 'src'),
               loader: require.resolve('babel-loader'),
               options: {
                 babelrc: false,
@@ -118,7 +118,7 @@ export = () => (config: Config): Promise<Configuration> => {
             
             {
               test: /\.svg$/,
-              include: `${appDirectory}/src`,
+              include: path.join(appDirectory, 'src'),
               use: [
                 require.resolve('svg-react-loader'),
               ],
@@ -127,28 +127,28 @@ export = () => (config: Config): Promise<Configuration> => {
             // import text
             {
               test: /\.html$/,
-              include: `${appDirectory}/src`,
+              include: path.join(appDirectory, 'src'),
               use: [
                 require.resolve('raw-loader'),
               ],
             },
             {
               test: /\.ejs$/,
-              include: `${appDirectory}/src`,
+              include: path.join(appDirectory, 'src'),
               use: [
                 require.resolve('raw-loader'),
               ],
             },
             {
               test: /\.txt$/,
-              include: `${appDirectory}/src`,
+              include: path.join(appDirectory, 'src'),
               use: [
                 require.resolve('raw-loader'),
               ],
             },
             {
               test: /\.md$/,
-              include: `${appDirectory}/src`,
+              include: path.join(appDirectory, 'src'),
               use: [
                 require.resolve('raw-loader'),
                 require.resolve('markdown-loader'),
@@ -162,11 +162,11 @@ export = () => (config: Config): Promise<Configuration> => {
     plugins: [
       new ForkTsCheckerWebpackPlugin({
         typescript: resolve.sync('typescript', {
-          basedir: `${appDirectory}/node_modules`,
+          basedir: path.join(appDirectory, 'node_modules'),
         }),
         async: false,
         checkSyntacticErrors: true,
-        tsconfig: `${appDirectory}/tsconfig.json`,
+        tsconfig: path.join(appDirectory, 'tsconfig.json'),
         reportFiles: [
           '**',
           '!**/*.json',
@@ -175,7 +175,7 @@ export = () => (config: Config): Promise<Configuration> => {
           '!**/src/setupProxy.*',
           '!**/src/setupTests.*',
         ],
-        watch: `${appDirectory}/src`,
+        watch: path.join(appDirectory, 'src'),
         silent: true,
         formatter: typescriptFormatter,
       }),

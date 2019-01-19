@@ -1,3 +1,4 @@
+import path from 'path';
 import createWebpackConfig from '../createWebpackConfig';
 import getCurrentTime from '../getCurrentTime';
 import removeDirectory from '../removeDirectory';
@@ -10,7 +11,7 @@ import ssr from '../webpack/ssr';
 import style from '../webpack/style';
 
 export = function (config: Config) {
-  const outputPath: string = `${config.appDirectory}/dist/ssr`;
+  const outputPath: string = path.join(config.appDirectory, 'dist/ssr');
   const extractCss: boolean = true;
   const isProduction: boolean = true;
   

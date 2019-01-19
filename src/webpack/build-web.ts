@@ -1,5 +1,6 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import path from 'path';
 import safePostCssParser from 'postcss-safe-parser';
 import TerserPlugin from 'terser-webpack-plugin';
 import { Configuration } from 'webpack';
@@ -12,7 +13,7 @@ interface Params {
 export = ({isProduction}: Params) => ({app, appDirectory}: Config): Promise<Configuration> => {
   return Promise.resolve({
     entry: app.entry.reduce((entry, entryItemName) => {
-      entry[entryItemName] = `${appDirectory}/src/_entry/client/${entryItemName}`;
+      entry[entryItemName] = path.join(appDirectory, 'src/_entry/client', entryItemName);
       return entry;
     }, {}),
     

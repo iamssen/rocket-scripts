@@ -1,10 +1,11 @@
 import fs from 'fs';
+import path from 'path';
 import distributeTranslation from '../distributeTranslation';
 import getCurrentTime from '../getCurrentTime';
 import { Config } from '../types';
 
 export = function ({appDirectory}: Config) {
-  const filePath: string = `${appDirectory}/src/generated/locales.json`;
+  const filePath: string = path.join(appDirectory, 'src/generated/locales.json');
   
   if (fs.existsSync(filePath)) {
     distributeTranslation({

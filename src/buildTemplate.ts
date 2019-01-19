@@ -23,7 +23,7 @@ export = function ({templateDirectory, outputPath}: Params): Promise<void> {
           const template: string = fs.readFileSync(filePath, {encoding: 'utf8'});
           const html: string = ejs.render(template);
           
-          fs.writeFileSync(`${outputPath}/${fileName}.html`, html, {encoding: 'utf8'});
+          fs.writeFileSync(path.join(outputPath, `${fileName}.html`), html, {encoding: 'utf8'});
         }
       },
     );

@@ -8,7 +8,7 @@ const config = require('../lib/createConfig')({
   appDirectory: process.cwd(),
   zeroconfigDirectory: path.join(__dirname, '..'),
 });
-const packageJson = require(`${process.cwd()}/package.json`);
+const packageJson = require(path.join(process.cwd(), 'package.json'));
 
 switch (process.argv[2]) {
   case 'module.build':
@@ -66,8 +66,8 @@ switch (process.argv[2]) {
     const command = process.argv[2];
     
     if (packageJson.zeroconfig && packageJson.zeroconfig.commands && packageJson.zeroconfig.commands[command]) {
-      const commandPath = `${process.cwd()}/${packageJson.zeroconfig.commands[command]}.js`;
-  
+      const commandPath = path.join(process.cwd(), `${packageJson.zeroconfig.commands[command]}.js`);
+      
       if (fs.existsSync(commandPath)) {
         require(commandPath)(config);
       } else {

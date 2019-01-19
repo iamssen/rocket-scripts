@@ -5,6 +5,7 @@ import webpack, { Compiler, Configuration } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { Config } from './types';
+import path from 'path';
 
 interface Params {
   app: Config['app'];
@@ -45,7 +46,7 @@ export = function ({app, appDirectory, ssrEnabled, middlewares = []}: Params, we
     
     server: {
       baseDir: app.staticFileDirectories.map(dir => {
-        return `${appDirectory}/${dir}`;
+        return path.join(appDirectory, dir);
       }),
       
       middleware,

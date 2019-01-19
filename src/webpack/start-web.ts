@@ -8,7 +8,7 @@ export = () => ({app, appDirectory}: Config): Promise<Configuration> => {
       entry[entryItemName] = [
         `${path.dirname(require.resolve('webpack-hot-middleware/package.json'))}/client?http://localhost:${app.port}`,
         `${path.dirname(require.resolve('webpack/package.json'))}/hot/only-dev-server`,
-        `${appDirectory}/src/_entry/client/${entryItemName}`,
+        path.join(appDirectory, 'src/_entry/client', entryItemName),
       ];
       return entry;
     }, {}),
