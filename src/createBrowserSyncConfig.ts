@@ -1,5 +1,6 @@
 import { MiddlewareHandler, Options, PerRouteMiddleware } from 'browser-sync';
 import compression from 'compression';
+import { IncomingMessage, ServerResponse } from 'http';
 import proxyMiddleware from 'http-proxy-middleware';
 import webpack, { Compiler, Configuration } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -35,6 +36,15 @@ export = function ({app, appDirectory, ssrEnabled, middlewares = []}: Params, we
       proxyMiddleware(['**', '!**/*.*'], {
         target: `http://localhost:${app.ssrPort}`,
       }),
+    );
+  } else {
+    middleware.push(
+      function (req: IncomingMessage, res: ServerResponse, next: () => void) {
+        if (req.url && !/\.[a-zA-Z0-9]+$/.test(req.url)) {
+          req.url = '/index.html';
+        }
+        return next();
+      },
     );
   }
   
