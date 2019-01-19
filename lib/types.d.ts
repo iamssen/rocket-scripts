@@ -1,9 +1,8 @@
 import { Configuration } from 'webpack';
 export interface ModuleBuildOption {
     name: string;
-    group: string | undefined;
-    groupDirectory: string;
     file: string;
+    declaration: boolean;
     externals: string[];
 }
 export interface Config {
@@ -22,11 +21,7 @@ export interface Config {
         ssrPort: number;
     };
     modules: {
-        entry: {
-            [name: string]: {
-                group?: string;
-            };
-        };
+        entry: string[];
     };
     command: string;
     appDirectory: string;

@@ -2,9 +2,8 @@ import { Configuration } from 'webpack';
 
 export interface ModuleBuildOption {
   name: string;
-  group: string | undefined;
-  groupDirectory: string;
   file: string;
+  declaration: boolean;
   externals: string[];
 }
 
@@ -23,7 +22,7 @@ export interface Config {
   };
   
   modules: {
-    entry: {[name: string]: {group?: string}};
+    entry: string[];
   }
   
   command: string;

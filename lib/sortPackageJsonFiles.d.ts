@@ -1,7 +1,8 @@
-declare const _default: (packageJsonFiles: {
+interface PackageJson {
     name: string;
     dependencies?: {
         [name: string]: string;
-    } | undefined;
-}[]) => string[];
+    };
+}
+declare const _default: (packageJsonFiles: PackageJson[]) => string[];
 export = _default;

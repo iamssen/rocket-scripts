@@ -41,6 +41,7 @@ export = function ({appDirectory, outputPath, type}: Params): Promise<void> {
           outputPath,
           type,
         }).then(() => resolve());
-      });
+      },
+    );
   });
 }

@@ -7,8 +7,10 @@ interface Params {
 }
 
 export = function ({staticFileDirectories, outputPath}: Params): Promise<void[]> {
-  return Promise
-    .all<void>(staticFileDirectories.map(dir => fs.copy(dir, outputPath, {dereference: true})));
+  return fs.mkdirp(outputPath).then(() => {
+    return Promise.all<void>(staticFileDirectories.map(dir => fs.copy(dir, outputPath, {dereference: true})));
+  });
+  
   // 음... string replace 방식으로 하면 browser-sync 상황에서 문제가 생길듯...
   //.then(() => {
   //  const manifestFilePath = `${outputPath}/${buildPath}${manifestFileName}`;

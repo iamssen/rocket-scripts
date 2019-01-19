@@ -1,42 +1,56 @@
 import fs from 'fs-extra';
+import path from 'path';
 import sortPackagJsonFiles from './sortPackageJsonFiles';
 import { Config, ModuleBuildOption } from './types';
-import path from 'path';
 
 interface Params {
   appDirectory: Config['appDirectory'];
-  modules: {[name: string]: {group?: string}}
+  modules: Config['modules']['entry'];
+}
+
+interface PackageJsonContent {
+  name: string;
+  dependencies?: {[name: string]: string};
 }
 
 export = function ({modules, appDirectory}: Params): Promise<ModuleBuildOption[]> {
-  const packageJsonFiles: {name: string, dependencies?: {[name: string]: string}}[] = Object.keys(modules).map(name => {
-    const groupDirectory: string = modules[name].group ? modules[name].group + '/' : '';
-    return fs.readJsonSync(path.join(appDirectory, `src/_modules/${groupDirectory}${name}`));
+  const packageJsonContents: PackageJsonContent[] = modules.map(moduleName => {
+    return fs.readJsonSync(path.join(appDirectory, `src/_modules/${moduleName}/package.json`));
   });
   
-  const sortedModuleNames: string[] = sortPackagJsonFiles(packageJsonFiles);
+  const sortedModuleNames: string[] = sortPackagJsonFiles(packageJsonContents);
   const externals: string[] = [];
   
-  const buildOptions: ModuleBuildOption[] = sortedModuleNames.map(name => {
-    const group: string | undefined = modules[name].group;
-    const groupDirectory: string = group ? group + '/' : '';
-    const indexFile: string = fs.existsSync(path.join(appDirectory, `src/_modules/${groupDirectory}${name}/index.tsx`))
+  const buildOptions: ModuleBuildOption[] = [];
+  
+  for (const moduleName of sortedModuleNames) {
+    const indexFile: string | undefined = fs.existsSync(path.join(appDirectory, `src/_modules/${moduleName}/index.tsx`))
       ? 'index.tsx'
-      : 'index.ts';
-    const file: string = path.join(appDirectory, `src/_modules/${groupDirectory}${name}/${indexFile}`);
+      : fs.existsSync(path.join(appDirectory, `src/_modules/${moduleName}/index.ts`))
+        ? 'index.ts'
+        : fs.existsSync(path.join(appDirectory, `src/_modules/${moduleName}/index.jsx`))
+          ? 'index.jsx'
+          : fs.existsSync(path.join(appDirectory, `src/_modules/${moduleName}/index.js`))
+            ? 'index.js'
+            : undefined;
+    
+    if (!indexFile) continue;
+    
+    const declaration: boolean = /\.tsx?$/.test(indexFile);
+    
+    const file: string = path.join(appDirectory, `src/_modules/${moduleName}/${indexFile}`);
     
     const buildOption: ModuleBuildOption = {
-      name,
-      group,
-      groupDirectory,
+      name: moduleName,
       file,
+      declaration,
       externals: externals.slice(),
     };
     
-    externals.push(`${groupDirectory}${name}`);
+    externals.push(moduleName);
     
-    return buildOption;
-  });
+    buildOptions.push(buildOption);
+  }
   
   return Promise.resolve(buildOptions);
 }

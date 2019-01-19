@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { Config, UserConfig } from './types';
+import glob from 'glob';
 
 function getDefaultEntry(appDirectory: Config['appDirectory']): string[] {
   const entryDirectories: string[] = fs.readdirSync(path.join(appDirectory, 'src/_entry/client'));
@@ -16,18 +17,22 @@ function getDefaultEntry(appDirectory: Config['appDirectory']): string[] {
 }
 
 function getDefaultModulesEntry(appDirectory: Config['appDirectory']): Config['modules']['entry'] {
-  if (!fs.existsSync(path.join(appDirectory, 'src/_modules')) || !fs.statSync(path.join(appDirectory, 'src/_modules')).isDirectory()) return {};
-  
-  const entryDirectories: string[] = fs.readdirSync(path.join(appDirectory, 'src/_modules'));
-  const entry: Config['modules']['entry'] = {};
-  
-  for (const entryName of entryDirectories) {
-    if (fs.statSync(path.join(appDirectory, 'src/_modules', entryName)).isDirectory()) {
-      entry[entryName] = {};
-    }
+  if (!fs.existsSync(path.join(appDirectory, 'src/_modules')) || !fs.statSync(path.join(appDirectory, 'src/_modules')).isDirectory()) {
+    return [];
   }
   
-  return entry;
+  return glob
+    .sync(`${appDirectory}/src/_modules/**/package.json`)
+    .map(packageJsonPath => path.dirname(packageJsonPath))
+    .map(dirname => path.relative(path.join(appDirectory, 'src/_modules'), dirname).split(path.sep))
+    .map(dirnamePaths => dirnamePaths.join('/'));
+}
+
+function getDefaultModulePublics(appDirectory: Config['appDirectory']): string[] {
+  return getDefaultModulesEntry(appDirectory)
+    .map(moduleName => path.join(appDirectory, `src/_modules/${moduleName}/public`))
+    .filter(publicPath => fs.existsSync(publicPath) && fs.statSync(publicPath).isDirectory())
+    .map(publicPath => path.relative(appDirectory, publicPath).split(path.sep).join('/'));
 }
 
 interface Params {
@@ -50,7 +55,7 @@ export = function ({command, appDirectory, zeroconfigDirectory}: Params): Config
   const app: Config['app'] = {
     entry: getDefaultEntry(appDirectory),
     port: 3100,
-    staticFileDirectories: ['public'],
+    staticFileDirectories: ['public'].concat(getDefaultModulePublics(appDirectory)),
     buildPath: '',
     https: false,
     vendorFileName: 'vendor',

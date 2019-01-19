@@ -4,7 +4,22 @@ type JsonFile = {name: string, dependencies?: {[name: string]: string}};
 
 describe('sortPackageJsonFiles', () => {
   it('Should be sorted modules by their dependencies', () => {
-    const jsonFiles: JsonFile[] = [
+    function test(jsonFiles: JsonFile[]) {
+      const sorted: string[] = sortPackageJsonFiles(jsonFiles);
+      
+      sorted.reverse().forEach((a, i) => {
+        // sorted.slice(0, i) does not have a
+        for (const b of sorted.slice(0, i)) {
+          const aFile: JsonFile | undefined = jsonFiles.find(jsonFile => jsonFile.name === a);
+          expect(aFile).not.toBeUndefined();
+          if (aFile) {
+            expect(!aFile.dependencies || !aFile.dependencies[b]).toBeTruthy();
+          }
+        }
+      });
+    }
+    
+    test([
       {
         name: 'a',
         dependencies: {
@@ -31,18 +46,43 @@ describe('sortPackageJsonFiles', () => {
       {
         name: 'e',
       },
-    ];
+    ]);
     
-    const sorted: string[] = sortPackageJsonFiles(jsonFiles).reverse();
-    
-    sorted.forEach((a, i) => {
-      for (const b of sorted.slice(0, i)) {
-        const aFile: JsonFile | undefined = jsonFiles.find(jsonFile => jsonFile.name === a);
-        expect(aFile).not.toBeUndefined();
-        if (aFile) {
-          expect(!aFile.dependencies || !aFile.dependencies[b]).toBeTruthy();
-        }
-      }
-    });
+    test([
+      {
+        name: '@ssen/test-module1',
+        dependencies: {
+          'react': '0',
+        },
+      },
+      {
+        name: '@ssen/test-module2',
+        dependencies: {
+          'react': '0',
+          'test-module3': '0',
+        },
+      },
+      {
+        name: 'router-store',
+        dependencies: {
+          'react': '0',
+          'react-router': '0',
+        },
+      },
+      {
+        name: 'test-module3',
+        dependencies: {
+          'react': '0',
+          '@ssen/test-module1': '0',
+        },
+      },
+      {
+        name: 'use-react-intl',
+        dependencies: {
+          'react': '0',
+          'react-intl': '0',
+        },
+      },
+    ]);
   });
 });
