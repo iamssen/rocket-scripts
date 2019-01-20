@@ -7,6 +7,12 @@ export interface ModuleBuildOption {
   externals: string[];
 }
 
+export interface ModulePublishOption {
+  name: string;
+  workingVersion: string;
+  remoteVersion: string | undefined;
+}
+
 export interface Config {
   app: {
     entry: string[];
