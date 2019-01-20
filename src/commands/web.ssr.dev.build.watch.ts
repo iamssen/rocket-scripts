@@ -1,4 +1,5 @@
 import path from 'path';
+import copyPackageJsonToSSR from '../copyPackageJsonToSSR';
 import createWebpackConfig from '../createWebpackConfig';
 import getCurrentTime from '../getCurrentTime';
 import removeDirectory from '../removeDirectory';
@@ -33,7 +34,15 @@ export = function (config: Config) {
     .then(webpackConfig => {
       watchWebpack(config, webpackConfig).subscribe(
         () => {
-          console.log(`[${getCurrentTime()}] 👍 App build is successful.`);
+          copyPackageJsonToSSR({
+            appDirectory: config.appDirectory,
+            outputPath: path.join(outputPath, 'package.json'),
+          }).then(() => {
+            console.log(`[${getCurrentTime()}] 👍 App build is successful.`);
+          }).catch(error => {
+            console.error(`[${getCurrentTime()}] 💀 App build is failed.`);
+            console.error(error);
+          });
         },
         error => {
           console.error(`[${getCurrentTime()}] 💀 App build is failed.`);

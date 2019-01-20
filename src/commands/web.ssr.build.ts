@@ -9,6 +9,7 @@ import base from '../webpack/base';
 import build from '../webpack/build-ssr';
 import ssr from '../webpack/ssr';
 import style from '../webpack/style';
+import copyPackageJsonToSSR from '../copyPackageJsonToSSR';
 
 export = function (config: Config) {
   const outputPath: string = path.join(config.appDirectory, 'dist/ssr');
@@ -32,6 +33,12 @@ export = function (config: Config) {
     })
     .then(webpackConfig => {
       return runWebpack(config, webpackConfig);
+    })
+    .then(() => {
+      return copyPackageJsonToSSR({
+        appDirectory: config.appDirectory,
+        outputPath: path.join(outputPath, 'package.json'),
+      });
     })
     .then(() => {
       console.log(`[${getCurrentTime()}] 👍 App build is successful.`);
