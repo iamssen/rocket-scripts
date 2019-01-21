@@ -61,5 +61,9 @@ export = function ({app, appDirectory, ssrEnabled, middlewares = []}: Params, we
       
       middleware,
     },
+    
+    files: app.staticFileDirectories.map(dir => {
+      return path.join(appDirectory, dir);
+    }),
   });
 };
