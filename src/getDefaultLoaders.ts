@@ -4,7 +4,7 @@ export = function (include: RuleSetCondition): RuleSetRule[] {
   return [
     // babel
     {
-      test: /\.(ts|tsx|jsx)$/,
+      test: /\.(ts|tsx|js|jsx)$/,
       include,
       loader: require.resolve('babel-loader'),
       options: {
@@ -80,32 +80,10 @@ export = function (include: RuleSetCondition): RuleSetRule[] {
     
     // import text
     {
-      test: /\.html$/,
+      test: /\.(html|ejs|txt|md)$/,
       include,
       use: [
         require.resolve('raw-loader'),
-      ],
-    },
-    {
-      test: /\.ejs$/,
-      include,
-      use: [
-        require.resolve('raw-loader'),
-      ],
-    },
-    {
-      test: /\.txt$/,
-      include,
-      use: [
-        require.resolve('raw-loader'),
-      ],
-    },
-    {
-      test: /\.md$/,
-      include,
-      use: [
-        require.resolve('raw-loader'),
-        require.resolve('markdown-loader'),
       ],
     },
   ];
