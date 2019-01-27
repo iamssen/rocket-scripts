@@ -16,6 +16,10 @@ interface Params {
   appDirectory: Config['appDirectory'];
 }
 
+function replaceUndefined<T>(v: T | undefined, defaultValue: T): T {
+  return v === undefined ? defaultValue : v;
+}
+
 export = function ({buildOption, appDirectory}: Params): Promise<void> {
   if (!buildOption.declaration) return Promise.resolve();
   
@@ -31,6 +35,7 @@ export = function ({buildOption, appDirectory}: Params): Promise<void> {
       allowJs,
       downlevelIteration,
       importHelpers,
+      resolveJsonModule,
       allowSyntheticDefaultImports,
       esModuleInterop,
       alwaysStrict,
@@ -43,18 +48,19 @@ export = function ({buildOption, appDirectory}: Params): Promise<void> {
     
     const program: Program = ts.createProgram([buildOption.file], {
       jsx: jsx === 'react' ? JsxEmit.React : JsxEmit.None,
-      experimentalDecorators: experimentalDecorators || true,
-      allowJs: allowJs || false,
-      downlevelIteration: downlevelIteration || true,
-      importHelpers: importHelpers || true,
-      allowSyntheticDefaultImports: allowSyntheticDefaultImports || true,
-      esModuleInterop: esModuleInterop || true,
+      experimentalDecorators: replaceUndefined(experimentalDecorators, true),
+      allowJs: replaceUndefined(allowJs, false),
+      downlevelIteration: replaceUndefined(downlevelIteration, true),
+      importHelpers: replaceUndefined(importHelpers, true),
+      allowSyntheticDefaultImports: replaceUndefined(allowSyntheticDefaultImports, true),
+      resolveJsonModule: replaceUndefined(resolveJsonModule, true),
+      esModuleInterop: replaceUndefined(esModuleInterop, true),
       
-      alwaysStrict: alwaysStrict || true,
-      strictNullChecks: strictNullChecks || true,
-      strictBindCallApply: strictBindCallApply || true,
-      strictFunctionTypes: strictFunctionTypes || false,
-      strictPropertyInitialization: strictPropertyInitialization || true,
+      alwaysStrict: replaceUndefined(alwaysStrict, true),
+      strictNullChecks: replaceUndefined(strictNullChecks, true),
+      strictBindCallApply: replaceUndefined(strictBindCallApply, true),
+      strictFunctionTypes: replaceUndefined(strictFunctionTypes, false),
+      strictPropertyInitialization: replaceUndefined(strictPropertyInitialization, true),
       
       module: ModuleKind.CommonJS,
       target: ScriptTarget.ESNext,
