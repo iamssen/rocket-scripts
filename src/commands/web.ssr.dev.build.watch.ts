@@ -25,8 +25,8 @@ export = function (config: Config) {
             path: outputPath,
           },
         }),
-        ssr(),
         app(),
+        ssr(),
         style({extractCss}),
         build({isProduction}),
       ]);

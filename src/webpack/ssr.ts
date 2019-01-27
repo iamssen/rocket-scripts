@@ -19,6 +19,9 @@ export = () => (config: Config): Promise<Configuration> => {
       libraryTarget,
     },
     
-    externals: [nodeExternals()],
+    externals: [nodeExternals({
+      // include asset files
+      whitelist: [/\.(?!(?:jsx?|json)$).{1,5}$/i],
+    })],
   });
 };
