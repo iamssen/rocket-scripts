@@ -9,7 +9,7 @@ interface Params {
   buildOption: ModuleBuildOption;
 }
 
-export = ({buildOption}: Params) => ({appDirectory}: Config): Promise<Configuration> => {
+export = ({ buildOption }: Params) => ({ appDirectory }: Config): Promise<Configuration> => {
   const libraryTarget: 'commonjs' = 'commonjs';
   
   return Promise.resolve({

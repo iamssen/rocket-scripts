@@ -8,7 +8,7 @@ import getDefaultLoaders from '../getDefaultLoaders';
 import { Config } from '../types';
 
 export = () => (config: Config): Promise<Configuration> => {
-  const {app, appDirectory} = config;
+  const { app, appDirectory } = config;
   
   const enforce: 'pre' = 'pre';
   

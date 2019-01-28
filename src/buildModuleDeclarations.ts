@@ -20,15 +20,16 @@ function replaceUndefined<T>(v: T | undefined, defaultValue: T): T {
   return v === undefined ? defaultValue : v;
 }
 
-export = function ({buildOption, appDirectory}: Params): Promise<void> {
+// tslint:disable:no-any
+function getCompilerOptions(tsconfigPath: string): any {
+  const tsconfigText: string = fs.readFileSync(tsconfigPath, { encoding: 'utf8' });
+  return ts.parseConfigFileTextToJson(tsconfigPath, tsconfigText).config.compilerOptions;
+}
+
+export = function ({ buildOption, appDirectory }: Params): Promise<void> {
   if (!buildOption.declaration) return Promise.resolve();
   
   return new Promise((resolve, reject) => {
-    const tsconifg: string = path.join(appDirectory, 'tsconfig.json');
-    const tsconfigText: string = fs.readFileSync(tsconifg, {encoding: 'utf8'});
-    
-    const {config} = ts.parseConfigFileTextToJson(tsconifg, tsconfigText);
-    
     const {
       jsx,
       experimentalDecorators,
@@ -44,23 +45,41 @@ export = function ({buildOption, appDirectory}: Params): Promise<void> {
       strictFunctionTypes,
       strictPropertyInitialization,
       lib,
-    } = config.compilerOptions;
+    } = getCompilerOptions(path.join(appDirectory, 'tsconfig.json'));
+    
+    const {
+      jsx: jsxDefault,
+      experimentalDecorators: experimentalDecoratorsDefault,
+      allowJs: allowJsDefault,
+      downlevelIteration: downlevelIterationDefault,
+      importHelpers: importHelpersDefault,
+      resolveJsonModule: resolveJsonModuleDefault,
+      allowSyntheticDefaultImports: allowSyntheticDefaultImportsDefault,
+      esModuleInterop: esModuleInteropDefault,
+      alwaysStrict: alwaysStrictDefault,
+      strictNullChecks: strictNullChecksDefault,
+      strictBindCallApply: strictBindCallApplyDefault,
+      strictFunctionTypes: strictFunctionTypesDefault,
+      strictPropertyInitialization: strictPropertyInitializationDefault,
+      lib: libDefault,
+    } = getCompilerOptions(path.join(__dirname, '../configs/tsconfig.json'));
     
     const program: Program = ts.createProgram([buildOption.file], {
-      jsx: jsx === 'react' ? JsxEmit.React : JsxEmit.None,
-      experimentalDecorators: replaceUndefined(experimentalDecorators, true),
-      allowJs: replaceUndefined(allowJs, false),
-      downlevelIteration: replaceUndefined(downlevelIteration, true),
-      importHelpers: replaceUndefined(importHelpers, true),
-      allowSyntheticDefaultImports: replaceUndefined(allowSyntheticDefaultImports, true),
-      resolveJsonModule: replaceUndefined(resolveJsonModule, true),
-      esModuleInterop: replaceUndefined(esModuleInterop, true),
+      // language setting
+      jsx: replaceUndefined(jsx, jsxDefault) ? JsxEmit.React : JsxEmit.None,
+      experimentalDecorators: replaceUndefined(experimentalDecorators, experimentalDecoratorsDefault),
+      allowJs: replaceUndefined(allowJs, allowJsDefault),
+      downlevelIteration: replaceUndefined(downlevelIteration, downlevelIterationDefault),
+      importHelpers: replaceUndefined(importHelpers, importHelpersDefault),
+      allowSyntheticDefaultImports: replaceUndefined(allowSyntheticDefaultImports, allowSyntheticDefaultImportsDefault),
+      resolveJsonModule: replaceUndefined(resolveJsonModule, resolveJsonModuleDefault),
+      esModuleInterop: replaceUndefined(esModuleInterop, esModuleInteropDefault),
       
-      alwaysStrict: replaceUndefined(alwaysStrict, true),
-      strictNullChecks: replaceUndefined(strictNullChecks, true),
-      strictBindCallApply: replaceUndefined(strictBindCallApply, true),
-      strictFunctionTypes: replaceUndefined(strictFunctionTypes, false),
-      strictPropertyInitialization: replaceUndefined(strictPropertyInitialization, true),
+      alwaysStrict: replaceUndefined(alwaysStrict, alwaysStrictDefault),
+      strictNullChecks: replaceUndefined(strictNullChecks, strictNullChecksDefault),
+      strictBindCallApply: replaceUndefined(strictBindCallApply, strictBindCallApplyDefault),
+      strictFunctionTypes: replaceUndefined(strictFunctionTypes, strictFunctionTypesDefault),
+      strictPropertyInitialization: replaceUndefined(strictPropertyInitialization, strictPropertyInitializationDefault),
       
       module: ModuleKind.CommonJS,
       target: ScriptTarget.ESNext,
@@ -68,14 +87,9 @@ export = function ({buildOption, appDirectory}: Params): Promise<void> {
       skipLibCheck: true,
       sourceMap: false,
       
-      lib: lib
-        ? lib.map(l => `lib.${l}.d.ts`)
-        : [
-          'lib.dom.d.ts',
-          'lib.dom.iterable.d.ts',
-          'lib.esnext.d.ts',
-        ],
+      lib: replaceUndefined(lib, libDefault).map(l => `lib.${l}.d.ts`),
       
+      // declaration setting
       typeRoots: [
         path.join(appDirectory, 'node_modules/@types'),
         path.join(appDirectory, 'dist/modules'),
@@ -93,7 +107,7 @@ export = function ({buildOption, appDirectory}: Params): Promise<void> {
     
     for (const diagnostic of diagnostics) {
       if (diagnostic.file && diagnostic.start) {
-        const {line, character} = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
+        const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
         const message: string = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n');
         console.log(`🌧 ${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`);
       } else {

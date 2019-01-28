@@ -4,6 +4,7 @@ import path from 'path';
 import safePostCssParser from 'postcss-safe-parser';
 import TerserPlugin from 'terser-webpack-plugin';
 import { Configuration } from 'webpack';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { Config } from '../types';
 
 interface Params {
@@ -64,6 +65,10 @@ export = ({isProduction}: Params) => ({app, appDirectory}: Config): Promise<Conf
       new MiniCssExtractPlugin({
         filename: `${app.buildPath}[name].css`,
         chunkFilename: `${app.buildPath}[name].css`,
+      }),
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'static',
+        reportFilename: 'bundle.report.html',
       }),
     ],
   });
