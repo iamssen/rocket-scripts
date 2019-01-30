@@ -53,6 +53,16 @@ export = function (include: RuleSetCondition): RuleSetRule[] {
             },
           ],
           require.resolve('babel-plugin-dynamic-import-webpack'),
+          [
+            require.resolve('babel-plugin-named-asset-import'),
+            {
+              loaderMap: {
+                svg: {
+                  ReactComponent: '@svgr/webpack?-svgo![path]',
+                },
+              },
+            },
+          ],
         ],
         overrides: [
           {
@@ -68,14 +78,6 @@ export = function (include: RuleSetCondition): RuleSetRule[] {
           },
         ],
       },
-    },
-    
-    {
-      test: /\.svg$/,
-      include,
-      use: [
-        require.resolve('svg-react-loader'),
-      ],
     },
     
     // import text

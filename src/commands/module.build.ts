@@ -8,7 +8,6 @@ import removeDirectory from '../removeDirectory';
 import { Config, ModuleBuildOption } from '../types';
 import base from '../webpack/base';
 import build from '../webpack/build-module';
-import style from '../webpack/style';
 import runWebpack = require('../runWebpack');
 
 export = function (config: Config) {
@@ -43,8 +42,7 @@ export = function (config: Config) {
               base({
                 mode: 'production',
               }),
-              style({extractCss}),
-              build({buildOption}),
+              build({extractCss, buildOption}),
             ]).then(webpackConfig => {
               return runWebpack(config, webpackConfig);
             }),

@@ -1,4 +1,5 @@
 import path from 'path';
+import copyPackageJsonToSSR from '../copyPackageJsonToSSR';
 import createWebpackConfig from '../createWebpackConfig';
 import getCurrentTime from '../getCurrentTime';
 import removeDirectory from '../removeDirectory';
@@ -8,8 +9,6 @@ import app from '../webpack/app';
 import base from '../webpack/base';
 import build from '../webpack/build-ssr';
 import ssr from '../webpack/ssr';
-import style from '../webpack/style';
-import copyPackageJsonToSSR from '../copyPackageJsonToSSR';
 
 export = function (config: Config) {
   const outputPath: string = path.join(config.appDirectory, 'dist/ssr');
@@ -25,9 +24,8 @@ export = function (config: Config) {
             path: outputPath,
           },
         }),
-        app(),
+        app({extractCss}),
         ssr(),
-        style({extractCss}),
         build({isProduction}),
       ]);
     })

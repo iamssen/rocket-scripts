@@ -1,3 +1,6 @@
 {
-  "extends": "tslint-ssen-rules"
+  "extends": "tslint-ssen-rules",
+  "rules": {
+    "no-reference": false
+  }
 }

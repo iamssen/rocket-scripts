@@ -9,7 +9,6 @@ import app from '../webpack/app';
 import base from '../webpack/base';
 import build from '../webpack/build-web';
 import client from '../webpack/client';
-import style from '../webpack/style';
 
 export = function (config: Config) {
   const outputPath: string = path.join(config.appDirectory, 'dist-dev/web');
@@ -32,9 +31,8 @@ export = function (config: Config) {
             path: outputPath,
           },
         }),
-        app(),
+        app({extractCss}),
         client(),
-        style({extractCss}),
         build({isProduction}),
       ]);
     })

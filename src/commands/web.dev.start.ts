@@ -7,7 +7,6 @@ import app from '../webpack/app';
 import base from '../webpack/base';
 import client from '../webpack/client';
 import start from '../webpack/start-web';
-import style from '../webpack/style';
 
 export = function (config: Config) {
   const extractCss: boolean = false;
@@ -20,9 +19,8 @@ export = function (config: Config) {
         path: config.appDirectory,
       },
     }),
-    app(),
+    app({extractCss}),
     client(),
-    style({extractCss}),
     start(),
   ]).then(webpackConfig => {
       return createBrowserSyncConfig(config, webpackConfig);
