@@ -1,3 +1,5 @@
+import { Options } from 'browser-sync';
+import { Configuration } from 'webpack';
 import createBrowserSyncConfig from '../createBrowserSyncConfig';
 import createWebpackConfig from '../createWebpackConfig';
 import getCurrentTime from '../getCurrentTime';
@@ -22,21 +24,21 @@ export = function (config: Config) {
     app({extractCss}),
     client(),
     start(),
-  ]).then(webpackConfig => {
+  ]).then((webpackConfig: Configuration) => {
       return createBrowserSyncConfig(config, webpackConfig);
     })
-    .then(browserSyncConfig => {
+    .then((browserSyncConfig: Options) => {
       runBrowserSync(browserSyncConfig).subscribe(
         () => {
           console.log(`[${getCurrentTime()}] 👍 App build is successful.`);
         },
-        error => {
+        (error: Error) => {
           console.error(`[${getCurrentTime()}] 💀 App build is failed.`);
           console.error(error);
         },
       );
     })
-    .catch(error => {
+    .catch((error: Error) => {
       console.error(`[${getCurrentTime()}] 💀 App build is failed.`);
       console.error(error);
     });

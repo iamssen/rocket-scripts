@@ -13,7 +13,7 @@ interface Params {
 }
 
 export = function ({filePath, appDirectory, type}: Params): Promise<void> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve: () => void, reject: (error: Error) => void) => {
     const localesJsonContent: object = fs.readJsonSync(filePath, {encoding: 'utf8'});
     const localesContent: {[languageCode: string]: TranslationContent} = type === 'intl'
       ? intlFormatToTranslation(localesJsonContent)
@@ -21,7 +21,7 @@ export = function ({filePath, appDirectory, type}: Params): Promise<void> {
     
     glob(
       `${appDirectory}/src/**/locales/[a-z][a-z]-[A-Z][A-Z].json`,
-      (error, jsonFiles) => {
+      (error: Error, jsonFiles: string[]) => {
         if (error) {
           reject(error);
           return;
@@ -33,11 +33,11 @@ export = function ({filePath, appDirectory, type}: Params): Promise<void> {
           const updated: Map<string, [string, string]> = new Map();
           
           function search(content: object, parentKeys: string[] = []) {
-            Object.keys(content).forEach(key => {
+            Object.keys(content).forEach((key: string) => {
               const keys: string[] = [...parentKeys, key];
               
               if (typeof content[key] === 'string') {
-                const value: string = keys.reduce((data, k) => data[k], localesContent[languageCode]) as string;
+                const value: string = keys.reduce((data: TranslationContent, k: string) => data[k], localesContent[languageCode]) as string;
                 
                 if (value !== content[key]) {
                   updated.set(keys.join('.'), [content[key], value]);

@@ -22,14 +22,14 @@ function replaceUndefined<T>(v: T | undefined, defaultValue: T): T {
 
 // tslint:disable:no-any
 function getCompilerOptions(tsconfigPath: string): any {
-  const tsconfigText: string = fs.readFileSync(tsconfigPath, { encoding: 'utf8' });
+  const tsconfigText: string = fs.readFileSync(tsconfigPath, {encoding: 'utf8'});
   return ts.parseConfigFileTextToJson(tsconfigPath, tsconfigText).config.compilerOptions;
 }
 
-export = function ({ buildOption, appDirectory }: Params): Promise<void> {
+export = function ({buildOption, appDirectory}: Params): Promise<void> {
   if (!buildOption.declaration) return Promise.resolve();
   
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve: () => void, reject: (error: Error) => void) => {
     const {
       jsx,
       experimentalDecorators,
@@ -87,7 +87,7 @@ export = function ({ buildOption, appDirectory }: Params): Promise<void> {
       skipLibCheck: true,
       sourceMap: false,
       
-      lib: replaceUndefined(lib, libDefault).map(l => `lib.${l}.d.ts`),
+      lib: replaceUndefined(lib, libDefault).map((l: string) => `lib.${l}.d.ts`),
       
       // declaration setting
       typeRoots: [
@@ -107,7 +107,7 @@ export = function ({ buildOption, appDirectory }: Params): Promise<void> {
     
     for (const diagnostic of diagnostics) {
       if (diagnostic.file && diagnostic.start) {
-        const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
+        const {line, character} = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
         const message: string = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n');
         console.log(`🌧 ${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`);
       } else {

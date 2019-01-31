@@ -3,8 +3,8 @@ import { TranslationContent } from './types';
 export function intlFormatToTranslation(content: object): {[languageCode: string]: TranslationContent} {
   const result: {[languageCode: string]: TranslationContent} = {};
   
-  Object.keys(content).forEach(languageCode => {
-    Object.keys(content[languageCode]).forEach(id => {
+  Object.keys(content).forEach((languageCode: string) => {
+    Object.keys(content[languageCode]).forEach((id: string) => {
       const value: string = content[languageCode][id];
       const keys: string[] = id.split('.');
       

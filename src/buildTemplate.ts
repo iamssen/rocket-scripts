@@ -9,10 +9,10 @@ interface Params {
 }
 
 export = function ({templateDirectory, outputPath}: Params): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<void>((resolve: () => void, reject: (error: Error) => void) => {
     glob(
       `${templateDirectory}/*.ejs`,
-      (error, filePaths) => {
+      (error: Error, filePaths: string[]) => {
         if (error) {
           reject(error);
           return;

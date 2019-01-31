@@ -4,7 +4,7 @@ export function flattenTranslationToIntl(translationContent: TranslationContent)
   const result: object = {};
   
   function search(content: TranslationContent, parentKeys: string[] = []) {
-    Object.keys(content).forEach(key => {
+    Object.keys(content).forEach((key: string) => {
       const keys: string[] = [...parentKeys, key];
       const value: TranslationNode = content[key];
       

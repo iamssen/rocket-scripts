@@ -8,7 +8,7 @@ interface Params {
 }
 
 export = function ({appDirectory, outputPath}: Params): Promise<void> {
-  return new Promise(resolve => {
+  return new Promise((resolve: () => void) => {
     const {name, dependencies} = fs.readJsonSync(path.join(appDirectory, 'package.json'));
     
     fs.mkdirpSync(path.dirname(outputPath));

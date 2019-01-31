@@ -11,7 +11,7 @@ export = function ({appDirectory}: Config) {
   }).then(() => {
       console.log(`[${getCurrentTime()}] 👍 Translation build is successful.`);
     })
-    .catch(error => {
+    .catch((error: Error) => {
       console.error(`[${getCurrentTime()}] 💀 Translation build is failed.`);
       console.error(error);
     });

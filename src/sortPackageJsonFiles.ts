@@ -3,13 +3,18 @@ interface PackageJson {
   dependencies?: {[name: string]: string};
 }
 
+interface PackageJsonSet {
+  name: string;
+  dependencies: Set<string>;
+}
+
 export = function (packageJsonFiles: PackageJson[]): string[] {
   function searchNestedDependencies(index: Set<string>, dependencies: PackageJson['dependencies']): Set<string> {
     if (dependencies) {
-      Object.keys(dependencies).forEach(dependencyName => {
+      Object.keys(dependencies).forEach((dependencyName: string) => {
         index.add(dependencyName);
         
-        const packageJsonFile: PackageJson | undefined = packageJsonFiles.find(({name}) => dependencyName === name);
+        const packageJsonFile: PackageJson | undefined = packageJsonFiles.find(({name}: PackageJson) => dependencyName === name);
         
         if (packageJsonFile) {
           searchNestedDependencies(index, packageJsonFile.dependencies);
@@ -21,13 +26,13 @@ export = function (packageJsonFiles: PackageJson[]): string[] {
   }
   
   return packageJsonFiles
-    .map(({name, dependencies}) => {
+    .map(({name, dependencies}: PackageJson) => {
       return {
         name,
         dependencies: searchNestedDependencies(new Set(), dependencies),
       };
     })
-    .sort((a, b) => {
+    .sort((a: PackageJsonSet, b: PackageJsonSet) => {
       const aIsHigher: number = 1;
       const bIsHigher: number = -1;
       
@@ -40,5 +45,5 @@ export = function (packageJsonFiles: PackageJson[]): string[] {
       
       return aHasB ? aIsHigher : bIsHigher;
     })
-    .map(packageJsonFile => packageJsonFile.name);
+    .map((packageJsonFile: PackageJsonSet) => packageJsonFile.name);
 }

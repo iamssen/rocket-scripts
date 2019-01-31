@@ -10,10 +10,10 @@ interface Params {
 }
 
 export = function ({appDirectory, outputPath, type}: Params): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<void>((resolve: () => void, reject: (error: Error) => void) => {
     glob(
       `${appDirectory}/src/**/locales/[a-z][a-z]-[A-Z][A-Z].json`,
-      (error, filePaths) => {
+      (error: Error, filePaths: string[]) => {
         if (error) {
           reject(error);
           return;

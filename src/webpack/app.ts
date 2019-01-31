@@ -13,7 +13,7 @@ interface Params {
 }
 
 export = ({extractCss}: Params) => (config: Config): Promise<Configuration> => {
-  const { app, appDirectory } = config;
+  const {app, appDirectory} = config;
   
   const enforce: 'pre' = 'pre';
   
@@ -54,7 +54,7 @@ export = ({extractCss}: Params) => (config: Config): Promise<Configuration> => {
             },
             
             ...getDefaultLoaders(path.join(appDirectory, 'src')),
-  
+            
             ...getStyleLoaders(
               /\.css$/,
               /\.module.css$/,

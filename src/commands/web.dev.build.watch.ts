@@ -1,4 +1,5 @@
 import path from 'path';
+import { Configuration } from 'webpack';
 import copyStaticFileDirectories from '../copyStaticFileDirectories';
 import createWebpackConfig from '../createWebpackConfig';
 import getCurrentTime from '../getCurrentTime';
@@ -36,18 +37,18 @@ export = function (config: Config) {
         build({isProduction}),
       ]);
     })
-    .then(webpackConfig => {
+    .then((webpackConfig: Configuration) => {
       watchWebpack(config, webpackConfig).subscribe(
         () => {
           console.log(`[${getCurrentTime()}] 👍 App build is successful.`);
         },
-        error => {
+        (error: Error) => {
           console.error(`[${getCurrentTime()}] 💀 App build is failed.`);
           console.error(error);
         },
       );
     })
-    .catch(error => {
+    .catch((error: Error) => {
       console.error(`[${getCurrentTime()}] 💀 App build is failed.`);
       console.error(error);
     });

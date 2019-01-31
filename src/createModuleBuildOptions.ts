@@ -14,7 +14,7 @@ interface PackageJsonContent {
 }
 
 export = function ({modules, appDirectory}: Params): Promise<ModuleBuildOption[]> {
-  const packageJsonContents: PackageJsonContent[] = modules.map(moduleName => {
+  const packageJsonContents: PackageJsonContent[] = modules.map((moduleName: string) => {
     return fs.readJsonSync(path.join(appDirectory, `src/_modules/${moduleName}/package.json`));
   });
   

@@ -1,9 +1,9 @@
 import browserSync, { Options } from 'browser-sync';
-import { Observable, Subscribable } from 'rxjs';
+import { Observable, Observer, Subscribable } from 'rxjs';
 
 export = function (browserSyncConfig: Options): Subscribable<void> {
-  return Observable.create(observer => {
-    browserSync(browserSyncConfig, error => {
+  return Observable.create((observer: Observer<void>) => {
+    browserSync(browserSyncConfig, (error: Error) => {
       if (error) {
         observer.error(error);
       } else {

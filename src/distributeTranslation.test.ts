@@ -14,17 +14,17 @@ const keys: string[] = ['a', 'b', 'c', 'd'];
 
 describe('distributeTranslation', () => {
   it('Should get the value by getValue()', () => {
-    const v: TranslationNode = keys.reduce((data, k) => data[k], sampleData);
+    const v: TranslationNode = keys.reduce((data: TranslationContent, k: string) => data[k], sampleData);
     
     expect(v).toEqual('hello');
   });
   
   it('Should set the value by setValue()', () => {
-    const c: TranslationNode = keys.slice(0, keys.length - 1).reduce((data, k) => data[k], sampleData);
+    const c: TranslationNode = keys.slice(0, keys.length - 1).reduce((data: TranslationContent, k: string) => data[k], sampleData);
     
     c['d'] = 'fuck';
     
-    const v: TranslationNode = keys.reduce((data, k) => data[k], sampleData);
+    const v: TranslationNode = keys.reduce((data: TranslationContent, k: string) => data[k], sampleData);
     
     expect(v).toEqual('fuck');
   });

@@ -1,5 +1,5 @@
 import getCurrentTime from '../getCurrentTime';
-import { Config } from '../types';
+import { Config, ModulePublishOption } from '../types';
 import createModulePublishOptions = require('../createModulePublishOptions');
 import filterModulePublishOptions = require('../filterModulePublishOptions');
 import publishModules = require('../publishModules');
@@ -12,10 +12,10 @@ export = function (config: Config) {
     modules: modules.entry,
     version: 'latest',
   })
-    .then(publishOptions => {
+    .then((publishOptions: ModulePublishOption[]) => {
       return filterModulePublishOptions(publishOptions);
     })
-    .then(publishOptions => {
+    .then((publishOptions: ModulePublishOption[]) => {
       return publishModules({
         publishOptions,
         appDirectory,
@@ -24,7 +24,7 @@ export = function (config: Config) {
     .then(() => {
       console.log(`[${getCurrentTime()}] 👍 Module publish is successful.`);
     })
-    .catch(error => {
+    .catch((error: Error) => {
       console.error(`[${getCurrentTime()}] 💀 Module publish is failed.`);
       console.error(error);
     });

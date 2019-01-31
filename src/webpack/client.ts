@@ -14,7 +14,8 @@ export = () => (config: Config): Promise<Configuration> => {
     
     // extract single css file
     style: {
-      test: m => m.constructor.name === 'CssModule',
+      // tslint:disable:no-any
+      test: (m: any) => m.constructor.name === 'CssModule',
       name: app.styleFileName,
       chunks: 'all',
       enforce: true,

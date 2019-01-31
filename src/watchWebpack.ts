@@ -1,10 +1,10 @@
 import { Observable, Observer, Subscribable } from 'rxjs';
-import webpack, { Compiler, Configuration } from 'webpack';
+import webpack, { Compiler, Configuration, Stats } from 'webpack';
 import { Config } from './types';
 
 export = function (config: Config, webpackConfig: Configuration, watchOptions: Compiler.WatchOptions = {}): Subscribable<void> {
   return Observable.create((observer: Observer<void>) => {
-    webpack(webpackConfig).watch(watchOptions, (error, stats) => {
+    webpack(webpackConfig).watch(watchOptions, (error: Error, stats: Stats) => {
       if (error) {
         observer.error(error);
       } else {

@@ -1,7 +1,7 @@
 import fs from 'fs';
+import glob from 'glob';
 import path from 'path';
 import { Config, UserConfig } from './types';
-import glob from 'glob';
 
 function getDefaultEntry(appDirectory: Config['appDirectory']): string[] {
   const entryDirectories: string[] = fs.readdirSync(path.join(appDirectory, 'src/_entry/client'));
@@ -23,16 +23,16 @@ function getDefaultModulesEntry(appDirectory: Config['appDirectory']): Config['m
   
   return glob
     .sync(`${appDirectory}/src/_modules/**/package.json`)
-    .map(packageJsonPath => path.dirname(packageJsonPath))
-    .map(dirname => path.relative(path.join(appDirectory, 'src/_modules'), dirname).split(path.sep))
-    .map(dirnamePaths => dirnamePaths.join('/'));
+    .map((packageJsonPath: string) => path.dirname(packageJsonPath))
+    .map((dirname: string) => path.relative(path.join(appDirectory, 'src/_modules'), dirname).split(path.sep))
+    .map((dirnamePaths: string[]) => dirnamePaths.join('/'));
 }
 
 function getDefaultModulePublics(appDirectory: Config['appDirectory']): string[] {
   return getDefaultModulesEntry(appDirectory)
-    .map(moduleName => path.join(appDirectory, `src/_modules/${moduleName}/public`))
-    .filter(publicPath => fs.existsSync(publicPath) && fs.statSync(publicPath).isDirectory())
-    .map(publicPath => path.relative(appDirectory, publicPath).split(path.sep).join('/'));
+    .map((moduleName: string) => path.join(appDirectory, `src/_modules/${moduleName}/public`))
+    .filter((publicPath: string) => fs.existsSync(publicPath) && fs.statSync(publicPath).isDirectory())
+    .map((publicPath: string) => path.relative(appDirectory, publicPath).split(path.sep).join('/'));
 }
 
 interface Params {

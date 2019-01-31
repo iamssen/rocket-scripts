@@ -23,7 +23,7 @@ export = function ({buildOption, appDirectory}: Params): Promise<void> {
     path.join(appDirectory, `src/_modules/${buildOption.name}`),
     path.join(appDirectory, `dist/modules/${buildOption.name}`),
     {
-      filter: src => !filter.test(src),
+      filter: (src: string) => !filter.test(src),
     },
   );
 }

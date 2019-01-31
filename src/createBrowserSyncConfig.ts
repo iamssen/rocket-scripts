@@ -2,11 +2,11 @@ import { MiddlewareHandler, Options, PerRouteMiddleware } from 'browser-sync';
 import compression from 'compression';
 import { IncomingMessage, ServerResponse } from 'http';
 import proxyMiddleware from 'http-proxy-middleware';
+import path from 'path';
 import webpack, { Compiler, Configuration } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { Config } from './types';
-import path from 'path';
 
 interface Params {
   app: Config['app'];
@@ -55,14 +55,14 @@ export = function ({app, appDirectory, ssrEnabled, middlewares = []}: Params, we
     https: app.https,
     
     server: {
-      baseDir: app.staticFileDirectories.map(dir => {
+      baseDir: app.staticFileDirectories.map((dir: string) => {
         return path.join(appDirectory, dir);
       }),
       
       middleware,
     },
     
-    files: app.staticFileDirectories.map(dir => {
+    files: app.staticFileDirectories.map((dir: string) => {
       return path.join(appDirectory, dir);
     }),
   });

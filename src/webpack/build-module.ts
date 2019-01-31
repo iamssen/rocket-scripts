@@ -11,7 +11,7 @@ interface Params {
   extractCss: boolean;
 }
 
-export = ({ buildOption, extractCss }: Params) => ({ appDirectory }: Config): Promise<Configuration> => {
+export = ({buildOption, extractCss}: Params) => ({appDirectory}: Config): Promise<Configuration> => {
   const libraryTarget: 'commonjs' = 'commonjs';
   
   return Promise.resolve({
@@ -44,7 +44,7 @@ export = ({ buildOption, extractCss }: Params) => ({ appDirectory }: Config): Pr
             //},
             
             ...getDefaultLoaders(path.join(appDirectory, `src/_modules/${buildOption.name}`)),
-  
+            
             ...getStyleLoaders(
               /\.css$/,
               /\.module.css$/,

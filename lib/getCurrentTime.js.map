@@ -1,1 +1,1 @@
-{"version":3,"file":"getCurrentTime.js","sourceRoot":"","sources":["../src/getCurrentTime.ts"],"names":[],"mappings":";;;;AAAA,oDAA4B;AAC5B,kDAA0B;AAE1B,iBAAS;IACP,OAAO,eAAK,CAAC,MAAM,CAAC,IAAI,CAAC,gBAAM,EAAE,CAAC,MAAM,CAAC,UAAU,CAAC,CAAC,CAAC;AACxD,CAAC,CAAC"}
+{"version":3,"file":"getCurrentTime.js","sourceRoot":"","sources":["../src/getCurrentTime.ts"],"names":[],"mappings":";;;;AAAA,kDAA0B;AAC1B,oDAA4B;AAE5B,iBAAS;IACP,OAAO,eAAK,CAAC,MAAM,CAAC,IAAI,CAAC,gBAAM,EAAE,CAAC,MAAM,CAAC,UAAU,CAAC,CAAC,CAAC;AACxD,CAAC,CAAC"}

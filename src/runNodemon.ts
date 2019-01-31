@@ -1,7 +1,7 @@
+import chalk from 'chalk';
 import fs from 'fs';
 import nodemon from 'nodemon';
 import path from 'path';
-import chalk from 'chalk';
 
 interface Params {
   filePath: string;

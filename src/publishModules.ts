@@ -9,7 +9,7 @@ interface Params {
 }
 
 export = function ({publishOptions, appDirectory, exec = execSync}: Params): Promise<void> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve: () => void, reject: (error: Error) => void) => {
     let i: number = -1;
     
     function func() {

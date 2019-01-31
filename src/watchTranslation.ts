@@ -1,7 +1,7 @@
 import { FSWatcher, watch } from 'chokidar';
 import debounce from 'debounce';
 import fs from 'fs-extra';
-import { Observable, Subscribable } from 'rxjs';
+import { Observable, Observer, Subscribable } from 'rxjs';
 import exportTranslation from './exportTranslation';
 import { Config, TranslationContent, TranslationStore, TranslationType } from './types';
 
@@ -12,7 +12,7 @@ interface Params {
 }
 
 export = function ({appDirectory, outputPath, type}: Params): Subscribable<void> {
-  return Observable.create(observer => {
+  return Observable.create((observer: Observer<void>) => {
     const watcher: FSWatcher = watch(
       `${appDirectory}/src/**/locales/[a-z][a-z]-[A-Z][A-Z].json`,
     );

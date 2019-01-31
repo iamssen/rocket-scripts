@@ -4,6 +4,6 @@ import { Config, WebpackFunction } from './types';
 
 export = function (config: Config, webpackFunctions: WebpackFunction[]): Promise<Configuration> {
   return Promise
-    .all(webpackFunctions.map(f => f(config)))
-    .then(webpackConfigs => webpackMerge(...webpackConfigs));
+    .all(webpackFunctions.map((f: WebpackFunction) => f(config)))
+    .then((webpackConfigs: Configuration[]) => webpackMerge(...webpackConfigs));
 };

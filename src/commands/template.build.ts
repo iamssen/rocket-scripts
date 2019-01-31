@@ -10,7 +10,7 @@ export = function ({appDirectory}: Config) {
   }).then(() => {
       console.log(`[${getCurrentTime()}] 👍 Template build is successful.`);
     })
-    .catch(error => {
+    .catch((error: Error) => {
       console.error(`[${getCurrentTime()}] 💀 Template build is failed.`);
       console.error(error);
     });

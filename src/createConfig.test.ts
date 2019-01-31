@@ -14,9 +14,9 @@ describe('createConfig', () => {
     const moduleRoot: string = '/Test/src/_modules';
     
     const dirModuleNames: string[] = moduleDirectories
-      .map(dirname => path.relative(moduleRoot, dirname).split(path.sep))
-      .filter(dirnamePaths => dirnamePaths.length < 3)
-      .map(dirnamePaths => dirnamePaths.join('/'));
+      .map((dirname: string) => path.relative(moduleRoot, dirname).split(path.sep))
+      .filter((dirnamePaths: string[]) => dirnamePaths.length < 3)
+      .map((dirnamePaths: string[]) => dirnamePaths.join('/'));
     
     expect(dirModuleNames).toEqual([
       '@ssen/test-module1',

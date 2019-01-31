@@ -1,4 +1,5 @@
 import path from 'path';
+import { Configuration } from 'webpack';
 import buildModuleDeclarations from '../buildModuleDeclarations';
 import copyModuleStaticFiles from '../copyModuleStaticFiles';
 import createModuleBuildOptions from '../createModuleBuildOptions';
@@ -22,7 +23,7 @@ export = function (config: Config) {
         modules: modules.entry,
       });
     })
-    .then(buildOptions => new Promise((resolve, reject) => {
+    .then((buildOptions: ModuleBuildOption[]) => new Promise((resolve: () => void, reject: (error: Error) => void) => {
       let i: number = -1;
       
       function func() {
@@ -43,11 +44,11 @@ export = function (config: Config) {
                 mode: 'production',
               }),
               build({extractCss, buildOption}),
-            ]).then(webpackConfig => {
+            ]).then((webpackConfig: Configuration) => {
               return runWebpack(config, webpackConfig);
             }),
           ]).then(() => func())
-            .catch(error => reject(error));
+            .catch((error: Error) => reject(error));
         } else {
           resolve();
         }
@@ -58,7 +59,7 @@ export = function (config: Config) {
     .then(() => {
       console.log(`[${getCurrentTime()}] 👍 Module build is successful.`);
     })
-    .catch(error => {
+    .catch((error: Error) => {
       console.error(`[${getCurrentTime()}] 💀 Module build is failed.`);
       console.error(error);
     });

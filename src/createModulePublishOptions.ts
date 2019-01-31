@@ -17,7 +17,7 @@ interface PackageJsonContent {
 
 function getNpmRemoteVersion(name: string, version: string): Promise<ModulePublishOption['remoteVersion']> {
   return getPackageJson(name, {version})
-    .then(packageJson => {
+    .then((packageJson: PackageJsonContent) => {
       return packageJson.version;
     })
     .catch(() => {
@@ -34,13 +34,13 @@ export = function ({modules, appDirectory, version, getRemoteVersion = getNpmRem
   
   return Promise.all<ModulePublishOption>(
     modules
-      .map(moduleName => {
+      .map((moduleName: string) => {
         return path.join(modulesDirectory, moduleName, 'package.json');
       })
-      .filter(packageJsonPath => {
+      .filter((packageJsonPath: string) => {
         return fs.existsSync(packageJsonPath);
       })
-      .map(packageJsonPath => {
+      .map((packageJsonPath: string) => {
         const workingPackageJson: PackageJsonContent = fs.readJsonSync(packageJsonPath) as PackageJsonContent;
         
         return {
@@ -48,8 +48,8 @@ export = function ({modules, appDirectory, version, getRemoteVersion = getNpmRem
           workingVersion: workingPackageJson.version,
         };
       })
-      .map(({name, workingVersion}) => {
-        return getRemoteVersion(name, version).then(remoteVersion => {
+      .map(({name, workingVersion}: {name: string, workingVersion: string}) => {
+        return getRemoteVersion(name, version).then((remoteVersion: string) => {
           return {
             name,
             workingVersion,
