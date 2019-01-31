@@ -26,7 +26,7 @@ declare module '*.svg' {
   export = content;
 }
 
-declare module '*' {
+declare module '*.*' {
   const content: string;
   export = content;
 }

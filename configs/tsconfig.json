@@ -5,7 +5,7 @@
     // -------------------------------
     "jsx": "react",
     "experimentalDecorators": true,
-    "allowJs": false,
+    "allowJs": true,
     "downlevelIteration": true,
     "importHelpers": true,
     // import * as module from 'module' -> import module from 'module'
