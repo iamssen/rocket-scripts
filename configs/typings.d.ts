@@ -26,6 +26,46 @@ declare module '*.svg' {
   export = content;
 }
 
+declare module '*.bmp' {
+  const content: string;
+  export = content;
+}
+
+declare module '*.gif' {
+  const content: string;
+  export = content;
+}
+
+declare module '*.jpg' {
+  const content: string;
+  export = content;
+}
+
+declare module '*.jpeg' {
+  const content: string;
+  export = content;
+}
+
+declare module '*.png' {
+  const content: string;
+  export = content;
+}
+
+declare module '*.txt' {
+  const content: string;
+  export = content;
+}
+
+declare module '*.md' {
+  const content: string;
+  export = content;
+}
+
+declare module '*.ejs' {
+  const content: string;
+  export = content;
+}
+
 declare module '*.*' {
   const content: string;
   export = content;
