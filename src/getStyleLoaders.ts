@@ -57,6 +57,7 @@ export = function (cssRegex: RegExp, cssModuleRegex: RegExp, extractCSS: boolean
       loader: require.resolve(preProcessor),
       options: {
         sourceMap: true,
+        javascriptEnabled: true,
       },
     };
     
