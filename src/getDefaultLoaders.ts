@@ -63,6 +63,12 @@ export = function (include: RuleSetCondition): RuleSetRule[] {
               },
             },
           ],
+          [
+            require.resolve('babel-plugin-import'),
+            {
+              libraryName: 'antd',
+            },
+          ],
         ],
         overrides: [
           {
