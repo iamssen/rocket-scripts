@@ -1,7 +1,7 @@
 # Installation
 
 ```
-npm install react-zeroconfig
+npm install react-zeroconfig --save-dev
 ```
 
 # 😭 Document is not ready

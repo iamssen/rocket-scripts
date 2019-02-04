@@ -33,7 +33,6 @@ export = function ({buildOption, appDirectory}: Params): Promise<void> {
     const {
       jsx,
       experimentalDecorators,
-      allowJs,
       downlevelIteration,
       importHelpers,
       resolveJsonModule,
@@ -50,7 +49,6 @@ export = function ({buildOption, appDirectory}: Params): Promise<void> {
     const {
       jsx: jsxDefault,
       experimentalDecorators: experimentalDecoratorsDefault,
-      allowJs: allowJsDefault,
       downlevelIteration: downlevelIterationDefault,
       importHelpers: importHelpersDefault,
       resolveJsonModule: resolveJsonModuleDefault,
@@ -68,7 +66,7 @@ export = function ({buildOption, appDirectory}: Params): Promise<void> {
       // language setting
       jsx: replaceUndefined(jsx, jsxDefault) ? JsxEmit.React : JsxEmit.None,
       experimentalDecorators: replaceUndefined(experimentalDecorators, experimentalDecoratorsDefault),
-      allowJs: replaceUndefined(allowJs, allowJsDefault),
+      allowJs: false,
       downlevelIteration: replaceUndefined(downlevelIteration, downlevelIterationDefault),
       importHelpers: replaceUndefined(importHelpers, importHelpersDefault),
       allowSyntheticDefaultImports: replaceUndefined(allowSyntheticDefaultImports, allowSyntheticDefaultImportsDefault),
