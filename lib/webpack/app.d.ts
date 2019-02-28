@@ -1,3 +1,4 @@
+/// <reference types="webpack-dev-server" />
 import webpack from 'webpack';
 import { Config } from '../types';
 interface Params {

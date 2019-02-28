@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import distributeTranslation from '../distributeTranslation';
-import getCurrentTime from '../getCurrentTime';
 import { Config } from '../types';
+import getCurrentTime from '../utils/getCurrentTime';
+import distributeTranslation from '../utils/translation/distribute';
 
 export = function ({appDirectory}: Config) {
   const filePath: string = path.join(appDirectory, 'src/generated/locales.json');

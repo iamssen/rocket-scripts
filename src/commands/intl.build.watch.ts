@@ -1,7 +1,7 @@
 import path from 'path';
-import getCurrentTime from '../getCurrentTime';
 import { Config } from '../types';
-import watchTranslation from '../watchTranslation';
+import getCurrentTime from '../utils/getCurrentTime';
+import watchTranslation from '../utils/translation/watch';
 
 export = function ({appDirectory}: Config) {
   watchTranslation({

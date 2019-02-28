@@ -1,11 +1,11 @@
 import path from 'path';
 import { Configuration } from 'webpack';
-import copyStaticFileDirectories from '../copyStaticFileDirectories';
-import createWebpackConfig from '../createWebpackConfig';
-import getCurrentTime from '../getCurrentTime';
-import removeDirectory from '../removeDirectory';
 import { Config } from '../types';
-import watchWebpack from '../watchWebpack';
+import getCurrentTime from '../utils/getCurrentTime';
+import removeDirectory from '../utils/removeDirectory';
+import copyStaticFileDirectories from '../utils/web/copyStaticFileDirectories';
+import createWebpackConfig from '../utils/webpack/createWebpackConfig';
+import watchWebpack from '../utils/webpack/watch';
 import app from '../webpack/app';
 import base from '../webpack/base';
 import build from '../webpack/build-web';

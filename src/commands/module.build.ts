@@ -1,15 +1,15 @@
 import path from 'path';
 import { Configuration } from 'webpack';
-import buildModuleDeclarations from '../buildModuleDeclarations';
-import copyModuleStaticFiles from '../copyModuleStaticFiles';
-import createModuleBuildOptions from '../createModuleBuildOptions';
-import createWebpackConfig from '../createWebpackConfig';
-import getCurrentTime from '../getCurrentTime';
-import removeDirectory from '../removeDirectory';
 import { Config, ModuleBuildOption } from '../types';
+import getCurrentTime from '../utils/getCurrentTime';
+import buildTypescriptDeclarations from '../utils/module/buildTypescriptDeclarations';
+import copyStaticFiles from '../utils/module/copyStaticFiles';
+import createBuildOptions from '../utils/module/createBuildOptions';
+import removeDirectory from '../utils/removeDirectory';
+import createWebpackConfig from '../utils/webpack/createWebpackConfig';
+import runWebpack from '../utils/webpack/run';
 import base from '../webpack/base';
 import build from '../webpack/build-module';
-import runWebpack = require('../runWebpack');
 
 export = function (config: Config) {
   const {appDirectory, modules} = config;
@@ -18,7 +18,7 @@ export = function (config: Config) {
   
   removeDirectory(outputPath)
     .then(() => {
-      return createModuleBuildOptions({
+      return createBuildOptions({
         appDirectory: appDirectory,
         modules: modules.entry,
       });
@@ -31,11 +31,11 @@ export = function (config: Config) {
           const buildOption: ModuleBuildOption = buildOptions[i];
           
           Promise.all([
-            buildModuleDeclarations({
+            buildTypescriptDeclarations({
               appDirectory,
               buildOption,
             }),
-            copyModuleStaticFiles({
+            copyStaticFiles({
               appDirectory,
               buildOption,
             }),

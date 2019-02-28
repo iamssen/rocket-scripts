@@ -1,11 +1,11 @@
 import path from 'path';
 import { Configuration } from 'webpack';
-import copyPackageJsonToSSR from '../copyPackageJsonToSSR';
-import createWebpackConfig from '../createWebpackConfig';
-import getCurrentTime from '../getCurrentTime';
-import removeDirectory from '../removeDirectory';
 import { Config } from '../types';
-import watchWebpack from '../watchWebpack';
+import getCurrentTime from '../utils/getCurrentTime';
+import removeDirectory from '../utils/removeDirectory';
+import copyPackageJsonToSSR from '../utils/web/copyPackageJsonToSSR';
+import createWebpackConfig from '../utils/webpack/createWebpackConfig';
+import watchWebpack from '../utils/webpack/watch';
 import app from '../webpack/app';
 import base from '../webpack/base';
 import build from '../webpack/build-ssr';

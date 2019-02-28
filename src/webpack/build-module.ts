@@ -2,9 +2,9 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
 import { Configuration } from 'webpack';
 import nodeExternals from 'webpack-node-externals';
-import getDefaultLoaders from '../getDefaultLoaders';
-import getStyleLoaders from '../getStyleLoaders';
 import { Config, ModuleBuildOption } from '../types';
+import getDefaultLoaders from '../utils/webpack/getDefaultLoaders';
+import getStyleLoaders from '../utils/webpack/getStyleLoaders';
 
 interface Params {
   buildOption: ModuleBuildOption;

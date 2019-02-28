@@ -1,6 +1,6 @@
 import path from 'path';
-import runNodemon from '../runNodemon';
 import { Config } from '../types';
+import runNodemon from '../utils/web/runNodemon';
 
 export = function ({appDirectory}: Config) {
   runNodemon({

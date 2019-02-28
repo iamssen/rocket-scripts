@@ -12,7 +12,7 @@ export = () => (config: Config): Promise<Configuration> => {
     target,
     
     entry: {
-      index: path.join(appDirectory, 'src/_entry/ssr'),
+      index: path.join(appDirectory, 'src/_ssr'),
     },
     
     output: {

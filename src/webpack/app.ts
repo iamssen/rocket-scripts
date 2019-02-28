@@ -2,20 +2,42 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin-alt';
 import path from 'path';
 import typescriptFormatter from 'react-dev-utils/typescriptFormatter';
 import resolve from 'resolve';
-import webpack, { Configuration } from 'webpack';
-import getAlias from '../getAlias';
-import getDefaultLoaders from '../getDefaultLoaders';
-import getStyleLoaders from '../getStyleLoaders';
+import webpack, { Configuration, Plugin } from 'webpack';
 import { Config } from '../types';
+import getAlias from '../utils/webpack/getAlias';
+import getDefaultLoaders from '../utils/webpack/getDefaultLoaders';
+import getStyleLoaders from '../utils/webpack/getStyleLoaders';
 
 interface Params {
   extractCss: boolean;
 }
 
 export = ({extractCss}: Params) => (config: Config): Promise<Configuration> => {
-  const {app, appDirectory} = config;
+  const {app, appDirectory, typescriptEnabled} = config;
   
   const enforce: 'pre' = 'pre';
+  
+  const typeScriptPlugins: Plugin[] = typescriptEnabled ? [
+    new ForkTsCheckerWebpackPlugin({
+      typescript: resolve.sync('typescript', {
+        basedir: path.join(appDirectory, 'node_modules'),
+      }),
+      async: false,
+      checkSyntacticErrors: true,
+      tsconfig: path.join(appDirectory, 'tsconfig.json'),
+      reportFiles: [
+        '**',
+        '!**/*.json',
+        '!**/__tests__/**',
+        '!**/?(*.)(spec|test).*',
+        '!**/src/setupProxy.*',
+        '!**/src/setupTests.*',
+      ],
+      watch: path.join(appDirectory, 'src'),
+      silent: true,
+      formatter: typescriptFormatter,
+    }),
+  ] : [];
   
   return Promise.resolve({
     resolve: {
@@ -87,25 +109,7 @@ export = ({extractCss}: Params) => (config: Config): Promise<Configuration> => {
     },
     
     plugins: [
-      new ForkTsCheckerWebpackPlugin({
-        typescript: resolve.sync('typescript', {
-          basedir: path.join(appDirectory, 'node_modules'),
-        }),
-        async: false,
-        checkSyntacticErrors: true,
-        tsconfig: path.join(appDirectory, 'tsconfig.json'),
-        reportFiles: [
-          '**',
-          '!**/*.json',
-          '!**/__tests__/**',
-          '!**/?(*.)(spec|test).*',
-          '!**/src/setupProxy.*',
-          '!**/src/setupTests.*',
-        ],
-        watch: path.join(appDirectory, 'src'),
-        silent: true,
-        formatter: typescriptFormatter,
-      }),
+      ...typeScriptPlugins,
       new webpack.DefinePlugin({
         'process.env.SSR_PORT': JSON.stringify(app.ssrPort),
       }),

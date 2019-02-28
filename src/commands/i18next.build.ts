@@ -1,7 +1,7 @@
 import path from 'path';
-import buildTranslation from '../buildTranslation';
-import getCurrentTime from '../getCurrentTime';
 import { Config } from '../types';
+import getCurrentTime from '../utils/getCurrentTime';
+import buildTranslation from '../utils/translation/build';
 
 export = function ({appDirectory}: Config) {
   buildTranslation({

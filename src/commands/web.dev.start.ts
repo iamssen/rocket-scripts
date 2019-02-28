@@ -1,10 +1,10 @@
 import { Options } from 'browser-sync';
 import { Configuration } from 'webpack';
-import createBrowserSyncConfig from '../createBrowserSyncConfig';
-import createWebpackConfig from '../createWebpackConfig';
-import getCurrentTime from '../getCurrentTime';
-import runBrowserSync from '../runBrowserSync';
 import { Config } from '../types';
+import getCurrentTime from '../utils/getCurrentTime';
+import createBrowserSyncConfig from '../utils/web/createBrowserSyncConfig';
+import runBrowserSync from '../utils/web/runBrowserSync';
+import createWebpackConfig from '../utils/webpack/createWebpackConfig';
 import app from '../webpack/app';
 import base from '../webpack/base';
 import client from '../webpack/client';

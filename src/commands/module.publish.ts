@@ -1,22 +1,22 @@
-import getCurrentTime from '../getCurrentTime';
 import { Config, ModulePublishOption } from '../types';
-import createModulePublishOptions = require('../createModulePublishOptions');
-import filterModulePublishOptions = require('../filterModulePublishOptions');
-import publishModules = require('../publishModules');
+import getCurrentTime from '../utils/getCurrentTime';
+import createPublishOptions from '../utils/module/createPublishOptions';
+import filterPublishOptions from '../utils/module/filterPublishOptions';
+import publish from '../utils/module/publish';
 
 export = function (config: Config) {
   const {appDirectory, modules} = config;
   
-  createModulePublishOptions({
+  createPublishOptions({
     appDirectory,
     modules: modules.entry,
     version: 'latest',
   })
     .then((publishOptions: ModulePublishOption[]) => {
-      return filterModulePublishOptions(publishOptions);
+      return filterPublishOptions(publishOptions);
     })
     .then((publishOptions: ModulePublishOption[]) => {
-      return publishModules({
+      return publish({
         publishOptions,
         appDirectory,
       });

@@ -2,8 +2,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const getCurrentTime = require('../lib/getCurrentTime');
-const config = require('../lib/createConfig')({
+const getCurrentTime = require('../lib/utils/getCurrentTime');
+const config = require('../lib/utils/createConfig')({
   command: process.argv[2],
   appDirectory: process.cwd(),
   zeroconfigDirectory: path.join(__dirname, '..'),

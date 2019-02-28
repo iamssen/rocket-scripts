@@ -1,7 +1,7 @@
 import path from 'path';
-import buildTemplate from '../buildTemplate';
-import getCurrentTime from '../getCurrentTime';
 import { Config } from '../types';
+import getCurrentTime from '../utils/getCurrentTime';
+import buildTemplate from '../utils/template/build';
 
 export = function ({appDirectory}: Config) {
   buildTemplate({
