@@ -47,17 +47,17 @@ switch (process.argv[2]) {
   case 'web.dev.start':
     require('../lib/commands/web.dev.start')(config);
     break;
-  case 'web.ssr.build':
-    require('../lib/commands/web.ssr.build')(config);
+  case 'web.server.build':
+    require('../lib/commands/web.server.build')(config);
     break;
-  case 'web.ssr.dev.build':
-    require('../lib/commands/web.ssr.dev.build')(config);
+  case 'web.server.dev.build':
+    require('../lib/commands/web.server.dev.build')(config);
     break;
-  case 'web.ssr.dev.build.watch':
-    require('../lib/commands/web.ssr.dev.build.watch')(config);
+  case 'web.server.dev.build.watch':
+    require('../lib/commands/web.server.dev.build.watch')(config);
     break;
-  case 'web.ssr.dev.start':
-    require('../lib/commands/web.ssr.dev.start')(config);
+  case 'web.server.dev.start':
+    require('../lib/commands/web.server.dev.start')(config);
     break;
   case 'template.build':
     require('../lib/commands/template.build')(config);

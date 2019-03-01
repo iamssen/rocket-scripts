@@ -3,30 +3,30 @@ import { Configuration } from 'webpack';
 import { Config } from '../types';
 import getCurrentTime from '../utils/getCurrentTime';
 import removeDirectory from '../utils/removeDirectory';
-import copyPackageJsonToSSR from '../utils/web/copyPackageJsonToSSR';
+import copyPackageJsonToServer from '../utils/web/copyPackageJsonToServer';
 import createWebpackConfig from '../utils/webpack/createWebpackConfig';
 import runWebpack from '../utils/webpack/run';
 import app from '../webpack/app';
 import base from '../webpack/base';
-import build from '../webpack/build-ssr';
-import ssr from '../webpack/ssr';
+import build from '../webpack/build-server';
+import server from '../webpack/server';
 
 export = function (config: Config) {
-  const outputPath: string = path.join(config.appDirectory, 'dist-dev/ssr');
+  const outputPath: string = path.join(config.appDirectory, 'dist/server');
   const extractCss: boolean = true;
-  const isProduction: boolean = false;
+  const isProduction: boolean = true;
   
   removeDirectory(outputPath)
     .then(() => {
       return createWebpackConfig(config, [
         base({
-          mode: 'development',
+          mode: 'production',
           output: {
             path: outputPath,
           },
         }),
         app({extractCss}),
-        ssr(),
+        server(),
         build({isProduction}),
       ]);
     })
@@ -34,7 +34,7 @@ export = function (config: Config) {
       return runWebpack(config, webpackConfig);
     })
     .then(() => {
-      return copyPackageJsonToSSR({
+      return copyPackageJsonToServer({
         appDirectory: config.appDirectory,
         outputPath: path.join(outputPath, 'package.json'),
       });

@@ -3,16 +3,16 @@ import { Configuration } from 'webpack';
 import { Config } from '../types';
 import getCurrentTime from '../utils/getCurrentTime';
 import removeDirectory from '../utils/removeDirectory';
-import copyPackageJsonToSSR from '../utils/web/copyPackageJsonToSSR';
+import copyPackageJsonToServer from '../utils/web/copyPackageJsonToServer';
 import createWebpackConfig from '../utils/webpack/createWebpackConfig';
 import watchWebpack from '../utils/webpack/watch';
 import app from '../webpack/app';
 import base from '../webpack/base';
-import build from '../webpack/build-ssr';
-import ssr from '../webpack/ssr';
+import build from '../webpack/build-server';
+import server from '../webpack/server';
 
 export = function (config: Config) {
-  const outputPath: string = path.join(config.appDirectory, 'dist-dev/ssr');
+  const outputPath: string = path.join(config.appDirectory, 'dist-dev/server');
   const extractCss: boolean = true;
   const isProduction: boolean = false;
   
@@ -26,14 +26,14 @@ export = function (config: Config) {
           },
         }),
         app({extractCss}),
-        ssr(),
+        server(),
         build({isProduction}),
       ]);
     })
     .then((webpackConfig: Configuration) => {
       watchWebpack(config, webpackConfig).subscribe(
         () => {
-          copyPackageJsonToSSR({
+          copyPackageJsonToServer({
             appDirectory: config.appDirectory,
             outputPath: path.join(outputPath, 'package.json'),
           }).then(() => {

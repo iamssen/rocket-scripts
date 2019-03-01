@@ -5,8 +5,8 @@ import { Config } from '../../types';
 interface Params {
     app: Config['app'];
     appDirectory: Config['appDirectory'];
-    ssrEnabled: Config['ssrEnabled'];
+    serverEnabled: Config['serverEnabled'];
     middlewares?: (MiddlewareHandler | PerRouteMiddleware)[];
 }
-declare const _default: ({ app, appDirectory, ssrEnabled, middlewares }: Params, webpackConfig: webpack.Configuration) => Promise<Options>;
+declare const _default: ({ app, appDirectory, serverEnabled, middlewares }: Params, webpackConfig: webpack.Configuration) => Promise<Options>;
 export = _default;

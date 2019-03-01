@@ -5,7 +5,7 @@ import { Configuration } from 'webpack';
 // ---------------------------------------------
 export interface Config {
   app: {
-    /** client entry files from `_entry/*` */
+    /** client entry files from `_app/*` */
     entry: string[];
     /** browser sync test web server port. default is '3100' */
     port: number;
@@ -23,7 +23,7 @@ export interface Config {
     /** webpack public path. default is '' */
     publicPath: string;
     /** server side rendering express server port. default is '4100' (it will be proxied on browser sync) */
-    ssrPort: number;
+    serverPort: number;
   };
   
   modules: {
@@ -37,8 +37,8 @@ export interface Config {
   appDirectory: string;
   /** [set by zeroconfig] zeroconfig module directory (ex. `~/node_modules/react-zeroconfig`) */
   zeroconfigDirectory: string;
-  /** [set by zeroconfig] server side rendering enabled (when `/_ssr` directory is exists) */
-  ssrEnabled: boolean;
+  /** [set by zeroconfig] server side rendering enabled (when `/_server` directory is exists) */
+  serverEnabled: boolean;
   /** [set by zeroconfig] use typescript (when `/src/** /*.tsx?` are exists) */
   typescriptEnabled: boolean;
 }

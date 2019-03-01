@@ -111,7 +111,7 @@ export = ({extractCss}: Params) => (config: Config): Promise<Configuration> => {
     plugins: [
       ...typeScriptPlugins,
       new webpack.DefinePlugin({
-        'process.env.SSR_PORT': JSON.stringify(app.ssrPort),
+        'process.env.SERVER_PORT': JSON.stringify(app.serverPort),
       }),
     ],
   });

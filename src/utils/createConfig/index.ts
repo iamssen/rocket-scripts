@@ -23,18 +23,25 @@ export = function ({command, appDirectory, zeroconfigDirectory}: Params): Config
       ? require(path.join(appDirectory, 'zeroconfig.config.js'))
       : packageJson.zeroconfig || {};
   
+  const staticDirectories: string[] = userConfig.app && Array.isArray(userConfig.app.staticFileDirectories)
+    ? userConfig.app.staticFileDirectories
+    : fs.existsSync(path.join(appDirectory, 'public'))
+      ? ['public']
+      : [];
+  
   const app: Config['app'] = {
     entry: getDefaultEntry(appDirectory),
     port: 3100,
-    staticFileDirectories: ['public'].concat(getDefaultModulePublics(appDirectory)),
     buildPath: '',
     https: false,
     vendorFileName: 'vendor',
     styleFileName: 'style',
     publicPath: '',
-    ssrPort: 4100,
+    serverPort: 4100,
     
     ...(userConfig.app || {}),
+    
+    staticFileDirectories: staticDirectories.concat(getDefaultModulePublics(appDirectory)),
   };
   
   if (app.buildPath !== '' && !/\/$/.test(app.buildPath)) {
@@ -47,7 +54,7 @@ export = function ({command, appDirectory, zeroconfigDirectory}: Params): Config
     ...(userConfig.modules || {}),
   };
   
-  const ssrEnabled: boolean = fs.existsSync(path.join(appDirectory, 'src/_ssr')) && fs.statSync(path.join(appDirectory, 'src/_ssr')).isDirectory();
+  const serverEnabled: boolean = fs.existsSync(path.join(appDirectory, 'src/_server')) && fs.statSync(path.join(appDirectory, 'src/_server')).isDirectory();
   
   const typescriptEnabled: boolean = glob.sync(`${appDirectory}/src/**/*.(ts|tsx)`).length > 0;
   
@@ -57,7 +64,7 @@ export = function ({command, appDirectory, zeroconfigDirectory}: Params): Config
     command,
     appDirectory,
     zeroconfigDirectory,
-    ssrEnabled,
+    serverEnabled,
     typescriptEnabled,
   };
 };

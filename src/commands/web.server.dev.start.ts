@@ -4,6 +4,6 @@ import runNodemon from '../utils/web/runNodemon';
 
 export = function ({appDirectory}: Config) {
   runNodemon({
-    filePath: path.join(appDirectory, 'dist-dev/ssr/index.js'),
+    filePath: path.join(appDirectory, 'dist-dev/server/index.js'),
   });
 };

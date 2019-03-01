@@ -1,0 +1,1 @@
+{"version":3,"file":"build-server.js","sourceRoot":"","sources":["../../src/webpack/build-server.ts"],"names":[],"mappings":";;;;AAAA,sFAA2D;AAQ3D,iBAAS,CAAC,EAAC,YAAY,EAAS,EAAE,EAAE,CAAC,CAAC,EAAC,GAAG,EAAS,EAA0B,EAAE;IAC7E,OAAO,OAAO,CAAC,OAAO,CAAC;QACrB,OAAO,EAAE;YACP,IAAI,iCAAoB,CAAC;gBACvB,QAAQ,EAAE,YAAY;aACvB,CAAC;SACH;KACF,CAAC,CAAC;AACL,CAAC,CAAC"}

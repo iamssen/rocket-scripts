@@ -32,7 +32,7 @@ describe('createConfig', () => {
   describe('getDefaultEntry', () => {
     afterEach(() => mock.restore());
     
-    it('Should be got entry from _entry directory', () => {
+    it('Should be got entry from _app directory', () => {
       const appDirectory: string = __dirname;
       
       const source: string = `
@@ -46,7 +46,7 @@ describe('createConfig', () => {
       mock({
         [appDirectory]: {
           src: {
-            _entry: {
+            _app: {
               'test1.tsx': source,
               'test2.jsx': source,
               'test3': {

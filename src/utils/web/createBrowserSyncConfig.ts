@@ -11,11 +11,11 @@ import { Config } from '../../types';
 interface Params {
   app: Config['app'];
   appDirectory: Config['appDirectory'];
-  ssrEnabled: Config['ssrEnabled'];
+  serverEnabled: Config['serverEnabled'];
   middlewares?: (MiddlewareHandler | PerRouteMiddleware)[]
 }
 
-export = function ({app, appDirectory, ssrEnabled, middlewares = []}: Params, webpackConfig: Configuration): Promise<Options> {
+export = function ({app, appDirectory, serverEnabled, middlewares = []}: Params, webpackConfig: Configuration): Promise<Options> {
   const compiler: Compiler.Watching | Compiler = webpack(webpackConfig);
   
   const middleware: (MiddlewareHandler | PerRouteMiddleware)[] = [
@@ -31,10 +31,10 @@ export = function ({app, appDirectory, ssrEnabled, middlewares = []}: Params, we
     ...middlewares,
   ];
   
-  if (ssrEnabled) {
+  if (serverEnabled) {
     middleware.push(
       proxyMiddleware(['**', '!**/*.*'], {
-        target: `http://localhost:${app.ssrPort}`,
+        target: `http://localhost:${app.serverPort}`,
       }),
     );
   } else {

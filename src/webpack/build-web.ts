@@ -14,7 +14,7 @@ interface Params {
 export = ({isProduction}: Params) => ({app, appDirectory}: Config): Promise<Configuration> => {
   return Promise.resolve({
     entry: app.entry.reduce((entry: {[name: string]: string}, entryItemName: string) => {
-      entry[entryItemName] = path.join(appDirectory, 'src/_entry', entryItemName);
+      entry[entryItemName] = path.join(appDirectory, 'src/_app', entryItemName);
       return entry;
     }, {}),
     
