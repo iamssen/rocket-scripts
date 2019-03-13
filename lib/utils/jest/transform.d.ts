@@ -1,2 +1,2 @@
-declare const _default: any;
+declare const _default: import("@jest/transform").Transformer;
 export = _default;

@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import getPackageJson from 'package-json';
+import getPackageJson, { AbbreviatedMetadata, AbbreviatedVersion } from 'package-json';
 import path from 'path';
 import { Config, ModulePublishOption } from '../../types';
 
@@ -17,8 +17,8 @@ interface PackageJsonContent {
 
 function getNpmRemoteVersion(name: string, version: string): Promise<ModulePublishOption['remoteVersion']> {
   return getPackageJson(name, {version})
-    .then((packageJson: PackageJsonContent) => {
-      return packageJson.version;
+    .then((value: AbbreviatedMetadata) => {
+      return value && typeof value.version === 'string' ? value.version : undefined;
     })
     .catch(() => {
       return undefined;
