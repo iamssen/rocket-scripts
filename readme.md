@@ -13,6 +13,7 @@ English
 한국어
 - [Client Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/wiki/Client-Side-Rendering.ko)
 - [Server Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/wiki/Server-Side-Rendering.ko)
+- [Typescript 셋팅하기](https://github.com/iamssen/react-zeroconfig/wiki/Typescript.ko)
 
 # 🍽 Seed projects
 
