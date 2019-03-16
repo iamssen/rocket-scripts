@@ -1,0 +1,11 @@
+/node_modules/
+
+/*.iml
+/.idea/
+
+/.yarnclean
+/*.log
+
+/package-lock.json
+
+/docs
