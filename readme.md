@@ -266,6 +266,7 @@ English
 - [Client Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Client-Side-Rendering/ko.md)
 - [Server Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Server-Side-Rendering/ko.md)
 - [Typescript 셋팅하기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Typescript/ko.md)
+- [지원되는 Import 유형들](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Supported-Import-Types/ko.md)
 
 # 🍽 Boilerplates
 
