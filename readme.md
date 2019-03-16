@@ -102,7 +102,7 @@ $ npm start
 
 웹브라우저를 열고, <http://localhost:3100> 에 접속합니다.
 
-![start](docs/Client-Side-Rendering/images/start.gif)
+![start](https://raw.githubusercontent.com/iamssen/react-zeroconfig/master/docs/Client-Side-Rendering/images/start.gif)
 
 # ⏰ Quick start SSR App in 5 minutes
 
@@ -246,26 +246,26 @@ app.listen(port, () => {
 $ npm start
 ```
 
-![start](docs/Server-Side-Rendering/images/start.gif)
+![start](https://raw.githubusercontent.com/iamssen/react-zeroconfig/master/docs/Server-Side-Rendering/images/start.gif)
 
 웹브라우저를 열고, <http://localhost:4100>에 접속해서 SSR 서버를 확인합니다.
 
-![4100](docs/Server-Side-Rendering/images/4100.png)
+![4100](https://raw.githubusercontent.com/iamssen/react-zeroconfig/master/docs/Server-Side-Rendering/images/4100.png)
 
 웹브라우저를 열고, <http://localhost:3100>에 접속해서 확인합니다.
 
-![3100](docs/Server-Side-Rendering/images/3100.png)
+![3100](https://raw.githubusercontent.com/iamssen/react-zeroconfig/master/docs/Server-Side-Rendering/images/3100.png)
 
 # 📖 Documents
 
 English
-- [Create Client Side Rendering App](https://github.com/iamssen/react-zeroconfig/wiki/Client-Side-Rendering.en)
-- [Create Server Side Rendering App](https://github.com/iamssen/react-zeroconfig/wiki/Server-Side-Rendering.en)
+- [Create Client Side Rendering App](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Client-Side-Rendering/en.md)
+- [Create Server Side Rendering App](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Server-Side-Rendering/en.md)
 
 한국어
-- [Client Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/wiki/Client-Side-Rendering.ko)
-- [Server Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/wiki/Server-Side-Rendering.ko)
-- [Typescript 셋팅하기](https://github.com/iamssen/react-zeroconfig/wiki/Typescript.ko)
+- [Client Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Client-Side-Rendering/ko.md)
+- [Server Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Server-Side-Rendering/ko.md)
+- [Typescript 셋팅하기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Typescript/ko.md)
 
 # 🍽 Boilerplates
 
