@@ -1,6 +1,6 @@
 {
   "name": "react-zeroconfig",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Zero config tools for typescript projects",
   "main": "lib/index.js",
   "scripts": {
@@ -24,6 +24,14 @@
   },
   "author": "Seoyeon Lee",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamssen/react-zeroconfig.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iamssen/react-zeroconfig/issues"
+  },
+  "homepage": "https://github.com/iamssen/react-zeroconfig",
   "dependencies": {
     "@babel/core": "^7.3.4",
     "@babel/plugin-proposal-class-properties": "^7.3.4",

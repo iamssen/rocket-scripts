@@ -164,7 +164,7 @@ if (module.hot) {
 import React from 'react';
 import express from 'express';
 import { renderToString } from 'react-dom/server';
-import { App } from '../app';
+import { App } from 'app';
 
 const port = process.env.SERVER_PORT || 4100;
 const app = express();
