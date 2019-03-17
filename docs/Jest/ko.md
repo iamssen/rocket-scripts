@@ -61,3 +61,15 @@ $ npm test
 ```
 
 ![test](images/test.gif)
+
+## Test File Match
+
+Jest 테스트에 Match 되는 파일들의 유형은 아래와 같습니다. <https://github.com/iamssen/react-zeroconfig/blob/master/configs/jest-preset.js#L13>
+
+- `**/__tests?__/**/*.[jt]s?(x)`
+    - `src/__tests__/a.js` 
+    - `src/__test__/a.tsx`
+    - `src/a/b/__test__/c/d.ts`
+- `**/?(*.)(spec|test).[jt]s?(x)`
+    - `src/app/data/update.test.js` 
+    - `src/app/components/Button.test.tsx`

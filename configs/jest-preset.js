@@ -11,7 +11,7 @@ module.exports = {
     '\\.(css|less|scss|sass)$': jestUtils('styleMock.js'),
   },
   testMatch: [
-    '**/__tests__/**/*.[jt]s?(x)',
+    '**/__tests?__/**/*.[jt]s?(x)',
     '**/?(*.)(spec|test).[jt]s?(x)',
   ],
   moduleFileExtensions: [
