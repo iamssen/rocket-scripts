@@ -7,5 +7,6 @@
 
 - [Client Side Rendering](Client-Side-Rendering/ko.md)
 - [Server Side Rendering](Server-Side-Rendering/ko.md)
-- [Typescript](Typescript/ko.md)
 - [Supported Import Types](Supported-Import-Types/ko.md)
+- [Jest Test](Jest/ko.md)
+- [Typescript](Typescript/ko.md)

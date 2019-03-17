@@ -9,7 +9,7 @@
 ```sh
 $ mkdir test
 $ cd test
-$ init
+$ npm init
 ```
 
 Initialize the project directory.

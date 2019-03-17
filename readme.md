@@ -256,6 +256,61 @@ $ npm start
 
 ![3100](https://raw.githubusercontent.com/iamssen/react-zeroconfig/master/docs/Server-Side-Rendering/images/3100.png)
 
+# ⏰ Quick start Jest Test in 2 minutes
+
+## Step1
+
+```sh
+$ mkdir test
+$ cd test
+$ npm init
+$ npm install react-zeroconfig jest --save-dev
+```
+
+## Step2
+
+`package.json`에 Jest 관련 설정을 추가해줍니다.
+
+```diff
+{
+  "name": "test",
+  "version": "1.0.0",
+  "scripts": {
++    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^24.5.0",
+    "react-zeroconfig": "^2.0.6"
+  },
++  "jest": {
++    "preset": "react-zeroconfig/configs"
++  }
+}
+```
+
+## Step3
+
+`src/__test__/test.js` 파일을 만들어줍니다.
+
+```js
+describe('Jest test', () => {
+  it('Jest test should be run', () => {
+    expect('abc').toEqual('abc');
+  });
+});
+```
+
+## Step4
+
+실행합니다
+
+```sh
+$ npm test
+```
+
+![test](https://raw.githubusercontent.com/iamssen/react-zeroconfig/master/docs/Jest/images/test.gif)
+
+
 # 📖 Documents
 
 English
@@ -265,8 +320,9 @@ English
 한국어
 - [Client Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Client-Side-Rendering/ko.md)
 - [Server Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Server-Side-Rendering/ko.md)
-- [Typescript 셋팅하기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Typescript/ko.md)
 - [지원되는 Import 유형들](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Supported-Import-Types/ko.md)
+- [Jest로 Test 실행해보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Jest/ko.md)
+- [Typescript 셋팅하기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Typescript/ko.md)
 
 # 🍽 Boilerplates
 

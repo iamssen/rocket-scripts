@@ -7,7 +7,7 @@
 ```sh
 $ mkdir test
 $ cd test
-$ init
+$ npm init
 ```
 
 프로젝트 디렉토리를 초기화하고
