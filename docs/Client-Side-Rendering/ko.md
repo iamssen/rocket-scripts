@@ -1,8 +1,24 @@
-# Client Side Rendering
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Client Side Rendering App 만들어보기](#client-side-rendering-app-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EA%B8%B0)
+- [Install](#install)
+- [Code 작성하기](#code-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0)
+- [테스트 실행](#%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%8B%A4%ED%96%89)
+- [HMR (Hot Module Replacement) 작동 확인하기](#hmr-hot-module-replacement-%EC%9E%91%EB%8F%99-%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0)
+- [빌드하기](#%EB%B9%8C%EB%93%9C%ED%95%98%EA%B8%B0)
+- [http-server로 빌드된 파일들을 확인해보기](#http-server%EB%A1%9C-%EB%B9%8C%EB%93%9C%EB%90%9C-%ED%8C%8C%EC%9D%BC%EB%93%A4%EC%9D%84-%ED%99%95%EC%9D%B8%ED%95%B4%EB%B3%B4%EA%B8%B0)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Client Side Rendering App 만들어보기
 
 > 이 문서의 소스코드는 <https://github.com/iamssen/react-zeroconfig-sample.client-side-rendering>에서 확인할 수 있습니다.
 
-## Install
+# Install
+
+프로젝트 디렉토리를 초기화하고
 
 ```sh
 $ mkdir test
@@ -10,22 +26,21 @@ $ cd test
 $ npm init
 ```
 
-프로젝트 디렉토리를 초기화하고
+필요한 모듈들을 설치해줍니다.
 
 ```sh
 $ npm install react react-dom react-app-polyfill
 $ npm install react-zeroconfig --save-dev
 ```
 
-필요한 모듈들을 설치해줍니다.
+# Code 작성하기
 
-- `react`, `react-dom`: React
-- `react-app-polyfill`: IE를 지원하기 위한 Polyfill
-- `react-zeroconfig`: Zeroconfig
+간단한 “Hello World” Code를 작성해봅니다.
 
-## Code 작성하기
+작성할 파일들은 아래와 같습니다.
 
-“Hello World” Code를 작성해봅니다.
+- `src/_app/app.jsx`: App의 Entry point 입니다.
+- `public/index.html`
 
 ```jsx
 // {your-project-root}/src/_app/app.jsx
@@ -66,11 +81,11 @@ if (module.hot) {
 </html>
 ```
 
-`node_modules` 디렉토리에 속한 `react`와 `react-dom`, `react-app-polyfill`과 같은 라이브러리는 `<script src=”vendor.js”></script>` 파일로 생성됩니다.
+- `<script src="vendor.js"></script>`: `node_modules/` 디렉토리의 모듈들이 포함되게 됩니다 (ex. `react`, `react-dom`...)
+- `<script src="app.js"></script>`: `src/_app/app.jsx` 파일에 의해 만들어집니다
+  - `src/_app/{name}.jsx` → `{name}.js`
 
-`src/` 디렉토리에 속한 `_app/app.jsx` 파일은 `<script src=”app.js”></script>` 파일로 생성됩니다. (`_entry/{name}.jsx` 파일이 `<script src=”{name}.js”></script>`로 생성되는 구조입니다)
-
-## 테스트 실행
+# 테스트 실행
 
 `package.json` 파일을 열어서, 아래에 `+`가 표시된 npm script를 추가해줍니다.
 
@@ -78,12 +93,10 @@ if (module.hot) {
 {
   "name": "test",
   "version": "1.0.0",
-  "description": "",
   "scripts": {
 +    "web.dev.start": "zeroconfig web.dev.start",
 +    "start": "npm run web.dev.start"
   },
-  "author": "",
   "dependencies": {
     "react": "^16.8.4",
     "react-app-polyfill": "^0.2.2",
@@ -95,33 +108,31 @@ if (module.hot) {
 }
 ```
 
-- `zeroconfig web.dev.start`는 `webpack-dev-middleware`, `webpack-hot-middleware`, `browser-sync` 등을 조합해서 개발용 Server를 실행시킵니다.
+- `zeroconfig web.dev.start`: 개발용 Server를 실행시킵니다.
+
+npm script를 실행합니다.
 
 ```sh
 $ npm start
 ```
 
-npm script를 실행합니다.
-
 [![start](images/start.gif)](images/start.gif)
 
-웹브라우저를 열고, <http://localhost:3100> 에 접속합니다.
+웹브라우저를 열고, <http://localhost:3100> 에 접속해서 확인합니다.
 
-“Hello World!”가 뜨면 성공입니다.
-
-## HMR (Hot Module Replacement) 작동 확인하기
+# HMR (Hot Module Replacement) 작동 확인하기
 
 `react-zeroconfig`는 HMR(Hot Module Replacement)를 지원합니다.
 
-`src/_entry/app.jsx` 파일을 열고, “Hello World!” 문구를 수정해봅니다.
+`src/_app/app.jsx` 파일을 열고, “Hello World!” 문구를 수정해봅니다.
 
 [![hmr](images/hmr.gif)](images/hmr.gif)
 
 웹브라우저 상에서 실시간으로 수정 사항이 반영되는 것을 확인할 수 있습니다.
 
-> HMR 기능이 모든 수정을 100% 반영해주지는 않습니다. Refresh를 해야하는 경우도 생깁니다.
+> ⚠️ HMR 기능이 모든 수정을 100% 반영해주지는 않습니다. Refresh를 해야하는 경우도 생깁니다.
 
-## 빌드하기
+# 빌드하기
 
 `package.json` 파일을 열어서, 아래 `+`가 표시된 npm script를 추가합니다.
 
@@ -148,15 +159,13 @@ npm script를 실행합니다.
 }
 ```
 
-위와 같이 npm script를 추가해줍니다.
+- `zeroconfig web.build`: 웹브라우저에서 실행할 수 있는 결과물을 `dist/web/` 디렉토리로 빌드합니다.
 
-- `zeroconfig web.build`: Webpack을 사용해서 웹브라우저에서 실행할 수 있는 결과물을 `dist/web/` 디렉토리로 빌드합니다.
+npm script를 실행합니다.
 
 ```sh
 $ npm run build
 ```
-
-npm script를 실행합니다.
 
 [![build](images/build.gif)](images/build.gif)
 [![build](images/build.png)](images/build.png)
@@ -165,22 +174,23 @@ npm script를 실행합니다.
 
 --------
 
-## http-server로 빌드된 파일들을 확인해보기
+# http-server로 빌드된 파일들을 확인해보기
+
 빌드된 파일들이 정상적으로 동작하는지 확인해봅니다.
+
+Static Web Server를 간편하게 실행할 수 있는 `http-server`를 설치합니다.
 
 ```sh
 $ npm install -g http-server
 ```
 
-Static Web Server를 간편하게 실행할 수 있는 `http-server`를 설치합니다.
+`dist/web/` 디렉토리로 이동한 다음, Port 9990으로 Web Server를 실행해봅니다.
 
 ```sh
 $ cd dist/web
 $ http-server . -p 9990
 ```
 
-`dist/web/` 디렉토리로 이동한 다음, Port 9990으로 Web Server를 실행해봅니다.
+<http://localhost:9990> 에 접속해서 확인할 수 있습니다.
 
 [![http-server](images/http-server.gif)](images/http-server.gif)
-
-<http://localhost:9990> 에 접속해서 확인할 수 있습니다.

@@ -70,7 +70,7 @@ if (module.hot) {
 
 Libraries such as `react`, `react-dom` and `react-app-polyfill` in the `node_modules` directory are created as `<script src="vendor.js"></script>` file.
 
-The `_app/app.jsx` file in the `src/` directory is created as `<script src="app.js"></script>`. (This is a structure where `_entry/{name}.jsx` is generated as `<script src="{name}.js"></script>`)
+The `_app/app.jsx` file in the `src/` directory is created as `<script src="app.js"></script>`. (This is a structure where `_app/{name}.jsx` is generated as `<script src="{name}.js"></script>`)
 
 ## Start test
 
@@ -115,7 +115,7 @@ If "Hello World!" appeares, it is a success.
 
 `react-zeroconfig` supports HMR (Hot Module Replacement).
 
-Open the file `src/_entry/app.jsx` and modify the text "Hello World!".
+Open the file `src/_app/app.jsx` and modify the text "Hello World!".
 
 [![hmr](images/hmr.gif)](images/hmr.gif)
 

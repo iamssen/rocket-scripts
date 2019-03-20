@@ -1,12 +1,26 @@
-# Node Module
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-이 예제는 [Client Side Rendering](../Client-Side-Rendering/ko.md)에서 이어집니다.
+- [Module 만들어보기](#module-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EA%B8%B0)
+- [`src/_modules/` 디렉토리 규칙](#src_modules-%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC-%EA%B7%9C%EC%B9%99)
+- [새로운 Module 작성하기](#%EC%83%88%EB%A1%9C%EC%9A%B4-module-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0)
+- [작성한 Module을 프로젝트 내부에서 사용해보기](#%EC%9E%91%EC%84%B1%ED%95%9C-module%EC%9D%84-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%B4%EB%B3%B4%EA%B8%B0)
+- [작성한 Module을 빌드해보기](#%EC%9E%91%EC%84%B1%ED%95%9C-module%EC%9D%84-%EB%B9%8C%EB%93%9C%ED%95%B4%EB%B3%B4%EA%B8%B0)
+- [작성한 Module을 NPM에 배포해보기](#%EC%9E%91%EC%84%B1%ED%95%9C-module%EC%9D%84-npm%EC%97%90-%EB%B0%B0%ED%8F%AC%ED%95%B4%EB%B3%B4%EA%B8%B0)
+- [⚠️ 테스트가 끝났으면 쓰레기를 치웁시다!](#-%ED%85%8C%EC%8A%A4%ED%8A%B8%EA%B0%80-%EB%81%9D%EB%82%AC%EC%9C%BC%EB%A9%B4-%EC%93%B0%EB%A0%88%EA%B8%B0%EB%A5%BC-%EC%B9%98%EC%9B%81%EC%8B%9C%EB%8B%A4)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Module 만들어보기
+
+> 이 예제는 [Client Side Rendering](../Client-Side-Rendering/ko.md)에서 이어집니다.
 
 > 이 문서의 소스코드는 <https://github.com/iamssen/react-zeroconfig-sample.node-module>에서 확인할 수 있습니다.
 
-## `src/_modules/` 디렉토리 규칙
+# `src/_modules/` 디렉토리 규칙
 
-`_modules/` 디렉토리는 Node Module을 작성할 수 있는 디렉토리 입니다.
+`_modules/` 디렉토리는 Module을 작성할 수 있는 디렉토리 입니다.
 
 ![directory-rule](images/directory-rule.png)
 
@@ -25,7 +39,7 @@ export function App() {
 }
 ```
 
-이렇게 프로젝트 내에서 `import '../_modules/iamssen-test-module'`과 같이 상대 경로를 통한 import를 할 필요없이, 바로 `import 'iamssen-test-module'`과 같이 절대 경로를 사용해서 불러올 수 있게 됩니다.
+이렇게 프로젝트 내에서 `import '../_modules/iamssen-test-module'`과 같이 상대 경로를 통한 import를 할 필요없이, 바로 `import 'iamssen-test-module'`과 같은 절대 경로를 사용해서 불러올 수 있게 됩니다.
 
 `_modules/` 디렉토리는 크게 2가지 기능을 수행해줍니다.
 
@@ -34,7 +48,7 @@ export function App() {
 
 이는 프로젝트를 진행하는 과정에서 **"차후 프로젝트 종료 이후에 Module로 분리시킬 공통 자원"**이나 **"현재 동시에 진행되고 있는 다른 프로젝트에서 사용해야 하는 공용 자원"**을 프로젝트 내부에서 개발하고, 외부로 분리시켜서 퍼블리싱 하는데 도움을 줍니다.
 
-## 새로운 Module 작성하기
+# 새로운 Module 작성하기
 
 간단한 React Component Module을 작성해봅시다.
 
@@ -80,9 +94,9 @@ Module의 `readme.md` 파일을 만들어줍니다.
 Description...
 ```
 
-## 작성한 Module을 프로젝트 내부에서 사용해보기
+# 작성한 Module을 프로젝트 내부에서 사용해보기
 
-기존 `_app/app.jsx` 파일을 수정해서, 작성한 Module을 사용해봅시다.
+기존 `src/_app/app.jsx` 파일을 수정해서, 작성한 Module을 사용해봅시다.
 
 ```diff
 import React from 'react';
@@ -114,7 +128,7 @@ $ npm start
 
 <http://localhost:3100>에 접속해서 Module이 정상적으로 동작하는 것을 확인할 수 있습니다.
 
-## 작성한 Module을 빌드해보기
+# 작성한 Module을 빌드해보기
 
 `package.json` 파일을 열어서 `+` 표시된 npm script를 추가해줍니다.
 
@@ -152,7 +166,7 @@ $ npm run build
 
 > Module 빌드만 원할때는 `npm run module.build`로 실행할 수 있습니다.
 
-## 작성한 Module을 NPM에 배포해보기
+# 작성한 Module을 NPM에 배포해보기
 
 우선 NPM에 배포를 하기 위해서는 https://www.npmjs.com/ 에 가입을 해야 합니다. 사이트에 들어가서 가입을 해둡니다.
 
@@ -200,9 +214,9 @@ $ npm run module.publish
 
 배포가 완료되었다는 메세지가 나오면 `https://www.npmjs.com/package/{your-module-name}`으로 접속해서 Module이 정상적으로 배포되었는지 확인해줍니다.
 
-## 테스트가 끝났으면 쓰레기를 치웁시다.
+# ⚠️ 테스트가 끝났으면 쓰레기를 치웁시다!
 
-테스트로 퍼블리싱을 했지만, 모든 개발자들이 사용하는 NPM에 테스트 Module을 올려두는 것은 좋지 않겠죠.
+테스트로 퍼블리싱을 했지만, 모든 개발자들이 사용하는 NPM에 테스트 Module을 올려두는 것은 좋지 않은 일입니다.
 
 ```sh
 $ npm unpublish {your-module-name} --force

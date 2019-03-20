@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [react-zeroconfig](#react-zeroconfig)
+- [🚀 Install](#-install)
+- [⏰ Quick start CSR App in 3 minutes](#-quick-start-csr-app-in-3-minutes)
+- [⏰ Quick start SSR App in 5 minutes](#-quick-start-ssr-app-in-5-minutes)
+- [⏰ Quick start Jest Test in 2 minutes](#-quick-start-jest-test-in-2-minutes)
+- [📖 Documents](#-documents)
+- [🍽 Boilerplates](#%F0%9F%8D%BD-boilerplates)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # react-zeroconfig
 
 `react-zeroconfig`는 React 개발시에 발생하는 Webpack Config, Browser-Sync, Nodemon, Typescript Config, 테스트 환경 Jest Config 등의 복잡한 설정 파일들을 (최대한) 없애고, 실제적인 React 개발에만 집중하기 위해 만든 개발 지원 모듈입니다. ([create-react-app](https://github.com/facebook/create-react-app)의 [react-scripts](https://github.com/facebook/create-react-app/tree/master/packages/react-scripts)와 비슷하게 동작합니다)
@@ -8,7 +22,7 @@
 - CSS, SASS, LESS를 지원하고, CSS Module을 사용할 수 있습니다.
 - NPM Module에 대한 테스트, 빌드, 퍼블리싱 과정을 단순화 시켜줍니다.
 
-# Install
+# 🚀 Install
 
 ```
 npm install react-zeroconfig --save-dev
@@ -322,8 +336,10 @@ English
 - [Server Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Server-Side-Rendering/ko.md)
 - [지원되는 Import 유형들](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Supported-Import-Types/ko.md)
 - [Jest로 Test 실행해보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Jest/ko.md)
-- [Node Module 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Node-Module/ko.md)
+- [Module 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Module/ko.md)
 - [Typescript 셋팅하기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Typescript/ko.md)
+- [지원되는 명령어 리스트](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Commands/ko.md)
+- [Config 옵션들](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Config/ko.md)
 
 # 🍽 Boilerplates
 

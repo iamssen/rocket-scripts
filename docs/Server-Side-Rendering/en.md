@@ -53,7 +53,7 @@ export function App({initialState = {}}) {
 ```
 
 ```jsx
-// {your-project-root}/src/_entry/app.jsx
+// {your-project-root}/src/_app/app.jsx
 import React from 'react';
 import { hydrate } from 'react-dom';
 import { App } from '../app';
@@ -114,7 +114,7 @@ app.listen(port, () => {
 
 Libraries such as `react`, `react-dom` and `react-app-polyfill` in the `node_modules` directory are created as `<script src="vendor.js"></script>` file.
 
-The `_app/app.jsx` file in the `src/` directory is created as `<script src="app.js"></script>`. (This is a structure where `_entry/{name}.jsx` is generated as `<script src="{name}.js"></script>`)
+The `_app/app.jsx` file in the `src/` directory is created as `<script src="app.js"></script>`. (This is a structure where `_app/{name}.jsx` is generated as `<script src="{name}.js"></script>`)
 
 ## Start test
 

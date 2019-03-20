@@ -1,8 +1,24 @@
-# Server Side Rendering
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Server Side Rendering App 만들어보기](#server-side-rendering-app-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EA%B8%B0)
+- [Install](#install)
+- [Code 작성하기](#code-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0)
+- [테스트 실행](#%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%8B%A4%ED%96%89)
+- [작동 확인](#%EC%9E%91%EB%8F%99-%ED%99%95%EC%9D%B8)
+- [빌드하기](#%EB%B9%8C%EB%93%9C%ED%95%98%EA%B8%B0)
+- [빌드된 파일들을 PM2, NginX를 사용해서 실행시키기](#%EB%B9%8C%EB%93%9C%EB%90%9C-%ED%8C%8C%EC%9D%BC%EB%93%A4%EC%9D%84-pm2-nginx%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%EC%8B%A4%ED%96%89%EC%8B%9C%ED%82%A4%EA%B8%B0)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Server Side Rendering App 만들어보기
 
 > 이 문서의 소스코드는 <https://github.com/iamssen/react-zeroconfig-sample.server-side-rendering>에서 확인할 수 있습니다.
 
-## Install
+# Install
+
+프로젝트 디렉토리를 초기화하고
 
 ```sh
 $ mkdir test
@@ -10,24 +26,24 @@ $ cd test
 $ npm init
 ```
 
-프로젝트 디렉토리를 초기화하고
+필요한 모듈들을 설치해줍니다
 
 ```sh
 $ npm install react react-dom react-app-polyfill express
 $ npm install react-zeroconfig multiplerun --save-dev
 ```
 
-필요한 모듈들을 설치해줍니다
+# Code 작성하기
 
-- `react`, `react-dom`: React
-- `react-app-polyfill`: IE 지원을 위한 Polyfill
-- `express`: Server Side Rendering을 위한 Server를 실행시킬 Express.js
-- `react-zeroconfig`: Zeroconfig
-- `multiplerun`: Server Side Rendering 테스트는 여러개의 Terminal 실행을 필요로 합니다. Terminal들을 일괄 실행하기 위해 필요한 모듈입니다.
+간단한 “Hello World” Code를 작성해봅니다.
 
-## Code 작성하기
+작성할 파일들은 아래와 같습니다.
 
-“Hello World” Code를 작성해봅니다.
+- `src/app/index.jsx`: App의 Main Component 입니다.
+- `src/_app/app.jsx`: Client App의 Entry point 입니다.
+- `src/_server/index.jsx`: Server App의 Entry point 입니다.
+
+> Client와 Server 양쪽으로 Entry point가 생기기 때문에 App Main을 별도의 Component로 분리했습니다.
 
 ```jsx
 // {your-project-root}/src/app/index.jsx
@@ -51,7 +67,7 @@ export function App({initialState = {}}) {
 ```
 
 ```jsx
-// {your-project-root}/src/_entry/app.jsx
+// {your-project-root}/src/_app/app.jsx
 import React from 'react';
 import { hydrate } from 'react-dom';
 import { App } from '../app';
@@ -110,15 +126,11 @@ app.listen(port, () => {
 });
 ```
 
-`node_modules` 디렉토리에 속한 `react`와 `react-dom` `react-app-polyfill`과 같은 라이브러리는
-`<script src="vendor.js"></script>` 파일로 생성됩니다.
+- `<script src="vendor.js"></script>`: `node_modules/` 디렉토리의 모듈들이 포함되게 됩니다 (ex. `react`, `react-dom`...)
+- `<script src="app.js"></script>`: `src/_app/app.jsx` 파일에 의해 만들어집니다
+  - `src/_app/{name}.jsx` → `{name}.js`
 
-`src` 디렉토리에 속한 `_app/app.jsx` 파일은
-`<script src="app.js"></script>` 파일로 생성됩니다.
-(`_entry/{name}.jsx` 파일이 `<script src="{name}.js"></script>`로 생성되는 구조입니다)
-
-
-## 테스트 실행
+# 테스트 실행
 
 `package.json` 파일을 열어서, 아래에 `+`로 표시된 npm script를 추가해줍니다.
 
@@ -154,45 +166,41 @@ app.listen(port, () => {
 }
 ```
 
-- `zeroconfig web.dev.start`: `webpack-dev-middleware`, `webpack-hot-middleware`, `browser-sync` 등을 조합해서 개발용 Server를 실행시킵니다.
-- `zeroconfig web.server.dev.build.watch`: Webpack watch mode를 사용해서 `src/_server/index.jsx` 파일을 `dist-dev/server/index.js` 파일로 지속적으로 빌드합니다.
-- `zeroconfig web.server.dev.start`: Nodemon을 사용해서 `dist-dev/server/index.js` 파일을 실행시키고, 업데이트가 있을때마다 자동으로 재실행 시킵니다.
+- `zeroconfig web.dev.start`: 개발용 Server를 실행시킵니다.
+- `zeroconfig web.server.dev.build.watch`: `src/_server/index.jsx` 파일을 `dist-dev/server/index.js` 파일로 지속적으로 빌드합니다. (Watch Mode)
+- `zeroconfig web.server.dev.start`: Nodemon을 사용해서 `dist-dev/server/index.js` 파일을 실행시키고, 해당 파일의 업데이트가 있을때마다 자동으로 재실행 시킵니다.
 
 위의 3개 Script를 동시에 실행시키기 위해서 Terminal 창을 일일히 여는 것은 굉장히 불편한 일이기 때문에 `multiplerun`을 사용해서 Script들을 일괄적으로 실행시킵니다. <https://www.npmjs.com/package/multiplerun>
+
+npm script를 실행합니다.
 
 ```sh
 $ npm start
 ```
 
-npm script를 실행합니다.
-
 [![start](images/start.gif)](images/start.gif)
 
 위와 같이 3개의 npm script가 동시에 실행되게 됩니다. 
 
-> macOS를 사용하고 있고, iTerm이 설치되어 있다면 위와 같이 iTerm Split-Pane을 사용해서 열리고, 그 외의 경우에는 Terminal(Terminal.app or cmd.exe)이 3개 뜨게 됩니다.
+> ⚠️ macOS를 사용하고 있고, iTerm이 설치되어 있다면 위와 같이 iTerm Split-Pane을 사용해서 열리고, 그 외의 경우에는 Terminal(Terminal.app or cmd.exe)이 3개 뜨게 됩니다.
 
-## 작동 확인
+# 작동 확인
 
 우선 Server Side Rendering이 정상적으로 되고 있는지 확인합니다.
 
-웹브라우저를 열고 <http://localhost:4100>와 <view-source:localhost:4100>을 확인합니다.
+웹브라우저를 열어서 <http://localhost:4100>와 <view-source:localhost:4100>을 열어서 확인합니다.
 
 [![4100](images/4100.png)](images/4100.png)
 
-위와 같이 “Server Value”가 뜨면 성공입니다.
+이번에는 <http://localhost:3100> 와 <view-source:localhost:3100>을 열어서 확인합니다.
 
-이번에는 <http://localhost:3100> 와 <view-source:localhost:3100>을 확인합니다.
+[![3100](images/3100.png)](images/3100.png) 
 
-[![3100](images/3100.png)](images/3100.png)
-
-위와 같이 “Server Value”가 뜨면 성공입니다. 
+React Component가 정상적으로 동작하는지 확인하기 위해서 Button을 눌러서 Text가 바뀌는 것을 확인합니다.
 
 [![click](images/click.gif)](images/click.gif)
 
-React가 정상적으로 동작하는지 확인하기 위해서 Button을 눌러서 Text가 바뀌는 것을 확인합니다.
-
-## 빌드하기
+# 빌드하기
 
 `package.json` 파일을 열어서, 아래 `+` 표시된 npm script를 추가합니다.
 
@@ -231,38 +239,37 @@ React가 정상적으로 동작하는지 확인하기 위해서 Button을 눌러
 }
 ```
 
-- `zeroconfig web.build`: Webpack을 사용해서 웹브라우저에서 실행할 수 있는 결과물을 `/dist/app` 디렉토리로 빌드합니다.
-- `zeroconfig web.server.build`: Webpack을 사용해서 Node.js에서 실행할 수 있는 결과물을 `/dist/server` 디렉토리로 빌드합니다.
+- `zeroconfig web.build`: 웹브라우저에서 실행할 수 있는 결과물을 `/dist/app/` 디렉토리로 빌드합니다.
+- `zeroconfig web.server.build`: Node.js에서 실행할 수 있는 결과물을 `/dist/server/` 디렉토리로 빌드합니다.
+
+npm script를 실행합니다.
 
 ```sh
 $ npm run build
 ```
 
-npm script를 실행합니다.
-
 [![build](images/build.gif)](images/build.gif)
 [![build](images/build.png)](images/build.png)
 
-위와 같이 `dist/web/`과 `dist/server/`에 빌드된 파일들을 확인할 수 있습니다.
+위와 같이 `dist/web/` 디렉토리와 `dist/server/` 디렉토리에서 빌드된 파일들을 확인할 수 있습니다.
 
 ------
 
-## 빌드된 파일들을 PM2, NginX를 사용해서 실행시키기
+# 빌드된 파일들을 PM2, NginX를 사용해서 실행시키기
 
-빌드된 `dist/web`과 `dist/server`를 실제 환경에서 실행시켜 봅니다. 
+빌드된 `dist/web/`과 `dist/server/`를 실제 환경에서 실행시켜 봅니다. 
 
 실행을 간단하게 정리하자면 아래와 같습니다.
 
-1. `dist/server` Node.js로 실행할 수 있음
-2. `dist/web` Web Server에서 Static File로 연결
+1. `dist/server/` Node.js로 실행할 수 있음
+2. `dist/web/` Web Server에서 Static File로 연결
 3. Web Server(2)에서 Node.js(1)을 Reverse Proxy로 연결시킵니다.
-
 
 > macOS + Homebrew를 기준으로 설명합니다.
 
 ```sh
 $ brew install nginx
-$ npm install -g pm2
+$ npm install -g pm
 ```
 
 Node.js Process Manager인 `pm2` 와 `nginx`를 설치해줍니다.
@@ -315,8 +322,8 @@ server {
 }
 ```
 
-- `location ~ ^/(.*)\.(.*)$`: 모든 확장자를 가진 Request는 Static File들을 호출하게 됩니다. 
-- `location /`: 그 외의 모든 Request들은 `proxy_pass http://127.0.0.1:$SSR_PORT`를 통해서 `pm2`에서 실행된 Application으로 연결됩니다. (Reverse Proxy)
+1. `location ~ ^/(.*)\.(.*)$`: 모든 확장자를 가진 Request들을 캐치해서 Static File들로 연결합니다. (`x.png`, `y.html`과 같이 `.xxx` 같은 형식의 파일들) 
+2. `location /`: 그 외의 모든 Request들은 `proxy_pass http://127.0.0.1:$SSR_PORT`를 통해서 `pm2`에서 실행된 Application으로 연결됩니다. (Reverse Proxy)
 
 설정이 완료되었으면 NginX를 실행시킵니다.
 
