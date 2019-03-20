@@ -1,6 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
 
 - [지원되는 Import 유형들](#%EC%A7%80%EC%9B%90%EB%90%98%EB%8A%94-import-%EC%9C%A0%ED%98%95%EB%93%A4)
 - [Javascript and Typescript (`*.ts` `*.tsx` `*.js` `*.jsx`)](#javascript-and-typescript-ts-tsx-js-jsx)

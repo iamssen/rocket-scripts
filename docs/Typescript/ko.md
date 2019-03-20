@@ -1,6 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
 
 - [Typescript 셋팅하기](#typescript-%EC%85%8B%ED%8C%85%ED%95%98%EA%B8%B0)
 - [Typescript 설치하고, `tsconfig.json` 파일 생성하기](#typescript-%EC%84%A4%EC%B9%98%ED%95%98%EA%B3%A0-tsconfigjson-%ED%8C%8C%EC%9D%BC-%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0)

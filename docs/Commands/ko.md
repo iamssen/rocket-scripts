@@ -1,6 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
 
 - [지원되는 명령어 리스트](#%EC%A7%80%EC%9B%90%EB%90%98%EB%8A%94-%EB%AA%85%EB%A0%B9%EC%96%B4-%EB%A6%AC%EC%8A%A4%ED%8A%B8)
 - [Web App Build and Test](#web-app-build-and-test)

@@ -9,7 +9,8 @@
     "build.watch": "npm run clean && tsc --watch",
     "test": "jest",
     "prepublishOnly": "npm run test && npm run build",
-    "lint": "tslint \"src/**/!(*.spec|*.test).ts?(x)\""
+    "lint": "tslint \"src/**/!(*.spec|*.test).ts?(x)\"",
+    "toc": "node toc.js"
   },
   "keywords": [
     "zeroconfig",

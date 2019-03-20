@@ -1,6 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
 
 - [Module 만들어보기](#module-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EA%B8%B0)
 - [`src/_modules/` 디렉토리 규칙](#src_modules-%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC-%EA%B7%9C%EC%B9%99)
