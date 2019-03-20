@@ -1,6 +1,6 @@
 {
   "name": "react-zeroconfig",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "Zero config tools for typescript projects",
   "main": "lib/index.js",
   "scripts": {

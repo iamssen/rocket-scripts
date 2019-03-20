@@ -335,6 +335,7 @@ English
 - [Client Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Client-Side-Rendering/ko.md)
 - [Server Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Server-Side-Rendering/ko.md)
 - [지원되는 Import 유형들](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Supported-Import-Types/ko.md)
+- [Alias 규칙](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Alias/ko.md)
 - [Jest로 Test 실행해보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Jest/ko.md)
 - [Module 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Module/ko.md)
 - [Typescript 셋팅하기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Typescript/ko.md)

@@ -8,6 +8,7 @@
 - [Client Side Rendering App 만들어보기](Client-Side-Rendering/ko.md)
 - [Server Side Rendering App 만들어보기](Server-Side-Rendering/ko.md)
 - [지원되는 Import 유형들](Supported-Import-Types/ko.md)
+- [Alias 규칙](Alias/ko.md)
 - [Jest로 Test 실행해보기](Jest/ko.md)
 - [Module 만들어보기](Module/ko.md)
 - [Typescript 셋팅하기](Typescript/ko.md)
