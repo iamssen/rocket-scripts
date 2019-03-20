@@ -22,70 +22,72 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# 지원되는 명령어 리스트
+# Commands
+
+> ⚠️ I can not speak English well. It will be helpful if you correct the wrong expressions and send the PR. (If you have modified this document, please delete this comment.)
 
 # Web App Build and Test
 
 ## `zeroconfig web.build`
 
-`dist/web/` 디렉토리로 빌드합니다.
+Build to the `dist/web/` directory.
 
 ## `zeroconfig web.dev.build`
 
-`dist-dev/web/` 디렉토리로 빌드합니다.
+Build to the `dist-dev/web/` directory.
 
-최적화 작업을 제외합니다.
+Exclude optimizations.
 
 ## `zeroconfig web.dev.build.watch`
 
-Source Code를 Watch해서, Source Code들이 Update 될때마다 빌드를 수행합니다.
+Watch the source codes and build each time the source codes are updated.
 
-`zeroconfig web.dev.build`와 동일한 작업을 수행합니다.
+Run the same operation as `zeroconfig web.dev.build`.
 
 ## `zeroconfig web.dev.start`
 
-Test Server를 실행합니다. (`webpack-dev-middleware` + `browser-sync` + more...)
+Run test server. (`webpack-dev-middleware` + `browser-sync` + more...)
 
 # Server App Build and Test
 
 ## `zeroconfig web.server.build`
 
-`dist/server/` 디렉토리로 빌드합니다.
+Build to the `dist/server/` directory.
 
 ## `zeroconfig web.server.dev.build`
 
-`dist-dev/server/` 디렉토리로 빌드합니다.
+Build to the `dist-dev/server/` directory.
 
-최적화 작업을 제외합니다.
+Exclude optimizations.
 
 ## `zeroconfig web.server.dev.build.watch`
 
-Source Code를 Watch해서, Source Code들이 Update 될때마다 빌드를 수행합니다.
+Watch the source codes and build each time the source codes are updated.
 
-`zeroconfig web.server.dev.build`와 동일한 작업을 수행합니다.
+Run the same operation as `zeroconfig web.server.dev.build`.
 
 ## `zeroconfig web.server.dev.start`
 
-`dist-dev/server/` 디렉토리를 Nodemon을 사용해서 실행합니다.
+Run the `dist-dev/server/` directory using Nodemon.
 
-`zeroconfig web.server.dev.build.watch`와 함께 실행하면 Source Code가 업데이트 될때마다 Server가 재실행 됩니다.
+Running with `zeroconfig web.server.dev.build.watch` will re-run the server every time the source codes are updated.
 
 # Module
 
 ## `zeroconfig module.build`
-`src/_modules/{module-name}/` 디렉토리를 `dist/modules/{module-name}/` 디렉토리로 빌드합니다.
+Build the `src/_modules/{module-name}/` directories into the `dist/modules/{module-name}/` directories.
 
 ## `zeroconfig module.publish`
-`dist/modules/{module-name}` 디렉토리들을 NPM으로 퍼블리시 합니다.
+Publish the `dist/modules/{module-name}` directories to NPM.
 
 # React Intel Support
 
 ## `zeroconfig intl.build`
 
-`src/**/locales/[a-z]{2}-[A-Z]{2}.json` 형식의 다국어 파일들을 수집해서 `src/generated/locales.json` 파일로 빌드합니다.
+Collect the `src/**/locales/[a-z]{2}-[A-Z]{2}.json` formatted internationalization message files and build into the `src/generated/locales.json` file.
 
 ## `zeroconfig intl.distribute`
 
-`src/generated/locales.json` 파일을 사용해서 `src/**/locales/[a-z]{2}-[A-Z]{2}.json` 파일들의 내용을 업데이트 합니다.
+Use the `src/generated/locales.json` file to update the contents of `src/**/locales/[a-z]{2}-[A-Z]{2}.json` files.
 
-`locales.json` 파일을 사용해서 번역 작업을 진행한 경우, 역으로 각 디렉토리의 json 파일들을 업데이트 할 때 사용할 수 있습니다.
+If you use the `locales.json` file to translate, you can use it to updat the json files in each directory.

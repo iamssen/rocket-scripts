@@ -37,7 +37,7 @@ $ npm install react-zeroconfig --save-dev
 
 간단한 “Hello World” Code를 작성해봅니다.
 
-작성할 파일들은 아래와 같습니다.
+작성할 파일들입니다.
 
 - `src/_app/app.jsx`: App의 Entry point 입니다.
 - `public/index.html`
@@ -81,7 +81,7 @@ if (module.hot) {
 </html>
 ```
 
-- `<script src="vendor.js"></script>`: `node_modules/` 디렉토리의 모듈들이 포함되게 됩니다 (ex. `react`, `react-dom`...)
+- `<script src="vendor.js"></script>`: `node_modules/` 디렉토리의 모듈들이 포함되게 됩니다 (eg. `react`, `react-dom`...)
 - `<script src="app.js"></script>`: `src/_app/app.jsx` 파일에 의해 만들어집니다
   - `src/_app/{name}.jsx` → `{name}.js`
 
@@ -184,11 +184,10 @@ Static Web Server를 간편하게 실행할 수 있는 `http-server`를 설치�
 $ npm install -g http-server
 ```
 
-`dist/web/` 디렉토리로 이동한 다음, Port 9990으로 Web Server를 실행해봅니다.
+Port 9990으로 Web Server를 실행해봅니다.
 
 ```sh
-$ cd dist/web
-$ http-server . -p 9990
+$ http-server ./dist/web -p 9990
 ```
 
 <http://localhost:9990> 에 접속해서 확인할 수 있습니다.

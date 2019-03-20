@@ -5,4 +5,4 @@
 |file                            |import                                 |
 |--------------------------------|---------------------------------------|
 |`src/app/index.jsx`             |`import App from 'app'`                |
-|`src/common/style/theme.scss`   |`import 'common/style/theme.scss'`      |
+|`src/common/style/theme.scss`   |`import 'common/style/theme.scss'`     |

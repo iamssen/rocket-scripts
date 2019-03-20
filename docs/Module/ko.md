@@ -83,7 +83,7 @@ Module이 사용할 `package.json` 파일을 만들어줍니다.
 
 React Component Module이기 때문에 `dependencies`에 `react`를 넣습니다.
 
-> `dependencies` 같은 경우 `^16.8.0` 과 같이 SemVer(Semantic Versioning)을 사용하도록 합니다. 의미를 간단히 설명하자면 `^16.8.0`은 `>= 16.8.0 < 17.0.0` 으로 `16.8.0` 에서 `17.0.0` 이전까지의 Version을 설치할 수 있게 허용한다는 의미 입니다. https://www.npmjs.com/package/semver#caret-ranges-123-025-004 이 문서를 참고해서 좀 더 자세히 알아볼 수 있습니다. (SemVer는 Module을 만들어서 배포하려 한다면 꼭 알아둬야할 사항입니다)
+> `dependencies` 같은 경우 `^16.8.0` 과 같이 SemVer(Semantic Versioning)을 사용하도록 합니다. 의미를 간단히 설명하자면 `^16.8.0`은 `>= 16.8.0 < 17.0.0` 으로 `16.8.0` 에서 `17.0.0` 이전까지의 Version을 설치할 수 있게 허용한다는 의미 입니다. <https://www.npmjs.com/package/semver#caret-ranges-123-025-004> 이 문서를 참고해서 좀 더 자세히 알아볼 수 있습니다. (SemVer는 Module을 만들어서 배포하려 한다면 꼭 알아둬야할 사항입니다)
 
 Module의 `readme.md` 파일을 만들어줍니다.
 
@@ -168,7 +168,7 @@ $ npm run build
 
 # 작성한 Module을 NPM에 배포해보기
 
-우선 NPM에 배포를 하기 위해서는 https://www.npmjs.com/ 에 가입을 해야 합니다. 사이트에 들어가서 가입을 해둡니다.
+우선 NPM에 배포를 하기 위해서는 <https://www.npmjs.com/> 에 가입을 해야 합니다. 사이트에 들어가서 가입을 해둡니다.
 
 가입을 완료했으면 `npm`에 Login을 해야 합니다.
 
@@ -210,7 +210,7 @@ $ npm run module.publish
 
 ![publish](images/publish.gif)
 
-`module.publish`를 실행하면 배포 가능한 (NPM 상에 존재하지 않거나, NPM 상에 배포된 마지막 Version보다 높은 경우) Module을 선택할 수 있고 (`space` key), 선택을 완료하면 (`enter` key) NPM에 배포를 시작합니다.
+`module.publish`를 실행하면 배포 가능한 (NPM 상에 존재하지 않거나, NPM 상에 배포된 마지막 Version보다 높은 경우) Module을 선택할 수 있고, 선택을 완료하면 NPM에 배포를 시작합니다.
 
 배포가 완료되었다는 메세지가 나오면 `https://www.npmjs.com/package/{your-module-name}`으로 접속해서 Module이 정상적으로 배포되었는지 확인해줍니다.
 

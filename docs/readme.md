@@ -1,7 +1,24 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [English](#english)
+- [한국어](#%ED%95%9C%EA%B5%AD%EC%96%B4)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # English
 
-- [Client Side Rendering](Client-Side-Rendering/en.md)
-- [Server Side Rendering](Server-Side-Rendering/en.md)
+- [Create Client Side Rendering App](Client-Side-Rendering/en.md)
+- [Create Server Side Rendering App](Server-Side-Rendering/en.md)
+- [Supported Import Types](Supported-Import-Types/en.md)
+- [Alias Rule](Alias/en.md)
+- [Run Test with Jest](Jest/en.md)
+- [Create Module](Module/en.md)
+- [Set up Typescript](Typescript/en.md)
+- [Commands](Commands/en.md)
+- [Config](Config/en.md)
+- [Core Rules](Core-Rules/readme.md)
 
 # 한국어
 
@@ -14,3 +31,4 @@
 - [Typescript 셋팅하기](Typescript/ko.md)
 - [지원되는 명령어 리스트](Commands/ko.md)
 - [Config 옵션들](Config/ko.md)
+- [Core Rules](Core-Rules/readme.md)

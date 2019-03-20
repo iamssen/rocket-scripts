@@ -8,17 +8,19 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# `react-zeroconfig` 설정 방법
+# `react-zeroconfig` config
 
-설정은 `package.json`에 입력하거나 `zeroconfig.config.js`, `zeroconfig.local.config.js`와 같은 파일로 만들어서 입력할 수 있습니다.
+> ⚠️ I can not speak English well. It will be helpful if you correct the wrong expressions and send the PR. (If you have modified this document, please delete this comment.)
 
-설정을 읽어내는 우선 순위는 아래와 같습니다.
+The config can be entered in `package.json`, or by creating a file such as `zeroconfig.config.js` or `zeroconfig.local.config.js`
+
+The priority to read the config is as below.
 
 1. `zeroconfig.local.config.js`
 2. `zeroconfig.config.js`
-3. `package.json`의 `zeroconfig` 항목
+3. the `zeroconfig` entry in the`package.json` file
 
-# 예제 
+# Example
 
 ```diff
 {
@@ -31,44 +33,44 @@
 }
 ```
 
-`package.json` 파일에 위처럼 `zeroconfig` 옵션을 설정하면, Test Server가 <http://localhost:7777>로 열리게 됩니다.
+If you set the `zeroconfig` option in the `package.json` file as above, the test server will be opened with <http://localhost:7777>.
 
-# 옵션들
+# Options
 
-설정할 수 있는 옵션의 종류는 아래와 같습니다.
+The options that can be set are as below.
 
 ```typescript
 {
   app: {
-    // Test Web Server의 Port
+    // Port of test server
     port?: number = 3100;
 
-    // Static File로 사용할 디렉토리들
+    // Directories to use as static files
     // `{static file directory}/test.png` → `{build root}/test.png`
     staticFileDirectories?: string[] = ['./public'];
 
-    // 빌드 경로
-    // `build/path`와 같이 입력하는 경우 `{build root}/build/path/app.js`와 같이 빌드됨
+    // Build path
+    // If you enter `build/path`, it will be built as `{build root}/build/path/app.js`
     buildPath?: string = '';
 
-    // Test Server를 https로 설정
+    // Set test server to https
     // https://browsersync.io/docs/options#option-https
     https?: boolean | {key: string, cert: string} = false;
 
-    // Vendor Chunk File의 이름
+    // Vendor chunk file name
     vendorFileName?: string = 'vendor';
 
-    // Style File의 이름
+    // Style file name
     styleFileName?: string = 'style';
 
     // Webpack `publicPath`
     // https://webpack.js.org/guides/public-path/
     publicPath?: string = '';
 
-    // Test SSR Server의 Port
+    // Port of SSR test server
     serverPort?: number = 4100;
   }
 }
 ```
 
-더 자세한 옵션들은 <https://github.com/iamssen/react-zeroconfig/blob/master/src/types.ts#L6> 파일에서 확인할 수 있습니다.
+More detailed options can be found in the <https://github.com/iamssen/react-zeroconfig/blob/master/src/types.ts#L6> file.

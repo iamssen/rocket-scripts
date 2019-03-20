@@ -2,7 +2,6 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [View this document in other languages](#view-this-document-in-other-languages)
 - [react-zeroconfig](#react-zeroconfig)
 - [🚀 Install](#-install)
 - [⏰ Quick start CSR App in 3 minutes](#-quick-start-csr-app-in-3-minutes)
@@ -10,26 +9,21 @@
 - [⏰ Quick start Jest Test in 2 minutes](#-quick-start-jest-test-in-2-minutes)
 - [📖 User Guide](#-user-guide)
 - [🍽 Boilerplates](#%F0%9F%8D%BD-boilerplates)
+- [Use cases](#use-cases)
 - [Contribute](#contribute)
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# View this document in other languages
-
-- [한국어로 보기](https://github.com/iamssen/react-zeroconfig/blob/master/readme.ko.md)
-
 # react-zeroconfig
 
-> ⚠️ I can not speak English well. It will be helpful if you correct the wrong expressions and send the PR. (If you have modified this document, please delete this comment.)
+`react-zeroconfig`는 React 개발시에 발생하는 Webpack Config, Browser-Sync, Nodemon, Typescript Config, 테스트 환경 Jest Config 등의 복잡한 설정 파일들을 (최대한) 없애고, 실제적인 React 개발에만 집중하기 위해 만든 개발 지원 모듈입니다. ([create-react-app](https://github.com/facebook/create-react-app)의 [react-scripts](https://github.com/facebook/create-react-app/tree/master/packages/react-scripts)와 비슷하게 동작합니다)
 
-`react-zeroconfig` is a development support module created to eliminate (as much as possible) complicated configuration files such as Webpack Config, Browser-Sync, Nodemon, Typescript Config and Test Environment Jest Config that occur during React development. (similar to [react-scripts](https://github.com/facebook/create-react-app/tree/master/packages/react-scripts) in [create-react-app](https://github.com/facebook/create-react-app))
-
-- Run test and build without Webpack config.
-- Supports ES6, Typescript based on Babel.
-- Supports both CSR(Client Side Rendering) and SSR(Server Side Rendering).
-- Supports CSS, SASS, LESS and can use CSS Module. 
-- Simplifies the testing, building and publishing process for the NPM Module.
+- Webpack Config 없이 테스트, 빌드를 실행할 수 있습니다.
+- Babel을 기반으로 ES6, Typescript를 지원합니다.
+- CSR(Client Side Rendering), SSR(Server Side Rendering)을 모두 지원합니다.
+- CSS, SASS, LESS를 지원하고, CSS Module을 사용할 수 있습니다.
+- NPM Module에 대한 테스트, 빌드, 퍼블리싱 과정을 단순화 시켜줍니다.
 
 # 🚀 Install
 
@@ -51,7 +45,7 @@ $ npm install react-zeroconfig --save-dev
 
 ## Step2
 
-Create `src/_app/app.jsx` file.
+`src/_app/app.jsx` 파일을 만들어줍니다.
 
 ```jsx
 import React from 'react';
@@ -72,7 +66,7 @@ if (module.hot) {
 }
 ```
 
-Create `public/index.html` file.
+`public/index.html` 파일을 만들어줍니다.
 
 ```html
 <!DOCTYPE html>
@@ -94,7 +88,7 @@ Create `public/index.html` file.
 
 ## Step3
 
-Add npm scripts to `package.json`.
+`package.json`에 npm script를 추가해줍니다.
 
 ```diff
 {
@@ -117,13 +111,13 @@ Add npm scripts to `package.json`.
 
 ## Step4
 
-Run
+실행합니다.
 
 ```sh
 $ npm start
 ```
 
-Open your web browser and connect to <http://localhost:3100>.
+웹브라우저를 열고, <http://localhost:3100> 에 접속합니다.
 
 ![start](https://raw.githubusercontent.com/iamssen/react-zeroconfig/master/docs/Client-Side-Rendering/images/start.gif)
 
@@ -141,7 +135,7 @@ $ npm install react-zeroconfig multiplerun --save-dev
 
 ## Step2
 
-Create `src/app/index.jsx` file.
+`src/app/index.jsx` 파일을 만들어줍니다.
 
 ```jsx
 import React, { useState } from 'react';
@@ -163,7 +157,7 @@ export function App({initialState = {}}) {
 }
 ```
 
-Create `src/_entry/app.jsx` file.
+`src/_entry/app.jsx` 파일을 만들어줍니다
 
 ```jsx
 import React from 'react';
@@ -181,7 +175,7 @@ if (module.hot) {
 }
 ```
 
-Create `src/_server/index.jsx` file.
+`src/_server/index.jsx` 파일을 만들어줍니다.
 
 ```jsx
 import React from 'react';
@@ -227,7 +221,7 @@ app.listen(port, () => {
 
 ## Step3
 
-Add npm scripts to `package.json`.
+`package.json` 파일에 npm scripts를 추가해줍니다.
 
 ```diff
 {
@@ -263,7 +257,7 @@ Add npm scripts to `package.json`.
 
 ## Step4
 
-Run
+실행합니다.
 
 ```sh
 $ npm start
@@ -271,11 +265,11 @@ $ npm start
 
 ![start](https://raw.githubusercontent.com/iamssen/react-zeroconfig/master/docs/Server-Side-Rendering/images/start.gif)
 
-Open web browser and connect to <http://localhost:4100> to check the SSR server.
+웹브라우저를 열고, <http://localhost:4100>에 접속해서 SSR 서버를 확인합니다.
 
 ![4100](https://raw.githubusercontent.com/iamssen/react-zeroconfig/master/docs/Server-Side-Rendering/images/4100.png)
 
-Open web browser and connect to <http://localhost:3100>.
+웹브라우저를 열고, <http://localhost:3100>에 접속해서 확인합니다.
 
 ![3100](https://raw.githubusercontent.com/iamssen/react-zeroconfig/master/docs/Server-Side-Rendering/images/3100.png)
 
@@ -292,7 +286,7 @@ $ npm install react-zeroconfig jest --save-dev
 
 ## Step2
 
-Add Jest related settings to `package.json`.
+`package.json`에 Jest 관련 설정을 추가해줍니다.
 
 ```diff
 {
@@ -313,7 +307,7 @@ Add Jest related settings to `package.json`.
 
 ## Step3
 
-Create `src/__test__/test.js` file.
+`src/__test__/test.js` 파일을 만들어줍니다.
 
 ```js
 describe('Jest test', () => {
@@ -325,7 +319,7 @@ describe('Jest test', () => {
 
 ## Step4
 
-Run
+실행합니다
 
 ```sh
 $ npm test
@@ -336,26 +330,26 @@ $ npm test
 
 # 📖 User Guide
 
-- [Create Client Side Rendering App](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Client-Side-Rendering/en.md)
-- [Create Server Side Rendering App](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Server-Side-Rendering/en.md)
-- [Supported Import Types](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Supported-Import-Types/en.md)
-- [Alias Rule](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Alias/en.md)
-- [Run Test with Jest](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Jest/en.md)
-- [Create Module](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Module/en.md)
-- [Set up Typescript](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Typescript/en.md)
-- [Commands](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Commands/en.md)
-- [Config](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Config/en.md)
+- [Client Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Client-Side-Rendering/ko.md)
+- [Server Side Rendering App 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Server-Side-Rendering/ko.md)
+- [지원되는 Import 유형들](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Supported-Import-Types/ko.md)
+- [Alias 규칙](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Alias/ko.md)
+- [Jest로 Test 실행해보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Jest/ko.md)
+- [Module 만들어보기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Module/ko.md)
+- [Typescript 셋팅하기](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Typescript/ko.md)
+- [지원되는 명령어 리스트](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Commands/ko.md)
+- [Config 옵션들](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Config/ko.md)
 - [Core Rules](https://github.com/iamssen/react-zeroconfig/blob/master/docs/Core-Rules/readme.md)
 
 # 🍽 Boilerplates
 
 - Basic Seed <https://github.com/iamssen/seed>
 
-> If you have boilterplate created using `react-zeroconfig`, please let me know by Issue. (or you can edit this file via PR)
+# Use cases
 
 # Contribute
 
-Pull Requests are always welcome!
+Pull Request는 언제나 환영합니다!
 
 # License
 `react-zeroconfig` is open source software licensed as MIT.

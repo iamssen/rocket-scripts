@@ -14,11 +14,13 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# 지원되는 Import 유형들
+# Supported import types
+
+> ⚠️ I can not speak English well. It will be helpful if you correct the wrong expressions and send the PR. (If you have modified this document, please delete this comment.)
 
 # Javascript and Typescript (`*.ts` `*.tsx` `*.js` `*.jsx`)
 
-Typescript와 ES6를 지원합니다. (Flow는 지원하지 않습니다)
+Typescript and ES6 are supported. (Flow is not supported)
 
 - <https://github.com/iamssen/react-zeroconfig/blob/master/src/utils/webpack/getDefaultLoaders.ts#L8>
 - <https://github.com/iamssen/react-zeroconfig/blob/master/src/utils/babel/getBabelConfig.ts>
@@ -34,9 +36,9 @@ export function App() {
 
 # CSS (`*.css` `*.scss` `*.less`)
 
-CSS와 CSS Pre-processor인 SASS, LESS를 지원합니다.
+Supports CSS and CSS pre-processors SASS and LESS.
 
-Vendor Prefix를 자동으로 처리합니다. `-webkit-`과 같은 Vendor Prefix를 선언하지 않아도 자동으로 처리되게 됩니다.
+Vendor prefix is automatically processed. If you do not declare a vendor prefix such as `-webkit-`, it will be handled automatically.
 
 - <https://github.com/iamssen/react-zeroconfig/blob/master/src/webpack/app.ts#L80>
 - <https://github.com/iamssen/react-zeroconfig/blob/master/src/utils/webpack/getStyleLoaders.ts>
@@ -62,9 +64,9 @@ export function App() {
 
 # CSS Module (`*.module.css` `*.module.scss` `*.module.less`)
 
-CSS Module을 지원합니다. 
+Supports CSS Module.
 
-`style.module.css` 또는 `style.module.scss` 와 같은 식으로 `.module.`을 붙이면 CSS Module로 작동하게 됩니다.
+Attaching `.module.` like `style.module.css` or `style.module.scss` works as a CSS Module.
 
 - <https://github.com/iamssen/react-zeroconfig/blob/master/src/webpack/app.ts#L80>
 - <https://github.com/iamssen/react-zeroconfig/blob/master/src/utils/webpack/getStyleLoaders.ts#L10>
@@ -90,7 +92,7 @@ export function App() {
 
 # SVG (`*.svg`)
 
-SVG File을 import 하는 경우 `default`로 SVG File의 URL 주소를, `ReactComponent`로 React Component로 변환된 SVG React Component를 보내주게 됩니다. 
+When you import an SVG file, you will send the URL address of the SVG file as `default` and the SVG React Component converted to React Component as `ReactComponent`.
 
 - <https://github.com/iamssen/react-zeroconfig/blob/master/src/utils/babel/getBabelConfig.ts#L54>
 
@@ -110,7 +112,7 @@ export function App() {
 
 # Json (`*.json`)
 
-Json 파일을 Object 형태로 import 하게 됩니다. (Babel 기본 기능)
+Json file is imported as Object type. (Babel basic function)
 
 ```json
 {
@@ -133,7 +135,7 @@ export function App() {
 
 # Image (`*.bmp` `*.gif` `*.png` `*.jpg`)
 
-Image 파일들을 import하면 Image의 URL을 가져오게 됩니다.
+Importing image files will get the URL of the image.
 
 - <https://github.com/iamssen/react-zeroconfig/blob/master/src/webpack/app.ts#L70>
 
@@ -148,7 +150,7 @@ export function App() {
 
 # Plain Text (`*.html` `*.txt` `*.md` `*.ejs`)
 
-HTML, Markdown, EJS와 같은 Text 파일들은 Plain Text로 import 되게 됩니다.
+Text files such as HTML, Markdown, and EJS will be imported into plain text.
 
 - <https://github.com/iamssen/react-zeroconfig/blob/master/src/utils/webpack/getDefaultLoaders.ts#L22>
 
@@ -164,9 +166,9 @@ export function App() {
 
 # Raw Loader (`!!raw-loader!`)
 
-Raw Loader를 사용할 경우 모든 파일들을 Plain Text로 가져올 수 있게됩니다. 
+If you use Raw Loader, you will be able to import all files into plain text.
 
-이는 Source Code를 Plain Text로 가져와야 하는 경우 도움이 됩니다.
+This is helpful if you need to import the source code into plain text.
 
 ```jsx
 import React from 'react';

@@ -1,10 +1,12 @@
-# Server Side Rendering
+# Create a Server Side Rendering App
 
-> ⚠️ My English is not good. Fixing bad sentences will help me a lot. <https://github.com/iamssen/react-zeroconfig/issues>
+> ⚠️ I can not speak English well. It will be helpful if you correct the wrong expressions and send the PR. (If you have modified this document, please delete this comment.)
 
 > The source codes for this document can be found at <https://github.com/iamssen/react-zeroconfig-sample.server-side-rendering>.
 
-## Install
+# Install
+
+Initialize the project directory.
 
 ```sh
 $ mkdir test
@@ -12,24 +14,24 @@ $ cd test
 $ npm init
 ```
 
-Initialize the project directory.
+Install modules.
 
 ```sh
 $ npm install react react-dom react-app-polyfill express
 $ npm install react-zeroconfig multiplerun --save-dev
 ```
 
-Install modules.
+# Write code
 
-- `react`, `react-dom`: React
-- `react-app-polyfill`: Polyfills to support IE
-- `express`: Express.js to run Server for Server Side Rendering
-- `react-zeroconfig`: Zeroconfig
-- `multiplerun`: The Server Side Rendering test requires multiple Terminal runs. This module is required to execute the terminals in batch.
+Write simple “Hello World” codes.
 
-## Write code
+The files to create.
 
-Writing a “Hello World” code.
+- `src/app/index.jsx`: Main component of the app.
+- `src/_app/app.jsx`: Entry point of the client app.
+- `src/_server/index.jsx`: Entry point of the server app.
+
+> The entry points are created for both client and server, so app main is made a separate component so that both entries can be used.
 
 ```jsx
 // {your-project-root}/src/app/index.jsx
@@ -112,13 +114,13 @@ app.listen(port, () => {
 });
 ```
 
-Libraries such as `react`, `react-dom` and `react-app-polyfill` in the `node_modules` directory are created as `<script src="vendor.js"></script>` file.
+- `<script src="vendor.js"></script>`: This will include modules from the `node_modules/` Directory (eg. `react`, `react-dom`...)
+- `<script src="app.js"></script>`: Created by the `src/_app/app.jsx` file.
+  - `src/_app/{name}.jsx` → `{name}.js`
 
-The `_app/app.jsx` file in the `src/` directory is created as `<script src="app.js"></script>`. (This is a structure where `_app/{name}.jsx` is generated as `<script src="{name}.js"></script>`)
+# Run test server
 
-## Start test
-
-Open the `package.json` file and add the npm script marked with `+` below.
+Open the `package.json` file and add the npm scripts marked with `+` below.
 
 ```diff
 {
@@ -153,47 +155,43 @@ Open the `package.json` file and add the npm script marked with `+` below.
 ```
 
 
-- `zeroconfig web.dev.start`: Run the development server with a combination of `webpack-dev-middleware`, `webpack-hot-middleware` and `browser-sync`.
-- `zeroconfig web.server.dev.build.watch`: Use the Webpack watch mode to continuously build the `src/_server/index.jsx` file into a `dist-dev/server/index.js` file.
-- `zeroconfig web.server.dev.start`: Run the `dist-dev/server/index.js` file using Nodemon and automatically rerun it whenever there is an update.
+- `zeroconfig web.dev.start`: Run the development server.
+- `zeroconfig web.server.dev.build.watch`: Constantly builds the `src/_server/index.jsx` file as the `dist-dev/server/index.js` file. (watch mode)
+- `zeroconfig web.server.dev.start`: Run the `dist-dev/server/index.js` file using Nodemon and automatically rerun the update every time the file is updated.
 
-It is very inconvenient to open the terminal window to execute the above three scripts at the same time, so you use `multiplerun` to execute the scripts in a batch. <https://www.npmjs.com/package/multiplerun>
+It is very inconvenient to open the terminal windows to execute the above three scripts at the same time, so we use `multiplerun` to execute the scripts in a batch. <https://www.npmjs.com/package/multiplerun>
+
+Run the npm script.
 
 ```sh
 $ npm start
 ```
 
-Run the npm script.
-
 [![start](images/start.gif)](images/start.gif)
 
 The above three npm scripts will be executed simultaneously.
 
-> If you are using macOS and iTerm is installed, it will be opened using iTerm Split-Pane as above. Otherwise, 3 terminals (Terminal.app or cmd.exe) will be opened.
+> ⚠️ If you are using macOS and have iTerm installed, it will be opened using iTerm Split-Pane as above, otherwise there will be 3 terminals (Terminal.app or cmd.exe).
 
-## Verify operation
+# Check in the web browser
 
 First, make sure that Server Side Rendering is working normally.
 
-Open your web browser and check <http://localhost:4100> and <view-source:localhost:4100>.
+Open your web browser and open <http://localhost:4100> and <view-source:localhost:4100>.
 
 [![4100](images/4100.png)](images/4100.png)
 
-If "Server Value" is displayed as above, it is a success.
-
-Then check <http://localhost:3100> and <view-source:localhost:3100>.
+Next, open and view <http://localhost:3100> and <view-source:localhost:3100>.
 
 [![3100](images/3100.png)](images/3100.png)
 
-If "Server Value" is displayed as above, it is a success.
+To check whether the React Component works properly, press the button to confirm that the text changes.
 
 [![click](images/click.gif)](images/click.gif)
 
-To check if the React is working properly, press the button to confirm that the text changes.
+# Build
 
-## Build
-
-Open the `package.json` file and add the npm script marked with `+` below.
+Open the `package.json` file and add the npm scripts marked with `+` below.
 
 ```diff
 {
@@ -230,14 +228,14 @@ Open the `package.json` file and add the npm script marked with `+` below.
 }
 ```
 
-- `zeroconfig web.build`: Use the Webpack to build a `dist/web/` directory of output that you can run in web browser.
-- `zeroconfig web.server.build`: Use the Webpack to build the output you can run on Node.js into the `dist/server/` directory.
+- `zeroconfig web.build`: Build output that can be run in web browsers into the `dist/app/` directory.
+- `zeroconfig web.server.build`: Build output that can be run in Node.js into the `dist/server/` directory.
+
+Run the npm script.
 
 ```sh
 $ npm run build
 ```
-
-Run the npm script.
 
 [![build](images/build.gif)](images/build.gif)
 [![build](images/build.png)](images/build.png)
@@ -246,29 +244,31 @@ You can see the files built in `dist/web/` and `dist/server/` as above.
 
 ------
 
-## Running built-in files using PM2, NginX
+# Running built-in files using PM2, NginX
 
 Try to build `dist/web/` and `dist/server/` in real environment.
+
+Here is a simple summary of the implementation.
 
 1. Can be run as `dist/server` Node.js
 2. Connecting from `dist/web` web server to static file.
 3. Connect Node.js(1) from Web Server(2) to Reverse Proxy.
 
-> Describe macOS + Homebrew.
+> Based on macOS + Homebrew.
+
+Install Node.js process manager `pm2` and `nginx`.
 
 ```sh
 $ brew install nginx
 $ npm install -g pm2
 ```
 
-Install Node.js process manager `pm2` and `nginx`.
+Run `dist/server/` with PM2.
 
 ```sh
 $ cd dist/server
 $ pm2 start index.js
 ```
-
-Run `dist/server/` with PM2.
 
 [![pm2](images/pm2.gif)](images/pm2.gif)
 
@@ -311,7 +311,7 @@ server {
 }
 ```
 
-- `location ~ ^/(.*)\.(.*)$`: Requests with all extensions will call static files. 
+- `location ~ ^/(.*)\.(.*)$`: Catch all requests with extensions and connect them to static files. (Files with extensions such as `.xxx`, such as `x.png`, `y.html`)
 - `location /`: All other requests are connected to the application executed in `pm2` through `proxy_pass http://127.0.0.1:$SSR_PORT`. (Reverse Proxy)
 
 When you are finished, run NginX.

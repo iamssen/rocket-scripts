@@ -37,7 +37,7 @@ $ npm install react-zeroconfig multiplerun --save-dev
 
 간단한 “Hello World” Code를 작성해봅니다.
 
-작성할 파일들은 아래와 같습니다.
+작성할 파일들입니다.
 
 - `src/app/index.jsx`: App의 Main Component 입니다.
 - `src/_app/app.jsx`: Client App의 Entry point 입니다.
@@ -184,7 +184,7 @@ $ npm start
 
 > ⚠️ macOS를 사용하고 있고, iTerm이 설치되어 있다면 위와 같이 iTerm Split-Pane을 사용해서 열리고, 그 외의 경우에는 Terminal(Terminal.app or cmd.exe)이 3개 뜨게 됩니다.
 
-# 작동 확인
+# 웹브라우저에서 작동 확인해보기
 
 우선 Server Side Rendering이 정상적으로 되고 있는지 확인합니다.
 
@@ -192,7 +192,7 @@ $ npm start
 
 [![4100](images/4100.png)](images/4100.png)
 
-이번에는 <http://localhost:3100> 와 <view-source:localhost:3100>을 열어서 확인합니다.
+다음으로 <http://localhost:3100> 와 <view-source:localhost:3100>을 열어서 확인합니다.
 
 [![3100](images/3100.png)](images/3100.png) 
 
@@ -267,19 +267,19 @@ $ npm run build
 
 > macOS + Homebrew를 기준으로 설명합니다.
 
+Node.js Process Manager인 `pm2` 와 `nginx`를 설치해줍니다.
+
 ```sh
 $ brew install nginx
 $ npm install -g pm
 ```
 
-Node.js Process Manager인 `pm2` 와 `nginx`를 설치해줍니다.
+PM2로 `dist/server/`를 실행시켜 줍니다.
 
 ```sh
 $ cd dist/server
 $ pm2 start index.js
 ```
-
-PM2로 `dist/server/`를 실행시켜 줍니다.
 
 [![pm2](images/pm2.gif)](images/pm2.gif)
 
@@ -322,7 +322,7 @@ server {
 }
 ```
 
-1. `location ~ ^/(.*)\.(.*)$`: 모든 확장자를 가진 Request들을 캐치해서 Static File들로 연결합니다. (`x.png`, `y.html`과 같이 `.xxx` 같은 형식의 파일들) 
+1. `location ~ ^/(.*)\.(.*)$`: 모든 확장자를 가진 Request들을 캐치해서 Static File들로 연결합니다. (`x.png`, `y.html`과 같이 `.xxx` 같은 확장자를 가진 파일들) 
 2. `location /`: 그 외의 모든 Request들은 `proxy_pass http://127.0.0.1:$SSR_PORT`를 통해서 `pm2`에서 실행된 Application으로 연결됩니다. (Reverse Proxy)
 
 설정이 완료되었으면 NginX를 실행시킵니다.

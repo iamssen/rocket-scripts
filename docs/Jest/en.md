@@ -10,19 +10,21 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Jest로 Test 실행해보기
+# Run test with Jest
 
-Babel, Webpack의 설정들이 복잡하게 구성되어 있는 경우 Jest 설정 역시 복잡해지게 됩니다.
+> ⚠️ I can not speak English well. It will be helpful if you correct the wrong expressions and send the PR. (If you have modified this document, please delete this comment.)
 
-예를 들어 `import fileUrl from 'image.png'`와 같이 Webpack file-loader를 사용하게 되는 경우 Jest에 별도의 Mock 설정을 추가해줘야합니다.
+If the settings of Babel and Webpack are complicated, the Jest setting becomes complicated too.
 
-그리고, Babel에 Typescript과 같은 설정을 추가하게 되면 Jest에도 같은 설정을 별개로 해줘야 하기 때문에 번거로운 일이 됩니다.
+For example, if you use the webpack file-loader like `import fileUrl from 'image.png'`, you need to add a mock setting to the Jest.
 
-`react-zeroconfig`는 Babel, Webpack에 관련된 설정을 미리 해둔 Jest Preset을 가지고 있어서 복잡한 설정없이 Jest Test를 실행할 수 있습니다.
+And adding Babel's settings like Typescript is troublesome because you have to make the same settings for Jest.
+
+`react-zeroconfig` has a Jest preset with preconfigured settings related to Babel and Webpack, so you can run the Jest test without complicated setup.
 
 # Install
 
-프로젝트 디렉토리를 초기화하고
+Initialize the project directory.
 
 ```sh
 $ mkdir test
@@ -30,7 +32,7 @@ $ cd test
 $ npm init
 ```
 
-필요한 모듈들을 설치해줍니다.
+Install a module.
 
 ```sh
 $ npm install react-zeroconfig jest --save-dev 
@@ -38,7 +40,7 @@ $ npm install react-zeroconfig jest --save-dev
 
 # Config
 
-`package.json` 파일을 열어서 `+`가 표시된 Jest 관련 설정들을 추가해줍니다.
+Open the `package.json` file and add the npm scripts marked with `+` below.
 
 ```diff
 {
@@ -57,11 +59,11 @@ $ npm install react-zeroconfig jest --save-dev
 }
 ```
 
-`react-zeroconfig`에 미리 만들어져 있는 Jest Preset을 사용합니다. <https://github.com/iamssen/react-zeroconfig/blob/master/configs/jest-preset.js> 
+Use the pre-made Jest preset in `react-zeroconfig`. <https://github.com/iamssen/react-zeroconfig/blob/master/configs/jest-preset.js> 
 
-# Test Code 작성하고 실행해보기
+# Create and run test code
 
-샘플 Test Code를 하나 만들어줍니다.
+Create a sample test code
 
 ```js
 // {your-project-root}/src/__test__/test.js
@@ -72,7 +74,7 @@ describe('Jest test', () => {
 });
 ```
 
-테스트를 실행해줍니다.
+Run the test.
 
 ```sh
 $ npm test
@@ -82,7 +84,7 @@ $ npm test
 
 # Test File Match
 
-Jest 테스트에 Match 되는 파일들의 유형은 아래와 같습니다. <https://github.com/iamssen/react-zeroconfig/blob/master/configs/jest-preset.js#L13>
+The types of files that are matched to the Jest test are listed below. <https://github.com/iamssen/react-zeroconfig/blob/master/configs/jest-preset.js#L13>
 
 - `**/__tests?__/**/*.[jt]s?(x)`
     - ⭕️ `src/__tests__/a.js`

@@ -18,7 +18,7 @@
 
 `react-zeroconfig`는 ES6 이외에도 Babel을 기반으로 한 Typescript 언어의 사용이 가능합니다.
 
-그리고, Typescript 사용에 필요한 `tsconfig.json`, `typings.d.ts`, `tslint.json` 등의 Config를 지원하기 때문에 Typescript를 좀 더 간단하게 사용할 수 있습니다.
+그리고, Typescript 사용에 필요한 `tsconfig.json`, `typings.d.ts`, `tslint.json`와 같은 Config들의 Preset을 지원하기 때문에 좀 더 간단한 Typescript 사용이 가능해집니다.
 
 > 이 문서의 소스코드는 <https://github.com/iamssen/react-zeroconfig-sample.typescript>에서 확인할 수 있습니다.
 
@@ -85,7 +85,7 @@ $ typesync
 
 [![typesync](images/typesync.gif)](images/typesync.gif)
 
-`typesync`는 위와 같이 설치 가능한 `@types/*` 모듈들을 `package.json`에 추가해줍니다.
+`typesync`는 위와 같이 `@types/*` 모듈들을 `package.json`에 추가해줍니다.
 
 # `typings.d.ts` 파일 추가하기
 
@@ -122,7 +122,7 @@ TSLint와 TSLint ruleset을 설치합니다.
 $ npm install tslint tslint-ssen-rules --save-dev
 ```
 
-> Ruleset은 다른 유명한 ruleset들도 많은데, 일단 여기서는 제가 사용하는 ruleset으로 진행하겠습니다.
+> 다른 유명한 ruleset들도 많지만, 여기서는 제가 사용하는 ruleset으로 진행하겠습니다.
 
 `tslint.json` 파일을 만들어줍니다.
 
