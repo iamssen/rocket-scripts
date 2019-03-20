@@ -2,9 +2,9 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Config 옵션 설정 방법](#config-%EC%98%B5%EC%85%98-%EC%84%A4%EC%A0%95-%EB%B0%A9%EB%B2%95)
+- [`react-zeroconfig` 설정 방법](#react-zeroconfig-%EC%84%A4%EC%A0%95-%EB%B0%A9%EB%B2%95)
 - [예제](#%EC%98%88%EC%A0%9C)
-- [Config 옵션들](#config-%EC%98%B5%EC%85%98%EB%93%A4)
+- [옵션들](#%EC%98%B5%EC%85%98%EB%93%A4)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

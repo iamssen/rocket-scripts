@@ -6,7 +6,7 @@
 - [Install](#install)
 - [Code 작성하기](#code-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0)
 - [테스트 실행](#%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%8B%A4%ED%96%89)
-- [작동 확인](#%EC%9E%91%EB%8F%99-%ED%99%95%EC%9D%B8)
+- [웹브라우저에서 작동 확인해보기](#%EC%9B%B9%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80%EC%97%90%EC%84%9C-%EC%9E%91%EB%8F%99-%ED%99%95%EC%9D%B8%ED%95%B4%EB%B3%B4%EA%B8%B0)
 - [빌드하기](#%EB%B9%8C%EB%93%9C%ED%95%98%EA%B8%B0)
 - [빌드된 파일들을 PM2, NginX를 사용해서 실행시키기](#%EB%B9%8C%EB%93%9C%EB%90%9C-%ED%8C%8C%EC%9D%BC%EB%93%A4%EC%9D%84-pm2-nginx%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%EC%8B%A4%ED%96%89%EC%8B%9C%ED%82%A4%EA%B8%B0)
 

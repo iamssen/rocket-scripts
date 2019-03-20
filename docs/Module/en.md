@@ -2,13 +2,13 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Module 만들어보기](#module-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EA%B8%B0)
-- [`src/_modules/` 디렉토리 규칙](#src_modules-%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC-%EA%B7%9C%EC%B9%99)
-- [새로운 Module 작성하기](#%EC%83%88%EB%A1%9C%EC%9A%B4-module-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0)
-- [작성한 Module을 프로젝트 내부에서 사용해보기](#%EC%9E%91%EC%84%B1%ED%95%9C-module%EC%9D%84-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%B4%EB%B3%B4%EA%B8%B0)
-- [작성한 Module을 빌드해보기](#%EC%9E%91%EC%84%B1%ED%95%9C-module%EC%9D%84-%EB%B9%8C%EB%93%9C%ED%95%B4%EB%B3%B4%EA%B8%B0)
-- [작성한 Module을 NPM에 배포해보기](#%EC%9E%91%EC%84%B1%ED%95%9C-module%EC%9D%84-npm%EC%97%90-%EB%B0%B0%ED%8F%AC%ED%95%B4%EB%B3%B4%EA%B8%B0)
-- [⚠️ 테스트가 끝났으면 쓰레기를 치웁시다!](#-%ED%85%8C%EC%8A%A4%ED%8A%B8%EA%B0%80-%EB%81%9D%EB%82%AC%EC%9C%BC%EB%A9%B4-%EC%93%B0%EB%A0%88%EA%B8%B0%EB%A5%BC-%EC%B9%98%EC%9B%81%EC%8B%9C%EB%8B%A4)
+- [Create modules](#create-modules)
+- [`src/_modules/` directory rules](#src_modules-directory-rules)
+- [Creating a new module](#creating-a-new-module)
+- [Try the module you created inside the project](#try-the-module-you-created-inside-the-project)
+- [Build the module](#build-the-module)
+- [Try to publish the created module to NPM](#try-to-publish-the-created-module-to-npm)
+- [⚠️ When the test is over, let's get rid of the garbage!](#-when-the-test-is-over-lets-get-rid-of-the-garbage)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

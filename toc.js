@@ -4,7 +4,7 @@ const { execSync } = require('child_process');
 
 const commands = [
   'doctoc ./readme.md ./readme.ko.md --notitle --maxlevel 1',
-  ...glob.sync('./docs*/*.md').map(file => `doctoc ${file} --notitle`),
+  ...glob.sync('./docs/*/*.md').map(file => `doctoc ${file} --notitle`),
 ]
 
 console.log(execSync(commands.join('; ')).toString());

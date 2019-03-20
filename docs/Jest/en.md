@@ -2,10 +2,10 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Jest로 Test 실행해보기](#jest%EB%A1%9C-test-%EC%8B%A4%ED%96%89%ED%95%B4%EB%B3%B4%EA%B8%B0)
+- [Run test with Jest](#run-test-with-jest)
 - [Install](#install)
 - [Config](#config)
-- [Test Code 작성하고 실행해보기](#test-code-%EC%9E%91%EC%84%B1%ED%95%98%EA%B3%A0-%EC%8B%A4%ED%96%89%ED%95%B4%EB%B3%B4%EA%B8%B0)
+- [Create and run test code](#create-and-run-test-code)
 - [Test File Match](#test-file-match)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->

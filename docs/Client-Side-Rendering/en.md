@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Create a Client Side Rendering App](#create-a-client-side-rendering-app)
+- [Install](#install)
+- [Write code](#write-code)
+- [Start test](#start-test)
+- [Checking HMR (Hot Module Replacement) operation](#checking-hmr-hot-module-replacement-operation)
+- [Build](#build)
+- [Check the files built with http-server](#check-the-files-built-with-http-server)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Create a Client Side Rendering App
 
 > ⚠️ I can not speak English well. It will be helpful if you correct the wrong expressions and send the PR. (If you have modified this document, please delete this comment.)

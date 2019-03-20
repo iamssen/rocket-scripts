@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Create a Server Side Rendering App](#create-a-server-side-rendering-app)
+- [Install](#install)
+- [Write code](#write-code)
+- [Run test server](#run-test-server)
+- [Check in the web browser](#check-in-the-web-browser)
+- [Build](#build)
+- [Running built-in files using PM2, NginX](#running-built-in-files-using-pm2-nginx)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Create a Server Side Rendering App
 
 > ⚠️ I can not speak English well. It will be helpful if you correct the wrong expressions and send the PR. (If you have modified this document, please delete this comment.)

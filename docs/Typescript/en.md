@@ -2,12 +2,12 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Typescript 셋팅하기](#typescript-%EC%85%8B%ED%8C%85%ED%95%98%EA%B8%B0)
-- [Typescript 설치하고, `tsconfig.json` 파일 생성하기](#typescript-%EC%84%A4%EC%B9%98%ED%95%98%EA%B3%A0-tsconfigjson-%ED%8C%8C%EC%9D%BC-%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0)
-- [`typesync`로 Typescript Declaration 파일들 설치하기](#typesync%EB%A1%9C-typescript-declaration-%ED%8C%8C%EC%9D%BC%EB%93%A4-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0)
-- [`typings.d.ts` 파일 추가하기](#typingsdts-%ED%8C%8C%EC%9D%BC-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0)
-- [TSLint 설정하기](#tslint-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0)
-- [`*.jsx` 파일을 `*.tsx` 파일로 변경](#jsx-%ED%8C%8C%EC%9D%BC%EC%9D%84-tsx-%ED%8C%8C%EC%9D%BC%EB%A1%9C-%EB%B3%80%EA%B2%BD)
+- [Setting Typescript](#setting-typescript)
+- [Install Typescript, and create a `tsconfig.json` file](#install-typescript-and-create-a-tsconfigjson-file)
+- [Install Typescript declaration files with `typesync`](#install-typescript-declaration-files-with-typesync)
+- [Create the `typings.d.ts` file](#create-the-typingsdts-file)
+- [Set up TSLint](#set-up-tslint)
+- [Change file extension `*.jsx` to `*.tsx`](#change-file-extension-jsx-to-tsx)
 - [Test](#test)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
