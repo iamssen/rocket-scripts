@@ -345,7 +345,7 @@ $ npm test
 
 - Basic Seed <https://github.com/iamssen/seed>
 
-# Use cases
+> `react-zeroconfig`로 만든 Boilerplate가 있다면 Issue로 알려주세요. (혹은 PR을 통해 이 파일을 수정해주셔도 좋습니다)
 
 # Contribute
 
