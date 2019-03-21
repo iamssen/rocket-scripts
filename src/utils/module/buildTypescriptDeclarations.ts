@@ -14,6 +14,7 @@ import { Config, ModuleBuildOption } from '../../types';
 interface Params {
   buildOption: ModuleBuildOption;
   appDirectory: Config['appDirectory'];
+  zeroconfigDirectory: Config['zeroconfigDirectory'];
 }
 
 function replaceUndefined<T>(v: T | undefined, defaultValue: T): T {
@@ -26,7 +27,7 @@ function getCompilerOptions(tsconfigPath: string): any {
   return ts.parseConfigFileTextToJson(tsconfigPath, tsconfigText).config.compilerOptions;
 }
 
-export = function ({buildOption, appDirectory}: Params): Promise<void> {
+export = function ({buildOption, appDirectory, zeroconfigDirectory}: Params): Promise<void> {
   if (!buildOption.declaration) return Promise.resolve();
   
   return new Promise((resolve: () => void, reject: (error: Error) => void) => {
@@ -60,7 +61,7 @@ export = function ({buildOption, appDirectory}: Params): Promise<void> {
       strictFunctionTypes: strictFunctionTypesDefault,
       strictPropertyInitialization: strictPropertyInitializationDefault,
       lib: libDefault,
-    } = getCompilerOptions(path.join(__dirname, '../configs/tsconfig.json'));
+    } = getCompilerOptions(path.join(zeroconfigDirectory, 'configs/tsconfig.json'));
     
     const program: Program = ts.createProgram([buildOption.file], {
       // language setting

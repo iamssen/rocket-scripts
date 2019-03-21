@@ -12,7 +12,7 @@ import base from '../webpack/base';
 import build from '../webpack/build-module';
 
 export = function (config: Config) {
-  const {appDirectory, modules} = config;
+  const {appDirectory, modules, zeroconfigDirectory} = config;
   const outputPath: string = path.join(appDirectory, 'dist/modules');
   const extractCss: boolean = true;
   
@@ -33,6 +33,7 @@ export = function (config: Config) {
           Promise.all([
             buildTypescriptDeclarations({
               appDirectory,
+              zeroconfigDirectory,
               buildOption,
             }),
             copyStaticFiles({
