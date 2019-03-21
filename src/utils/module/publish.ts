@@ -20,7 +20,7 @@ export = function ({publishOptions, appDirectory, exec = execSync}: Params): Pro
             process.platform === 'win32'
               ? `cd "${path.join(appDirectory, 'dist/modules', name)}" && npm publish`
               : `cd "${path.join(appDirectory, 'dist/modules', name)}"; npm publish;`,
-          ));
+          ).toString());
           func();
         } catch (error) {
           reject(error);
