@@ -349,7 +349,8 @@ $ npm test
 
 # 🍽 Boilerplates
 
-- Basic Seed <https://github.com/iamssen/seed>
+- Client Side Rendering + Javascript <https://github.com/iamssen/react-zeroconfig-javascript-client-side-rendering>
+- Lee Seoyeon's Seed <https://github.com/iamssen/seed>
 
 > If you have boilterplate created using `react-zeroconfig`, please let me know by Issue. (or you can edit this file via PR)
 
