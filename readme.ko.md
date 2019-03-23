@@ -344,7 +344,8 @@ $ npm test
 # 🍽 Boilerplates
 
 - Client Side Rendering + Javascript <https://github.com/iamssen/react-zeroconfig-javascript-client-side-rendering>
-- Lee Seoyeon's Seed <https://github.com/iamssen/seed>
+- Server Side Rendering + Javascript <https://github.com/iamssen/react-zeroconfig-javascript-server-side-rendering>
+- Lee Seoyeon's Basic Seed <https://github.com/iamssen/seed>
 
 > `react-zeroconfig`로 만든 Boilerplate가 있다면 Issue로 알려주세요. (혹은 PR을 통해 이 파일을 수정해주셔도 좋습니다)
 
