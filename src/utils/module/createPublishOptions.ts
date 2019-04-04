@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import getPackageJson, { AbbreviatedMetadata, AbbreviatedVersion } from 'package-json';
+import getPackageJson, { AbbreviatedMetadata } from 'package-json';
 import path from 'path';
 import { Config, ModulePublishOption } from '../../types';
 

@@ -21,6 +21,8 @@
 
 # react-zeroconfig
 
+[![DeepScan grade](https://deepscan.io/api/teams/3270/projects/4809/branches/38445/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=3270&pid=4809&bid=38445)
+
 > ⚠️ I can not speak English well. It will be helpful if you correct the wrong expressions and send the PR. (If you have modified this document, please delete this comment.)
 
 `react-zeroconfig` is a development support module created to eliminate (as much as possible) complicated configuration files such as Webpack Config, Browser-Sync, Nodemon, Typescript Config and Test Environment Jest Config that occur during React development. (similar to [react-scripts](https://github.com/facebook/create-react-app/tree/master/packages/react-scripts) in [create-react-app](https://github.com/facebook/create-react-app))

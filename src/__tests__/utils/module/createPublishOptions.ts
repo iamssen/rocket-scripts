@@ -1,4 +1,4 @@
-import getPackageJson, { AbbreviatedMetadata, AbbreviatedVersion } from 'package-json';
+import getPackageJson, { AbbreviatedMetadata } from 'package-json';
 
 describe('createPublishOptions', () => {
   it('Should be got versions', () => {

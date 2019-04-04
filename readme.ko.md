@@ -17,6 +17,8 @@
 
 # react-zeroconfig
 
+[![DeepScan grade](https://deepscan.io/api/teams/3270/projects/4809/branches/38445/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=3270&pid=4809&bid=38445)
+
 `react-zeroconfig`는 React 개발시에 발생하는 Webpack Config, Browser-Sync, Nodemon, Typescript Config, 테스트 환경 Jest Config 등의 복잡한 설정 파일들을 (최대한) 없애고, 실제적인 React 개발에만 집중하기 위해 만든 개발 지원 모듈입니다. ([create-react-app](https://github.com/facebook/create-react-app)의 [react-scripts](https://github.com/facebook/create-react-app/tree/master/packages/react-scripts)와 비슷하게 동작합니다)
 
 - Webpack Config 없이 테스트, 빌드를 실행할 수 있습니다.
