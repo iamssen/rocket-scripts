@@ -14,6 +14,9 @@ module.exports = {
     '**/__tests?__/**/*.[jt]s?(x)',
     '**/?(*.)(spec|test).[jt]s?(x)',
   ],
+  setupFiles: [
+    jestUtils('polyfill.js'),
+  ],
   moduleFileExtensions: [
     'ts',
     'tsx',
