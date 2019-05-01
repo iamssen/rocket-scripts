@@ -17,7 +17,10 @@
 
 # react-zeroconfig
 
+[![NPM](https://img.shields.io/npm/v/react-zeroconfig.svg)](https://www.npmjs.com/package/react-zeroconfig)
+[![CircleCI](https://circleci.com/gh/iamssen/react-zeroconfig.svg?style=svg)](https://circleci.com/gh/iamssen/react-zeroconfig)
 [![DeepScan grade](https://deepscan.io/api/teams/3270/projects/4809/branches/38445/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=3270&pid=4809&bid=38445)
+[![Coverage Status](https://coveralls.io/repos/github/iamssen/react-zeroconfig/badge.svg?branch=master)](https://coveralls.io/github/iamssen/react-zeroconfig?branch=master)
 
 `react-zeroconfig`는 React 개발시에 발생하는 Webpack Config, Browser-Sync, Nodemon, Typescript Config, 테스트 환경 Jest Config 등의 복잡한 설정 파일들을 (최대한) 없애고, 실제적인 React 개발에만 집중하기 위해 만든 개발 지원 모듈입니다. ([create-react-app](https://github.com/facebook/create-react-app)의 [react-scripts](https://github.com/facebook/create-react-app/tree/master/packages/react-scripts)와 비슷하게 동작합니다)
 

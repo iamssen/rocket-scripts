@@ -1,6 +1,72 @@
 import { Configuration } from 'webpack';
 
 // ---------------------------------------------
+//
+// ---------------------------------------------
+export interface PackageArgv {
+  command: 'build' | 'publish';
+}
+
+export interface WebappArgv {
+  // common
+  command: 'build' | 'start';
+  app: string;
+  
+  // --static-file-directories public,static
+  // --static-file-packages xxx,yyy
+  staticFileDirectories: string | undefined;
+  staticFilePackages: string | undefined;
+  
+  // build
+  // --size-report
+  // --compress
+  // --output /path/to
+  // --vendor-file-name vendor
+  // --style-file-name style
+  // --build-path lib
+  sizeReport: boolean;
+  compress: boolean;
+  output: string | undefined;
+  vendorFileName: string;
+  styleFileName: string;
+  chunkPath: string;
+  
+  // start
+  // --port 3100
+  // --server-port 4100
+  // --https
+  // --https-key path-to-custom.key --https-cert path-to-custom.crt
+  port: number;
+  serverPort: number;
+  https: boolean | {key: string, cert: string};
+}
+
+export interface WebappConfig {
+  command: 'build' | 'start';
+  app: string;
+  
+  // build
+  staticFileDirectories: string[];
+  
+  sizeReport: boolean;
+  compress: boolean;
+  output: string;
+  vendorFileName: string;
+  styleFileName: string;
+  chunkPath: string;
+  
+  // start
+  port: number;
+  serverPort: number;
+  https: boolean | {key: string, cert: string};
+  
+  // internal
+  cwd: string;
+  zeroconfigPath: string;
+  serverEnabled: boolean;
+}
+
+// ---------------------------------------------
 // config
 // ---------------------------------------------
 export interface Config {

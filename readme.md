@@ -21,7 +21,10 @@
 
 # react-zeroconfig
 
+[![NPM](https://img.shields.io/npm/v/react-zeroconfig.svg)](https://www.npmjs.com/package/react-zeroconfig)
+[![CircleCI](https://circleci.com/gh/iamssen/react-zeroconfig.svg?style=svg)](https://circleci.com/gh/iamssen/react-zeroconfig)
 [![DeepScan grade](https://deepscan.io/api/teams/3270/projects/4809/branches/38445/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=3270&pid=4809&bid=38445)
+[![Coverage Status](https://coveralls.io/repos/github/iamssen/react-zeroconfig/badge.svg?branch=master)](https://coveralls.io/github/iamssen/react-zeroconfig?branch=master)
 
 > ⚠️ I can not speak English well. It will be helpful if you correct the wrong expressions and send the PR. (If you have modified this document, please delete this comment.)
 

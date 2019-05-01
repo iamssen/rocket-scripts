@@ -1,5 +1,46 @@
 /// <reference types="webpack-dev-server" />
 import { Configuration } from 'webpack';
+export interface PackageArgv {
+    command: 'build' | 'publish';
+}
+export interface WebappArgv {
+    command: 'build' | 'start';
+    app: string;
+    staticFileDirectories: string | undefined;
+    staticFilePackages: string | undefined;
+    sizeReport: boolean;
+    compress: boolean;
+    output: string | undefined;
+    vendorFileName: string;
+    styleFileName: string;
+    chunkPath: string;
+    port: number;
+    serverPort: number;
+    https: boolean | {
+        key: string;
+        cert: string;
+    };
+}
+export interface WebappConfig {
+    command: 'build' | 'start';
+    app: string;
+    staticFileDirectories: string[];
+    sizeReport: boolean;
+    compress: boolean;
+    output: string;
+    vendorFileName: string;
+    styleFileName: string;
+    chunkPath: string;
+    port: number;
+    serverPort: number;
+    https: boolean | {
+        key: string;
+        cert: string;
+    };
+    cwd: string;
+    zeroconfigPath: string;
+    serverEnabled: boolean;
+}
 export interface Config {
     app: {
         /** client entry files from `_app/*` */
