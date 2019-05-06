@@ -1,2 +1,4 @@
-declare function packageScripts(argv: string[]): void;
-declare function appScripts(argv: string[]): void;
+export { webappScripts } from './webappScripts';
+export { packageScripts } from './packageScripts';
+export { createWebstormWebpackConfig } from './createWebstormWebpackConfig';
+export { patchStorybookWebpackConfig } from './patchStorybookWebpackConfig';
