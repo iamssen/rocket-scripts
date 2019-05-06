@@ -14,12 +14,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iamssen/react-zeroconfig.git"
+    "url": "git+https://github.com/react-zeroconfig/react-zeroconfig.git"
   },
   "bugs": {
-    "url": "https://github.com/iamssen/react-zeroconfig/issues"
+    "url": "https://github.com/react-zeroconfig/react-zeroconfig/issues"
   },
-  "homepage": "https://github.com/iamssen/react-zeroconfig",
+  "homepage": "https://github.com/react-zeroconfig/react-zeroconfig",
   "main": "lib/index.js",
   "types": "./typings.d.ts",
   "scripts": {
