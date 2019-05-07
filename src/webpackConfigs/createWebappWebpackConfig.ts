@@ -3,9 +3,9 @@ import path from 'path';
 import typescriptFormatter from 'react-dev-utils/typescriptFormatter';
 import resolve from 'resolve';
 import { Configuration, DefinePlugin } from 'webpack';
-import { getWebpackAlias } from '../webpackUtils/getWebpackAlias';
-import { getWebpackBasicLoaders } from '../webpackUtils/getWebpackBasicLoaders';
-import { getWebpackStyleLoaders } from '../webpackUtils/getWebpackStyleLoaders';
+import { getWebpackAlias } from './getWebpackAlias';
+import { getWebpackBasicLoaders } from './getWebpackBasicLoaders';
+import { getWebpackStyleLoaders } from './getWebpackStyleLoaders';
 
 export function createWebappWebpackConfig({extractCss, cwd, serverPort, publicPath}: {extractCss: boolean, cwd: string, serverPort: number, publicPath: string}): Configuration {
   return {

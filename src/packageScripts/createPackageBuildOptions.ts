@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { PackageJson } from 'type-fest';
-import { getPackageJsonContentsOrderedNames } from '../npm/getPackageJsonContentsOrderedNames';
+import { getPackageJsonContentsOrderedNames } from '../transpile/getPackageJsonContentsOrderedNames';
 import { PackageBuildOption } from '../types';
 import { glob } from '../utils/glob-promise';
 

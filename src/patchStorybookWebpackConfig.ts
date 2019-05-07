@@ -1,7 +1,7 @@
 import path from 'path';
 import { Configuration } from 'webpack';
-import { getWebpackBasicLoaders } from './webpackUtils/getWebpackBasicLoaders';
-import { getWebpackStyleLoaders } from './webpackUtils/getWebpackStyleLoaders';
+import { getWebpackBasicLoaders } from './webpackConfigs/getWebpackBasicLoaders';
+import { getWebpackStyleLoaders } from './webpackConfigs/getWebpackStyleLoaders';
 
 const extractCss: boolean = false;
 

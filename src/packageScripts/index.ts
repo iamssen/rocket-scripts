@@ -4,9 +4,6 @@ import path from 'path';
 import { CompilerOptions } from 'typescript';
 import { Configuration } from 'webpack';
 import webpackMerge from 'webpack-merge';
-import { createPackageBuildOptions } from '../configuration/createPackageBuildOptions';
-import { createPackagePublishOptions } from '../configuration/createPackagePublishOptions';
-import { parsePackageArgv } from '../configuration/parsePackageArgv';
 import { getInternalPackageEntry } from '../internalPackage/getInternalPackageEntry';
 import { runWebpack } from '../runners/runWebpack';
 import { getTSConfigCompilerOptions } from '../transpile/getTSConfigCompilerOptions';
@@ -15,11 +12,14 @@ import { rimraf } from '../utils/rimraf-promise';
 import { sayTitle } from '../utils/sayTitle';
 import { createBaseWebpackConfig } from '../webpackConfigs/createBaseWebpackConfig';
 import { createPackageWebpackConfig } from '../webpackConfigs/createPackageWebpackConfig';
-import { buildTypescriptDeclarations } from './buildTypescriptDeclarations';
-import { copyStaticFiles } from './copyStaticFiles';
+import { buildTypescriptDeclarations } from '../runners/buildTypescriptDeclarations';
+import { createPackageBuildOptions } from './createPackageBuildOptions';
+import { createPackagePublishOptions } from './createPackagePublishOptions';
+import { fsCopySourceFilter } from '../utils/fsCopySourceFilter';
+import help from './help';
+import { parsePackageArgv } from './parsePackageArgv';
 import { publishPackage } from './publishPackage';
 import { selectPublishOptions } from './selectPublishOptions';
-import help from './help';
 
 const zeroconfigPath: string = path.join(__dirname, '../..');
 
@@ -71,17 +71,30 @@ async function build({cwd}: {cwd: string}) {
     const buildOptions: PackageBuildOption[] = await createPackageBuildOptions({entry, cwd});
     const compilerOptions: CompilerOptions = getTSConfigCompilerOptions({cwd});
     
-    for await (const buildOption of buildOptions) {
-      await fs.mkdirp(path.join(cwd, 'dist/packages', buildOption.name));
+    for await (const {name, file, externals, buildTypescriptDeclaration} of buildOptions) {
+      await fs.mkdirp(path.join(cwd, 'dist/packages', name));
       
-      if (buildOption.buildTypescriptDeclaration) {
-        sayTitle('BUILD TYPESCRIPT DECLARATIONS - ' + buildOption.name);
+      if (buildTypescriptDeclaration) {
+        sayTitle('BUILD TYPESCRIPT DECLARATIONS - ' + name);
         console.log(compilerOptions);
-        await buildTypescriptDeclarations({cwd, buildOption, compilerOptions});
+        await buildTypescriptDeclarations({
+          cwd,
+          indexFile: file,
+          name,
+          compilerOptions,
+          typeRoots: [path.join(cwd, 'dist/packages')],
+          declarationDir: path.join(cwd, 'dist/packages', name),
+        });
       }
       
-      sayTitle('COPY PACKAGE FILES - ' + buildOption.name);
-      await copyStaticFiles({cwd, buildOption});
+      sayTitle('COPY PACKAGE FILES - ' + name);
+      await fs.copy(
+        path.join(cwd, 'src/_packages', name),
+        path.join(cwd, 'dist/packages', name),
+        {
+          filter: fsCopySourceFilter,
+        },
+      );
       
       const webpackConfig: Configuration = webpackMerge(
         createBaseWebpackConfig({zeroconfigPath}),
@@ -90,13 +103,13 @@ async function build({cwd}: {cwd: string}) {
         },
         createPackageWebpackConfig({
           cwd,
-          name: buildOption.name,
-          file: buildOption.file,
-          externals: buildOption.externals,
+          name,
+          file,
+          externals,
         }),
       );
       
-      sayTitle('BUILD PACKAGE - ' + buildOption.name);
+      sayTitle('BUILD PACKAGE - ' + name);
       console.log(await runWebpack(webpackConfig));
     }
   } catch (error) {

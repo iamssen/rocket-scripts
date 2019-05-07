@@ -2,13 +2,13 @@ import fs from 'fs-extra';
 import path from 'path';
 import { Configuration } from 'webpack';
 import webpackMerge from 'webpack-merge';
-import { copyServerPackageJson } from '../runners/copyServerPackageJson';
 import { runWebpack } from '../runners/runWebpack';
 import { WebappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
 import { createBaseWebpackConfig } from '../webpackConfigs/createBaseWebpackConfig';
 import { createServerAppWebpackConfig } from '../webpackConfigs/createServerAppWebapckConfig';
 import { createWebappWebpackConfig } from '../webpackConfigs/createWebappWebpackConfig';
+import { copyServerPackageJson } from '../runners/copyServerPackageJson';
 
 // work
 // - [x] works after buildBrowser

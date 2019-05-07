@@ -1,8 +1,8 @@
 import { say } from 'cfonts';
 import multiplerun from 'multiplerun';
 import path from 'path';
-import { createWebappConfig } from '../configuration/createWebappConfig';
-import { parseWebappArgv } from '../configuration/parseWebappArgv';
+import { createWebappConfig } from './createWebappConfig';
+import { parseWebappArgv } from './parseWebappArgv';
 import { WebappArgv, WebappConfig } from '../types';
 import { rimraf } from '../utils/rimraf-promise';
 import { sayTitle } from '../utils/sayTitle';

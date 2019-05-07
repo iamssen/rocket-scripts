@@ -11,10 +11,18 @@ import {
   Program,
   ScriptTarget,
 } from 'typescript';
-import { PackageBuildOption } from '../types';
 
-export async function buildTypescriptDeclarations({buildOption, compilerOptions, cwd}: {buildOption: PackageBuildOption, compilerOptions: CompilerOptions, cwd: string}) {
-  const program: Program = createProgram([buildOption.file], {
+interface BuildTypescriptDeclarationsParams {
+  indexFile: string;
+  name: string;
+  compilerOptions: CompilerOptions;
+  cwd: string;
+  typeRoots: string[];
+  declarationDir: string;
+}
+
+export async function buildTypescriptDeclarations({indexFile, name, compilerOptions, cwd, typeRoots, declarationDir}: BuildTypescriptDeclarationsParams) {
+  const program: Program = createProgram([indexFile], {
     ...compilerOptions,
     
     allowJs: false,
@@ -27,14 +35,14 @@ export async function buildTypescriptDeclarations({buildOption, compilerOptions,
     typeRoots: [
       ...(compilerOptions.typeRoots || []),
       path.join(cwd, 'node_modules/@types'),
-      path.join(cwd, 'dist/packages'),
+      ...typeRoots,
     ],
     
     declaration: true,
     emitDeclarationOnly: true,
     
-    baseUrl: path.dirname(buildOption.file),
-    declarationDir: path.join(cwd, 'dist/packages', buildOption.name),
+    baseUrl: path.dirname(indexFile),
+    declarationDir,
   });
   
   const emitResult: EmitResult = program.emit();
@@ -51,6 +59,6 @@ export async function buildTypescriptDeclarations({buildOption, compilerOptions,
   }
   
   if (emitResult.emitSkipped) {
-    throw new Error(`Build the declaration files of "${buildOption.name}" is failed`);
+    throw new Error(`Build the declaration files of "${name}" is failed`);
   }
 }
