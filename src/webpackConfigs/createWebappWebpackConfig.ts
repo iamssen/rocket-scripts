@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import typescriptFormatter from 'react-dev-utils/typescriptFormatter';
 import resolve from 'resolve';
-import { Configuration, DefinePlugin } from 'webpack';
+import { Configuration, DefinePlugin, RuleSetRule } from 'webpack';
 import { getBabelConfig } from '../transpile/getBabelConfig';
 import { getWebpackAlias } from './getWebpackAlias';
 import { getWebpackBasicLoaders } from './getWebpackBasicLoaders';
@@ -38,7 +38,7 @@ export function createWebappWebpackConfig({extractCss, cwd, serverPort, publicPa
               },
             ],
           },
-        ] as Configuration : []),
+        ] as RuleSetRule[] : []),
         
         {
           oneOf: [

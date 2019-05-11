@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { Configuration } from 'webpack';
+import { Configuration, RuleSetRule } from 'webpack';
 import { getBabelConfig } from './transpile/getBabelConfig';
 import { getWebpackBasicLoaders } from './webpackConfigs/getWebpackBasicLoaders';
 import { getWebpackStyleLoaders } from './webpackConfigs/getWebpackStyleLoaders';
@@ -29,7 +29,7 @@ export function patchStorybookWebpackConfig({cwd = process.cwd(), config}: {cwd?
           },
         ],
       },
-    ] as Configuration : []),
+    ] as RuleSetRule[] : []),
     
     {
       oneOf: [
