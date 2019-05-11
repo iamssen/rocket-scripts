@@ -1,7 +1,6 @@
 import { RuleSetCondition, RuleSetRule } from 'webpack';
-import { getBabelConfig } from '../transpile/getBabelConfig';
 
-export function getWebpackBasicLoaders({include}: {include: RuleSetCondition}): RuleSetRule[] {
+export function getWebpackBasicLoaders({include, babelConfig}: {include: RuleSetCondition, babelConfig: object}): RuleSetRule[] {
   return [
     // babel
     {
@@ -11,9 +10,7 @@ export function getWebpackBasicLoaders({include}: {include: RuleSetCondition}): 
       options: {
         babelrc: false,
         configFile: false,
-        ...getBabelConfig({
-          modules: false,
-        }),
+        ...babelConfig,
       },
     },
     

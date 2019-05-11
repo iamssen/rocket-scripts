@@ -13,7 +13,6 @@ import { runWebpack } from '../runners/runWebpack';
 import { WebappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
 import { createBaseWebpackConfig } from '../webpackConfigs/createBaseWebpackConfig';
-import { createBrowserAppWebpackConfig } from '../webpackConfigs/createBrowserAppWebpackConfig';
 import { createWebappWebpackConfig } from '../webpackConfigs/createWebappWebpackConfig';
 
 // work
@@ -80,11 +79,15 @@ export async function buildBrowser({
     {
       mode,
       devtool: mode === 'production' ? false : 'source-map',
+      
       entry: {
         [appFileName]: path.join(cwd, 'src', app),
       },
+      
       output: {
         path: path.join(output, 'browser'),
+        filename: `${chunkPath}[name].[hash].js`,
+        chunkFilename: `${chunkPath}[name].[hash].js`,
         publicPath,
       },
       
@@ -129,6 +132,25 @@ export async function buildBrowser({
             },
           }),
         ],
+        
+        splitChunks: {
+          cacheGroups: {
+            // vendor chunk
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: vendorFileName,
+              chunks: 'all',
+            },
+            
+            // extract single css file
+            style: {
+              test: m => m.constructor.name === 'CssModule',
+              name: styleFileName,
+              chunks: 'all',
+              enforce: true,
+            },
+          },
+        },
       },
       
       plugins: [
@@ -170,12 +192,6 @@ export async function buildBrowser({
       cwd,
       serverPort,
       publicPath,
-    }),
-    createBrowserAppWebpackConfig({
-      chunkPath,
-      vendorFileName,
-      styleFileName,
-      hash: '.[hash]',
     }),
   );
   

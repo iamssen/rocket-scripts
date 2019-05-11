@@ -18,7 +18,7 @@ export async function getStaticFileDirectories({argv, cwd}: {argv: WebappArgv, c
       staticFileDirectories.push(publicDirectory);
     }
     
-    const internalPackageDirectories: string[] = await getInternalPackagePublicDrectories({cwd});
+    const internalPackageDirectories: string[] = await getInternalPackagePublicDrectories({packageDir: path.join(cwd, 'src/_packages')});
     
     staticFileDirectories.push(...internalPackageDirectories);
   }

@@ -6,10 +6,10 @@ interface GetWebpackStyleLoadersParameters {
   cssRegex: RegExp;
   cssModuleRegex: RegExp;
   extractCss: boolean;
-  preProcessor?: string | null;
+  preProcessor?: string;
 }
 
-export function getWebpackStyleLoaders({cssRegex, cssModuleRegex, extractCss, preProcessor = null}: GetWebpackStyleLoadersParameters): RuleSetRule[] {
+export function getWebpackStyleLoaders({cssRegex, cssModuleRegex, extractCss, preProcessor}: GetWebpackStyleLoadersParameters): RuleSetRule[] {
   const styleLoader: RuleSetUseItem = extractCss
     ? MiniCssExtractPlugin.loader
     : require.resolve('style-loader');
@@ -17,6 +17,7 @@ export function getWebpackStyleLoaders({cssRegex, cssModuleRegex, extractCss, pr
   const postcssLoader: RuleSetUseItem = {
     loader: require.resolve('postcss-loader'),
     options: {
+      // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/config/webpack.config.js#L99
       ident: 'postcss',
       plugins: () => [
         require('postcss-flexbugs-fixes'),
@@ -26,6 +27,7 @@ export function getWebpackStyleLoaders({cssRegex, cssModuleRegex, extractCss, pr
           },
           stage: 3,
         }),
+        require('postcss-normalize')(),
       ],
       sourceMap: true,
     },

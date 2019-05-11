@@ -46,10 +46,17 @@ export async function webappScripts(nodeArgv: string[], {cwd = process.cwd()}: {
     switch (config.command) {
       case 'build':
         await rimraf(config.output);
+        
+        process.env.BROWSERSLIST_ENV = config.mode;
         await buildBrowser(config);
-        if (config.extend.serverSideRendering) await buildServer(config);
+        
+        if (config.extend.serverSideRendering) {
+          process.env.BROWSERSLIST_ENV = config.mode === 'production' ? 'server' : 'server_development';
+          await buildServer(config);
+        }
         break;
       case 'server-watch':
+        process.env.BROWSERSLIST_ENV = 'server_development';
         await watchServer(config);
         break;
       case 'server-start':
@@ -57,6 +64,7 @@ export async function webappScripts(nodeArgv: string[], {cwd = process.cwd()}: {
         break;
       case 'start':
       case 'browser-start':
+        process.env.BROWSERSLIST_ENV = 'development';
         await startBrowser(config);
         break;
       default:

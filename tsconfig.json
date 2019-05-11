@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    
     // language setting
     // -------------------------------
     "jsx": "react",

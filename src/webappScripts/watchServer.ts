@@ -1,12 +1,13 @@
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
 import { Configuration } from 'webpack';
 import webpackMerge from 'webpack-merge';
+import nodeExternals from 'webpack-node-externals';
 import { watchWebpack } from '../runners/watchWebpack';
 import { watingFiles } from '../runners/watingFiles';
 import { WebappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
 import { createBaseWebpackConfig } from '../webpackConfigs/createBaseWebpackConfig';
-import { createServerAppWebpackConfig } from '../webpackConfigs/createServerAppWebapckConfig';
 import { createWebappWebpackConfig } from '../webpackConfigs/createWebappWebpackConfig';
 
 // work
@@ -59,24 +60,38 @@ export async function watchServer({
       target: 'node',
       mode: 'development',
       devtool: 'source-map',
+      
+      entry: {
+        index: path.join(cwd, 'src', app, 'server'),
+      },
+      
       output: {
         path: path.join(output, 'server'),
+        libraryTarget: 'commonjs',
       },
+      
       resolve: {
         alias: {
           'loadable-stats.json': loadableStatsJson,
         },
       },
+      
+      externals: [nodeExternals({
+        // include asset files
+        whitelist: [/\.(?!(?:jsx?|json)$).{1,5}$/i],
+      })],
+      
+      plugins: [
+        new MiniCssExtractPlugin({
+          filename: `[name].css`,
+        }),
+      ],
     },
     createWebappWebpackConfig({
       extractCss: true,
       cwd,
       serverPort,
       publicPath,
-    }),
-    createServerAppWebpackConfig({
-      cwd,
-      app,
     }),
   );
   

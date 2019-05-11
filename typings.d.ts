@@ -1,6 +1,6 @@
 /// <reference path="react"/>
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// tslint:disable:no-any
 // ---------------------------------------------
 // server side rendering
 // ---------------------------------------------

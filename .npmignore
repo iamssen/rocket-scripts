@@ -11,4 +11,5 @@
 /coverage
 /docs
 /mock-files
+/test/fixtures
 /toc.js

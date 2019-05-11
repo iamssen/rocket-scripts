@@ -1,12 +1,12 @@
-export function getBabelConfig({modules}: {modules: 'commonjs' | false}): object {
+import { getBrowserslistQuery } from './getBrowserslistQuery';
+
+export function getBabelConfig({modules, cwd}: {cwd: string, modules: 'commonjs' | false}): object {
   return {
     presets: [
       [
         require.resolve('@babel/preset-env'),
         {
-          targets: {
-            ie: 9,
-          },
+          targets: getBrowserslistQuery({cwd}),
           ignoreBrowserslistConfig: true,
           useBuiltIns: false,
           modules,

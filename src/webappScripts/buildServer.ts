@@ -1,14 +1,15 @@
 import fs from 'fs-extra';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
 import { Configuration } from 'webpack';
 import webpackMerge from 'webpack-merge';
+import nodeExternals from 'webpack-node-externals';
+import { copyServerPackageJson } from '../runners/copyServerPackageJson';
 import { runWebpack } from '../runners/runWebpack';
 import { WebappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
 import { createBaseWebpackConfig } from '../webpackConfigs/createBaseWebpackConfig';
-import { createServerAppWebpackConfig } from '../webpackConfigs/createServerAppWebapckConfig';
 import { createWebappWebpackConfig } from '../webpackConfigs/createWebappWebpackConfig';
-import { copyServerPackageJson } from '../runners/copyServerPackageJson';
 
 // work
 // - [x] works after buildBrowser
@@ -64,24 +65,38 @@ export async function buildServer({
       target: 'node',
       mode,
       devtool: mode === 'production' ? false : 'source-map',
+      
+      entry: {
+        index: path.join(cwd, 'src', app, 'server'),
+      },
+      
       output: {
         path: path.join(output, 'server'),
+        libraryTarget: 'commonjs',
       },
+      
       resolve: {
         alias: {
           'loadable-stats.json': loadableStatsJson,
         },
       },
+      
+      externals: [nodeExternals({
+        // include asset files
+        whitelist: [/\.(?!(?:jsx?|json)$).{1,5}$/i],
+      })],
+      
+      plugins: [
+        new MiniCssExtractPlugin({
+          filename: `[name].css`,
+        }),
+      ],
     },
     createWebappWebpackConfig({
       extractCss: true,
       cwd,
       serverPort,
       publicPath,
-    }),
-    createServerAppWebpackConfig({
-      cwd,
-      app,
     }),
   );
   
@@ -92,7 +107,10 @@ export async function buildServer({
     console.log(await runWebpack(webpackConfig));
     
     // copy package.json
-    await copyServerPackageJson({cwd, copyTo: path.join(output, 'server/package.json')});
+    await copyServerPackageJson({
+      file: path.join(cwd, 'package.json'),
+      copyTo: path.join(output, 'server/package.json'),
+    });
   } catch (error) {
     sayTitle('⚠️ BUILD SERVER ERROR');
     console.error(error);

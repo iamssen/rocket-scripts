@@ -13,7 +13,6 @@ import webpackMerge from 'webpack-merge';
 import { WebappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
 import { createBaseWebpackConfig } from '../webpackConfigs/createBaseWebpackConfig';
-import { createBrowserAppWebpackConfig } from '../webpackConfigs/createBrowserAppWebpackConfig';
 import { createWebappWebpackConfig } from '../webpackConfigs/createWebappWebpackConfig';
 
 // work
@@ -79,6 +78,8 @@ export async function startBrowser({
       output: {
         path: cwd,
         publicPath,
+        filename: `${chunkPath}[name].js`,
+        chunkFilename: `${chunkPath}[name].js`,
       },
       entry: {
         [appFileName]: [
@@ -90,6 +91,25 @@ export async function startBrowser({
       optimization: {
         namedModules: true,
         noEmitOnErrors: true,
+        
+        splitChunks: {
+          cacheGroups: {
+            // vendor chunk
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: vendorFileName,
+              chunks: 'all',
+            },
+            
+            // extract single css file
+            style: {
+              test: m => m.constructor.name === 'CssModule',
+              name: styleFileName,
+              chunks: 'all',
+              enforce: true,
+            },
+          },
+        },
       },
       
       plugins: [
@@ -120,12 +140,6 @@ export async function startBrowser({
       cwd,
       serverPort,
       publicPath,
-    }),
-    createBrowserAppWebpackConfig({
-      chunkPath,
-      vendorFileName,
-      styleFileName,
-      hash: '',
     }),
   );
   

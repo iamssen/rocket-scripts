@@ -3,7 +3,7 @@ interface GetWebpackStyleLoadersParameters {
     cssRegex: RegExp;
     cssModuleRegex: RegExp;
     extractCss: boolean;
-    preProcessor?: string | null;
+    preProcessor?: string;
 }
 export declare function getWebpackStyleLoaders({ cssRegex, cssModuleRegex, extractCss, preProcessor }: GetWebpackStyleLoadersParameters): RuleSetRule[];
 export {};

@@ -13,7 +13,7 @@ import {
 } from 'typescript';
 
 interface BuildTypescriptDeclarationsParams {
-  indexFile: string;
+  file: string;
   name: string;
   compilerOptions: CompilerOptions;
   cwd: string;
@@ -21,8 +21,8 @@ interface BuildTypescriptDeclarationsParams {
   declarationDir: string;
 }
 
-export async function buildTypescriptDeclarations({indexFile, name, compilerOptions, cwd, typeRoots, declarationDir}: BuildTypescriptDeclarationsParams) {
-  const program: Program = createProgram([indexFile], {
+export async function buildTypescriptDeclarations({file, name, compilerOptions, cwd, typeRoots, declarationDir}: BuildTypescriptDeclarationsParams) {
+  const program: Program = createProgram([file], {
     ...compilerOptions,
     
     allowJs: false,
@@ -41,7 +41,7 @@ export async function buildTypescriptDeclarations({indexFile, name, compilerOpti
     declaration: true,
     emitDeclarationOnly: true,
     
-    baseUrl: path.dirname(indexFile),
+    baseUrl: path.dirname(file),
     declarationDir,
   });
   

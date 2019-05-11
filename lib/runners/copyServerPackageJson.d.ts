@@ -1,4 +1,4 @@
-export declare function copyServerPackageJson({ cwd, copyTo }: {
-    cwd: string;
+export declare function copyServerPackageJson({ file, copyTo }: {
+    file: string;
     copyTo: string;
 }): Promise<void>;

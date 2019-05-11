@@ -1,13 +1,18 @@
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin-alt';
+import fs from 'fs-extra';
 import path from 'path';
 import typescriptFormatter from 'react-dev-utils/typescriptFormatter';
 import resolve from 'resolve';
 import { Configuration, DefinePlugin } from 'webpack';
+import { getBabelConfig } from '../transpile/getBabelConfig';
 import { getWebpackAlias } from './getWebpackAlias';
 import { getWebpackBasicLoaders } from './getWebpackBasicLoaders';
 import { getWebpackStyleLoaders } from './getWebpackStyleLoaders';
 
 export function createWebappWebpackConfig({extractCss, cwd, serverPort, publicPath}: {extractCss: boolean, cwd: string, serverPort: number, publicPath: string}): Configuration {
+  const tsconfig: string = path.join(cwd, 'tsconfig.json');
+  const tslint: string = path.join(cwd, 'tslint.json');
+  
   return {
     resolve: {
       alias: getWebpackAlias({cwd}),
@@ -18,21 +23,22 @@ export function createWebappWebpackConfig({extractCss, cwd, serverPort, publicPa
       
       rules: [
         // tslint
-        {
-          test: /\.(ts|tsx)?$/,
-          include: path.join(cwd, 'src'),
-          enforce: 'pre',
-          use: [
-            {
-              loader: require.resolve('tslint-loader'),
-              options: {
-                //eslintPath: require.resolve('eslint'),
-                configFile: path.join(cwd, 'tslint.json'),
-                tsConfigFile: path.join(cwd, 'tsconfig.json'),
+        ...(fs.pathExistsSync(tsconfig) && fs.pathExistsSync(tslint) ? [
+          {
+            test: /\.(ts|tsx)?$/,
+            include: path.join(cwd, 'src'),
+            enforce: 'pre',
+            use: [
+              {
+                loader: require.resolve('tslint-loader'),
+                options: {
+                  configFile: tslint,
+                  tsConfigFile: tsconfig,
+                },
               },
-            },
-          ],
-        },
+            ],
+          },
+        ] as Configuration : []),
         
         {
           oneOf: [
@@ -48,7 +54,13 @@ export function createWebappWebpackConfig({extractCss, cwd, serverPort, publicPa
             
             // ts, tsx, js, jsx - script
             // html, ejs, txt, md - plain text
-            ...getWebpackBasicLoaders({include: path.join(cwd, 'src')}),
+            ...getWebpackBasicLoaders({
+              include: path.join(cwd, 'src'),
+              babelConfig: getBabelConfig({
+                cwd,
+                modules: false,
+              }),
+            }),
             
             // css, scss, sass, less - style
             // module.* - css module
@@ -86,25 +98,27 @@ export function createWebappWebpackConfig({extractCss, cwd, serverPort, publicPa
     },
     
     plugins: [
-      new ForkTsCheckerWebpackPlugin({
-        typescript: resolve.sync('typescript', {
-          basedir: path.join(cwd, 'node_modules'),
+      ...(fs.pathExistsSync(tsconfig) ? [
+        new ForkTsCheckerWebpackPlugin({
+          typescript: resolve.sync('typescript', {
+            basedir: path.join(cwd, 'node_modules'),
+          }),
+          async: false,
+          checkSyntacticErrors: true,
+          tsconfig,
+          reportFiles: [
+            '**',
+            '!**/*.json',
+            '!**/__tests__/**',
+            '!**/?(*.)(spec|test).*',
+            '!**/src/setupProxy.*',
+            '!**/src/setupTests.*',
+          ],
+          watch: path.join(cwd, 'src'),
+          silent: true,
+          formatter: typescriptFormatter,
         }),
-        async: false,
-        checkSyntacticErrors: true,
-        tsconfig: path.join(cwd, 'tsconfig.json'),
-        reportFiles: [
-          '**',
-          '!**/*.json',
-          '!**/__tests__/**',
-          '!**/?(*.)(spec|test).*',
-          '!**/src/setupProxy.*',
-          '!**/src/setupTests.*',
-        ],
-        watch: path.join(cwd, 'src'),
-        silent: true,
-        formatter: typescriptFormatter,
-      }),
+      ] : []),
       
       new DefinePlugin({
         'process.env.SERVER_PORT': JSON.stringify(serverPort),
