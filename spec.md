@@ -54,6 +54,31 @@
   - loadable-stats.json 정상적으로 생성되었나 확인
   - dist/*/server
     - index.js... 등 파일이 정상적으로 생성되었는지 확인
+    
+    
+- e2e
+  - zeroconfig-webapp-scripts build app
+    - default case
+      - fixture 복사
+      - exec (npm install)
+      - exec (zeroconfig-webapp-scripts build app)
+      - glob 으로 결과물 파일 검사
+    - cases
+      - mode production -> dist 디렉토리 검사
+      - mode development -> .dev 디렉토리 검사
+      - output -> 별도의 디렉토리 검사
+  - zeroconfig-webapp-scripts start app
+    - fixture 복사
+    - exec (npm install)
+    - exec (zeroconfig-webapp-scripts start app) -> child process
+    - localhost:4100 의 http status code 가 200인지 확인
+    - localhost:3100 의 http status code 가 200인지 확인
+    - child process 종료
+  - zeroconfig-package-scripts build
+    - fixture 복사
+    - exec (npm install)
+    - exec (zeroconfig-package-scripts build)
+    - glob 으로 결과물 파일 검사
 
 # Fixtures
 - packages : 여러 entry가 존재

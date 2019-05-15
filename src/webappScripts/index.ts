@@ -16,7 +16,6 @@ import help from './help';
 const zeroconfigPath: string = path.join(__dirname, '../..');
 
 export async function webappScripts(nodeArgv: string[], {cwd = process.cwd()}: {cwd?: string} = {}) {
-  console.log('index.ts..webappScripts()', nodeArgv);
   if (nodeArgv.indexOf('--help') > -1) {
     console.log(help);
     return;

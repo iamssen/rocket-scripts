@@ -1,12 +1,19 @@
 import { getBrowserslistQuery } from './getBrowserslistQuery';
 
 export function getBabelConfig({modules, cwd}: {cwd: string, modules: 'commonjs' | false}): object {
+  const targets: string | string[] = getBrowserslistQuery({cwd});
+  
+  console.log('');
+  console.log('---------------------------------------------------------------------------------');
+  console.log('= BABEL TARGETS : ', targets);
+  console.log('---------------------------------------------------------------------------------');
+  
   return {
     presets: [
       [
         require.resolve('@babel/preset-env'),
         {
-          targets: getBrowserslistQuery({cwd}),
+          targets,
           ignoreBrowserslistConfig: true,
           useBuiltIns: false,
           modules,
