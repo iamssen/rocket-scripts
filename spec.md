@@ -1,3 +1,5 @@
+# Unit Test
+
 - internalPackage
   - getInternalPackageEntry
     - src/_packages 에 있는 directory를 읽어내서 entry를 가져온다 (fixture:default-packages)
@@ -24,46 +26,38 @@
   - getBabelConfig
     - 만들고 presets, plugins, overrides 가 있는지 확인
     - module이 정상적으로 입력되었는지 확인
+  - getBrowserslistQuery
+    - 기본값 확인
+    - package.json 에 선언된 다른 값들을 확인 (fixture:custom-browserslist)
+  - getPackageJsonContentsOrderedNames
+    - 기본 package.json 값들을 넣어서 확인
+    - 실제 directory를 읽어서 값들을 확인 (fixture:default-packages, fixture:grouped-packages)
+  - getTSConfigCompilerOptions
+    - TS 프로젝트들의 Compiler 옵션을 가져와서 확인 (fixture:simple-csr-ts, fixture:simple-ssr-ts...)
+    - Custom하게 처리된 Compiler 옵션을 가져와서 확인 (fixture:custom-tsconfig)
+- utils
+  - createTmpDirectory
+    - 기본 가져와서 stats.isDirectory() 체크
+  - createTmpFixture
+    - 가져와서 stats.isDirectory() 확인하고 구성 파일들 glob으로 확인
+  - takeMinimistEveryValues, takeMinimistLatestValue
 
 
+# E2E Test
 
-- e2e
-  - zeroconfig-webapp-scripts build app
-    - default case
-      - fixture 복사
-      - exec (npm install)
-      - exec (zeroconfig-webapp-scripts build app)
-      - glob 으로 결과물 파일 검사
-    - cases
-      - mode production -> dist 디렉토리 검사
-      - mode development -> .dev 디렉토리 검사
-      - output -> 별도의 디렉토리 검사
-  - zeroconfig-webapp-scripts start app
-    - fixture 복사
-    - exec (npm install)
-    - exec (zeroconfig-webapp-scripts start app) -> child process
-    - localhost:4100 의 http status code 가 200인지 확인
-    - localhost:3100 의 http status code 가 200인지 확인
-    - child process 종료
-  - zeroconfig-package-scripts build
-    - fixture 복사
-    - exec (npm install)
-    - exec (zeroconfig-package-scripts build)
-    - glob 으로 결과물 파일 검사
+- simple csr 테스트
+  - size-report.html 정상적으로 생성되었나 확인
+  - dist/*/browser
+    - public directory가 정상적으로 복제 되었는지 확인
+    - app.js... 등 파일이 정상적으로 생성되었는지 확인
+- simple ssr 테스트
+  - loadable-stats.json 정상적으로 생성되었나 확인
+  - dist/*/server
+    - index.js... 등 파일이 정상적으로 생성되었는지 확인
 
-
-
-
-
-
-
-
-- simple-csr-app
-- simple-ssr-app
-- simple-typescript-csr-app
-- simple-typescript-ssr-app
-- packages
-- seed-csr
-- seed-ssr
-- seed-typescript-csr
-- seed-typescript-ssr
+# Fixtures
+- packages : 여러 entry가 존재
+- ~~packages-empty : 빈 entry~~ -> 다른 빈 fixture를 사용
+- packages-grouped : @group/{name}과 같은 entry가 존재
+- custom-browserslist
+- custom-tsconfig

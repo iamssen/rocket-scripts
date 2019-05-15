@@ -1,3 +1,4 @@
+import fs from 'fs-extra';
 import path from 'path';
 import {
   CompilerOptions,
@@ -22,7 +23,7 @@ interface BuildTypescriptDeclarationsParams {
 }
 
 export async function buildTypescriptDeclarations({file, name, compilerOptions, cwd, typeRoots, declarationDir}: BuildTypescriptDeclarationsParams) {
-  const program: Program = createProgram([file], {
+  const options: CompilerOptions = {
     ...compilerOptions,
     
     allowJs: false,
@@ -43,8 +44,17 @@ export async function buildTypescriptDeclarations({file, name, compilerOptions, 
     
     baseUrl: path.dirname(file),
     declarationDir,
-  });
+    
+    paths: fs.existsSync(path.join(cwd, 'dist/packages')) ? {
+      '*': [
+        path.relative(path.dirname(file), path.join(cwd, 'dist/packages/*')),
+      ],
+    } : {},
+  };
   
+  console.log(options);
+  
+  const program: Program = createProgram([file], options);
   const emitResult: EmitResult = program.emit();
   const diagnostics: Diagnostic[] = getPreEmitDiagnostics(program).concat(emitResult.diagnostics);
   
@@ -52,9 +62,9 @@ export async function buildTypescriptDeclarations({file, name, compilerOptions, 
     if (diagnostic.file && diagnostic.start) {
       const {line, character} = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
       const message: string = flattenDiagnosticMessageText(diagnostic.messageText, '\n');
-      console.log(`${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`);
+      console.log(`TS${diagnostic.code} : ${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`);
     } else {
-      console.log(`${flattenDiagnosticMessageText(diagnostic.messageText, '\n')}`);
+      console.log(`TS${diagnostic.code} : ${flattenDiagnosticMessageText(diagnostic.messageText, '\n')}`);
     }
   }
   

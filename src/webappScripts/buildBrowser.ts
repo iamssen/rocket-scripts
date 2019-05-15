@@ -170,7 +170,7 @@ export async function buildBrowser({
         // create loadable-stats.json when server side rendering is enabled
         ...(extend.serverSideRendering ? [
           new LoadablePlugin({
-            filename: path.join(output, 'loadable-stats.json'),
+            filename: '../loadable-stats.json',
             writeToDisk: true,
           }),
         ] : []),

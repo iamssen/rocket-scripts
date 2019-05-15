@@ -4,9 +4,10 @@ import { Configuration } from 'webpack';
 
 export function createBaseWebpackConfig({zeroconfigPath}: {zeroconfigPath: string}): Configuration {
   const modules: string[] = ['node_modules'];
+  const zeroconfigModules: string = path.join(zeroconfigPath, 'node_modules');
   
-  if (fs.existsSync(path.join(zeroconfigPath, 'node_modules'))) {
-    modules.push(path.join(zeroconfigPath, 'node_modules'));
+  if (fs.existsSync(zeroconfigModules) && fs.statSync(zeroconfigModules).isDirectory()) {
+    modules.push(zeroconfigModules);
   }
   
   return {

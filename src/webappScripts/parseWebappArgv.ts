@@ -1,5 +1,5 @@
 import minimist, { ParsedArgs } from 'minimist';
-import { isMode, isWebappCommand, modes, WebappArgv, WebappCommand, webappCommands } from '../types';
+import { isMode, isWebappCommand, Mode, modes, WebappArgv, WebappCommand, webappCommands } from '../types';
 import { takeMinimistEveryValues } from '../utils/takeMinimistEveryValues';
 import { takeMinimistLatestValue } from '../utils/takeMinimistLatestValue';
 
@@ -24,15 +24,15 @@ export function parseWebappArgv(nodeArgv: string[]): WebappArgv {
     staticFileDirectories: takeMinimistEveryValues(argv['static-file-directories']),
     staticFilePackages: takeMinimistEveryValues(argv['static-file-packages']),
     sizeReport: takeMinimistLatestValue(argv['size-report']) !== 'false',
-    mode: takeMinimistLatestValue(argv['mode']) || 'production',
+    mode: (takeMinimistLatestValue(argv['mode']) || 'production') as Mode,
     output: takeMinimistLatestValue(argv['output']),
     appFileName: takeMinimistLatestValue(argv['app-file-name']) || 'app',
     vendorFileName: takeMinimistLatestValue(argv['vendor-file-name']) || 'vendor',
     styleFileName: takeMinimistLatestValue(argv['style-file-name']) || 'style.js',
     chunkPath: takeMinimistLatestValue(argv['chunk-path']) || '',
     publicPath: takeMinimistLatestValue(argv['public-path']) || '',
-    port: takeMinimistLatestValue(argv['port']) || 3100,
-    serverPort: takeMinimistLatestValue(argv['server-port']) || 4100,
+    port: parseInt(takeMinimistLatestValue(argv['port']) || '3100', 10),
+    serverPort: parseInt(takeMinimistLatestValue(argv['server-port']) || '4100', 10),
     https,
   };
 }
