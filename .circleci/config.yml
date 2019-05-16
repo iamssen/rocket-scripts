@@ -21,6 +21,9 @@ jobs:
           paths:
             - ./node_modules
       - run:
+          name: Install Submodules
+          command: git submodule sync && git submodule update --init
+      - run:
           name: test
           command: npm test
       - run:
