@@ -14,10 +14,7 @@ describe('getPackageJsonContentsOrderedNames', () => {
           const aFile: PackageJson | undefined = packageJsonContents.find(({name}) => name === a);
           expect(aFile).not.toBeUndefined();
           if (aFile) {
-            //console.log('getPackageJsonContentsOrderedNames.test.ts..()', Object.keys(aFile.dependencies || {}), [b]);
             expect(Object.keys(aFile.dependencies || {})).not.toEqual(expect.arrayContaining([b]));
-            //console.log('getPackageJsonContentsOrderedNames.test.ts..()', aFile.dependencies, b);
-            //expect(!aFile.dependencies || !aFile.dependencies[b]).toBeTruthy();
           }
         }
       });

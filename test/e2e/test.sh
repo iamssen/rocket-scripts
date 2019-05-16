@@ -3,14 +3,14 @@
 zeroconfig=$(pwd);
 tarball=$zeroconfig/$(npm pack | tail -n 1);
 
-function fileExists {
+fileExists() {
   if ! ls $1 1> /dev/null 2>&1; then
     echo "ERROR: Undefined the file $1";
     exit 1;
   fi
 }
 
-function createTmpFixture {
+createTmpFixture() {
   cwd=$(mktemp -d);
   cp -R $zeroconfig/test/fixtures/$1/* $cwd;
   cd $cwd;
