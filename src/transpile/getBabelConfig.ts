@@ -3,10 +3,12 @@ import { getBrowserslistQuery } from './getBrowserslistQuery';
 export function getBabelConfig({modules, cwd}: {cwd: string, modules: 'commonjs' | false}): object {
   const targets: string | string[] = getBrowserslistQuery({cwd});
   
-  console.log('');
-  console.log('---------------------------------------------------------------------------------');
-  console.log('= BABEL TARGETS : ', targets);
-  console.log('---------------------------------------------------------------------------------');
+  if (!process.env.JEST_WORKER_ID) {
+    console.log('');
+    console.log('---------------------------------------------------------------------------------');
+    console.log('= BABEL TARGETS : ', targets);
+    console.log('---------------------------------------------------------------------------------');
+  }
   
   return {
     presets: [

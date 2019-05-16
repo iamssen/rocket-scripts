@@ -1,13 +1,13 @@
-import { createTmpMockup } from '../utils/createTmpMockup';
-import { getInternalPackagePublicDrectories } from './getInternalPackagePublicDrectories';
 import path from 'path';
+import { createTmpFixture } from '../utils/createTmpFixture';
+import { getInternalPackagePublicDrectories } from './getInternalPackagePublicDrectories';
 
 describe('getInternalPackagePublicDirectories()', () => {
-  test('get internal package directories', async () => {
-    const dirpath: string = await createTmpMockup('basic');
+  test('public 디렉토리가 포함된 packages entry를 가져온다', async () => {
+    const cwd: string = await createTmpFixture('packages');
     
-    await expect(getInternalPackagePublicDrectories({packageDir: path.join(dirpath, 'src/_packages')})).resolves.toEqual([
-      path.join(dirpath, 'src/_packages/c/public'),
+    await expect(getInternalPackagePublicDrectories({packageDir: path.join(cwd, 'src/_packages')})).resolves.toEqual([
+      path.join(cwd, 'src/_packages/c/public'),
     ]);
   });
 });

@@ -1,6 +1,6 @@
 import path from 'path';
 import { WebappArgv } from '../types';
-import { createTmpMockup } from '../utils/createTmpMockup';
+import { createTmpFixture } from '../utils/createTmpFixture';
 import { getStaticFileDirectories } from './getStaticFileDirectories';
 
 const defaultArgv: WebappArgv = {
@@ -22,45 +22,45 @@ const defaultArgv: WebappArgv = {
 };
 
 describe('getStaticFileDirectories()', () => {
-  test('get manual directories', async () => {
+  test('staticFileDirectories를 직접 입력했을때 public을 가져옴', async () => {
     const argv: WebappArgv = {
       ...defaultArgv,
       staticFileDirectories: 'src/_packages/c/public',
     };
     
-    const dirpath: string = await createTmpMockup('basic');
-    const staticFileDirectories: string[] = await getStaticFileDirectories({argv, cwd: dirpath});
+    const cwd: string = await createTmpFixture('packages');
+    const staticFileDirectories: string[] = await getStaticFileDirectories({argv, cwd});
     
     expect(staticFileDirectories).toEqual([
-      path.join(dirpath, 'src/_packages/c/public'),
+      path.join(cwd, 'src/_packages/c/public'),
     ]);
   });
   
-  test('get auto directories', async () => {
+  test('staticFileDirectories를 입력하지 않았을때 static 디렉토리를 자동으로 가져옴', async () => {
     const argv: WebappArgv = {
       ...defaultArgv,
     };
     
-    const dirpath: string = await createTmpMockup('basic');
+    const cwd: string = await createTmpFixture('packages');
     
-    await expect(getStaticFileDirectories({argv, cwd: dirpath})).resolves.toEqual([
-      path.join(dirpath, 'public'),
-      path.join(dirpath, 'src/_packages/c/public'),
+    await expect(getStaticFileDirectories({argv, cwd})).resolves.toEqual([
+      path.join(cwd, 'public'),
+      path.join(cwd, 'src/_packages/c/public'),
     ]);
   });
   
-  test('get directories with packages public', async () => {
+  test('staticFilePackages를 입력했을때 public을 가져옴', async () => {
     const argv: WebappArgv = {
       ...defaultArgv,
       staticFilePackages: 'x y',
     };
     
-    const dirpath: string = await createTmpMockup('basic');
+    const cwd: string = await createTmpFixture('mock-modules');
     
-    await expect(getStaticFileDirectories({argv, cwd: dirpath})).resolves.toEqual([
-      path.join(dirpath, 'public'),
-      path.join(dirpath, 'src/_packages/c/public'),
-      path.join(dirpath, 'node_modules/y/public'),
+    await expect(getStaticFileDirectories({argv, cwd})).resolves.toEqual([
+      path.join(cwd, 'public'),
+      path.join(cwd, 'src/_packages/c/public'),
+      path.join(cwd, 'node_modules/y/public'),
     ]);
   });
 });
