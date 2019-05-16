@@ -43,6 +43,10 @@ export function getPackageJsonContentsOrderedNames({packageJsonContents}: {packa
       const aHasB: boolean = a.dependencies.has(b.name);
       const bHasA: boolean = b.dependencies.has(a.name);
       
+      if (!aHasB && !bHasA) {
+        return a.name > b.name ? bIsHigher : aIsHigher;
+      }
+      
       if (aHasB && bHasA) {
         throw new Error(`"${a.name}" dependent "${b.name}" and "${b.name}" dependent "${a.name}". packages can't be interdependent.`);
       }
