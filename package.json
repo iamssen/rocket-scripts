@@ -1,6 +1,6 @@
 {
   "name": "react-zeroconfig",
-  "version": "3.0.0-alpha.7",
+  "version": "3.0.0-alpha.8",
   "description": "Zero config tools for typescript projects",
   "keywords": [
     "zeroconfig",
@@ -27,6 +27,7 @@
     "build": "npm run clean && tsc --project tsconfig.build.json",
     "build:watch": "npm run clean && tsc --watch --project tsconfig.build.json",
     "test": "jest --colors",
+    "test:e2e": "sh test/e2e/test.sh",
     "coverage": "jest --colors --coverage && open coverage/index.html",
     "prepublishOnly": "npm run test && npm run lint && npm run build",
     "lint": "tslint \"src/**/*.{ts,tsx}\"",

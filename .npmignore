@@ -1,15 +1,16 @@
-/node_modules
-
 /*.iml
 /.idea/
-
 /.yarnclean
 /*.log
 
+/node_modules
 /package-lock.json
 
+/.circleci
 /coverage
 /docs
-/mock-files
-/test/fixtures
+/src
+/test
 /toc.js
+/tsconfig.build.json
+/tslint.json

@@ -6,20 +6,26 @@ interface PackageJsonSet {
 }
 
 export function getPackageJsonContentsOrderedNames({packageJsonContents}: {packageJsonContents: PackageJson[]}): string[] {
-  function searchNestedDependencies(index: Set<string>, dependencies: PackageJson.Dependency | undefined): Set<string> {
+  function searchNestedDependencies(ownerName: string, dependencies: PackageJson.Dependency | undefined, dependenciesSet: Set<string>): Set<string> {
     if (dependencies) {
       Object.keys(dependencies).forEach(dependencyName => {
-        index.add(dependencyName);
+        if (dependencyName === ownerName) {
+          throw new Error(`package.json files have circularly referenced dependencies : "${ownerName}"`);
+        }
         
-        const packageJsonFile: PackageJson | undefined = packageJsonContents.find(({name}) => dependencyName === name);
+        dependenciesSet.add(dependencyName);
         
-        if (packageJsonFile) {
-          searchNestedDependencies(index, packageJsonFile.dependencies);
+        // find dependencyName on the packageJsonContents
+        const childPackageJson: PackageJson | undefined = packageJsonContents.find(({name}) => dependencyName === name);
+        
+        // if childPackageJson is exists search childPackageJson's dependencies
+        if (childPackageJson && childPackageJson.dependencies) {
+          searchNestedDependencies(ownerName, childPackageJson.dependencies, dependenciesSet);
         }
       });
     }
     
-    return index;
+    return dependenciesSet;
   }
   
   return packageJsonContents
@@ -27,7 +33,7 @@ export function getPackageJsonContentsOrderedNames({packageJsonContents}: {packa
       if (!packageJson.name) throw new Error(`Undefined "name" field on ${packageJson}`);
       return {
         name: packageJson.name,
-        dependencies: searchNestedDependencies(new Set(), packageJson.dependencies),
+        dependencies: searchNestedDependencies(packageJson.name, packageJson.dependencies, new Set()),
       };
     })
     .sort((a, b) => {

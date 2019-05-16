@@ -55,7 +55,6 @@
   - dist/*/server
     - index.js... 등 파일이 정상적으로 생성되었는지 확인
     
-    
 - e2e
   - zeroconfig-webapp-scripts build app
     - default case

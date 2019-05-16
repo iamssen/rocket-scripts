@@ -2,11 +2,11 @@ const path = require('path');
 
 module.exports = {
   transform: {
-    '\\.[jt]sx?$': path.join(__dirname, 'test/jestPresetFiles/transform'),
+    '\\.[jt]sx?$': path.join(__dirname, 'jest-preset-files/transform'),
   },
   moduleNameMapper: {
-    '\\.(bmp|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|html|ejs|txt|md)$': path.join(__dirname, 'test/jestPresetFiles/mockup/file.js'),
-    '\\.(css|less|scss|sass)$': path.join(__dirname, 'test/jestPresetFiles/mockup/style.js'),
+    '\\.(bmp|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|html|ejs|txt|md)$': path.join(__dirname, 'jest-preset-files/mockup/file.js'),
+    '\\.(css|less|scss|sass)$': path.join(__dirname, 'jest-preset-files/mockup/style.js'),
   },
   testMatch: [
     '**/__tests?__/**/*.[jt]s?(x)',
