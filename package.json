@@ -20,6 +20,9 @@
     "url": "https://github.com/react-zeroconfig/react-zeroconfig/issues"
   },
   "homepage": "https://github.com/react-zeroconfig/react-zeroconfig",
+  "engines": {
+    "node": ">=10"
+  },
   "main": "lib/index.js",
   "types": "./typings.d.ts",
   "scripts": {
