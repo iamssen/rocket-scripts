@@ -3,8 +3,10 @@ import { getPackageJsonContentsOrderedNames } from './getPackageJsonContentsOrde
 
 describe('getPackageJsonContentsOrderedNames', () => {
   test('기본 package.json 정보 사용해서 ordered names를 얻음', () => {
-    function test(packageJsonContents: PackageJson[]) {
+    function test(packageJsonContents: PackageJson[], matchOrderedNames: string[]) {
       const orderedNames: string[] = getPackageJsonContentsOrderedNames({packageJsonContents});
+      
+      expect(orderedNames).toEqual(matchOrderedNames);
       
       orderedNames.reverse().forEach((a: string, i: number) => {
         // sorted.slice(0, i) does not have a
@@ -12,6 +14,7 @@ describe('getPackageJsonContentsOrderedNames', () => {
           const aFile: PackageJson | undefined = packageJsonContents.find(({name}) => name === a);
           expect(aFile).not.toBeUndefined();
           if (aFile) {
+            //console.log('getPackageJsonContentsOrderedNames.test.ts..()', Object.keys(aFile.dependencies || {}), [b]);
             expect(Object.keys(aFile.dependencies || {})).not.toEqual(expect.arrayContaining([b]));
             //console.log('getPackageJsonContentsOrderedNames.test.ts..()', aFile.dependencies, b);
             //expect(!aFile.dependencies || !aFile.dependencies[b]).toBeTruthy();
@@ -47,6 +50,12 @@ describe('getPackageJsonContentsOrderedNames', () => {
       {
         name: 'e',
       },
+    ], [
+      'e',
+      'c',
+      'a',
+      'b',
+      'd',
     ]);
     
     test([
@@ -84,6 +93,12 @@ describe('getPackageJsonContentsOrderedNames', () => {
           'react-intl': '0',
         },
       },
+    ], [
+      'use-react-intl',
+      'router-store',
+      '@ssen/test-module1',
+      'test-module3',
+      '@ssen/test-module2',
     ]);
   });
   
