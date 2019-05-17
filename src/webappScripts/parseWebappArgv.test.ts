@@ -1,6 +1,5 @@
 import { WebappArgv } from '../types';
 import { parseWebappArgv } from './parseWebappArgv';
-import program from 'commander';
 
 const defaultArgv: WebappArgv = {
   command: 'build',
@@ -21,7 +20,7 @@ const defaultArgv: WebappArgv = {
 };
 
 describe('parseWebappArgv()', () => {
-  test('parse', () => {
+  test('webapp-scripts argv를 정상적으로 Parsing 한다', () => {
     expect(parseWebappArgv([
       'build',
       'app',
@@ -78,7 +77,7 @@ describe('parseWebappArgv()', () => {
       'lib/chunks',
     ])).toEqual({
       ...defaultArgv,
-      chunkPath: 'lib/chunks',
+      chunkPath: 'lib/chunks/',
     });
     
     expect(parseWebappArgv([
@@ -127,7 +126,7 @@ describe('parseWebappArgv()', () => {
     });
   });
   
-  test('error cases', () => {
+  test('build | start 이외의 command가 들어오면 Error를 발생시킨다', () => {
     expect(() => parseWebappArgv([
       'wrong-command',
       'app',

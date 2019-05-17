@@ -107,3 +107,41 @@ fileExists $cwd/dist/app/browser/app.*.js;
 fileExists $cwd/dist/app/browser/vendor.*.js;
 fileExists $cwd/dist/app/server/index.js;
 fileExists $cwd/dist/app/server/package.json;
+
+# zeroconfig-webapp-scripts build app ---
+createTmpFixture simple-csr-ts;
+npm run app:build --- --mode development;
+fileExists $cwd/.dev/app/size-report.html;
+fileExists $cwd/.dev/app/browser/favicon.ico;
+fileExists $cwd/.dev/app/browser/index.html;
+fileExists $cwd/.dev/app/browser/manifest.json;
+fileExists $cwd/.dev/app/browser/app.*.js;
+fileExists $cwd/.dev/app/browser/vendor.*.js;
+
+output=$(mktemp -d);
+createTmpFixture simple-csr-ts;
+npm run app:build --- --output $output;
+fileExists $output/size-report.html;
+fileExists $output/browser/favicon.ico;
+fileExists $output/browser/index.html;
+fileExists $output/browser/manifest.json;
+fileExists $output/browser/app.*.js;
+fileExists $output/browser/vendor.*.js;
+
+createTmpFixture simple-csr-ts;
+npm run app:build --- --app-file-name myapp --vendor-file-name common;
+fileExists $cwd/dist/app/size-report.html;
+fileExists $cwd/dist/app/browser/favicon.ico;
+fileExists $cwd/dist/app/browser/index.html;
+fileExists $cwd/dist/app/browser/manifest.json;
+fileExists $cwd/dist/app/browser/myapp.*.js;
+fileExists $cwd/dist/app/browser/common.*.js;
+
+createTmpFixture simple-csr-ts;
+npm run app:build --- --chunk-path chunks/path;
+fileExists $cwd/dist/app/size-report.html;
+fileExists $cwd/dist/app/browser/favicon.ico;
+fileExists $cwd/dist/app/browser/index.html;
+fileExists $cwd/dist/app/browser/manifest.json;
+fileExists $cwd/dist/app/browser/chunks/path/app.*.js;
+fileExists $cwd/dist/app/browser/chunks/path/vendor.*.js;
