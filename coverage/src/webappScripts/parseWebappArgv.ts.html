@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">93.33% </span>
+        <span class="strong">94.44% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>14/15</span>
+        <span class='fraction'>17/18</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">96.15% </span>
+        <span class="strong">96.67% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>25/26</span>
+        <span class='fraction'>29/30</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>1/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">92.31% </span>
+        <span class="strong">93.75% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>12/13</span>
+        <span class='fraction'>15/16</span>
       </div>
     </div>
     <p class="quiet">
@@ -83,7 +83,13 @@
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -91,9 +97,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -101,6 +104,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
@@ -128,9 +140,6 @@ import { takeMinimistLatestValue } from '../utils/takeMinimistLatestValue';
 export function parseWebappArgv(nodeArgv: string[]): WebappArgv {
   const argv: ParsedArgs = minimist(nodeArgv);
   const [command, app] = argv._;
-  const https: boolean | {key: string, cert: string} = (typeof argv['https-key'] === 'string' &amp;&amp; typeof argv['https-cert'] === 'string')
-    ? {key: argv['https-key'], cert: argv['https-cert']}
-    : argv['https'] === 'true';
   
   if (!isWebappCommand(command)) {
     throw new Error(`command must be one of ${webappCommands.join(', ')}`);
@@ -138,6 +147,15 @@ export function parseWebappArgv(nodeArgv: string[]): WebappArgv {
   
   <span class="missing-if-branch" title="if path not taken" >I</span>if (!isMode(argv['mode']) &amp;&amp; argv['mode'] !== undefined) {
 <span class="cstat-no" title="statement not covered" >    throw new Error(`mode must be one of ${modes.join(', ')}`);</span>
+  }
+  
+  const https: boolean | {key: string, cert: string} = (typeof argv['https-key'] === 'string' &amp;&amp; typeof argv['https-cert'] === 'string')
+    ? {key: argv['https-key'], cert: argv['https-cert']}
+    : argv['https'] === 'true';
+  
+  let chunkPath: string = (takeMinimistLatestValue(argv['chunk-path']) || '').trim();
+  if (chunkPath.length &gt; 0 &amp;&amp; !/\/$/.test(chunkPath)) {
+    chunkPath = chunkPath + '/';
   }
   
   return {
@@ -151,7 +169,7 @@ export function parseWebappArgv(nodeArgv: string[]): WebappArgv {
     appFileName: takeMinimistLatestValue(argv['app-file-name']) || 'app',
     vendorFileName: takeMinimistLatestValue(argv['vendor-file-name']) || 'vendor',
     styleFileName: takeMinimistLatestValue(argv['style-file-name']) || 'style.js',
-    chunkPath: takeMinimistLatestValue(argv['chunk-path']) || '',
+    chunkPath,
     publicPath: takeMinimistLatestValue(argv['public-path']) || '',
     port: parseInt(takeMinimistLatestValue(argv['port']) || '3100', 10),
     serverPort: parseInt(takeMinimistLatestValue(argv['server-port']) || '4100', 10),
@@ -163,7 +181,7 @@ export function parseWebappArgv(nodeArgv: string[]): WebappArgv {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu May 16 2019 18:24:45 GMT+0900 (Korean Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri May 17 2019 13:26:58 GMT+0900 (Korean Standard Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>

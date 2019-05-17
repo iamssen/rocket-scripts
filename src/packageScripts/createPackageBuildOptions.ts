@@ -14,11 +14,14 @@ export async function createPackageBuildOptions({entry, cwd}: {entry: string[], 
   
   for (const name of orderedNames) {
     const indexFileSearchResult: string[] = await glob(`${cwd}/src/_packages/${name}/index.{js,jsx,ts,tsx}`);
-    if (indexFileSearchResult.length !== 1) continue;
+    
+    if (indexFileSearchResult.length === 0) {
+      throw new Error(`Undefined index file on "${cwd}/src/_packages/${name}"`);
+    } else if (indexFileSearchResult.length > 1) {
+      throw new Error(`Only one index file must exist : "${indexFileSearchResult.join(', ')}"`);
+    }
     
     const file: string = indexFileSearchResult[0];
-    
-    externals.push(name);
     
     buildOptions.push({
       name,
@@ -26,6 +29,8 @@ export async function createPackageBuildOptions({entry, cwd}: {entry: string[], 
       buildTypescriptDeclaration: /\.tsx?$/.test(file),
       externals: [...externals],
     });
+    
+    externals.push(name);
   }
   
   return buildOptions;

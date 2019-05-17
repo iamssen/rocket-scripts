@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for src/runners/watchWebpack.ts</title>
+    <title>Code coverage report for src/packageScripts/publishPackages.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../index.html">All files</a> / <a href="index.html">src/runners</a> watchWebpack.ts
+      <a href="../../index.html">All files</a> / <a href="index.html">src/packageScripts</a> publishPackages.ts
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/11</span>
+        <span class='fraction'>0/24</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/6</span>
+        <span class='fraction'>0/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/5</span>
+        <span class='fraction'>0/1</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/10</span>
+        <span class='fraction'>0/17</span>
       </div>
     </div>
     <p class="quiet">
@@ -72,58 +72,67 @@
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { Observable, Observer, Subscribable } from 'rxjs';</span>
-<span class="cstat-no" title="statement not covered" >import webpack, { Compiler, Configuration, Stats } from 'webpack';</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import path from 'path';</span>
+<span class="cstat-no" title="statement not covered" >import { getInternalPackageEntry } from '../internalPackage/getInternalPackageEntry';</span>
+import { PackagePublishOption } from '../types';
+<span class="cstat-no" title="statement not covered" >import { exec } from '../utils/exec-promise';</span>
+<span class="cstat-no" title="statement not covered" >import { sayTitle } from '../utils/sayTitle';</span>
+<span class="cstat-no" title="statement not covered" >import { createPackagePublishOptions } from './createPackagePublishOptions';</span>
+<span class="cstat-no" title="statement not covered" >import { selectPublishOptions } from './selectPublishOptions';</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export function <span class="fstat-no" title="function not covered" >w</span>atchWebpack(</span>webpackConfig: Configuration, <span class="cstat-no" title="statement not covered" >watchOptions: Compiler.WatchOptions = {}): Subscribable&lt;string&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return new Observable(<span class="fstat-no" title="function not covered" >(o</span>bserver: Observer&lt;string&gt;) =&gt; {</span>
-    const watching: Compiler.Watching = <span class="cstat-no" title="statement not covered" >webpack(webpackConfig).watch(watchOptions, <span class="fstat-no" title="function not covered" >(e</span>rror: Error, stats: Stats) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      if (error) {</span>
-<span class="cstat-no" title="statement not covered" >        observer.error(error);</span>
-      } else {
-<span class="cstat-no" title="statement not covered" >        observer.next(stats.toString(</span>
-          typeof webpackConfig.stats === 'object'
-            ? {
-              ...webpackConfig.stats,
-              colors: true,
-            }
-            : webpackConfig.stats,
-        ));
-      }
-    });
+<span class="cstat-no" title="statement not covered" >export async function <span class="fstat-no" title="function not covered" >p</span>ublishPackages(</span>{<span class="cstat-no" title="statement not covered" >cwd}</span>: {cwd: string}) {
+  try {
+    const <span class="cstat-no" title="statement not covered" >entry: string[] = <span class="cstat-no" title="statement not covered" >await getInternalPackageEntry({packageDir: path.join(cwd, 'src/_packages')});</span></span>
+    const <span class="cstat-no" title="statement not covered" >publishOptions: PackagePublishOption[] = <span class="cstat-no" title="statement not covered" >await createPackagePublishOptions({entry, cwd, version: 'latest'});</span></span>
     
-<span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >      watching.close(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-        // end watch
-      });
-    };
-  });
+<span class="cstat-no" title="statement not covered" >    sayTitle('SELECT PACKAGES TO PUBLISH');</span>
+    const <span class="cstat-no" title="statement not covered" >selectedPublishOptions: PackagePublishOption[] = <span class="cstat-no" title="statement not covered" >await selectPublishOptions({publishOptions});</span></span>
+    
+    for await (const <span class="cstat-no" title="statement not covered" >publishOption of <span class="cstat-no" title="statement not covered" >s</span>electedPublishOptions) {</span>
+<span class="cstat-no" title="statement not covered" >      sayTitle('PUBLISH PACKAGE - ' + publishOption.name);</span>
+      
+      const <span class="cstat-no" title="statement not covered" >command: string = process.platform === 'win32'</span>
+        ? `cd "${path.join(cwd, 'dist/packages', name)}" &amp;&amp; npm publish`
+        : `cd "${path.join(cwd, 'dist/packages', name)}"; npm publish;`;
+      
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      console.log(<span class="cstat-no" title="statement not covered" >a</span>wait exec(command, {encoding: 'utf8'}));</span></span>
+    }
+  } catch (error) {
+<span class="cstat-no" title="statement not covered" >    sayTitle('⚠️ PUBLISH PACKAGES ERROR');</span>
+<span class="cstat-no" title="statement not covered" >    console.error(error);</span>
+  }
 }</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
