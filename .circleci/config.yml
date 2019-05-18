@@ -21,17 +21,17 @@ jobs:
           paths:
             - ./node_modules
       - run:
-          name: install submodules
+          name: install git submodules
           command: git submodule sync && git submodule update --init
       - run:
           name: lint
           command: npm run lint
       - run:
-          name: test
+          name: unit test
           command: npm test
       - run:
           name: build
           command: npm run build
       - run:
-          name: e2e
-          command: npm run test:e2e
+          name: e2e build test
+          command: npm run test:e2e:build
