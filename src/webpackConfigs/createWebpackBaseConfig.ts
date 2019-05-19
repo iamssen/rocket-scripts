@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { Configuration } from 'webpack';
 
-export function createBaseWebpackConfig({zeroconfigPath}: {zeroconfigPath: string}): Configuration {
+export function createWebpackBaseConfig({zeroconfigPath}: {zeroconfigPath: string}): Configuration {
   const modules: string[] = ['node_modules'];
   const zeroconfigModules: string = path.join(zeroconfigPath, 'node_modules');
   

@@ -1,8 +1,8 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { Configuration, RuleSetRule } from 'webpack';
-import { getBabelConfig } from './transpile/getBabelConfig';
-import { getWebpackBasicLoaders } from './webpackConfigs/getWebpackBasicLoaders';
+import { getWebpackRawLoaders } from './webpackConfigs/getWebpackRawLoaders';
+import { getWebpackScriptLoaders } from './webpackConfigs/getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './webpackConfigs/getWebpackStyleLoaders';
 
 const extractCss: boolean = false;
@@ -13,6 +13,8 @@ export function patchStorybookWebpackConfig({cwd = process.cwd(), config}: {cwd?
   
   config.resolve!.extensions!.push('.ts', '.tsx');
   
+  // https://storybook.js.org/docs/configurations/default-config/
+  // https://github.com/storybooks/storybook/blob/next/lib/core/src/server/preview/base-webpack.config.js
   config.module!.rules.push(
     // tslint
     ...(fs.pathExistsSync(tsconfig) && fs.pathExistsSync(tslint) ? [
@@ -34,14 +36,13 @@ export function patchStorybookWebpackConfig({cwd = process.cwd(), config}: {cwd?
     {
       oneOf: [
         // ts, tsx, js, jsx - script
-        // html, ejs, txt, md - plain text
-        ...getWebpackBasicLoaders({
-          include: path.join(cwd, 'src'),
-          babelConfig: getBabelConfig({
-            cwd,
-            modules: false,
-          }),
+        ...getWebpackScriptLoaders({
+          cwd,
+          useWebWorker: false,
         }),
+        
+        // html, ejs, txt, md - plain text
+        ...getWebpackRawLoaders(),
         
         // css, scss, sass, less - style
         // module.* - css module

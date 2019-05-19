@@ -1,23 +1,32 @@
 import { getBrowserslistQuery } from './getBrowserslistQuery';
 
-export function getBabelConfig({modules, cwd}: {cwd: string, modules: 'commonjs' | false}): object {
+type Modules = 'amd' | 'umd' | 'systemjs' | 'commonjs' | 'cjs' | 'auto' | false;
+
+export function getBabelConfig({modules, cwd}: {cwd: string, modules: Modules}): object {
   const targets: string | string[] = getBrowserslistQuery({cwd});
   
   if (!process.env.JEST_WORKER_ID) {
     console.log('');
     console.log('---------------------------------------------------------------------------------');
-    console.log('= BABEL TARGETS : ', targets);
+    console.log('= BABEL PRESET-ENV TARGETS (=BROWSERSLIST QUERY) : ', targets);
     console.log('---------------------------------------------------------------------------------');
   }
   
   return {
+    // https://github.com/facebook/create-react-app/blob/master/packages/babel-preset-react-app/create.js#L78
     presets: [
       [
+        // https://babeljs.io/docs/en/babel-preset-env
         require.resolve('@babel/preset-env'),
         {
+          // read browserslist config manually by getBrowserslistQuery
           targets,
           ignoreBrowserslistConfig: true,
+          // TODO improved polyfill builtin?
           useBuiltIns: false,
+          // https://babeljs.io/docs/en/babel-preset-env#modules
+          // webpack - modules: false
+          // jest - modules: 'commonjs'
           modules,
           exclude: ['transform-typeof-symbol'],
         },

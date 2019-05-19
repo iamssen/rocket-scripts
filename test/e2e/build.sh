@@ -145,3 +145,6 @@ fileExists $cwd/dist/app/browser/index.html;
 fileExists $cwd/dist/app/browser/manifest.json;
 fileExists $cwd/dist/app/browser/chunks/path/app.*.js;
 fileExists $cwd/dist/app/browser/chunks/path/vendor.*.js;
+
+# TODO *.worker test
+# TODO loadable-components code split test

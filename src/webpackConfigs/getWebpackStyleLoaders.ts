@@ -85,4 +85,4 @@ export function getWebpackStyleLoaders({cssRegex, cssModuleRegex, extractCss, pr
       use: moduleUse,
     },
   ];
-};
+}

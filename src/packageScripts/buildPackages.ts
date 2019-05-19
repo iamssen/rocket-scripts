@@ -9,14 +9,12 @@ import { getInternalPackageEntry } from '../internalPackage/getInternalPackageEn
 import { buildTypescriptDeclarations } from '../runners/buildTypescriptDeclarations';
 import { fsCopySourceFilter } from '../runners/fsCopySourceFilter';
 import { runWebpack } from '../runners/runWebpack';
-import { getBabelConfig } from '../transpile/getBabelConfig';
 import { getTSConfigCompilerOptions } from '../transpile/getTSConfigCompilerOptions';
 import { PackageBuildOption } from '../types';
 import { rimraf } from '../utils/rimraf-promise';
 import { sayTitle } from '../utils/sayTitle';
-import { createBaseWebpackConfig } from '../webpackConfigs/createBaseWebpackConfig';
-import { getWebpackBasicLoaders } from '../webpackConfigs/getWebpackBasicLoaders';
-import { getWebpackStyleLoaders } from '../webpackConfigs/getWebpackStyleLoaders';
+import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConfig';
+import { createWebpackPackageConfig } from '../webpackConfigs/createWebpackPackageConfig';
 import { createPackageBuildOptions } from './createPackageBuildOptions';
 
 const zeroconfigPath: string = path.join(__dirname, '../..');
@@ -25,7 +23,6 @@ export async function buildPackages({cwd}: {cwd: string}) {
   try {
     await rimraf(path.join(cwd, 'dist/packages'));
     
-    const extractCss: boolean = true;
     const entry: string[] = await getInternalPackageEntry({packageDir: path.join(cwd, 'src/_packages')});
     const buildOptions: PackageBuildOption[] = await createPackageBuildOptions({entry, cwd});
     const compilerOptions: CompilerOptions = getTSConfigCompilerOptions({cwd});
@@ -55,7 +52,7 @@ export async function buildPackages({cwd}: {cwd: string}) {
       );
       
       const webpackConfig: Configuration = webpackMerge(
-        createBaseWebpackConfig({zeroconfigPath}),
+        createWebpackBaseConfig({zeroconfigPath}),
         {
           mode: 'production',
           
@@ -74,52 +71,13 @@ export async function buildPackages({cwd}: {cwd: string}) {
             minimize: false,
           },
           
-          module: {
-            rules: [
-              {
-                oneOf: [
-                  // ts, tsx, js, jsx - script
-                  // html, ejs, txt, md - plain text
-                  ...getWebpackBasicLoaders({
-                    include: path.join(cwd, 'src/_packages', name),
-                    babelConfig: getBabelConfig({
-                      cwd,
-                      modules: false,
-                    }),
-                  }),
-                  
-                  // css, scss, sass, less - style
-                  // module.* - css module
-                  ...getWebpackStyleLoaders({
-                    cssRegex: /\.css$/,
-                    cssModuleRegex: /\.module.css$/,
-                    extractCss,
-                  }),
-                  
-                  ...getWebpackStyleLoaders({
-                    cssRegex: /\.(scss|sass)$/,
-                    cssModuleRegex: /\.module.(scss|sass)$/,
-                    extractCss,
-                    preProcessor: 'sass-loader',
-                  }),
-                  
-                  ...getWebpackStyleLoaders({
-                    cssRegex: /\.less$/,
-                    cssModuleRegex: /\.module.less$/,
-                    extractCss,
-                    preProcessor: 'less-loader',
-                  }),
-                ],
-              },
-            ],
-          },
-          
           plugins: [
             new MiniCssExtractPlugin({
               filename: 'index.css',
             }),
           ],
         },
+        createWebpackPackageConfig({cwd}),
       );
       
       sayTitle('BUILD PACKAGE - ' + name);

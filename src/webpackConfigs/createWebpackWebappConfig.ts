@@ -3,13 +3,15 @@ import fs from 'fs-extra';
 import path from 'path';
 import typescriptFormatter from 'react-dev-utils/typescriptFormatter';
 import resolve from 'resolve';
-import { Configuration, DefinePlugin, RuleSetRule } from 'webpack';
-import { getBabelConfig } from '../transpile/getBabelConfig';
+import { Configuration, RuleSetRule } from 'webpack';
 import { getWebpackAlias } from './getWebpackAlias';
-import { getWebpackBasicLoaders } from './getWebpackBasicLoaders';
+import { getWebpackDataURILoaders } from './getWebpackDataURILoaders';
+import { getWebpackFileLoaders } from './getWebpackFileLoaders';
+import { getWebpackRawLoaders } from './getWebpackRawLoaders';
+import { getWebpackScriptLoaders } from './getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './getWebpackStyleLoaders';
 
-export function createWebappWebpackConfig({extractCss, cwd, serverPort, publicPath}: {extractCss: boolean, cwd: string, serverPort: number, publicPath: string}): Configuration {
+export function createWebpackWebappConfig({extractCss, cwd, chunkPath}: {extractCss: boolean, cwd: string, chunkPath: string}): Configuration {
   const tsconfig: string = path.join(cwd, 'tsconfig.json');
   const tslint: string = path.join(cwd, 'tslint.json');
   
@@ -43,24 +45,18 @@ export function createWebappWebpackConfig({extractCss, cwd, serverPort, publicPa
         {
           oneOf: [
             // convert files to data url
-            {
-              test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-              loader: require.resolve('url-loader'),
-              options: {
-                limit: 10000,
-                name: `static/[name].[hash].[ext]`,
-              },
-            },
+            ...getWebpackDataURILoaders({
+              chunkPath,
+            }),
             
             // ts, tsx, js, jsx - script
-            // html, ejs, txt, md - plain text
-            ...getWebpackBasicLoaders({
-              include: path.join(cwd, 'src'),
-              babelConfig: getBabelConfig({
-                cwd,
-                modules: false,
-              }),
+            ...getWebpackScriptLoaders({
+              cwd,
+              useWebWorker: true,
             }),
+            
+            // html, ejs, txt, md - plain text
+            ...getWebpackRawLoaders(),
             
             // css, scss, sass, less - style
             // module.* - css module
@@ -85,13 +81,9 @@ export function createWebappWebpackConfig({extractCss, cwd, serverPort, publicPa
             }),
             
             // export files to static directory
-            {
-              loader: require.resolve('file-loader'),
-              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
-              options: {
-                name: `static/[name].[hash].[ext]`,
-              },
-            },
+            ...getWebpackFileLoaders({
+              chunkPath,
+            }),
           ],
         },
       ],
@@ -119,11 +111,6 @@ export function createWebappWebpackConfig({extractCss, cwd, serverPort, publicPa
           formatter: typescriptFormatter,
         }),
       ] : []),
-      
-      new DefinePlugin({
-        'process.env.SERVER_PORT': JSON.stringify(serverPort),
-        'process.env.PUBLIC_PATH': JSON.stringify(publicPath),
-      }),
     ],
   };
 }

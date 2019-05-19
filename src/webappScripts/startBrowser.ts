@@ -12,8 +12,9 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackMerge from 'webpack-merge';
 import { WebappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
-import { createBaseWebpackConfig } from '../webpackConfigs/createBaseWebpackConfig';
-import { createWebappWebpackConfig } from '../webpackConfigs/createWebappWebpackConfig';
+import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConfig';
+import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
+import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
 
 // work
 // - [x] serve js, css files by webpack middlewares
@@ -71,7 +72,7 @@ export async function startBrowser({
                                      zeroconfigPath,
                                    }: WebappConfig) {
   const webpackConfig: Configuration = webpackMerge(
-    createBaseWebpackConfig({zeroconfigPath}),
+    createWebpackBaseConfig({zeroconfigPath}),
     {
       mode: 'development',
       devtool: 'cheap-module-eval-source-map',
@@ -135,9 +136,12 @@ export async function startBrowser({
         }) : []),
       ],
     },
-    createWebappWebpackConfig({
+    createWebpackWebappConfig({
       extractCss: false,
       cwd,
+      chunkPath,
+    }),
+    createWebpackEnvConfig({
       serverPort,
       publicPath,
     }),

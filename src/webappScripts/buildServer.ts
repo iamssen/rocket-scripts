@@ -8,8 +8,9 @@ import { copyServerPackageJson } from '../runners/copyServerPackageJson';
 import { runWebpack } from '../runners/runWebpack';
 import { WebappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
-import { createBaseWebpackConfig } from '../webpackConfigs/createBaseWebpackConfig';
-import { createWebappWebpackConfig } from '../webpackConfigs/createWebappWebpackConfig';
+import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConfig';
+import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
+import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
 
 // work
 // - [x] works after buildBrowser
@@ -52,6 +53,7 @@ export async function buildServer({
                                     publicPath,
                                     serverPort,
                                     zeroconfigPath,
+                                    chunkPath,
                                   }: WebappConfig) {
   const loadableStatsJson: string = path.join(output, 'loadable-stats.json');
   
@@ -60,7 +62,7 @@ export async function buildServer({
   }
   
   const webpackConfig: Configuration = webpackMerge(
-    createBaseWebpackConfig({zeroconfigPath}),
+    createWebpackBaseConfig({zeroconfigPath}),
     {
       target: 'node',
       mode,
@@ -92,9 +94,12 @@ export async function buildServer({
         }),
       ],
     },
-    createWebappWebpackConfig({
+    createWebpackWebappConfig({
       extractCss: true,
       cwd,
+      chunkPath,
+    }),
+    createWebpackEnvConfig({
       serverPort,
       publicPath,
     }),

@@ -12,8 +12,9 @@ import webpackMerge from 'webpack-merge';
 import { runWebpack } from '../runners/runWebpack';
 import { WebappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
-import { createBaseWebpackConfig } from '../webpackConfigs/createBaseWebpackConfig';
-import { createWebappWebpackConfig } from '../webpackConfigs/createWebappWebpackConfig';
+import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConfig';
+import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
+import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
 
 // work
 // - [x] create js, css files by webpack
@@ -75,7 +76,7 @@ export async function buildBrowser({
                                      zeroconfigPath,
                                    }: WebappConfig) {
   const webpackConfig: Configuration = webpackMerge(
-    createBaseWebpackConfig({zeroconfigPath}),
+    createWebpackBaseConfig({zeroconfigPath}),
     {
       mode,
       devtool: mode === 'production' ? false : 'source-map',
@@ -187,9 +188,12 @@ export async function buildBrowser({
         }) : []),
       ],
     },
-    createWebappWebpackConfig({
+    createWebpackWebappConfig({
       extractCss: true,
       cwd,
+      chunkPath,
+    }),
+    createWebpackEnvConfig({
       serverPort,
       publicPath,
     }),
