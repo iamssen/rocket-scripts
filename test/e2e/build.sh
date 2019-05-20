@@ -1,5 +1,7 @@
 #!/bin/bash
 
+npm run build;
+
 zeroconfig=$(pwd);
 tarball=$zeroconfig/$(npm pack | tail -n 1);
 

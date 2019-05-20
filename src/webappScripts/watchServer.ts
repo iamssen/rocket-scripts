@@ -93,6 +93,7 @@ export async function watchServer({
       extractCss: true,
       cwd,
       chunkPath,
+      publicPath,
     }),
     createWebpackEnvConfig({
       serverPort,

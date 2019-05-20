@@ -9,6 +9,7 @@ interface GetWebpackStyleLoadersParameters {
   preProcessor?: string;
 }
 
+/** @return RuleSetRule[] for oneOf */
 export function getWebpackStyleLoaders({cssRegex, cssModuleRegex, extractCss, preProcessor}: GetWebpackStyleLoadersParameters): RuleSetRule[] {
   const styleLoader: RuleSetUseItem = extractCss
     ? MiniCssExtractPlugin.loader
@@ -76,13 +77,12 @@ export function getWebpackStyleLoaders({cssRegex, cssModuleRegex, extractCss, pr
   
   return [
     {
-      test: cssRegex,
-      exclude: cssModuleRegex,
-      use,
-    },
-    {
       test: cssModuleRegex,
       use: moduleUse,
+    },
+    {
+      test: cssRegex,
+      use,
     },
   ];
 }

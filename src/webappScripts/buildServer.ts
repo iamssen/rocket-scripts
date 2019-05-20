@@ -98,6 +98,7 @@ export async function buildServer({
       extractCss: true,
       cwd,
       chunkPath,
+      publicPath,
     }),
     createWebpackEnvConfig({
       serverPort,

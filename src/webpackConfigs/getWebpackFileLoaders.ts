@@ -4,9 +4,9 @@ export function getWebpackFileLoaders({chunkPath}: {chunkPath: string}): RuleSet
   return [
     {
       loader: require.resolve('file-loader'),
-      exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.(html|txt|md|ejs)$/, /\.json$/],
+      exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.json$/],
       options: {
-        name: `${chunkPath}/[name].[hash].[ext]`,
+        name: `${chunkPath}[name].[hash].[ext]`,
       },
     },
   ];

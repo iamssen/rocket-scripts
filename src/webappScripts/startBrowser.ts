@@ -140,6 +140,7 @@ export async function startBrowser({
       extractCss: false,
       cwd,
       chunkPath,
+      publicPath,
     }),
     createWebpackEnvConfig({
       serverPort,

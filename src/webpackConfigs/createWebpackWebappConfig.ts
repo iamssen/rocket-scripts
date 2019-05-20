@@ -11,7 +11,7 @@ import { getWebpackRawLoaders } from './getWebpackRawLoaders';
 import { getWebpackScriptLoaders } from './getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './getWebpackStyleLoaders';
 
-export function createWebpackWebappConfig({extractCss, cwd, chunkPath}: {extractCss: boolean, cwd: string, chunkPath: string}): Configuration {
+export function createWebpackWebappConfig({extractCss, cwd, chunkPath, publicPath}: {extractCss: boolean, cwd: string, chunkPath: string, publicPath: string}): Configuration {
   const tsconfig: string = path.join(cwd, 'tsconfig.json');
   const tslint: string = path.join(cwd, 'tslint.json');
   
@@ -53,6 +53,8 @@ export function createWebpackWebappConfig({extractCss, cwd, chunkPath}: {extract
             ...getWebpackScriptLoaders({
               cwd,
               useWebWorker: true,
+              chunkPath,
+              publicPath,
             }),
             
             // html, ejs, txt, md - plain text

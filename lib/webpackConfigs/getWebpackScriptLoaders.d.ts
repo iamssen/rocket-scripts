@@ -1,5 +1,14 @@
 import { RuleSetRule } from 'webpack';
-export declare function getWebpackScriptLoaders({ cwd, useWebWorker }: {
+interface WorkerUseParams {
     cwd: string;
-    useWebWorker: boolean;
-}): RuleSetRule[];
+    useWebWorker: true;
+    chunkPath: string;
+    publicPath: string;
+}
+interface WorkerUnuseParams {
+    cwd: string;
+    useWebWorker: false;
+}
+/** @return RuleSetRule[] for oneOf */
+export declare function getWebpackScriptLoaders(params: WorkerUseParams | WorkerUnuseParams): RuleSetRule[];
+export {};
