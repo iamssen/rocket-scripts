@@ -1,7 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { Configuration, RuleSetRule } from 'webpack';
-import { getWebpackRawLoaders } from './webpackConfigs/getWebpackRawLoaders';
 import { getWebpackScriptLoaders } from './webpackConfigs/getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './webpackConfigs/getWebpackStyleLoaders';
 
@@ -10,6 +9,8 @@ const extractCss: boolean = false;
 export function patchStorybookWebpackConfig({cwd = process.cwd(), config}: {cwd?: string, config: Configuration}) {
   const tsconfig: string = path.join(cwd, 'tsconfig.json');
   const tslint: string = path.join(cwd, 'tslint.json');
+  
+  process.env.BROWSERSLIST_ENV = 'development';
   
   config.resolve!.extensions!.push('.ts', '.tsx');
   
@@ -42,7 +43,7 @@ export function patchStorybookWebpackConfig({cwd = process.cwd(), config}: {cwd?
         }),
         
         // html, ejs, txt, md - plain text
-        ...getWebpackRawLoaders(),
+        //...getWebpackRawLoaders(),
         
         // css, scss, sass, less - style
         // module.* - css module
