@@ -1,8 +1,8 @@
 import { say } from 'cfonts';
 import multiplerun from 'multiplerun';
 import path from 'path';
-import { createWebappConfig } from '../configuration/createWebappConfig';
-import { parseWebappArgv } from '../configuration/parseWebappArgv';
+import { createWebappConfig } from './createWebappConfig';
+import { parseWebappArgv } from './parseWebappArgv';
 import { WebappArgv, WebappConfig } from '../types';
 import { rimraf } from '../utils/rimraf-promise';
 import { sayTitle } from '../utils/sayTitle';
@@ -16,7 +16,6 @@ import help from './help';
 const zeroconfigPath: string = path.join(__dirname, '../..');
 
 export async function webappScripts(nodeArgv: string[], {cwd = process.cwd()}: {cwd?: string} = {}) {
-  console.log('index.ts..webappScripts()', nodeArgv);
   if (nodeArgv.indexOf('--help') > -1) {
     console.log(help);
     return;
@@ -46,10 +45,17 @@ export async function webappScripts(nodeArgv: string[], {cwd = process.cwd()}: {
     switch (config.command) {
       case 'build':
         await rimraf(config.output);
+        
+        process.env.BROWSERSLIST_ENV = config.mode;
         await buildBrowser(config);
-        if (config.extend.serverSideRendering) await buildServer(config);
+        
+        if (config.extend.serverSideRendering) {
+          process.env.BROWSERSLIST_ENV = config.mode === 'production' ? 'server' : 'server_development';
+          await buildServer(config);
+        }
         break;
       case 'server-watch':
+        process.env.BROWSERSLIST_ENV = 'server_development';
         await watchServer(config);
         break;
       case 'server-start':
@@ -57,6 +63,7 @@ export async function webappScripts(nodeArgv: string[], {cwd = process.cwd()}: {
         break;
       case 'start':
       case 'browser-start':
+        process.env.BROWSERSLIST_ENV = 'development';
         await startBrowser(config);
         break;
       default:

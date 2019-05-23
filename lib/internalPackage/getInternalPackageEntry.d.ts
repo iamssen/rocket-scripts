@@ -1,3 +1,3 @@
-export declare function getInternalPackageEntry({ cwd }: {
-    cwd: string;
+export declare function getInternalPackageEntry({ packageDir }: {
+    packageDir: string;
 }): Promise<string[]>;

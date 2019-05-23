@@ -1,8 +1,5 @@
 import { PackageJson } from 'type-fest';
 
-// ---------------------------------------------
-//
-// ---------------------------------------------
 // tslint:disable:typedef
 export const packageCommands = ['build', 'publish'] as const;
 export const webappCommands = ['build', 'start', 'server-watch', 'server-start', 'browser-start'] as const;
@@ -67,6 +64,7 @@ export interface WebappArgv {
   // --size-report false
   // --mode "production" | "development"
   // --output "/path/to" - relative paths from cwd or absolute paths
+  // --app-file-name "app"
   // --vendor-file-name "vendor"
   // --style-file-name "style"
   // --chunk-path "" - a relative path from output

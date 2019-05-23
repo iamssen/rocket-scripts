@@ -12,9 +12,9 @@ import webpackMerge from 'webpack-merge';
 import { runWebpack } from '../runners/runWebpack';
 import { WebappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
-import { createBaseWebpackConfig } from '../webpackConfigs/createBaseWebpackConfig';
-import { createBrowserAppWebpackConfig } from '../webpackConfigs/createBrowserAppWebpackConfig';
-import { createWebappWebpackConfig } from '../webpackConfigs/createWebappWebpackConfig';
+import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConfig';
+import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
+import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
 
 // work
 // - [x] create js, css files by webpack
@@ -76,15 +76,19 @@ export async function buildBrowser({
                                      zeroconfigPath,
                                    }: WebappConfig) {
   const webpackConfig: Configuration = webpackMerge(
-    createBaseWebpackConfig({zeroconfigPath}),
+    createWebpackBaseConfig({zeroconfigPath}),
     {
       mode,
       devtool: mode === 'production' ? false : 'source-map',
+      
       entry: {
         [appFileName]: path.join(cwd, 'src', app),
       },
+      
       output: {
         path: path.join(output, 'browser'),
+        filename: `${chunkPath}[name].[hash].js`,
+        chunkFilename: `${chunkPath}[name].[hash].js`,
         publicPath,
       },
       
@@ -129,6 +133,25 @@ export async function buildBrowser({
             },
           }),
         ],
+        
+        splitChunks: {
+          cacheGroups: {
+            // vendor chunk
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: vendorFileName,
+              chunks: 'all',
+            },
+            
+            // extract single css file
+            style: {
+              test: m => m.constructor.name === 'CssModule',
+              name: styleFileName,
+              chunks: 'all',
+              enforce: true,
+            },
+          },
+        },
       },
       
       plugins: [
@@ -148,7 +171,7 @@ export async function buildBrowser({
         // create loadable-stats.json when server side rendering is enabled
         ...(extend.serverSideRendering ? [
           new LoadablePlugin({
-            filename: path.join(output, 'loadable-stats.json'),
+            filename: '../loadable-stats.json',
             writeToDisk: true,
           }),
         ] : []),
@@ -165,17 +188,15 @@ export async function buildBrowser({
         }) : []),
       ],
     },
-    createWebappWebpackConfig({
+    createWebpackWebappConfig({
       extractCss: true,
       cwd,
-      serverPort,
+      chunkPath,
       publicPath,
     }),
-    createBrowserAppWebpackConfig({
-      chunkPath,
-      vendorFileName,
-      styleFileName,
-      hash: '.[hash]',
+    createWebpackEnvConfig({
+      serverPort,
+      publicPath,
     }),
   );
   

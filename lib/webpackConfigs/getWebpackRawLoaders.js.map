@@ -1,0 +1,1 @@
+{"version":3,"file":"getWebpackRawLoaders.js","sourceRoot":"","sources":["../../src/webpackConfigs/getWebpackRawLoaders.ts"],"names":[],"mappings":";;AAEA,SAAgB,oBAAoB;IAClC,OAAO;QACL;YACE,IAAI,EAAE,sBAAsB;YAC5B,GAAG,EAAE;gBACH,OAAO,CAAC,OAAO,CAAC,YAAY,CAAC;aAC9B;SACF;KACF,CAAC;AACJ,CAAC;AATD,oDASC"}
