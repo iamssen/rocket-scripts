@@ -9,7 +9,7 @@ module.exports = {
     '\\.(css|less|scss|sass)$': path.join(__dirname, 'jest-preset-files/mockup/style.js'),
   },
   testMatch: [
-    '**/__tests?__/**/*.[jt]s?(x)',
+    '**/__test?(s)__/**/*.[jt]s?(x)',
     '**/?(*.)(spec|test).[jt]s?(x)',
   ],
   moduleFileExtensions: [
