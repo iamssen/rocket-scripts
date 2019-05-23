@@ -29,7 +29,7 @@ export function parseWebappArgv(nodeArgv: string[]): WebappArgv {
     app,
     staticFileDirectories: takeMinimistEveryValues(argv['static-file-directories']),
     staticFilePackages: takeMinimistEveryValues(argv['static-file-packages']),
-    sizeReport: takeMinimistLatestValue(argv['size-report']) !== 'false',
+    sizeReport: takeMinimistLatestValue(argv['size-report']) === 'true',
     mode: (takeMinimistLatestValue(argv['mode']) || 'production') as Mode,
     output: takeMinimistLatestValue(argv['output']),
     appFileName: takeMinimistLatestValue(argv['app-file-name']) || 'app',

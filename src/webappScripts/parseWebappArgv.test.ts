@@ -6,7 +6,7 @@ const defaultArgv: WebappArgv = {
   app: 'app',
   staticFileDirectories: undefined,
   staticFilePackages: undefined,
-  sizeReport: true,
+  sizeReport: false,
   mode: 'production',
   output: undefined,
   appFileName: 'app',
@@ -45,12 +45,12 @@ describe('parseWebappArgv()', () => {
       'build',
       'app',
       '--size-report',
-      'false',
+      'true',
       '--mode',
       'development',
     ])).toEqual({
       ...defaultArgv,
-      sizeReport: false,
+      sizeReport: true,
       mode: 'development',
     });
     
