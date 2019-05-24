@@ -28,7 +28,7 @@ jobs:
           command: npm run lint
       - run:
           name: unit test
-          command: npm coverage
+          command: npm run coverage
       - run:
           name: post coveralls
           command: cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
