@@ -31,7 +31,7 @@
     "build:watch": "npm run clean && tsc --watch --project tsconfig.build.json",
     "test": "jest --colors",
     "test:e2e:build": "sh test/e2e/build.sh",
-    "coverage": "jest --colors --coverage && open coverage/index.html",
+    "coverage": "jest --colors --coverage",
     "prepublishOnly": "npm run test && npm run lint && npm run build",
     "lint": "tslint \"src/**/*.{ts,tsx}\"",
     "toc": "node toc.js"
@@ -52,7 +52,7 @@
       ".(ts|tsx)": "ts-jest"
     },
     "testMatch": [
-      "**/__tests__/**/*.ts?(x)",
+      "**/__test?(s)__/**/*.ts?(x)",
       "**/?(*.)(spec|test).ts?(x)"
     ],
     "moduleFileExtensions": [
@@ -62,28 +62,25 @@
     ],
     "collectCoverageFrom": [
       "src/**/*.ts"
-    ],
-    "coverageReporters": [
-      "html"
     ]
   },
   "dependencies": {
-    "@babel/core": "^7.4.4",
+    "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/plugin-proposal-decorators": "^7.4.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-destructuring": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@loadable/babel-plugin": "^5.10.0",
     "@loadable/webpack-plugin": "^5.7.1",
     "@svgr/webpack": "^4.2.0",
-    "@types/react": "^16.8.17",
+    "@types/react": "^16.8.18",
     "babel-jest": "^24.7.1",
     "babel-loader": "^8.0.6",
-    "babel-plugin-import": "^1.11.0",
+    "babel-plugin-import": "^1.11.2",
     "babel-plugin-named-asset-import": "^0.3.2",
     "browser-sync": "^2.26.5",
     "browserslist": "^4.6.0",
@@ -113,14 +110,14 @@
     "postcss-normalize": "^7.0.1",
     "postcss-preset-env": "^6.6.0",
     "postcss-safe-parser": "^4.0.1",
-    "prompts": "^2.0.4",
+    "prompts": "^2.1.0",
     "raw-loader": "^2.0.0",
     "react-dev-utils": "^9.0.1",
     "resolve": "^1.11.0",
     "rimraf": "^2.6.3",
     "rxjs": "^6.5.2",
     "sass-loader": "^7.1.0",
-    "semver": "^6.0.0",
+    "semver": "^6.1.0",
     "source-map-support": "^0.5.12",
     "style-loader": "^0.23.1",
     "terser": "^3.17.0",
@@ -161,12 +158,13 @@
     "@types/source-map-support": "^0.5.0",
     "@types/terser-webpack-plugin": "^1.2.1",
     "@types/tmp": "^0.1.0",
-    "@types/webpack": "^4.4.31",
+    "@types/webpack": "^4.4.32",
     "@types/webpack-bundle-analyzer": "^2.13.1",
     "@types/webpack-dev-middleware": "^2.0.2",
     "@types/webpack-hot-middleware": "^2.16.5",
     "@types/webpack-merge": "^4.1.5",
     "@types/webpack-node-externals": "^1.6.3",
+    "coveralls": "^3.0.3",
     "pre-commit": "^1.2.2",
     "ts-jest": "^24.0.2",
     "tslint": "^5.16.0",
