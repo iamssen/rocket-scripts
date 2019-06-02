@@ -15,7 +15,8 @@ create-zeroconfig-app my-app
 
 # Links
 
-- [Documentation](https://www.notion.so/reactzeroconfig/react-zeroconfig-30e18396302b4c51ac78485b94084bb3)
+- User Guide
+    - [한글](https://www.notion.so/reactzeroconfig/User-Guide-30e18396302b4c51ac78485b94084bb3)
 - [Samples](https://github.com/react-zeroconfig/fixtures)
 
 # License
