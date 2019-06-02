@@ -1,6 +1,6 @@
 {
   "name": "react-zeroconfig",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Zero config tools for typescript projects",
   "keywords": [
     "zeroconfig",
@@ -33,12 +33,16 @@
     "test:e2e:build": "sh test/e2e/build.sh",
     "coverage": "jest --colors --coverage",
     "prepublishOnly": "npm run test && npm run lint && npm run build",
-    "lint": "tslint \"src/**/*.{ts,tsx}\"",
-    "toc": "node toc.js"
+    "lint": "tslint \"src/**/*.{ts,tsx}\""
   },
   "bin": {
     "zeroconfig-webapp-scripts": "./bin/zeroconfig-webapp-scripts",
     "zeroconfig-package-scripts": "./bin/zeroconfig-package-scripts"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run test"
+    }
   },
   "pre-commit": [
     "test",
@@ -165,7 +169,7 @@
     "@types/webpack-merge": "^4.1.5",
     "@types/webpack-node-externals": "^1.6.3",
     "coveralls": "^3.0.3",
-    "pre-commit": "^1.2.2",
+    "husky": "^2.3.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.17.0",
     "tslint-ssen-rules": "^1.3.0"
