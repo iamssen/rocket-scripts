@@ -75,6 +75,7 @@ export async function watchServer({
       resolve: {
         alias: {
           'loadable-stats.json': loadableStatsJson,
+          '@loadable/stats.json': loadableStatsJson,
         },
       },
       
