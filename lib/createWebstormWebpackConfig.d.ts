@@ -1,4 +1,5 @@
 /// <reference types="webpack-dev-server" />
 import { Configuration } from 'webpack';
-declare const _default: (appDirectory?: string) => Configuration;
-export = _default;
+export declare function createWebstormWebpackConfig({ cwd }?: {
+    cwd?: string;
+}): Configuration;

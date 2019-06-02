@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    
+    // language setting
+    // -------------------------------
+    // import * as module from 'module' -> import module from 'module'
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    
+    // strict
+    // -------------------------------
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": false,
+    "strictPropertyInitialization": true,
+    
+    // export setting
+    // -------------------------------
+    "module": "commonjs",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "outDir": "lib",
+    "declaration": true
+  },
+  
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "./src/**/*.spec.ts",
+    "./src/**/*.test.ts",
+    "./src/**/__tests__",
+    "./src/**/__test__"
+  ]
+}
