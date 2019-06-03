@@ -1,19 +1,10 @@
-import path from 'path';
 import { Configuration } from 'webpack';
-import { Config } from './types';
-import createConfig from './utils/createConfig';
-import getAlias from './utils/webpack/getAlias';
+import { getWebpackAlias } from './webpackConfigs/getWebpackAlias';
 
-export = function (appDirectory: string = process.cwd()): Configuration {
-  const config: Config = createConfig({
-    command: 'editor.webpack',
-    appDirectory,
-    zeroconfigDirectory: path.join(__dirname, '..'),
-  });
-  
+export function createWebstormWebpackConfig({cwd = process.cwd()}: {cwd?: string} = {}): Configuration {
   return {
     resolve: {
-      alias: getAlias(config),
+      alias: getWebpackAlias({cwd}),
     },
   };
 }

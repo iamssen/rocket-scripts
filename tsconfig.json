@@ -1,8 +1,13 @@
 {
   "compilerOptions": {
-    
     // language setting
     // -------------------------------
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "downlevelIteration": true,
+    "importHelpers": true,
+    "resolveJsonModule": true,
     // import * as module from 'module' -> import module from 'module'
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -17,16 +22,18 @@
     
     // export setting
     // -------------------------------
-    "module": "commonjs",
-    "target": "esnext",
+    "module": "esnext",
+    "target": "es5",
     "moduleResolution": "node",
     "skipLibCheck": true,
     "sourceMap": true,
-    "outDir": "lib",
-    "declaration": true
-  },
-  
-  "include": [
-    "src/**/*"
-  ]
+    
+    // lib
+    // -------------------------------
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ]
+  }
 }

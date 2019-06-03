@@ -1,0 +1,37 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.15.2
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run:
+          name: update npm
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install packages
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: install git submodules
+          command: git submodule sync && git submodule update --init
+      - run:
+          name: lint
+          command: npm run lint
+      - run:
+          name: unit test
+          command: npm run coverage
+      - run:
+          name: post coveralls
+          command: cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
+      - run:
+          name: e2e build test
+          command: npm run test:e2e:build
