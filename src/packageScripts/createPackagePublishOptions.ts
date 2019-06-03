@@ -28,9 +28,9 @@ export async function createPackagePublishOptions({entry, cwd, version, getRemot
     .map(packageJsonFile => fs.readJsonSync(packageJsonFile))
     .filter(({name}) => typeof name === 'string');
   
-  const remotePackageJsons: PackageJson[] = await Promise.all<PackageJson>(
-    currentPackageJsons.map(({name}) => getRemotePackageJson({name: name!, version, fullMetadata: true})),
-  );
+  const remotePackageJsons: (PackageJson | undefined)[] = await Promise.all<PackageJson | undefined>(
+    currentPackageJsons.map(({name}) => getRemotePackageJson({name: name!, version, fullMetadata: true}),
+    ));
   
   return currentPackageJsons.map((currentPackageJson, i) => ({
     name: currentPackageJson.name!,

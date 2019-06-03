@@ -9,6 +9,11 @@ declare module 'loadable-stats.json' {
   export = content;
 }
 
+declare module '@loadable/stats.json' {
+  const content: any;
+  export = content;
+}
+
 // ---------------------------------------------
 // import types
 // ---------------------------------------------
