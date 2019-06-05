@@ -43,6 +43,15 @@ export function createWebpackPackageConfig({cwd}: {cwd: string}): Configuration 
               extractCss,
               preProcessor: 'less-loader',
             }),
+            
+            // every files import by data uri
+            {
+              loader: require.resolve('url-loader'),
+              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.json$/],
+              options: {
+                name: `[name].[hash].[ext]`,
+              },
+            },
           ],
         },
       ],
