@@ -4,6 +4,7 @@
 [![CircleCI](https://circleci.com/gh/react-zeroconfig/react-zeroconfig.svg?style=svg)](https://circleci.com/gh/react-zeroconfig/react-zeroconfig)
 [![DeepScan grade](https://deepscan.io/api/teams/3270/projects/5643/branches/43640/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=3270&pid=5643&bid=43640)
 [![Coverage Status](https://coveralls.io/repos/github/react-zeroconfig/react-zeroconfig/badge.svg?branch=develop)](https://coveralls.io/github/react-zeroconfig/react-zeroconfig?branch=develop)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/react-zeroconfig/react-zeroconfig.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/react-zeroconfig/react-zeroconfig/alerts/)
 
 # 🚀 Quick Start
 
