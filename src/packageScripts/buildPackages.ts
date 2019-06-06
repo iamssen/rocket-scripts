@@ -25,10 +25,11 @@ export async function buildPackages({cwd}: {cwd: string}) {
     
     const entry: string[] = await getInternalPackageEntry({packageDir: path.join(cwd, 'src/_packages')});
     const buildOptions: PackageBuildOption[] = await createPackageBuildOptions({entry, cwd});
-    const compilerOptions: CompilerOptions = getTSConfigCompilerOptions({cwd});
     
     for await (const {name, file, externals, buildTypescriptDeclaration} of buildOptions) {
       //await fs.mkdirp(path.join(cwd, 'dist/packages', name));
+  
+      const compilerOptions: CompilerOptions = getTSConfigCompilerOptions({cwd});
       
       if (buildTypescriptDeclaration) {
         sayTitle('BUILD TYPESCRIPT DECLARATIONS - ' + name);
