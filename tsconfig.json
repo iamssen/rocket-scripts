@@ -17,7 +17,7 @@
     "alwaysStrict": true,
     "strictNullChecks": true,
     "strictBindCallApply": true,
-    "strictFunctionTypes": false,
+    "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
     
     // export setting
