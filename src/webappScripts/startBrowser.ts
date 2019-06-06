@@ -13,8 +13,8 @@ import webpackMerge from 'webpack-merge';
 import { WebappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
 import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConfig';
-import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
 import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
+import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
 
 // work
 // - [x] serve js, css files by webpack middlewares
@@ -151,22 +151,27 @@ export async function startBrowser({
   const compiler: Compiler.Watching | Compiler = webpack(webpackConfig);
   
   const middleware: MiddlewareHandler[] = [
+    // @ts-ignore as MiddlewareHandler
     webpackDevMiddleware(compiler, {
       publicPath: publicPath,
       stats: {colors: true},
     }),
+    // @ts-ignore as MiddlewareHandler
     webpackHotMiddleware(compiler),
+    // @ts-ignore as MiddlewareHandler
     compression(),
   ];
   
   if (extend.serverSideRendering) {
     middleware.push(
+      // @ts-ignore as MiddlewareHandler
       proxyMiddleware(['**', '!**/*.*'], {
         target: `http://localhost:${serverPort}`,
       }),
     );
   } else {
     middleware.push(
+      // @ts-ignore as MiddlewareHandler
       function (req: IncomingMessage, res: ServerResponse, next: () => void) {
         if (req.url && !/\.[a-zA-Z0-9]+$/.test(req.url)) {
           req.url = '/index.html';
