@@ -9,19 +9,23 @@ import { selectPublishOptions } from './selectPublishOptions';
 export async function publishPackages({cwd}: {cwd: string}) {
   try {
     const entry: string[] = await getInternalPackageEntry({packageDir: path.join(cwd, 'src/_packages')});
-    const publishOptions: PackagePublishOption[] = await createPackagePublishOptions({entry, cwd, version: 'latest'});
+    const publishOptions: PackagePublishOption[] = await createPackagePublishOptions({entry, cwd});
     
     sayTitle('SELECT PACKAGES TO PUBLISH');
     const selectedPublishOptions: PackagePublishOption[] = await selectPublishOptions({publishOptions});
     
     for await (const publishOption of selectedPublishOptions) {
       sayTitle('PUBLISH PACKAGE - ' + publishOption.name);
+      console.log(`npm publish ${publishOption.name} --tag ${publishOption.tag}`);
+      console.log('');
       
       const command: string = process.platform === 'win32'
-        ? `cd "${path.join(cwd, 'dist/packages', name)}" && npm publish`
-        : `cd "${path.join(cwd, 'dist/packages', name)}"; npm publish;`;
+        ? `cd "${path.join(cwd, 'dist/packages', publishOption.name)}" && npm publish --tag ${publishOption.tag}`
+        : `cd "${path.join(cwd, 'dist/packages', publishOption.name)}"; npm publish --tag ${publishOption.tag};`;
       
-      console.log(await exec(command, {encoding: 'utf8'}));
+      const {stderr, stdout} = await exec(command, {encoding: 'utf8'});
+      console.log(stdout);
+      console.error(stderr);
     }
   } catch (error) {
     sayTitle('⚠️ PUBLISH PACKAGES ERROR');

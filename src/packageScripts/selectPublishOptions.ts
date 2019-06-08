@@ -7,14 +7,14 @@ export async function selectPublishOptions({publishOptions}: {publishOptions: Pa
     type: 'multiselect',
     name: 'publishOptions',
     message: 'Select packages to publish',
-    choices: publishOptions.map(({name, currentPackageJson, remotePackageJson}) => {
+    choices: publishOptions.map(({name, tag, currentPackageJson, remotePackageJson}) => {
       const currentVersion: string = currentPackageJson.version!;
       const remoteVersion: string | undefined = remotePackageJson && typeof remotePackageJson.version === 'string' ? remotePackageJson.version : undefined;
       
       return {
         title: remoteVersion
-          ? `${name} (${remoteVersion} → ${currentVersion})`
-          : `${name} (→ ${currentVersion})`,
+          ? `${name}@${tag} (${remoteVersion} → ${currentVersion})`
+          : `${name}@${tag} (→ ${currentVersion})`,
         value: name,
         disabled: remoteVersion && semver.lte(currentVersion, remoteVersion),
       };
