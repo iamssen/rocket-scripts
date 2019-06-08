@@ -24,6 +24,9 @@ export function parseWebappArgv(nodeArgv: string[]): WebappArgv {
     chunkPath = chunkPath + '/';
   }
   
+  const defaultPort: string = process.env.PORT || '3100';
+  const defaultServerPort: string = process.env.SERVER_PORT || '4100';
+  
   return {
     command: command as WebappCommand,
     app,
@@ -37,8 +40,8 @@ export function parseWebappArgv(nodeArgv: string[]): WebappArgv {
     styleFileName: takeMinimistLatestValue(argv['style-file-name']) || 'style.js',
     chunkPath,
     publicPath: takeMinimistLatestValue(argv['public-path']) || '',
-    port: parseInt(takeMinimistLatestValue(argv['port']) || '3100', 10),
-    serverPort: parseInt(takeMinimistLatestValue(argv['server-port']) || '4100', 10),
+    port: parseInt(takeMinimistLatestValue(argv['port']) || defaultPort, 10),
+    serverPort: parseInt(takeMinimistLatestValue(argv['server-port']) || defaultServerPort, 10),
     https,
   };
 }
