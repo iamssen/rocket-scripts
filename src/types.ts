@@ -44,6 +44,8 @@ export interface PackageBuildOption {
 export interface PackagePublishOption {
   /** module name is package.json name */
   name: string;
+  /** tag (eg. latest, alpha, beta) */
+  tag: string;
   /** current package.json */
   currentPackageJson: PackageJson;
   /** remote package.json */

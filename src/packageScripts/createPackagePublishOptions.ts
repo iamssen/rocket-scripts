@@ -3,19 +3,22 @@ import getPackageJson, { Options } from 'package-json';
 import path from 'path';
 import { PackageJson } from 'type-fest';
 import { PackagePublishOption } from '../types';
+import { prerelease } from 'semver';
 
 type GetRemotePackageJson = (params: {name: string} & Options) => Promise<PackageJson | undefined>;
 
 const getNpmRemotePackageJson: GetRemotePackageJson = ({name, ...options}) => {
-  return getPackageJson(name!, {
-    version: 'latest',
-    fullMetadata: true,
-    ...options,
-  }).then(value => value && typeof value.version === 'string' ? value as PackageJson : undefined)
+  return getPackageJson(name, options)
+    .then(value => value && typeof value.version === 'string' ? value as PackageJson : undefined)
     .catch(() => undefined);
 };
 
-export async function createPackagePublishOptions({entry, cwd, version, getRemotePackageJson = getNpmRemotePackageJson}: {entry: string[], cwd: string, version: string, getRemotePackageJson?: GetRemotePackageJson}): Promise<PackagePublishOption[]> {
+function getTag(version: string | undefined): string {
+  const prereleaseVersions: null | ReadonlyArray<string> = prerelease(version || '');
+  return prereleaseVersions ? prereleaseVersions[0] : 'latest';
+}
+
+export async function createPackagePublishOptions({entry, cwd, getRemotePackageJson = getNpmRemotePackageJson}: {entry: string[], cwd: string, getRemotePackageJson?: GetRemotePackageJson}): Promise<PackagePublishOption[]> {
   const packageDirectory: string = path.join(cwd, 'dist/packages');
   
   if (!fs.pathExistsSync(packageDirectory) || !fs.statSync(packageDirectory).isDirectory()) {
@@ -29,12 +32,18 @@ export async function createPackagePublishOptions({entry, cwd, version, getRemot
     .filter(({name}) => typeof name === 'string');
   
   const remotePackageJsons: (PackageJson | undefined)[] = await Promise.all<PackageJson | undefined>(
-    currentPackageJsons.map(({name}) => getRemotePackageJson({name: name!, version, fullMetadata: true}),
-    ));
+    currentPackageJsons.map(({name, version}) => {
+      return getRemotePackageJson({
+        name: name!,
+        version: getTag(version),
+        fullMetadata: true,
+      });
+    }));
   
   return currentPackageJsons.map((currentPackageJson, i) => ({
     name: currentPackageJson.name!,
     currentPackageJson,
     remotePackageJson: remotePackageJsons[i],
+    tag: getTag(currentPackageJson.version),
   }));
 }
