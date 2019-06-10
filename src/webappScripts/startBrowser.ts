@@ -150,12 +150,14 @@ export async function startBrowser({
   
   const compiler: Compiler.Watching | Compiler = webpack(webpackConfig);
   
+  //@ts-ignore as MiddlewareHandler
+  const webpackDevMiddlewareHandler: MiddlewareHandler = webpackDevMiddleware(compiler, {
+    publicPath: publicPath,
+    stats: {colors: true},
+  });
+  
   const middleware: MiddlewareHandler[] = [
-    // @ts-ignore as MiddlewareHandler
-    webpackDevMiddleware(compiler, {
-      publicPath: publicPath,
-      stats: {colors: true},
-    }),
+    webpackDevMiddlewareHandler,
     // @ts-ignore as MiddlewareHandler
     webpackHotMiddleware(compiler),
     // @ts-ignore as MiddlewareHandler
@@ -174,9 +176,15 @@ export async function startBrowser({
       // @ts-ignore as MiddlewareHandler
       function (req: IncomingMessage, res: ServerResponse, next: () => void) {
         if (req.url && !/\.[a-zA-Z0-9]+$/.test(req.url)) {
-          req.url = '/index.html';
+          if (fs.pathExists(path.join(cwd, 'src', app, 'index.html'))) {
+            req.url = '/index.html';
+          } else if (fs.pathExists(path.join(cwd, 'src', app, '200.html'))) {
+            req.url = '/200.html';
+          }
+          webpackDevMiddlewareHandler(req, res, next);
+        } else {
+          next();
         }
-        return next();
       },
     );
   }
