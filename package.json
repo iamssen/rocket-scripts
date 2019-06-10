@@ -1,6 +1,6 @@
 {
   "name": "react-zeroconfig",
-  "version": "3.5.1-alpha.6",
+  "version": "3.5.1",
   "description": "Zero config tools for typescript projects",
   "keywords": [
     "zeroconfig",
