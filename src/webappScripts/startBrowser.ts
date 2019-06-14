@@ -4,8 +4,9 @@ import compression from 'compression';
 import fs from 'fs-extra';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { IncomingMessage, ServerResponse } from 'http';
-import proxyMiddleware from 'http-proxy-middleware';
+import proxyMiddleware, { Config } from 'http-proxy-middleware';
 import path from 'path';
+import { PackageJson } from 'type-fest';
 import webpack, { Compiler, Configuration, HotModuleReplacementPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -163,6 +164,17 @@ export async function startBrowser({
     // @ts-ignore as MiddlewareHandler
     compression(),
   ];
+  
+  const packageJson: PackageJson = await fs.readJson(path.join(cwd, 'package.json'));
+  
+  if (typeof packageJson.proxy === 'object' && packageJson.proxy) {
+    const proxyConfigs: {[uri: string]: Config} = packageJson.proxy as {[uri: string]: Config};
+    console.log('startBrowser.ts..startBrowser()', proxyConfigs);
+    Object.keys(proxyConfigs).forEach(uri => {
+      // @ts-ignore as MiddlewareHandler
+      middleware.push(proxyMiddleware(uri, proxyConfigs[uri]));
+    });
+  }
   
   if (extend.serverSideRendering) {
     middleware.push(
