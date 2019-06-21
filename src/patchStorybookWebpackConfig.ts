@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { Configuration, RuleSetRule } from 'webpack';
+import { getWebpackAlias } from './webpackConfigs/getWebpackAlias';
 import { getWebpackScriptLoaders } from './webpackConfigs/getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './webpackConfigs/getWebpackStyleLoaders';
 
@@ -13,6 +14,11 @@ export function patchStorybookWebpackConfig({cwd = process.cwd(), config}: {cwd?
   process.env.BROWSERSLIST_ENV = 'development';
   
   config.resolve!.extensions!.push('.ts', '.tsx');
+  
+  config.resolve!.alias = {
+    ...getWebpackAlias({cwd}),
+    ...(config.resolve!.alias || {}),
+  };
   
   // https://storybook.js.org/docs/configurations/default-config/
   // https://github.com/storybooks/storybook/blob/next/lib/core/src/server/preview/base-webpack.config.js
