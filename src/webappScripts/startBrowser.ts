@@ -169,7 +169,6 @@ export async function startBrowser({
   
   if (typeof packageJson.proxy === 'object' && packageJson.proxy) {
     const proxyConfigs: {[uri: string]: Config} = packageJson.proxy as {[uri: string]: Config};
-    console.log('startBrowser.ts..startBrowser()', proxyConfigs);
     Object.keys(proxyConfigs).forEach(uri => {
       // @ts-ignore as MiddlewareHandler
       middleware.push(proxyMiddleware(uri, proxyConfigs[uri]));
