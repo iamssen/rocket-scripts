@@ -1,6 +1,6 @@
 {
   "name": "react-zeroconfig",
-  "version": "3.7.0",
+  "version": "3.8.0-alpha.1",
   "description": "Zero config tools for typescript projects",
   "keywords": [
     "zeroconfig",
@@ -86,6 +86,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.12.0",
     "babel-plugin-named-asset-import": "^0.3.2",
+    "babel-plugin-styled-components": "^1.10.6",
     "browser-sync": "^2.26.7",
     "browserslist": "^4.6.4",
     "cfonts": "^2.4.3",

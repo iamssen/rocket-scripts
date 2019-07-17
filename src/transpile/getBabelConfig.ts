@@ -72,6 +72,7 @@ export function getBabelConfig({modules, cwd}: {cwd: string, modules: Modules}):
           },
         },
       ],
+      require.resolve('babel-plugin-styled-components'),
       [
         require.resolve('babel-plugin-import'),
         {
