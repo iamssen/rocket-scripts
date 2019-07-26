@@ -1,6 +1,5 @@
-import fs from 'fs-extra';
 import path from 'path';
-import { Configuration, RuleSetRule } from 'webpack';
+import { Configuration } from 'webpack';
 import { getWebpackAlias } from './webpackConfigs/getWebpackAlias';
 import { getWebpackScriptLoaders } from './webpackConfigs/getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './webpackConfigs/getWebpackStyleLoaders';
@@ -23,23 +22,6 @@ export function patchStorybookWebpackConfig({cwd = process.cwd(), config}: {cwd?
   // https://storybook.js.org/docs/configurations/default-config/
   // https://github.com/storybooks/storybook/blob/next/lib/core/src/server/preview/base-webpack.config.js
   config.module!.rules.push(
-    // tslint
-    ...(fs.pathExistsSync(tsconfig) && fs.pathExistsSync(tslint) ? [
-      {
-        test: /\.(ts|tsx)?$/,
-        enforce: 'pre',
-        use: [
-          {
-            loader: require.resolve('tslint-loader'),
-            options: {
-              configFile: tslint,
-              tsConfigFile: tsconfig,
-            },
-          },
-        ],
-      },
-    ] as RuleSetRule[] : []),
-    
     {
       oneOf: [
         // ts, tsx, js, jsx - script
