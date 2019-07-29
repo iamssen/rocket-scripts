@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.8.4] - 2019-07-29
+### Fixed
+- `cwd is undefined` error of `getBabelConfig()`
+
 ## [3.8.3] - 2019-07-29
 ### Fixed
 - `babel-plugin-styled-components` only will using when `styled-components` exists on `package.json`
@@ -52,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - tsconfig's `strictFunctionTypes` to `true`
 
+[3.8.4]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.8.3...3.8.4
 [3.8.3]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.8.2...3.8.3
 [3.8.2]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.8.1...3.8.2
 [3.8.1]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.8.0...3.8.1
