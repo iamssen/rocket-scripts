@@ -1,4 +1,7 @@
+import { PackageJson } from 'type-fest';
 import { getBrowserslistQuery } from './getBrowserslistQuery';
+import fs from 'fs-extra';
+import path from 'path';
 
 type Modules = 'amd' | 'umd' | 'systemjs' | 'commonjs' | 'cjs' | 'auto' | false;
 
@@ -73,12 +76,48 @@ export function getBabelConfig({modules, cwd}: {cwd: string, modules: Modules}):
         },
       ],
       require.resolve('babel-plugin-styled-components'),
-      [
-        require.resolve('babel-plugin-import'),
-        {
-          libraryName: 'antd',
-        },
-      ],
+      ...(() => {
+        const {dependencies}: PackageJson = fs.readJsonSync(path.join(cwd, 'package.json'));
+        if (!dependencies) return [];
+        
+        const pluginImports: [string, object, string][] = [];
+        
+        if (dependencies['antd']) {
+          pluginImports.push([
+            require.resolve('babel-plugin-import'),
+            {
+              libraryName: 'antd',
+            },
+            'tree-shaking-antd',
+          ]);
+        }
+        
+        if (dependencies['@material-ui/core']) {
+          pluginImports.push([
+            require.resolve('babel-plugin-import'),
+            {
+              libraryName: '@material-ui/core',
+              libraryDirectory: 'esm',
+              camel2DashComponentName: false,
+            },
+            'tree-shaking-mui-core',
+          ]);
+        }
+        
+        if (dependencies['@material-ui/icons']) {
+          pluginImports.push([
+            require.resolve('babel-plugin-import'),
+            {
+              libraryName: '@material-ui/icons',
+              libraryDirectory: 'esm',
+              camel2DashComponentName: false,
+            },
+            'tree-shaking-mui-icons',
+          ]);
+        }
+        
+        return pluginImports;
+      })(),
     ],
     overrides: [
       {
