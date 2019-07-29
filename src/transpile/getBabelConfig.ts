@@ -75,7 +75,16 @@ export function getBabelConfig({modules, cwd}: {cwd: string, modules: Modules}):
           },
         },
       ],
-      require.resolve('babel-plugin-styled-components'),
+      // babel-plugin-styled-components
+      ...(() => {
+        const {dependencies}: PackageJson = fs.readJsonSync(path.join(cwd, 'package.json'));
+        if (!dependencies) return [];
+        
+        return dependencies['styled-components']
+          ? [require.resolve('babel-plugin-styled-components')]
+          : [];
+      })(),
+      // babel-plugin-import
       ...(() => {
         const {dependencies}: PackageJson = fs.readJsonSync(path.join(cwd, 'package.json'));
         if (!dependencies) return [];
