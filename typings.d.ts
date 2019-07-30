@@ -17,6 +17,11 @@ declare module '@loadable/stats.json' {
 // ---------------------------------------------
 // import types
 // ---------------------------------------------
+declare module '*.mdx' {
+  const content: React.ComponentType<{}>;
+  export = content;
+}
+
 declare module '*.css' {
   const content: {[className: string]: string};
   export = content;
