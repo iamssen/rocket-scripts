@@ -1,15 +1,15 @@
+import fs from 'fs-extra';
 import path from 'path';
+import { PackageJson } from 'type-fest';
 import { Configuration } from 'webpack';
 import { getWebpackAlias } from './webpackConfigs/getWebpackAlias';
+import { getWebpackMDXLoaders } from './webpackConfigs/getWebpackMDXLoaders';
 import { getWebpackScriptLoaders } from './webpackConfigs/getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './webpackConfigs/getWebpackStyleLoaders';
 
 const extractCss: boolean = false;
 
 export function patchStorybookWebpackConfig({cwd = process.cwd(), config}: {cwd?: string, config: Configuration}) {
-  const tsconfig: string = path.join(cwd, 'tsconfig.json');
-  const tslint: string = path.join(cwd, 'tslint.json');
-  
   process.env.BROWSERSLIST_ENV = 'development';
   
   config.resolve!.extensions!.push('.ts', '.tsx');
@@ -28,6 +28,28 @@ export function patchStorybookWebpackConfig({cwd = process.cwd(), config}: {cwd?
         ...getWebpackScriptLoaders({
           cwd,
           useWebWorker: false,
+        }),
+        
+        // mdx - script
+        //...(() => {
+        //  const {dependencies, devDependencies}: PackageJson = fs.readJsonSync(path.join(cwd, 'package.json'));
+        //
+        //  if (((dependencies && dependencies['@storybook/addon-docs']) || (devDependencies && devDependencies['@storybook/addon-docs']))) {
+        //    return getWebpackMDXLoaders({
+        //      test: /\.(stories|story)\.mdx$/,
+        //      cwd,
+        //      mdxLoaderOptions: {
+        //        compilers: [
+        //          require('@storybook/addon-docs/mdx-compiler-plugin')({}),
+        //        ],
+        //      },
+        //    });
+        //  }
+        //
+        //  return [];
+        //})(),
+        ...getWebpackMDXLoaders({
+          cwd,
         }),
         
         // html, ejs, txt, md - plain text

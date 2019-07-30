@@ -1,6 +1,6 @@
 {
   "name": "react-zeroconfig",
-  "version": "3.8.4",
+  "version": "3.9.0",
   "description": "Zero config tools for typescript projects",
   "keywords": [
     "zeroconfig",
@@ -80,6 +80,7 @@
     "@babel/preset-typescript": "^7.3.3",
     "@loadable/babel-plugin": "^5.10.0",
     "@loadable/webpack-plugin": "^5.7.1",
+    "@mdx-js/loader": "^1.1.0",
     "@svgr/webpack": "^4.3.2",
     "@types/react": "^16.8.23",
     "babel-jest": "^24.7.1",

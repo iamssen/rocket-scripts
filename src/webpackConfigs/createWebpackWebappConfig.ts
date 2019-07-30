@@ -7,6 +7,7 @@ import { Configuration, RuleSetRule } from 'webpack';
 import { getWebpackAlias } from './getWebpackAlias';
 import { getWebpackDataURILoaders } from './getWebpackDataURILoaders';
 import { getWebpackFileLoaders } from './getWebpackFileLoaders';
+import { getWebpackMDXLoaders } from './getWebpackMDXLoaders';
 import { getWebpackRawLoaders } from './getWebpackRawLoaders';
 import { getWebpackScriptLoaders } from './getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './getWebpackStyleLoaders';
@@ -55,6 +56,11 @@ export function createWebpackWebappConfig({extractCss, cwd, chunkPath, publicPat
               useWebWorker: true,
               chunkPath,
               publicPath,
+            }),
+            
+            // mdx - script
+            ...getWebpackMDXLoaders({
+              cwd,
             }),
             
             // html, ejs, txt, md - plain text

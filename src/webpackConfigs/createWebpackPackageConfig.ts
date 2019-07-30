@@ -1,4 +1,5 @@
 import { Configuration } from 'webpack';
+import { getWebpackMDXLoaders } from './getWebpackMDXLoaders';
 import { getWebpackRawLoaders } from './getWebpackRawLoaders';
 import { getWebpackScriptLoaders } from './getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './getWebpackStyleLoaders';
@@ -17,6 +18,11 @@ export function createWebpackPackageConfig({cwd}: {cwd: string}): Configuration 
             ...getWebpackScriptLoaders({
               cwd,
               useWebWorker: false,
+            }),
+            
+            // mdx - script
+            ...getWebpackMDXLoaders({
+              cwd,
             }),
             
             // html, ejs, txt, md - plain text
