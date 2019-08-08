@@ -57,6 +57,11 @@ export function getWebpackScriptLoaders(params: WorkerUseParams | WorkerUnusePar
         include: src,
         use: babelLoader,
       },
+      {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
+      },
     ];
   } else {
     return [
@@ -64,6 +69,11 @@ export function getWebpackScriptLoaders(params: WorkerUseParams | WorkerUnusePar
         test: scriptRegex,
         include: src,
         use: babelLoader,
+      },
+      {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
       },
     ];
   }
