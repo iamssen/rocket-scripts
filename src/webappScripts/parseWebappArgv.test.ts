@@ -14,6 +14,7 @@ const defaultArgv: WebappArgv = {
   styleFileName: 'style.js',
   chunkPath: '',
   publicPath: '',
+  internalEslint: true,
   port: 3100,
   serverPort: 4100,
   https: false,
@@ -123,6 +124,16 @@ describe('parseWebappArgv()', () => {
     ])).toEqual({
       ...defaultArgv,
       https: false,
+    });
+  
+    expect(parseWebappArgv([
+      'build',
+      'app',
+      '--disable-internal-eslint',
+      'true',
+    ])).toEqual({
+      ...defaultArgv,
+      internalEslint: true,
     });
   });
   

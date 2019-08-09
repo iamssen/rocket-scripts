@@ -53,6 +53,7 @@ export async function buildServer({
                                     publicPath,
                                     serverPort,
                                     zeroconfigPath,
+                                    internalEslint,
                                     chunkPath,
                                   }: WebappConfig) {
   const loadableStatsJson: string = path.join(output, 'loadable-stats.json');
@@ -100,6 +101,7 @@ export async function buildServer({
       cwd,
       chunkPath,
       publicPath,
+      internalEslint,
     }),
     createWebpackEnvConfig({
       serverPort,

@@ -66,6 +66,7 @@ export async function startBrowser({
                                      staticFileDirectories,
                                      chunkPath,
                                      publicPath,
+                                     internalEslint,
                                      appFileName,
                                      vendorFileName,
                                      styleFileName,
@@ -142,6 +143,7 @@ export async function startBrowser({
       cwd,
       chunkPath,
       publicPath,
+      internalEslint,
     }),
     createWebpackEnvConfig({
       serverPort,
