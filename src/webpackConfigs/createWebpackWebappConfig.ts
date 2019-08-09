@@ -12,7 +12,7 @@ import { getWebpackRawLoaders } from './getWebpackRawLoaders';
 import { getWebpackScriptLoaders } from './getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './getWebpackStyleLoaders';
 
-export function createWebpackWebappConfig({extractCss, cwd, chunkPath, publicPath}: {extractCss: boolean, cwd: string, chunkPath: string, publicPath: string}): Configuration {
+export function createWebpackWebappConfig({extractCss, cwd, chunkPath, publicPath, internalEslint}: {extractCss: boolean, cwd: string, chunkPath: string, publicPath: string, internalEslint: boolean}): Configuration {
   const tsconfig: string = path.join(cwd, 'tsconfig.json');
   const tslint: string = path.join(cwd, 'tslint.json');
   
@@ -28,7 +28,7 @@ export function createWebpackWebappConfig({extractCss, cwd, chunkPath, publicPat
         // tslint
         ...(fs.pathExistsSync(tsconfig) && fs.pathExistsSync(tslint) ? [
           {
-            test: /\.(ts|tsx)?$/,
+            test: /\.(ts|tsx)$/,
             include: path.join(cwd, 'src'),
             enforce: 'pre',
             use: [
@@ -37,6 +37,29 @@ export function createWebpackWebappConfig({extractCss, cwd, chunkPath, publicPat
                 options: {
                   configFile: tslint,
                   tsConfigFile: tsconfig,
+                },
+              },
+            ],
+          },
+        ] as RuleSetRule[] : []),
+        
+        // eslint
+        ...(internalEslint ? [
+          {
+            test: /\.(js|mjs|jsx|ts|tsx)$/,
+            include: path.join(cwd, 'src'),
+            enforce: 'pre',
+            use: [
+              {
+                loader: require.resolve('eslint-loader'),
+                options: {
+                  eslintPath: require.resolve('eslint'),
+                  resolvePluginsRelativeTo: __dirname,
+                  baseConfig: {
+                    extends: [require.resolve('eslint-config-react-app')],
+                  },
+                  ignore: false,
+                  useEslintrc: false,
                 },
               },
             ],

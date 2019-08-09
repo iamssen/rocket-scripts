@@ -13,7 +13,7 @@ export async function packageScripts(nodeArgv: string[], {cwd = process.cwd()}: 
   
   const {command} = parsePackageArgv(nodeArgv);
   
-  say('ZEROCONFIG', {font: 'block'});
+  say('ZEROCONFIG', {font: 'block', maxLength: 15});
   
   sayTitle('EXECUTED COMMAND');
   console.log('zeroconfig-package-scripts ' + nodeArgv.join(' '));

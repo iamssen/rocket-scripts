@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.10.0] - 2019-08-09
+### Added
+- Add eslint rule `eslint-config-react-app` (and command line options `--internal-eslint false`)
+- copy `*.d.ts` files in `_packages/**` directories
+
+### Fixed
+- Fix `.mjs` import error about "Can't import the named export '...' from non EcmaScript module (only default export is available)"
+
 ## [3.9.0] - 2019-07-30
 ### Added
 - Support `*.mdx` files (eg. `import JSXComponent from './Document.mdx'`)
@@ -60,6 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - tsconfig's `strictFunctionTypes` to `true`
 
+[3.10.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.9.0...3.10.0
 [3.9.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.8.4...3.9.0
 [3.8.4]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.8.3...3.8.4
 [3.8.3]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.8.2...3.8.3

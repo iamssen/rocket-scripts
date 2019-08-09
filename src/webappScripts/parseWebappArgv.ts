@@ -40,6 +40,7 @@ export function parseWebappArgv(nodeArgv: string[]): WebappArgv {
     styleFileName: takeMinimistLatestValue(argv['style-file-name']) || 'style.js',
     chunkPath,
     publicPath: takeMinimistLatestValue(argv['public-path']) || '',
+    internalEslint: takeMinimistLatestValue(argv['internal-eslint']) !== 'false',
     port: parseInt(takeMinimistLatestValue(argv['port']) || defaultPort, 10),
     serverPort: parseInt(takeMinimistLatestValue(argv['server-port']) || defaultServerPort, 10),
     https,

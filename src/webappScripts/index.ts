@@ -34,7 +34,7 @@ export async function webappScripts(nodeArgv: string[], {cwd = process.cwd()}: {
       `npx zeroconfig-webapp-scripts browser-start ${argvString} --output ${config.output}`,
     ], cwd);
   } else {
-    say('ZEROCONFIG', {font: 'block'});
+    say('ZEROCONFIG', {font: 'block', maxLength: 15});
     
     sayTitle('EXECUTED COMMAND');
     console.log('zeroconfig-webapp-scripts ' + nodeArgv.join(' '));

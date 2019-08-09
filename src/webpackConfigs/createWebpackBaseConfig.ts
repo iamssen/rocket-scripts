@@ -12,7 +12,7 @@ export function createWebpackBaseConfig({zeroconfigPath}: {zeroconfigPath: strin
   
   return {
     resolve: {
-      extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+      extensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx', '.json'],
     },
     
     resolveLoader: {
