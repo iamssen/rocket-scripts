@@ -47,6 +47,7 @@ export async function watchServer({
                                     cwd,
                                     serverPort,
                                     publicPath,
+                                    internalEslint,
                                     output,
                                     chunkPath,
                                     zeroconfigPath,
@@ -95,6 +96,7 @@ export async function watchServer({
       cwd,
       chunkPath,
       publicPath,
+      internalEslint,
     }),
     createWebpackEnvConfig({
       serverPort,

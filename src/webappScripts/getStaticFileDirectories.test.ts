@@ -16,6 +16,7 @@ const defaultArgv: WebappArgv = {
   styleFileName: 'style.js',
   chunkPath: '',
   publicPath: '',
+  internalEslint: true,
   port: 3100,
   serverPort: 4100,
   https: false,

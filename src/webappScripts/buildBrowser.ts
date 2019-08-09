@@ -68,6 +68,7 @@ export async function buildBrowser({
                                      staticFileDirectories,
                                      chunkPath,
                                      publicPath,
+                                     internalEslint,
                                      appFileName,
                                      vendorFileName,
                                      styleFileName,
@@ -193,6 +194,7 @@ export async function buildBrowser({
       cwd,
       chunkPath,
       publicPath,
+      internalEslint,
     }),
     createWebpackEnvConfig({
       serverPort,

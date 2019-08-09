@@ -71,6 +71,7 @@ export interface WebappArgv {
   // --style-file-name "style"
   // --chunk-path "" - a relative path from output
   // --public-path ""
+  // --internal-eslint false
   sizeReport: boolean;
   mode: Mode;
   output: string | undefined;
@@ -79,6 +80,7 @@ export interface WebappArgv {
   styleFileName: string;
   chunkPath: string;
   publicPath: string;
+  internalEslint: boolean;
   
   // start
   // --port 3100
@@ -105,6 +107,7 @@ export interface WebappConfig {
   styleFileName: string;
   chunkPath: string; // a relative path from output
   publicPath: string;
+  internalEslint: boolean;
   
   // start
   port: number;
