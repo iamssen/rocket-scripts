@@ -44,6 +44,7 @@ export interface WebappArgv {
     styleFileName: string;
     chunkPath: string;
     publicPath: string;
+    internalEslint: boolean;
     port: number;
     serverPort: number;
     https: boolean | {
@@ -63,6 +64,7 @@ export interface WebappConfig {
     styleFileName: string;
     chunkPath: string;
     publicPath: string;
+    internalEslint: boolean;
     port: number;
     serverPort: number;
     https: boolean | {
