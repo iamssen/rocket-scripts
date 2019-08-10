@@ -4,7 +4,7 @@ import { PackageJson } from 'type-fest';
 import { getImportedPackagesFromFiles } from '../analyze/getImportedPackagesFromFiles';
 import { glob } from '../utils/glob-promise';
 
-export async function findInternalPackageMissingDependencies({packageDir}: {packageDir: string}): Promise<string[]> {
+export async function findInternalPackageMissingDependencies({packageDir}: {packageDir: string}): Promise<Set<string> | undefined> {
   const packageJson: string = path.join(packageDir, 'package.json');
   
   if (!fs.pathExistsSync(packageJson)) {
@@ -19,7 +19,7 @@ export async function findInternalPackageMissingDependencies({packageDir}: {pack
     ],
   });
   
-  if (sourceFiles.length === 0) return [];
+  if (sourceFiles.length === 0) return undefined;
   
   const {
     dependencies,
@@ -43,5 +43,7 @@ export async function findInternalPackageMissingDependencies({packageDir}: {pack
     }
   }
   
-  return Array.from(importedPackages);
+  return importedPackages.size > 0
+    ? importedPackages
+    : undefined;
 }

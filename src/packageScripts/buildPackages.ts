@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
@@ -31,10 +32,17 @@ export async function buildPackages({cwd}: {cwd: string}) {
       //await fs.mkdirp(path.join(cwd, 'dist/packages', name));
       
       sayTitle('VALIDATE PACKAGE - ' + name);
-      await validatePackage({
+      const validation: Error[] | undefined = await validatePackage({
         name,
         packageDir: path.join(cwd, 'src/_packages', name),
       });
+      
+      if (validation) {
+        for (const v of validation) {
+          console.error(chalk.red.bold(v.message));
+        }
+        process.exit(1);
+      }
       
       if (buildTypescriptDeclaration) {
         const compilerOptions: CompilerOptions = getTSConfigCompilerOptions({cwd});

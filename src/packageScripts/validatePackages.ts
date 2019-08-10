@@ -10,13 +10,15 @@ export async function validatePackages({cwd}: {cwd: string}) {
   for await (const name of entry) {
     sayTitle('VALIDATE PACKAGE - ' + name);
     
-    try {
-      await validatePackage({
-        name,
-        packageDir: path.join(cwd, 'src/_packages', name),
-      });
-    } catch (error) {
-      console.error(chalk.red.bold(error.message));
+    const validation: Error[] | undefined = await validatePackage({
+      name,
+      packageDir: path.join(cwd, 'src/_packages', name),
+    });
+    
+    if (validation) {
+      for (const v of validation) {
+        console.error(chalk.red.bold(v.message));
+      }
     }
   }
 }
