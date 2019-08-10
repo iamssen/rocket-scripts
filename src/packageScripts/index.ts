@@ -4,6 +4,7 @@ import { buildPackages } from './buildPackages';
 import help from './help';
 import { parsePackageArgv } from './parsePackageArgv';
 import { publishPackages } from './publishPackages';
+import { validatePackages } from './validatePackages';
 
 export async function packageScripts(nodeArgv: string[], {cwd = process.cwd()}: {cwd?: string} = {}) {
   if (nodeArgv.indexOf('--help') > -1) {
@@ -13,7 +14,7 @@ export async function packageScripts(nodeArgv: string[], {cwd = process.cwd()}: 
   
   const {command} = parsePackageArgv(nodeArgv);
   
-  say('ZEROCONFIG', {font: 'block', maxLength: 15});
+  say('ZEROCONFIG', {font: 'block'});
   
   sayTitle('EXECUTED COMMAND');
   console.log('zeroconfig-package-scripts ' + nodeArgv.join(' '));
@@ -23,6 +24,8 @@ export async function packageScripts(nodeArgv: string[], {cwd = process.cwd()}: 
     await buildPackages({cwd});
   } else if (command === 'publish') {
     await publishPackages({cwd});
+  } else if (command === 'validate') {
+    await validatePackages({cwd});
   } else {
     console.error('Unknown command :', command);
   }
