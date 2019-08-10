@@ -1,7 +1,8 @@
-import { say } from 'cfonts';
 import { sayTitle } from '../utils/sayTitle';
+import { sayZeroconfig } from '../utils/sayZeroconfig';
 import { buildPackages } from './buildPackages';
 import help from './help';
+import { listPackages } from './listPackages';
 import { parsePackageArgv } from './parsePackageArgv';
 import { publishPackages } from './publishPackages';
 import { validatePackages } from './validatePackages';
@@ -14,7 +15,7 @@ export async function packageScripts(nodeArgv: string[], {cwd = process.cwd()}: 
   
   const {command} = parsePackageArgv(nodeArgv);
   
-  say('ZEROCONFIG', {font: 'block'});
+  sayZeroconfig();
   
   sayTitle('EXECUTED COMMAND');
   console.log('zeroconfig-package-scripts ' + nodeArgv.join(' '));
@@ -26,6 +27,8 @@ export async function packageScripts(nodeArgv: string[], {cwd = process.cwd()}: 
     await publishPackages({cwd});
   } else if (command === 'validate') {
     await validatePackages({cwd});
+  } else if (command === 'list') {
+    await listPackages({cwd});
   } else {
     console.error('Unknown command :', command);
   }
