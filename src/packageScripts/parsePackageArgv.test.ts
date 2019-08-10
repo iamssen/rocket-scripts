@@ -13,6 +13,12 @@ describe('parsePackageArgv()', () => {
     ])).toEqual({
       command: 'publish',
     });
+  
+    expect(parsePackageArgv([
+      'validate',
+    ])).toEqual({
+      command: 'validate',
+    });
   });
   
   test('build | publish 이외의 Command가 들어오면 Error를 발생시킨다', () => {
