@@ -1,17 +1,17 @@
-import { say } from 'cfonts';
 import multiplerun from 'multiplerun';
 import path from 'path';
-import { createWebappConfig } from './createWebappConfig';
-import { parseWebappArgv } from './parseWebappArgv';
 import { WebappArgv, WebappConfig } from '../types';
 import { rimraf } from '../utils/rimraf-promise';
 import { sayTitle } from '../utils/sayTitle';
+import { sayZeroconfig } from '../utils/sayZeroconfig';
 import { buildBrowser } from './buildBrowser';
 import { buildServer } from './buildServer';
+import { createWebappConfig } from './createWebappConfig';
+import help from './help';
+import { parseWebappArgv } from './parseWebappArgv';
 import { startBrowser } from './startBrowser';
 import { startServer } from './startServer';
 import { watchServer } from './watchServer';
-import help from './help';
 
 const zeroconfigPath: string = path.join(__dirname, '../..');
 
@@ -34,7 +34,7 @@ export async function webappScripts(nodeArgv: string[], {cwd = process.cwd()}: {
       `npx zeroconfig-webapp-scripts browser-start ${argvString} --output ${config.output}`,
     ], cwd);
   } else {
-    say('ZEROCONFIG', {font: 'block'});
+    sayZeroconfig();
     
     sayTitle('EXECUTED COMMAND');
     console.log('zeroconfig-webapp-scripts ' + nodeArgv.join(' '));
