@@ -143,5 +143,16 @@ export function createWebpackWebappConfig({extractCss, cwd, chunkPath, publicPat
         }),
       ] : []),
     ],
+    
+    node: {
+      module: 'empty',
+      dgram: 'empty',
+      dns: 'mock',
+      fs: 'empty',
+      http2: 'empty',
+      net: 'empty',
+      tls: 'empty',
+      child_process: 'empty',
+    },
   };
 }
