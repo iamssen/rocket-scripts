@@ -1,6 +1,3 @@
-import fs from 'fs-extra';
-import path from 'path';
-import { PackageJson } from 'type-fest';
 import { Configuration } from 'webpack';
 import { getWebpackAlias } from './webpackConfigs/getWebpackAlias';
 import { getWebpackMDXLoaders } from './webpackConfigs/getWebpackMDXLoaders';
