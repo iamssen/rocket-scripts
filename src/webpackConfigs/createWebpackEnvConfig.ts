@@ -6,6 +6,7 @@ export function createWebpackEnvConfig({serverPort, publicPath}: {serverPort: nu
       new DefinePlugin({
         'process.env.SERVER_PORT': JSON.stringify(serverPort),
         'process.env.PUBLIC_PATH': JSON.stringify(publicPath),
+        'process.env.PUBLIC_URL': JSON.stringify(publicPath),
       }),
     ],
   };
