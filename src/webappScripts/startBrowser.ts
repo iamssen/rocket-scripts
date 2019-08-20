@@ -189,9 +189,9 @@ export async function startBrowser({
       // @ts-ignore as MiddlewareHandler
       function (req: IncomingMessage, res: ServerResponse, next: () => void) {
         if (req.url && !/\.[a-zA-Z0-9]+$/.test(req.url)) {
-          if (fs.pathExists(path.join(cwd, 'src', app, 'index.html'))) {
+          if (fs.pathExistsSync(path.join(cwd, 'src', app, 'index.html'))) {
             req.url = '/index.html';
-          } else if (fs.pathExists(path.join(cwd, 'src', app, '200.html'))) {
+          } else if (fs.pathExistsSync(path.join(cwd, 'src', app, '200.html'))) {
             req.url = '/200.html';
           }
           webpackDevMiddlewareHandler(req, res, next);

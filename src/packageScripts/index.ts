@@ -5,6 +5,7 @@ import help from './help';
 import { listPackages } from './listPackages';
 import { parsePackageArgv } from './parsePackageArgv';
 import { publishPackages } from './publishPackages';
+import { syncPackages } from './syncPackages';
 import { validatePackages } from './validatePackages';
 
 export async function packageScripts(nodeArgv: string[], {cwd = process.cwd()}: {cwd?: string} = {}) {
@@ -29,6 +30,8 @@ export async function packageScripts(nodeArgv: string[], {cwd = process.cwd()}: 
     await validatePackages({cwd});
   } else if (command === 'list') {
     await listPackages({cwd});
+  } else if (command === 'sync') {
+    await syncPackages({cwd});
   } else {
     console.error('Unknown command :', command);
   }
