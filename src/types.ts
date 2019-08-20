@@ -1,7 +1,7 @@
 import { PackageJson } from 'type-fest';
 
 // tslint:disable:typedef
-export const packageCommands = ['build', 'publish', 'validate', 'list'] as const;
+export const packageCommands = ['build', 'publish', 'validate', 'list', 'sync'] as const;
 export const webappCommands = ['build', 'start', 'server-watch', 'server-start', 'browser-start'] as const;
 export const modes = ['production', 'development'] as const;
 // tslint:enable:typedef

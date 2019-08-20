@@ -1,5 +1,5 @@
 import { PackageJson } from 'type-fest';
-export declare const packageCommands: readonly ["build", "publish", "validate", "list"];
+export declare const packageCommands: readonly ["build", "publish", "validate", "list", "sync"];
 export declare const webappCommands: readonly ["build", "start", "server-watch", "server-start", "browser-start"];
 export declare const modes: readonly ["production", "development"];
 export declare type PackageCommand = typeof packageCommands[number];
