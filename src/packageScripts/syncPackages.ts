@@ -14,7 +14,7 @@ export async function syncPackages({cwd}: {cwd: string}) {
     //nextPackageJson.dependencies = nextDependencies;
     //
     //await fs.writeJson(path.join(cwd, 'package.json'), nextPackageJson, {encoding: 'utf8'});
-    sayTitle('ADD TO PACKAGE.JSON');
+    sayTitle('ADD TO ROOT PACKAGE.JSON');
     console.log(JSON.stringify({dependencies: missingDependencies}, null, 2));
   }
 }
