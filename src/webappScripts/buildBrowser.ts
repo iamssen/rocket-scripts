@@ -16,49 +16,6 @@ import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConf
 import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
 import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
 
-// work
-// - [x] create js, css files by webpack
-// - [x] copy static files
-// - [x] create size-report.html
-// - [x] create loadable-stats.json when server side rendering is enabled
-// - [x] create html files when templates are exists
-// staticFileDirectories
-// - [x] should be copied all static file directories to output/browser
-// sizeReport
-// - [x] should be open size report when sizeReport is true
-// mode
-// - [x] mode, devtool, concatenateModules, minimize, css optimize
-// output
-// - [x] output/browser
-// - [x] size-report.html
-// - [x] loadable-stats.json
-// - [x] copy static files to output/browser
-// - [x] mkdirp before create loadable-stats.json
-// appFileName
-// - [x] entry name
-// vendorFileName
-// - [x] using on chunks2-webpack-plugin
-// - [x] pass to createBrowserAppWebpackConfig
-// styleFileName
-// - [x] using on chunks2-webpack-plugin
-// - [x] pass to createBrowserAppWebpackConfig
-// chunkPath
-// - [x] css name
-// - [x] pass to createBrowserAppWebpackConfig
-// publicPath
-// - [x] webpack public path
-// - [x] process.env.PUBLIC_PATH
-// port
-// - none of effect to this task
-// serverPort
-// - [x] process.env.SERVER_PORT
-// https
-// - none of effect to this task
-// extend.serverSideRendering
-// - [x] create output directory for create loadable-stats.json
-// - [x] create loadable-stats.json
-// extend.templateFiles
-// - [x] create html files
 export async function buildBrowser({
                                      mode,
                                      output,
