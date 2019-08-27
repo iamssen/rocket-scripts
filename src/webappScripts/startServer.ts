@@ -5,38 +5,6 @@ import { watingFiles } from '../runners/watingFiles';
 import { WebappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
 
-// work
-// - [x] wating output/server/index.js
-// - [x] create symlink node_modules
-// - [x] start nodemon with output/server/index.js
-// staticFileDirectories
-// - none of effect to this task
-// sizeReport
-// - none of effect to this task
-// mode
-// - none of effect to this task
-// output
-// - [x] output/server
-// appFileName
-// - none of effect to this task
-// vendorFileName
-// - none of effect to this task
-// styleFileName
-// - none of effect to this task
-// chunkPath
-// - none of effect to this task
-// publicPath
-// - none of effect to this task
-// port
-// - none of effect to this task
-// serverPort
-// - none of effect to this task
-// https
-// - none of effect to this task
-// extend.serverSideRendering
-// - none of effect to this task
-// extend.templateFiles
-// - none of effect to this task
 export async function startServer({
                                     cwd,
                                     output,

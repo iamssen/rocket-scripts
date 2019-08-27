@@ -22,13 +22,16 @@ const defaultArgv: WebappArgv = {
 
 describe('parseWebappArgv()', () => {
   test('webapp-scripts argv를 정상적으로 Parsing 한다', () => {
+    delete process.env.NODE_ENV;
     expect(parseWebappArgv([
       'build',
       'app',
     ])).toEqual({
       ...defaultArgv,
     });
+    expect(process.env.NODE_ENV).toEqual('production');
     
+    delete process.env.NODE_ENV;
     expect(parseWebappArgv([
       'build',
       'app',
@@ -41,7 +44,9 @@ describe('parseWebappArgv()', () => {
       staticFileDirectories: 'public static',
       staticFilePackages: 'xxx yyy',
     });
+    expect(process.env.NODE_ENV).toEqual('production');
     
+    delete process.env.NODE_ENV;
     expect(parseWebappArgv([
       'build',
       'app',
@@ -54,7 +59,9 @@ describe('parseWebappArgv()', () => {
       sizeReport: true,
       mode: 'development',
     });
+    expect(process.env.NODE_ENV).toEqual('development');
     
+    delete process.env.NODE_ENV;
     expect(parseWebappArgv([
       'build',
       'app',
@@ -70,7 +77,9 @@ describe('parseWebappArgv()', () => {
       vendorFileName: 'vendor2',
       styleFileName: 'style2',
     });
+    expect(process.env.NODE_ENV).toEqual('production');
     
+    delete process.env.NODE_ENV;
     expect(parseWebappArgv([
       'build',
       'app',
@@ -80,7 +89,9 @@ describe('parseWebappArgv()', () => {
       ...defaultArgv,
       chunkPath: 'lib/chunks/',
     });
+    expect(process.env.NODE_ENV).toEqual('production');
     
+    delete process.env.NODE_ENV;
     expect(parseWebappArgv([
       'build',
       'app',
@@ -93,7 +104,9 @@ describe('parseWebappArgv()', () => {
       port: 7800,
       serverPort: 8800,
     });
+    expect(process.env.NODE_ENV).toEqual('production');
     
+    delete process.env.NODE_ENV;
     expect(parseWebappArgv([
       'build',
       'app',
@@ -103,7 +116,9 @@ describe('parseWebappArgv()', () => {
       ...defaultArgv,
       https: true,
     });
+    expect(process.env.NODE_ENV).toEqual('production');
     
+    delete process.env.NODE_ENV;
     expect(parseWebappArgv([
       'build',
       'app',
@@ -115,7 +130,9 @@ describe('parseWebappArgv()', () => {
       ...defaultArgv,
       https: {key: 'path-to-custom.key', cert: 'path-to-custom.crt'},
     });
+    expect(process.env.NODE_ENV).toEqual('production');
     
+    delete process.env.NODE_ENV;
     expect(parseWebappArgv([
       'build',
       'app',
@@ -125,7 +142,9 @@ describe('parseWebappArgv()', () => {
       ...defaultArgv,
       https: false,
     });
-  
+    expect(process.env.NODE_ENV).toEqual('production');
+    
+    delete process.env.NODE_ENV;
     expect(parseWebappArgv([
       'build',
       'app',
@@ -135,6 +154,77 @@ describe('parseWebappArgv()', () => {
       ...defaultArgv,
       internalEslint: true,
     });
+    expect(process.env.NODE_ENV).toEqual('production');
+    
+    delete process.env.NODE_ENV;
+    expect(parseWebappArgv([
+      'start',
+      'app',
+    ])).toEqual({
+      ...defaultArgv,
+      command: 'start',
+      mode: 'development',
+    });
+    expect(process.env.NODE_ENV).toEqual('development');
+  });
+  
+  test('NODE_ENV에 의한 영향을 받게 된다', () => {
+    process.env.NODE_ENV = 'development';
+    expect(parseWebappArgv([
+      'build',
+      'app',
+    ])).toEqual({
+      ...defaultArgv,
+      mode: 'development',
+    });
+    expect(process.env.NODE_ENV).toEqual('development');
+    
+    process.env.NODE_ENV = 'production';
+    expect(parseWebappArgv([
+      'build',
+      'app',
+    ])).toEqual({
+      ...defaultArgv,
+      mode: 'production',
+    });
+    expect(process.env.NODE_ENV).toEqual('production');
+    
+    process.env.NODE_ENV = 'production';
+    expect(parseWebappArgv([
+      'build',
+      'app',
+      '--mode',
+      'development',
+    ])).toEqual({
+      ...defaultArgv,
+      mode: 'production',
+    });
+    expect(process.env.NODE_ENV).toEqual('production');
+    
+    process.env.NODE_ENV = 'development';
+    expect(parseWebappArgv([
+      'build',
+      'app',
+      '--mode',
+      'production',
+    ])).toEqual({
+      ...defaultArgv,
+      mode: 'development',
+    });
+    expect(process.env.NODE_ENV).toEqual('development');
+    
+    process.env.NODE_ENV = 'production';
+    expect(parseWebappArgv([
+      'start',
+      'app',
+      '--mode',
+      'production',
+    ])).toEqual({
+      ...defaultArgv,
+      command: 'start',
+      mode: 'development',
+    });
+    expect(process.env.NODE_ENV).toEqual('development');
   });
   
   test('build | start 이외의 command가 들어오면 Error를 발생시킨다', () => {

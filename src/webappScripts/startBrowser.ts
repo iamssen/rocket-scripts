@@ -17,45 +17,6 @@ import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConf
 import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
 import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
 
-// work
-// - [x] serve js, css files by webpack middlewares
-// - [x] serve static files by browser-sync
-// - [x] create loadable-stats.json when server side rendering is enabled
-// - [x] serve html files when templates are exists
-// staticFileDirectories
-// - [x] serve static file directories by browser-sync
-// sizeReport
-// - none of effect to this task
-// mode
-// - none of effect to this task
-// output
-// - [x] loadable-stats.json
-// - [x] serve static files
-// - [x] mkdirp before create loadable-stats.json
-// appFileName
-// - [x] entry name
-// vendorFileName
-// - [x] using on chunks2-webpack-plugin
-// - [x] pass to createBrowserAppWebpackConfig
-// styleFileName
-// - [x] using on chunks2-webpack-plugin
-// - [x] pass to createBrowserAppWebpackConfig
-// chunkPath
-// - [x] pass to createBrowserAppWebpackConfig
-// publicPath
-// - [x] webpack public path
-// - [x] process.env.PUBLIC_PATH
-// port
-// - [x] browser-sync port
-// serverPort
-// - [x] process.env.SERVER_PORT
-// https
-// - [x] browser-sync https
-// extend.serverSideRendering
-// - [x] create output directory for create loadable-stats.json
-// - [x] create loadable-stats.json
-// extend.templateFiles
-// - [x] create html files
 export async function startBrowser({
                                      cwd,
                                      app,

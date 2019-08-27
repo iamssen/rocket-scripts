@@ -12,39 +12,6 @@ import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConf
 import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
 import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
 
-// work
-// - [x] works after buildBrowser
-// - [x] require exists file loadable-stats.json
-// - [x] loadable-stats.json to alias to pass to server side rendering
-// - [x] copy package.json to output/server
-// staticFileDirectories
-// - none of effect to this task
-// sizeReport
-// - none of effect to this task
-// mode
-// - [x] mode, devtool
-// output
-// - [x] output/server
-// appFileName
-// - none of effect to this task
-// vendorFileName
-// - none of effect to this task
-// styleFileName
-// - none of effect to this task
-// chunkPath
-// - none of effect to this task
-// publicPath
-// - [x] process.env.PUBLIC_PATH
-// port
-// - none of effect to this task
-// serverPort
-// - [x] process.env.SERVER_PORT
-// https
-// - none of effect to this task
-// extend.serverSideRendering
-// - none of effect to this task
-// extend.templateFiles
-// - none of effect to this task
 export async function buildServer({
                                     app,
                                     mode,
