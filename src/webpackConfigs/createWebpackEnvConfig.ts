@@ -16,7 +16,7 @@ function getProcessEnv(): RawEnv {
 }
 
 export function createWebpackEnvConfig({serverPort, publicPath}: {serverPort: number, publicPath: string}): Configuration {
-  if (!process.env.NODE_ENV || isMode(process.env.NODE_ENV)) {
+  if (!process.env.NODE_ENV || !isMode(process.env.NODE_ENV)) {
     throw new Error('Required process.env.NODE_ENV');
   }
   
