@@ -14,16 +14,16 @@ const packageCommandSet: Set<string> = new Set(packageCommands);
 const webappCommandSet: Set<string> = new Set(webappCommands);
 const modeSet: Set<string> = new Set(modes);
 
-export function isPackageCommand(command: string): boolean {
+export function isPackageCommand(command: string): command is PackageCommand {
   return packageCommandSet.has(command);
 }
 
-export function isWebappCommand(command: string): boolean {
+export function isWebappCommand(command: string): command is WebappCommand {
   return webappCommandSet.has(command);
 }
 
-export function isMode(mode: string): boolean {
-  return modeSet.has(mode);
+export function isMode(mode: string | undefined): mode is Mode {
+  return mode ? modeSet.has(mode) : false;
 }
 
 export interface PackageArgv {

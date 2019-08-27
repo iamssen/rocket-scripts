@@ -1,6 +1,7 @@
 import escapeStringRegexp from 'escape-string-regexp';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { Configuration, DefinePlugin } from 'webpack';
+import { isMode } from '../types';
 import { sayTitle } from '../utils/sayTitle';
 
 type RawEnv = {[key: string]: string | number | boolean};
@@ -15,12 +16,16 @@ function getProcessEnv(): RawEnv {
 }
 
 export function createWebpackEnvConfig({serverPort, publicPath}: {serverPort: number, publicPath: string}): Configuration {
+  if (!process.env.NODE_ENV || isMode(process.env.NODE_ENV)) {
+    throw new Error('Required process.env.NODE_ENV');
+  }
+  
   const env: RawEnv = {
     ...getProcessEnv(),
     SERVER_PORT: serverPort,
     PUBLIC_PATH: publicPath,
     PUBLIC_URL: publicPath,
-    NODE_ENV: process.env.NODE_ENV || 'development',
+    NODE_ENV: process.env.NODE_ENV,
   };
   
   sayTitle('ENV');

@@ -5,9 +5,9 @@ export declare const modes: readonly ["production", "development"];
 export declare type PackageCommand = typeof packageCommands[number];
 export declare type WebappCommand = typeof webappCommands[number];
 export declare type Mode = typeof modes[number];
-export declare function isPackageCommand(command: string): boolean;
-export declare function isWebappCommand(command: string): boolean;
-export declare function isMode(mode: string): boolean;
+export declare function isPackageCommand(command: string): command is PackageCommand;
+export declare function isWebappCommand(command: string): command is WebappCommand;
+export declare function isMode(mode: string | undefined): mode is Mode;
 export interface PackageArgv {
     command: PackageCommand;
 }
