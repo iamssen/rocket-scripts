@@ -4,7 +4,7 @@ import { getWebpackRawLoaders } from './getWebpackRawLoaders';
 import { getWebpackScriptLoaders } from './getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './getWebpackStyleLoaders';
 
-export function createWebpackPackageConfig({cwd}: {cwd: string}): Configuration {
+export function createWebpackPackageConfig({cwd, targets}: {cwd: string, targets?: string | string[]}): Configuration {
   const extractCss: boolean = true;
   
   return {
@@ -17,12 +17,14 @@ export function createWebpackPackageConfig({cwd}: {cwd: string}): Configuration 
             // ts, tsx, js, jsx - script
             ...getWebpackScriptLoaders({
               cwd,
+              targets,
               useWebWorker: false,
             }),
             
             // mdx - script
             ...getWebpackMDXLoaders({
               cwd,
+              targets,
             }),
             
             // html, ejs, txt, md - plain text

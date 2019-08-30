@@ -14,9 +14,13 @@ interface WorkerUnuseParams {
   useWebWorker: false;
 }
 
+type Params = (WorkerUseParams | WorkerUnuseParams) & {
+  targets?: string | string[];
+}
+
 /** @return RuleSetRule[] for oneOf */
-export function getWebpackScriptLoaders(params: WorkerUseParams | WorkerUnuseParams): RuleSetRule[] {
-  const {cwd} = params;
+export function getWebpackScriptLoaders(params: Params): RuleSetRule[] {
+  const {cwd, targets} = params;
   
   const scriptRegex: RegExp = /\.(ts|tsx|js|mjs|jsx)$/;
   const workerRegex: RegExp = /\.worker.(ts|tsx|js|mjs|jsx)$/;
@@ -30,6 +34,7 @@ export function getWebpackScriptLoaders(params: WorkerUseParams | WorkerUnusePar
       ...getBabelConfig({
         cwd,
         modules: false,
+        targets,
       }),
     },
   };
