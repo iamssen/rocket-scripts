@@ -10,6 +10,7 @@ import { getInternalPackageEntry } from '../internalPackage/getInternalPackageEn
 import { buildTypescriptDeclarations } from '../runners/buildTypescriptDeclarations';
 import { fsCopySourceFilter } from '../runners/fsCopySourceFilter';
 import { runWebpack } from '../runners/runWebpack';
+import { getPackageJsonBrowserslistQuery } from '../transpile/getPackageJsonBrowserslistQuery';
 import { getTSConfigCompilerOptions } from '../transpile/getTSConfigCompilerOptions';
 import { PackageBuildOption } from '../types';
 import { rimraf } from '../utils/rimraf-promise';
@@ -67,6 +68,8 @@ export async function buildPackages({cwd}: {cwd: string}) {
         },
       );
       
+      const targets: string | string[] | undefined = await getPackageJsonBrowserslistQuery({packageJson: path.join(cwd, 'src/_packages', name, 'package.json')});
+      
       const webpackConfig: Configuration = webpackMerge(
         createWebpackBaseConfig({zeroconfigPath}),
         {
@@ -93,7 +96,10 @@ export async function buildPackages({cwd}: {cwd: string}) {
             }),
           ],
         },
-        createWebpackPackageConfig({cwd}),
+        createWebpackPackageConfig({
+          cwd,
+          targets,
+        }),
       );
       
       sayTitle('BUILD PACKAGE - ' + name);

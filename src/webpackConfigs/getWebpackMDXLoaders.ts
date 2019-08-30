@@ -2,7 +2,7 @@ import path from 'path';
 import { RuleSetCondition, RuleSetLoader, RuleSetRule } from 'webpack';
 import { getBabelConfig } from '../transpile/getBabelConfig';
 
-export function getWebpackMDXLoaders({test = /\.mdx$/, cwd, mdxLoaderOptions = {}}: {test?: RuleSetCondition, cwd: string, mdxLoaderOptions?: object}): RuleSetRule[] {
+export function getWebpackMDXLoaders({test = /\.mdx$/, cwd, mdxLoaderOptions = {}, targets}: {test?: RuleSetCondition, cwd: string, mdxLoaderOptions?: object, targets?: string | string[]}): RuleSetRule[] {
   const src: string = path.join(cwd, 'src');
   const babelLoader: RuleSetLoader = {
     loader: require.resolve('babel-loader'),
@@ -12,6 +12,7 @@ export function getWebpackMDXLoaders({test = /\.mdx$/, cwd, mdxLoaderOptions = {
       ...getBabelConfig({
         cwd,
         modules: false,
+        targets,
       }),
     },
   };

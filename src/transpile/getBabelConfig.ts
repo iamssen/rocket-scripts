@@ -5,8 +5,8 @@ import path from 'path';
 
 type Modules = 'amd' | 'umd' | 'systemjs' | 'commonjs' | 'cjs' | 'auto' | false;
 
-export function getBabelConfig({modules, cwd}: {cwd: string, modules: Modules}): object {
-  const targets: string | string[] = getBrowserslistQuery({cwd});
+export function getBabelConfig({modules, cwd, targets}: {cwd: string, modules: Modules, targets?: string | string[]}): object {
+  if (!targets) targets = getBrowserslistQuery({cwd});
   
   if (!process.env.JEST_WORKER_ID) {
     console.log('');
