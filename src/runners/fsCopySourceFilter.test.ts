@@ -10,5 +10,8 @@ describe('fsCopySourceFilter', () => {
     
     expect(fsCopySourceFilter('/path/to/some.d.ts')).toBeTruthy();
     expect(fsCopySourceFilter('/path/to/image.png')).toBeTruthy();
+    
+    expect(fsCopySourceFilter('/path/to/bin/cli.js')).toBeTruthy();
+    expect(fsCopySourceFilter('/path/to/bin/cli')).toBeTruthy();
   });
 });
