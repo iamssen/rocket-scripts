@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.18.0] - 2019-09-20
+### Added
+- `eslint-loader` use project own eslint config if eslint config exists
+
+### Fixed
+- Only set `javascriptEnabled` options for avoid sass option validation error
+
 ## [3.17.0] - 2019-08-31
 ### Added
 - Allow copy `src/_packages/{package-name}/bin/*.js`
@@ -110,6 +117,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - tsconfig's `strictFunctionTypes` to `true`
 
+[3.18.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.17.0...3.18.0
 [3.17.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.16.0...3.17.0
 [3.16.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.15.2...3.16.0
 [3.15.2]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.15.0...3.15.2

@@ -1,6 +1,6 @@
 {
   "name": "react-zeroconfig",
-  "version": "3.18.0-alpha.3",
+  "version": "3.18.0",
   "description": "Zero config tools for React projects",
   "keywords": [
     "zeroconfig",
