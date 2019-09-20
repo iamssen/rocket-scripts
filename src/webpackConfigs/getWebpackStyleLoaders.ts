@@ -67,7 +67,11 @@ export function getWebpackStyleLoaders({cssRegex, cssModuleRegex, extractCss, pr
       loader: require.resolve(preProcessor),
       options: {
         sourceMap: true,
-        javascriptEnabled: true,
+        ...(
+          preProcessor === 'less-loader'
+            ? {javascriptEnabled: true}
+            : {}
+        ),
       },
     };
     

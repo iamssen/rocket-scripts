@@ -4,6 +4,7 @@ import path from 'path';
 import typescriptFormatter from 'react-dev-utils/typescriptFormatter';
 import resolve from 'resolve';
 import { Configuration, RuleSetRule } from 'webpack';
+import { eslintConfigExistsSync } from './eslintConfigExistsSync';
 import { getWebpackAlias } from './getWebpackAlias';
 import { getWebpackDataURILoaders } from './getWebpackDataURILoaders';
 import { getWebpackFileLoaders } from './getWebpackFileLoaders';
@@ -15,6 +16,7 @@ import { getWebpackStyleLoaders } from './getWebpackStyleLoaders';
 export function createWebpackWebappConfig({extractCss, cwd, chunkPath, publicPath, internalEslint}: {extractCss: boolean, cwd: string, chunkPath: string, publicPath: string, internalEslint: boolean}): Configuration {
   const tsconfig: string = path.join(cwd, 'tsconfig.json');
   const tslint: string = path.join(cwd, 'tslint.json');
+  const eslintConfigExists: boolean = eslintConfigExistsSync({cwd});
   
   return {
     resolve: {
@@ -44,27 +46,50 @@ export function createWebpackWebappConfig({extractCss, cwd, chunkPath, publicPat
         ] as RuleSetRule[] : []),
         
         // eslint
-        ...(internalEslint ? [
-          {
-            test: /\.(js|mjs|jsx|ts|tsx)$/,
-            include: path.join(cwd, 'src'),
-            enforce: 'pre',
-            use: [
+        ...((): RuleSetRule[] => {
+          if (eslintConfigExists) {
+            return [
               {
-                loader: require.resolve('eslint-loader'),
-                options: {
-                  eslintPath: require.resolve('eslint'),
-                  resolvePluginsRelativeTo: __dirname,
-                  baseConfig: {
-                    extends: [require.resolve('eslint-config-react-app')],
+                test: /\.(js|mjs|jsx|ts|tsx)$/,
+                include: path.join(cwd, 'src'),
+                enforce: 'pre',
+                use: [
+                  {
+                    loader: require.resolve('eslint-loader'),
+                    options: {
+                      eslintPath: require.resolve('eslint'),
+                      cwd,
+                    },
                   },
-                  ignore: false,
-                  useEslintrc: false,
-                },
+                ],
               },
-            ],
-          },
-        ] as RuleSetRule[] : []),
+            ];
+          } else if (internalEslint) {
+            return [
+              {
+                test: /\.(js|mjs|jsx|ts|tsx)$/,
+                include: path.join(cwd, 'src'),
+                enforce: 'pre',
+                use: [
+                  {
+                    loader: require.resolve('eslint-loader'),
+                    options: {
+                      eslintPath: require.resolve('eslint'),
+                      resolvePluginsRelativeTo: __dirname,
+                      baseConfig: {
+                        extends: [require.resolve('eslint-config-react-app')],
+                      },
+                      ignore: false,
+                      useEslintrc: false,
+                    },
+                  },
+                ],
+              },
+            ];
+          } else {
+            return [];
+          }
+        })(),
         
         {
           oneOf: [
