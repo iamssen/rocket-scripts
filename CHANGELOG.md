@@ -5,8 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.20.0] - 2019-11-06
+### Added
+- Add `@babel/plugin-proposal-optional-chaining` and `@babel/plugin-proposal-nullish-coalescing-operator` to babel configs for support TypeScript 3.7 features
+
 ## [3.19.0] - 2019-10-28
-Nothing. Just dependencies update.
+Nothing. Just dependencies update
 
 ## [3.18.0] - 2019-09-20
 ### Added
@@ -120,6 +124,7 @@ Nothing. Just dependencies update.
 ### Changed
 - tsconfig's `strictFunctionTypes` to `true`
 
+[3.20.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.19.0...3.20.0
 [3.19.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.18.0...3.19.0
 [3.18.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.17.0...3.18.0
 [3.17.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.16.0...3.17.0
