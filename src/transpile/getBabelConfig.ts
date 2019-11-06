@@ -64,6 +64,7 @@ export function getBabelConfig({modules, cwd, targets}: {cwd: string, modules: M
         },
       ],
       require.resolve('@babel/plugin-syntax-dynamic-import'),
+      require.resolve('@babel/plugin-proposal-optional-chaining'),
       require.resolve('@loadable/babel-plugin'),
       [
         require.resolve('babel-plugin-named-asset-import'),
