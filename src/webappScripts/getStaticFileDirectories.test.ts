@@ -61,6 +61,7 @@ describe('getStaticFileDirectories()', () => {
     await expect(getStaticFileDirectories({argv, cwd})).resolves.toEqual([
       path.join(cwd, 'public'),
       path.join(cwd, 'src/_packages/c/public'),
+      //path.join(cwd, 'node_modules/x/public'), // x/public 디렉토리가 없음
       path.join(cwd, 'node_modules/y/public'),
     ]);
   });
