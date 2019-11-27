@@ -14,4 +14,9 @@ describe('fsCopySourceFilter', () => {
     expect(fsCopySourceFilter('/path/to/bin/cli.js')).toBeTruthy();
     expect(fsCopySourceFilter('/path/to/bin/cli')).toBeTruthy();
   });
+  
+  test('exclude public directories', () => {
+    expect(fsCopySourceFilter('/path/to/public/some.js')).toBeTruthy();
+    expect(fsCopySourceFilter('/path/to/public/xxx/yyy/some.js')).toBeTruthy();
+  });
 });
