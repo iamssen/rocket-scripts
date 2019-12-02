@@ -7,6 +7,7 @@ export function getWebpackFileLoaders({chunkPath}: {chunkPath: string}): RuleSet
       exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.json$/],
       options: {
         name: `${chunkPath}[name].[hash].[ext]`,
+        esModule: false,
       },
     },
   ];

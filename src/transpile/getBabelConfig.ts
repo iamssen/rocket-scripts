@@ -72,7 +72,7 @@ export function getBabelConfig({modules, cwd, targets}: {cwd: string, modules: M
         {
           loaderMap: {
             svg: {
-              ReactComponent: '@svgr/webpack?-svgo![path]',
+              ReactComponent: '@svgr/webpack?-svgo,+titleProp,+ref![path]',
             },
           },
         },
