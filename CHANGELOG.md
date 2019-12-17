@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.22.0] - 2019-12-17
+### Added
+- Add `--source-map` option to `create-zeroconfig-app build` command
+
 ## [3.20.1] - 2019-11-27
 ### Fixed
 - Allow copy `/public/*` directories for `/public/*.js` files in packages
@@ -128,6 +132,7 @@ Nothing. Just dependencies update
 ### Changed
 - tsconfig's `strictFunctionTypes` to `true`
 
+[3.22.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.20.1...3.22.0
 [3.20.1]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.20.0...3.20.1
 [3.20.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.19.0...3.20.0
 [3.19.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.18.0...3.19.0
