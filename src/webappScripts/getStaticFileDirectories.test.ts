@@ -6,6 +6,7 @@ import { getStaticFileDirectories } from './getStaticFileDirectories';
 const defaultArgv: WebappArgv = {
   command: 'build',
   app: 'app',
+  sourceMap: undefined,
   staticFileDirectories: undefined,
   staticFilePackages: undefined,
   sizeReport: false,

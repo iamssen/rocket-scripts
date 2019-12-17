@@ -14,6 +14,7 @@ import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig
 
 export async function buildServer({
                                     app,
+                                    sourceMap,
                                     mode,
                                     cwd,
                                     output,
@@ -34,7 +35,8 @@ export async function buildServer({
     {
       target: 'node',
       mode,
-      devtool: mode === 'production' ? false : 'source-map',
+      //devtool: mode === 'production' ? false : 'source-map',
+      devtool: 'source-map',
       
       entry: {
         index: path.join(cwd, 'src', app, 'server'),

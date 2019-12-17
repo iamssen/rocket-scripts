@@ -63,6 +63,7 @@ export function parseWebappArgv(nodeArgv: string[]): WebappArgv {
   return {
     command: command as WebappCommand,
     app,
+    sourceMap: takeMinimistLatestValue(argv['source-map']) === 'true' ? true : takeMinimistLatestValue(argv['source-map']) === 'false' ? false : undefined,
     staticFileDirectories: takeMinimistEveryValues(argv['static-file-directories']),
     staticFilePackages: takeMinimistEveryValues(argv['static-file-packages']),
     sizeReport: takeMinimistLatestValue(argv['size-report']) === 'true',

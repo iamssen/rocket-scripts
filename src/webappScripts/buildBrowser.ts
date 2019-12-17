@@ -13,11 +13,12 @@ import { runWebpack } from '../runners/runWebpack';
 import { WebappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
 import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConfig';
-import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
 import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
+import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
 
 export async function buildBrowser({
                                      mode,
+                                     sourceMap,
                                      output,
                                      app,
                                      cwd,
@@ -37,7 +38,10 @@ export async function buildBrowser({
     createWebpackBaseConfig({zeroconfigPath}),
     {
       mode,
-      devtool: mode === 'production' ? false : 'source-map',
+      //devtool: mode === 'production' ? false : 'source-map',
+      devtool: typeof sourceMap === 'boolean'
+        ? sourceMap ? 'source-map' : false
+        : mode === 'production' ? false : 'source-map',
       
       entry: {
         [appFileName]: path.join(cwd, 'src', app),
