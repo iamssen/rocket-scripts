@@ -4,6 +4,7 @@ import { parseWebappArgv } from './parseWebappArgv';
 const defaultArgv: WebappArgv = {
   command: 'build',
   app: 'app',
+  sourceMap: undefined,
   staticFileDirectories: undefined,
   staticFilePackages: undefined,
   sizeReport: false,
@@ -45,6 +46,36 @@ describe('parseWebappArgv()', () => {
       staticFilePackages: 'xxx yyy',
     });
     expect(process.env.NODE_ENV).toEqual('production');
+    
+    delete process.env.NODE_ENV;
+    expect(parseWebappArgv([
+      'build',
+      'app',
+      '--mode',
+      'production',
+      '--source-map',
+      'true',
+    ])).toEqual({
+      ...defaultArgv,
+      mode: 'production',
+      sourceMap: true,
+    });
+    expect(process.env.NODE_ENV).toEqual('production');
+    
+    delete process.env.NODE_ENV;
+    expect(parseWebappArgv([
+      'build',
+      'app',
+      '--mode',
+      'development',
+      '--source-map',
+      'false',
+    ])).toEqual({
+      ...defaultArgv,
+      mode: 'development',
+      sourceMap: false,
+    });
+    expect(process.env.NODE_ENV).toEqual('development');
     
     delete process.env.NODE_ENV;
     expect(parseWebappArgv([

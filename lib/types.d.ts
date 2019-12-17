@@ -34,6 +34,7 @@ export interface PackagePublishOption {
 export interface WebappArgv {
     command: WebappCommand;
     app: string;
+    sourceMap: boolean | undefined;
     staticFileDirectories: string | undefined;
     staticFilePackages: string | undefined;
     sizeReport: boolean;
@@ -55,6 +56,7 @@ export interface WebappArgv {
 export interface WebappConfig {
     command: WebappCommand;
     app: string;
+    sourceMap: boolean | undefined;
     staticFileDirectories: string[];
     sizeReport: boolean;
     mode: Mode;

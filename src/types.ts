@@ -57,6 +57,10 @@ export interface WebappArgv {
   command: WebappCommand;
   app: string;
   
+  // --source-map true --mode production
+  // --source-map false --mode development
+  sourceMap: boolean | undefined;
+  
   // --static-file-directories "public static" - relative paths from cwd or absolute paths
   // --static-file-packages "xxx yyy" - packages
   staticFileDirectories: string | undefined;
@@ -95,6 +99,8 @@ export interface WebappArgv {
 export interface WebappConfig {
   command: WebappCommand;
   app: string;
+  
+  sourceMap: boolean | undefined;
   
   // build
   staticFileDirectories: string[]; // absolute paths

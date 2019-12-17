@@ -6,6 +6,7 @@ import { createWebappConfig } from './createWebappConfig';
 const defaultArgv: WebappArgv = {
   command: 'build',
   app: 'app',
+  sourceMap: undefined,
   staticFileDirectories: undefined,
   staticFilePackages: undefined,
   sizeReport: true,
@@ -34,6 +35,7 @@ describe('createWebappConfig', () => {
     await expect(createWebappConfig({argv, cwd, zeroconfigPath})).resolves.toEqual({
       command: 'build',
       app: 'app',
+      sourceMap: undefined,
       staticFileDirectories: [
         path.join(cwd, 'public'),
       ],
@@ -69,6 +71,7 @@ describe('createWebappConfig', () => {
     await expect(createWebappConfig({argv, cwd, zeroconfigPath})).resolves.toEqual({
       command: 'build',
       app: 'app',
+      sourceMap: undefined,
       staticFileDirectories: [
         path.join(cwd, 'public'),
       ],
@@ -104,6 +107,7 @@ describe('createWebappConfig', () => {
     await expect(createWebappConfig({argv, cwd, zeroconfigPath})).resolves.toEqual({
       command: 'build',
       app: 'app',
+      sourceMap: undefined,
       staticFileDirectories: [
         path.join(cwd, 'public'),
       ],

@@ -6,7 +6,7 @@ import { glob } from '../utils/glob-promise';
 import { getStaticFileDirectories } from './getStaticFileDirectories';
 
 export async function createWebappConfig({argv, cwd, zeroconfigPath}: {argv: WebappArgv, cwd: string, zeroconfigPath: string}): Promise<WebappConfig> {
-  const {command, app, sizeReport, mode, appFileName, vendorFileName, styleFileName, chunkPath, publicPath, port, serverPort, https, internalEslint} = argv;
+  const {command, app, sourceMap, sizeReport, mode, appFileName, vendorFileName, styleFileName, chunkPath, publicPath, port, serverPort, https, internalEslint} = argv;
   
   if (!(await fs.pathExists(path.join(cwd, 'src', app)))) throw new Error(`${path.join(cwd, 'src', app)} is undefined`);
   
@@ -24,6 +24,8 @@ export async function createWebappConfig({argv, cwd, zeroconfigPath}: {argv: Web
   return {
     command,
     app,
+  
+    sourceMap,
     
     staticFileDirectories,
     
