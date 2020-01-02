@@ -4,7 +4,6 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
 import { Configuration } from 'webpack';
 import webpackMerge from 'webpack-merge';
-import nodeExternals from 'webpack-node-externals';
 import { watchWebpack } from '../runners/watchWebpack';
 import { DesktopappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
@@ -20,7 +19,7 @@ export async function watchElectron({
                                       output,
                                       extend,
                                     }: DesktopappConfig) {
-  const webpackConfig: Configuration = webpackMerge(
+  const webpackMainConfig: Configuration = webpackMerge(
     createWebpackBaseConfig({zeroconfigPath}),
     {
       target: 'electron-main',
@@ -28,7 +27,6 @@ export async function watchElectron({
       devtool: 'source-map',
       
       entry: {
-        index: path.join(cwd, 'src', app, 'index'),
         main: path.join(cwd, 'src', app, 'main'),
       },
       
@@ -37,10 +35,52 @@ export async function watchElectron({
         libraryTarget: 'commonjs2',
       },
       
-      externals: [nodeExternals({
-        // include asset files
-        whitelist: [/\.(?!(?:jsx?|json)$).{1,5}$/i],
-      })],
+      //externals: [nodeExternals({
+      //  // include asset files
+      //  whitelist: [
+      //    /\.(?!(?:jsx?|json)$).{1,5}$/i,
+      //    ///^@material-ui/i,
+      //    ///^@babel\/runtime/i,
+      //  ],
+      //})],
+    },
+    createWebpackWebappConfig({
+      extractCss: true,
+      cwd,
+      chunkPath: '',
+      publicPath: '',
+      internalEslint: true,
+    }),
+    createWebpackEnvConfig({
+      serverPort: 0,
+      publicPath: '',
+    }),
+  );
+  
+  const webpackRendererConfig: Configuration = webpackMerge(
+    createWebpackBaseConfig({zeroconfigPath}),
+    {
+      target: 'electron-renderer',
+      mode: 'development',
+      devtool: 'source-map',
+      
+      entry: {
+        index: path.join(cwd, 'src', app, 'index'),
+      },
+      
+      output: {
+        path: path.join(output, 'electron'),
+        libraryTarget: 'commonjs2',
+      },
+      
+      //externals: [nodeExternals({
+      //  // include asset files
+      //  whitelist: [
+      //    /\.(?!(?:jsx?|json)$).{1,5}$/i,
+      //    ///^@material-ui/i,
+      //    ///^@babel\/runtime/i,
+      //  ],
+      //})],
       
       plugins: [
         // create css files
@@ -83,13 +123,25 @@ export async function watchElectron({
     await Promise.all(staticFileDirectories.map(dir => fs.copy(dir, copyTo, {dereference: true})));
     
     // watch webpack
-    watchWebpack(webpackConfig).subscribe({
+    watchWebpack(webpackMainConfig).subscribe({
       next: webpackMessage => {
-        sayTitle('WATCH ELECTRON');
+        sayTitle('WATCH ELECTRON MAIN');
         console.log(webpackMessage);
       },
       error: error => {
-        sayTitle('⚠️ WATCH ELECTRON ERROR');
+        sayTitle('⚠️ WATCH ELECTRON MAIN ERROR');
+        console.error(error);
+      },
+    });
+    
+    // watch webpack
+    watchWebpack(webpackRendererConfig).subscribe({
+      next: webpackMessage => {
+        sayTitle('WATCH ELECTRON RENDERER');
+        console.log(webpackMessage);
+      },
+      error: error => {
+        sayTitle('⚠️ WATCH ELECTRON RENDERER ERROR');
         console.error(error);
       },
     });
