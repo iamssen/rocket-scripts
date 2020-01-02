@@ -1,10 +1,10 @@
 import path from 'path';
 import { DesktopappArgv } from '../types';
-import { createTmpFixture } from '../utils/createTmpFixture';
 
 const defaultArgv: DesktopappArgv = {
   command: 'start',
   app: 'app',
+  output: undefined,
   staticFileDirectories: undefined,
   staticFilePackages: undefined,
 };
