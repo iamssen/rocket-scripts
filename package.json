@@ -1,6 +1,6 @@
 {
   "name": "react-zeroconfig",
-  "version": "3.22.0",
+  "version": "3.23.0-alpha.1",
   "description": "Zero config tools for React projects",
   "keywords": [
     "zeroconfig",
@@ -33,11 +33,13 @@
     "test:e2e:build": "sh test/e2e/build.sh",
     "coverage": "jest --colors --coverage",
     "prepublishOnly": "npm run test && npm run lint && npm run build",
-    "lint": "tslint \"src/**/*.{ts,tsx}\""
+    "lint": "tslint \"src/**/*.{ts,tsx}\"",
+    "pack": "npm run prepublishOnly && npm pack"
   },
   "bin": {
     "zeroconfig-webapp-scripts": "./bin/zeroconfig-webapp-scripts",
-    "zeroconfig-package-scripts": "./bin/zeroconfig-package-scripts"
+    "zeroconfig-package-scripts": "./bin/zeroconfig-package-scripts",
+    "zeroconfig-desktopapp-scripts": "./bin/zeroconfig-desktopapp-scripts"
   },
   "husky": {
     "hooks": {

@@ -1,30 +1,29 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { getInternalPackagePublicDrectories } from '../internalPackage/getInternalPackagePublicDrectories';
-import { WebappArgv } from '../types';
 
-export async function getStaticFileDirectories({argv, cwd}: {argv: WebappArgv, cwd: string}): Promise<string[]> {
-  const staticFileDirectories: string[] = [];
+export async function getStaticFileDirectories({staticFileDirectories, staticFilePackages, cwd}: {staticFileDirectories?: string | undefined, staticFilePackages?: string | undefined, cwd: string}): Promise<string[]> {
+  const directories: string[] = [];
   
-  if (typeof argv.staticFileDirectories === 'string') {
-    const manualDirectories: string[] = argv.staticFileDirectories.split(' ')
+  if (typeof staticFileDirectories === 'string') {
+    const manualDirectories: string[] = staticFileDirectories.split(' ')
       .map(directory => path.join(cwd, directory));
     
-    staticFileDirectories.push(...manualDirectories);
+    directories.push(...manualDirectories);
   } else {
     const publicDirectory: string = path.join(cwd, 'public');
     
     if (fs.pathExistsSync(publicDirectory) && fs.statSync(publicDirectory).isDirectory()) {
-      staticFileDirectories.push(publicDirectory);
+      directories.push(publicDirectory);
     }
     
     const internalPackageDirectories: string[] = await getInternalPackagePublicDrectories({packageDir: path.join(cwd, 'src/_packages')});
     
-    staticFileDirectories.push(...internalPackageDirectories);
+    directories.push(...internalPackageDirectories);
   }
   
-  if (typeof argv.staticFilePackages === 'string') {
-    const packageDirectories: string[] = argv.staticFilePackages.split(' ')
+  if (typeof staticFilePackages === 'string') {
+    const packageDirectories: string[] = staticFilePackages.split(' ')
       .map(packageName => {
         const paths: string[] = [
           ...(require.resolve.paths(packageName) || []),
@@ -35,8 +34,8 @@ export async function getStaticFileDirectories({argv, cwd}: {argv: WebappArgv, c
       })
       .filter(directory => fs.pathExistsSync(directory) && fs.statSync(directory).isDirectory());
     
-    staticFileDirectories.push(...packageDirectories);
+    directories.push(...packageDirectories);
   }
   
-  return staticFileDirectories;
+  return directories;
 }
