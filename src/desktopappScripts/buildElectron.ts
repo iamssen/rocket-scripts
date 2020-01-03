@@ -1,17 +1,22 @@
+import chalk from 'chalk';
 import fs from 'fs-extra';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import path from 'path';
-import { Configuration } from 'webpack';
+import safePostCssParser from 'postcss-safe-parser';
+import TerserPlugin from 'terser-webpack-plugin';
+import { Configuration, Options } from 'webpack';
 import webpackMerge from 'webpack-merge';
-import { watchWebpack } from '../runners/watchWebpack';
+import { copyElectronPackageJson } from '../runners/copyElectronPackageJson';
+import { runWebpack } from '../runners/runWebpack';
 import { DesktopappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
 import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConfig';
 import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
 import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
 
-export async function watchElectron({
+export async function buildElectron({
                                       cwd,
                                       app,
                                       zeroconfigPath,
@@ -32,12 +37,52 @@ export async function watchElectron({
     publicPath: '',
   });
   
+  const optimization: Options.Optimization = {
+    concatenateModules: true,
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          ecma: 5,
+          parse: {
+            ecma: 8,
+          },
+          compress: {
+            //ecma: 5,
+            warnings: false,
+            comparisons: false,
+            inline: 2,
+          },
+          mangle: {
+            safari10: true,
+          },
+          output: {
+            ecma: 5,
+            comments: false,
+            ascii_only: true,
+          },
+        },
+        parallel: true,
+        cache: true,
+        sourceMap: true,
+      }),
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorOptions: {
+          parser: safePostCssParser,
+          map: {
+            inline: false,
+            annotation: true,
+          },
+        },
+      }),
+    ],
+  };
+  
   const webpackMainConfig: Configuration = webpackMerge(
     baseConfig,
     {
       target: 'electron-main',
-      mode: 'development',
-      devtool: 'source-map',
+      mode: 'production',
       
       entry: {
         main: path.join(cwd, 'src', app, 'main'),
@@ -46,6 +91,8 @@ export async function watchElectron({
       output: {
         path: path.join(output, 'electron'),
       },
+      
+      optimization,
     },
     webappConfig,
     envConfig,
@@ -55,8 +102,7 @@ export async function watchElectron({
     baseConfig,
     {
       target: 'electron-renderer',
-      mode: 'development',
-      devtool: 'source-map',
+      mode: 'production',
       
       entry: {
         index: path.join(cwd, 'src', app, 'index'),
@@ -66,11 +112,15 @@ export async function watchElectron({
         path: path.join(output, 'electron'),
       },
       
+      optimization,
+      
       plugins: [
         // create css files
         new MiniCssExtractPlugin({
           filename: `[name].css`,
         }),
+        
+        // TODO bundle analyzer plugin
         
         // create html files
         ...(extend.templateFiles.length > 0 ? extend.templateFiles.map(templateFile => {
@@ -96,33 +146,31 @@ export async function watchElectron({
     await fs.mkdirp(copyTo);
     await Promise.all(staticFileDirectories.map(dir => fs.copy(dir, copyTo, {dereference: false})));
     
-    // TODO file watch - sync
+    sayTitle('BUILD ELECTRON MAIN');
+    console.log(await runWebpack(webpackMainConfig));
     
-    // watch webpack
-    watchWebpack(webpackMainConfig).subscribe({
-      next: webpackMessage => {
-        sayTitle('WATCH ELECTRON MAIN');
-        console.log(webpackMessage);
-      },
-      error: error => {
-        sayTitle('⚠️ WATCH ELECTRON MAIN ERROR');
-        console.error(error);
-      },
+    sayTitle('BUILD ELECTRON RENDERER');
+    console.log(await runWebpack(webpackRendererConfig));
+    
+    if (!fs.pathExistsSync(path.join(output, 'electron/node_modules'))) {
+      const dir: string = path.join(output, 'electron');
+      await fs.mkdirp(dir);
+      await fs.symlink(path.join(cwd, 'node_modules'), path.join(output, 'electron/node_modules'));
+    }
+    
+    sayTitle('BUILD ELECTRON');
+    
+    await copyElectronPackageJson({
+      file: path.join(cwd, 'package.json'),
+      app: path.join(cwd, 'src', app, 'package.json'),
+      copyTo: path.join(output, 'electron/package.json'),
     });
     
-    // watch webpack
-    watchWebpack(webpackRendererConfig).subscribe({
-      next: webpackMessage => {
-        sayTitle('WATCH ELECTRON RENDERER');
-        console.log(webpackMessage);
-      },
-      error: error => {
-        sayTitle('⚠️ WATCH ELECTRON RENDERER ERROR');
-        console.error(error);
-      },
-    });
+    console.log('BUILD ELECTRON COMPLETED');
+    console.log(`Please execute this command below for pack this application:`);
+    console.log(chalk.bold.yellow(`electron-builder --project ${path.join(output, 'electron')}`));
   } catch (error) {
-    sayTitle('⚠️ COPY FILES ERROR');
+    sayTitle('⚠️ BUILD ELECTRON ERROR');
     console.error(error);
   }
 }

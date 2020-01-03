@@ -13,6 +13,15 @@ export function parseDesktopappArgv(nodeArgv: string[]): DesktopappArgv {
   }
   
   switch (command) {
+    case 'build':
+      if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
+        sayTitle('FOUND NODE_ENV');
+        console.log(`In "zeroconfig-desktopapp-scripts ${command}". NODE_ENV should always be "production"`);
+        console.log('[setting change]: process.env.NODE_ENV → production');
+      }
+  
+      process.env.NODE_ENV = 'production';
+      break;
     case 'start':
     case 'electron-watch':
     case 'electron-start':

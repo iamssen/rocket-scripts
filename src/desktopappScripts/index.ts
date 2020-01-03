@@ -3,6 +3,7 @@ import path from 'path';
 import { DesktopappArgv, DesktopappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
 import { sayZeroconfig } from '../utils/sayZeroconfig';
+import { buildElectron } from './buildElectron';
 import { createDesktopappConfig } from './createDesktopappConfig';
 import help from './help';
 import { parseDesktopappArgv } from './parseDesktopappArgv';
@@ -36,8 +37,12 @@ export async function desktopappScripts(nodeArgv: string[], {cwd = process.cwd()
     console.log(config);
     
     switch (config.command) {
+      case 'build':
+        process.env.BROWSERSLIST_ENV = 'electron';
+        await buildElectron(config);
+        break;
       case 'electron-watch':
-        process.env.BROWSERSLIST_ENV = 'server_development';
+        process.env.BROWSERSLIST_ENV = 'electron';
         await watchElectron(config);
         break;
       case 'electron-start':
