@@ -8,6 +8,7 @@ import { sayTitle } from '../utils/sayTitle';
 
 export async function startElectron({
                                       cwd,
+                                      app,
                                       output,
                                     }: DesktopappConfig) {
   const file: string = path.join(output, 'electron/main.js');
@@ -24,6 +25,7 @@ export async function startElectron({
   
   await copyElectronPackageJson({
     file: path.join(cwd, 'package.json'),
+    app: path.join(cwd, 'src', app, 'package.json'),
     copyTo: path.join(output, 'electron/package.json'),
   });
   
