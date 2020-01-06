@@ -1,9 +1,10 @@
-import fs from 'fs-extra';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
+import { Observable } from 'rxjs';
 import { Configuration } from 'webpack';
 import webpackMerge from 'webpack-merge';
+import { mirrorFiles, MirrorResult } from '../runners/mirrorFiles';
 import { watchWebpack } from '../runners/watchWebpack';
 import { DesktopappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
@@ -19,21 +20,8 @@ export async function watchElectron({
                                       output,
                                       extend,
                                     }: DesktopappConfig) {
-  const baseConfig: Configuration = createWebpackBaseConfig({zeroconfigPath});
-  const webappConfig: Configuration = createWebpackWebappConfig({
-    extractCss: true,
-    cwd,
-    chunkPath: '',
-    publicPath: '',
-    internalEslint: true,
-  });
-  const envConfig: Configuration = createWebpackEnvConfig({
-    serverPort: 0,
-    publicPath: '',
-  });
-  
   const webpackMainConfig: Configuration = webpackMerge(
-    baseConfig,
+    createWebpackBaseConfig({zeroconfigPath}),
     {
       target: 'electron-main',
       mode: 'development',
@@ -47,12 +35,21 @@ export async function watchElectron({
         path: path.join(output, 'electron'),
       },
     },
-    webappConfig,
-    envConfig,
+    createWebpackWebappConfig({
+      extractCss: true,
+      cwd,
+      chunkPath: '',
+      publicPath: '',
+      internalEslint: true,
+    }),
+    createWebpackEnvConfig({
+      serverPort: 0,
+      publicPath: '',
+    }),
   );
   
   const webpackRendererConfig: Configuration = webpackMerge(
-    baseConfig,
+    createWebpackBaseConfig({zeroconfigPath}),
     {
       target: 'electron-renderer',
       mode: 'development',
@@ -85,18 +82,38 @@ export async function watchElectron({
         }) : []),
       ],
     },
-    webappConfig,
-    envConfig,
+    createWebpackWebappConfig({
+      extractCss: true,
+      cwd,
+      chunkPath: '',
+      publicPath: '',
+      internalEslint: true,
+    }),
+    createWebpackEnvConfig({
+      serverPort: 0,
+      publicPath: '',
+    }),
   );
   
   try {
-    sayTitle('COPY FILES');
+    sayTitle('MIRROR FILES START');
     
-    const copyTo: string = path.join(output, 'electron');
-    await fs.mkdirp(copyTo);
-    await Promise.all(staticFileDirectories.map(dir => fs.copy(dir, copyTo, {dereference: false})));
+    const watcher: Observable<MirrorResult> = await mirrorFiles({
+      sources: staticFileDirectories,
+      output: path.join(output, 'electron'),
+    });
     
-    // TODO file watch - sync
+    // mirror files
+    watcher.subscribe({
+      next: ({file, treat}) => {
+        sayTitle('MIRROR FILE');
+        console.log(`[${treat}] ${file}`);
+      },
+      error: error => {
+        sayTitle('⚠️ MIRROR FILE ERROR');
+        console.error(error);
+      },
+    });
     
     // watch webpack
     watchWebpack(webpackMainConfig).subscribe({
