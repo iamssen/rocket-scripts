@@ -4,6 +4,7 @@ import path from 'path';
 import { Observable } from 'rxjs';
 import { Configuration } from 'webpack';
 import webpackMerge from 'webpack-merge';
+import nodeExternals from 'webpack-node-externals';
 import { mirrorFiles, MirrorResult } from '../runners/mirrorFiles';
 import { watchWebpack } from '../runners/watchWebpack';
 import { DesktopappConfig } from '../types';
@@ -11,6 +12,7 @@ import { sayTitle } from '../utils/sayTitle';
 import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConfig';
 import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
 import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
+import { externalWhiteList } from './externalWhiteList';
 
 export async function watchElectron({
                                       cwd,
@@ -26,6 +28,18 @@ export async function watchElectron({
       target: 'electron-main',
       mode: 'development',
       devtool: 'source-map',
+      
+      resolve: {
+        mainFields: ['main'],
+      },
+      
+      externals: [nodeExternals({
+        whitelist: [
+          // include asset files
+          /\.(?!(?:jsx?|json)$).{1,5}$/i,
+          ...externalWhiteList({cwd, app}),
+        ],
+      })],
       
       entry: {
         main: path.join(cwd, 'src', app, 'main'),
@@ -55,8 +69,20 @@ export async function watchElectron({
       mode: 'development',
       devtool: 'source-map',
       
+      resolve: {
+        mainFields: ['main'],
+      },
+      
+      externals: [nodeExternals({
+        whitelist: [
+          // include asset files
+          /\.(?!(?:jsx?|json)$).{1,5}$/i,
+          ...externalWhiteList({cwd, app}),
+        ],
+      })],
+      
       entry: {
-        index: path.join(cwd, 'src', app, 'index'),
+        renderer: path.join(cwd, 'src', app, 'renderer'),
       },
       
       output: {
@@ -77,7 +103,7 @@ export async function watchElectron({
           return new HtmlWebpackPlugin({
             template: path.join(cwd, 'src', app, templateFile),
             filename: filename + '.html',
-            chunks: ['index'],
+            chunks: ['renderer'],
           });
         }) : []),
       ],

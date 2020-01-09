@@ -8,6 +8,7 @@ import safePostCssParser from 'postcss-safe-parser';
 import TerserPlugin from 'terser-webpack-plugin';
 import { Configuration, Options } from 'webpack';
 import webpackMerge from 'webpack-merge';
+import nodeExternals from 'webpack-node-externals';
 import { copyElectronPackageJson } from '../runners/copyElectronPackageJson';
 import { runWebpack } from '../runners/runWebpack';
 import { DesktopappConfig } from '../types';
@@ -15,6 +16,7 @@ import { sayTitle } from '../utils/sayTitle';
 import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConfig';
 import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
 import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
+import { externalWhiteList } from './externalWhiteList';
 
 export async function buildElectron({
                                       cwd,
@@ -24,19 +26,6 @@ export async function buildElectron({
                                       output,
                                       extend,
                                     }: DesktopappConfig) {
-  const baseConfig: Configuration = createWebpackBaseConfig({zeroconfigPath});
-  const webappConfig: Configuration = createWebpackWebappConfig({
-    extractCss: true,
-    cwd,
-    chunkPath: '',
-    publicPath: '',
-    internalEslint: true,
-  });
-  const envConfig: Configuration = createWebpackEnvConfig({
-    serverPort: 0,
-    publicPath: '',
-  });
-  
   const optimization: Options.Optimization = {
     concatenateModules: true,
     minimize: true,
@@ -79,10 +68,22 @@ export async function buildElectron({
   };
   
   const webpackMainConfig: Configuration = webpackMerge(
-    baseConfig,
+    createWebpackBaseConfig({zeroconfigPath}),
     {
       target: 'electron-main',
       mode: 'production',
+      
+      resolve: {
+        mainFields: ['main'],
+      },
+      
+      externals: [nodeExternals({
+        whitelist: [
+          // include asset files
+          /\.(?!(?:jsx?|json)$).{1,5}$/i,
+          ...externalWhiteList({cwd, app}),
+        ],
+      })],
       
       entry: {
         main: path.join(cwd, 'src', app, 'main'),
@@ -94,18 +95,39 @@ export async function buildElectron({
       
       optimization,
     },
-    webappConfig,
-    envConfig,
+    createWebpackWebappConfig({
+      extractCss: true,
+      cwd,
+      chunkPath: '',
+      publicPath: '',
+      internalEslint: true,
+    }),
+    createWebpackEnvConfig({
+      serverPort: 0,
+      publicPath: '',
+    }),
   );
   
   const webpackRendererConfig: Configuration = webpackMerge(
-    baseConfig,
+    createWebpackBaseConfig({zeroconfigPath}),
     {
       target: 'electron-renderer',
       mode: 'production',
       
+      resolve: {
+        mainFields: ['main'],
+      },
+      
+      externals: [nodeExternals({
+        whitelist: [
+          // include asset files
+          /\.(?!(?:jsx?|json)$).{1,5}$/i,
+          ...externalWhiteList({cwd, app}),
+        ],
+      })],
+      
       entry: {
-        index: path.join(cwd, 'src', app, 'index'),
+        renderer: path.join(cwd, 'src', app, 'renderer'),
       },
       
       output: {
@@ -130,13 +152,22 @@ export async function buildElectron({
           return new HtmlWebpackPlugin({
             template: path.join(cwd, 'src', app, templateFile),
             filename: filename + '.html',
-            chunks: ['index'],
+            chunks: ['renderer'],
           });
         }) : []),
       ],
     },
-    webappConfig,
-    envConfig,
+    createWebpackWebappConfig({
+      extractCss: true,
+      cwd,
+      chunkPath: '',
+      publicPath: '',
+      internalEslint: true,
+    }),
+    createWebpackEnvConfig({
+      serverPort: 0,
+      publicPath: '',
+    }),
   );
   
   try {
