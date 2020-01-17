@@ -6,13 +6,13 @@ import { sayTitle } from '../utils/sayTitle';
 import { createPackagePublishOptions } from './createPackagePublishOptions';
 import { selectPublishOptions } from './selectPublishOptions';
 
-export async function publishPackages({cwd}: {cwd: string}) {
+export async function publishPackages({cwd, choice}: {cwd: string, choice: boolean}) {
   try {
-    const entry: string[] = await getInternalPackageEntry({packageDir: path.join(cwd, 'src/_packages')});
+    const entry: string[] = getInternalPackageEntry({packageDir: path.join(cwd, 'src/_packages')});
     const publishOptions: PackagePublishOption[] = await createPackagePublishOptions({entry, cwd});
     
     sayTitle('SELECT PACKAGES TO PUBLISH');
-    const selectedPublishOptions: PackagePublishOption[] = await selectPublishOptions({publishOptions});
+    const selectedPublishOptions: PackagePublishOption[] = await selectPublishOptions({publishOptions, choice});
     
     for await (const publishOption of selectedPublishOptions) {
       sayTitle('PUBLISH PACKAGE - ' + publishOption.name);

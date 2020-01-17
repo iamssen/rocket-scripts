@@ -22,6 +22,37 @@ describe('getPackageJsonContentsOrderedNames', () => {
     
     test([
       {
+        'name': '@lunit/insight-viewer',
+        'dependencies': {
+          'react': '>=16.8.0',
+          'cornerstone-core': '^2.3.0',
+          'cornerstone-wado-image-loader': '^2.2.3',
+          'dicom-parser': '^1.8.3',
+          'rxjs': '^6.5.2',
+          'polylabel': '^1.0.2',
+          'point-in-polygon': '^1.0.1',
+          'styled-components': '>=4.3.2',
+          '@material-ui/core': '^4.3.1',
+          '@lunit/heatmap': '^1.0.0',
+          '@lunit/is-complex-polygon': '^1.0.0',
+          '@lunit/is-polygon-area-greater-than-area': '^1.0.0',
+          'csstype': '^2.6.7',
+          '@storybook/addons': '^5.2.8',
+        },
+      },
+      {
+        'name': '@lunit/heatmap',
+        'dependencies': {
+          'react': '>=16.8.0',
+        },
+      },
+    ], [
+      '@lunit/heatmap',
+      '@lunit/insight-viewer',
+    ]);
+    
+    test([
+      {
         name: 'a',
         dependencies: {
           'c': '0.0.0',
@@ -92,9 +123,9 @@ describe('getPackageJsonContentsOrderedNames', () => {
       },
     ], [
       'use-react-intl',
-      'router-store',
       '@ssen/test-module1',
       'test-module3',
+      'router-store',
       '@ssen/test-module2',
     ]);
   });

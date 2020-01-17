@@ -13,6 +13,7 @@ export declare function isDesktopappCommand(command: string): command is Desktop
 export declare function isMode(mode: string | undefined): mode is Mode;
 export interface PackageArgv {
     command: PackageCommand;
+    choice: boolean;
 }
 export interface PackageBuildOption {
     /** module name is package.json name */

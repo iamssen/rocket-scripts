@@ -6,7 +6,7 @@ import { getInternalPackageEntry } from '../internalPackage/getInternalPackageEn
 import { sayTitle } from '../utils/sayTitle';
 
 export async function listPackages({cwd}: {cwd: string}) {
-  const entry: string[] = await getInternalPackageEntry({packageDir: path.join(cwd, 'src/_packages')});
+  const entry: string[] = getInternalPackageEntry({packageDir: path.join(cwd, 'src/_packages')});
   
   const n: (name: string) => string = name => {
     return entry.indexOf(name) > -1

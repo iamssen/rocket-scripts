@@ -3,6 +3,7 @@ import path from 'path';
 import { PackageJson } from 'type-fest';
 import { getImportedPackagesFromFiles } from '../analyze/getImportedPackagesFromFiles';
 import { glob } from '../utils/glob-promise';
+import nodeApis from './node-api-list.json';
 
 export async function findInternalPackageMissingDependencies({packageDir}: {packageDir: string}): Promise<Set<string> | undefined> {
   const packageJson: string = path.join(packageDir, 'package.json');
@@ -38,7 +39,7 @@ export async function findInternalPackageMissingDependencies({packageDir}: {pack
   const importedPackages: Set<string> = await getImportedPackagesFromFiles(sourceFiles);
   
   for (const packageName of importedPackages) {
-    if (wrotePackages.has(packageName)) {
+    if (wrotePackages.has(packageName) || nodeApis.indexOf(packageName) > -1) {
       importedPackages.delete(packageName);
     }
   }

@@ -5,7 +5,7 @@ import { sayTitle } from '../utils/sayTitle';
 import { validatePackage } from './validatePackage';
 
 export async function validatePackages({cwd}: {cwd: string}) {
-  const entry: string[] = await getInternalPackageEntry({packageDir: path.join(cwd, 'src/_packages')});
+  const entry: string[] = getInternalPackageEntry({packageDir: path.join(cwd, 'src/_packages')});
   
   for await (const name of entry) {
     sayTitle('VALIDATE PACKAGE - ' + name);

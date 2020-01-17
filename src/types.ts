@@ -35,6 +35,10 @@ export function isMode(mode: string | undefined): mode is Mode {
 
 export interface PackageArgv {
   command: PackageCommand;
+  
+  // publish
+  // --choice false
+  choice: boolean;
 }
 
 export interface PackageBuildOption {
