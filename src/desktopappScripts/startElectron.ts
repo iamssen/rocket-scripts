@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import nodemon from 'nodemon';
 import path from 'path';
-import { copyElectronPackageJson } from '../runners/copyElectronPackageJson';
+import { copyElectronPackageJson } from './copyElectronPackageJson';
 import { watingFiles } from '../runners/watingFiles';
 import { DesktopappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';

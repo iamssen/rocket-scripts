@@ -8,15 +8,15 @@ import safePostCssParser from 'postcss-safe-parser';
 import TerserPlugin from 'terser-webpack-plugin';
 import { Configuration, Options } from 'webpack';
 import webpackMerge from 'webpack-merge';
-import nodeExternals from 'webpack-node-externals';
-import { copyElectronPackageJson } from '../runners/copyElectronPackageJson';
 import { runWebpack } from '../runners/runWebpack';
 import { DesktopappConfig } from '../types';
 import { sayTitle } from '../utils/sayTitle';
 import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConfig';
 import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
 import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
-import { externalWhiteList } from './externalWhiteList';
+import { copyElectronPackageJson } from './copyElectronPackageJson';
+import { getRendererExternals } from './getRendererExternals';
+import { validateAppDependencies } from './validateAppDependencies';
 
 export async function buildElectron({
                                       cwd,
@@ -26,6 +26,17 @@ export async function buildElectron({
                                       output,
                                       extend,
                                     }: DesktopappConfig) {
+  try {
+    validateAppDependencies({
+      projectPackageJson: fs.readJsonSync(path.join(cwd, 'package.json')),
+      appPackageJson: fs.readJsonSync(path.join(cwd, 'src', app, 'package.json')),
+    });
+  } catch (error) {
+    sayTitle('⚠️ APP PACKAGE.JSON DEPENDENCIES ERROR');
+    console.error(error);
+    process.exit(1);
+  }
+  
   const optimization: Options.Optimization = {
     concatenateModules: true,
     minimize: true,
@@ -77,13 +88,7 @@ export async function buildElectron({
         mainFields: ['main'],
       },
       
-      externals: [nodeExternals({
-        whitelist: [
-          // include asset files
-          /\.(?!(?:jsx?|json)$).{1,5}$/i,
-          ...externalWhiteList({cwd, app}),
-        ],
-      })],
+      externals: ['electron', ...getRendererExternals({cwd, app})],
       
       entry: {
         main: path.join(cwd, 'src', app, 'main'),
@@ -118,13 +123,7 @@ export async function buildElectron({
         mainFields: ['main'],
       },
       
-      externals: [nodeExternals({
-        whitelist: [
-          // include asset files
-          /\.(?!(?:jsx?|json)$).{1,5}$/i,
-          ...externalWhiteList({cwd, app}),
-        ],
-      })],
+      externals: ['electron', ...getRendererExternals({cwd, app})],
       
       entry: {
         renderer: path.join(cwd, 'src', app, 'renderer'),
@@ -183,13 +182,7 @@ export async function buildElectron({
     sayTitle('BUILD ELECTRON RENDERER');
     console.log(await runWebpack(webpackRendererConfig));
     
-    if (!fs.pathExistsSync(path.join(output, 'electron/node_modules'))) {
-      const dir: string = path.join(output, 'electron');
-      await fs.mkdirp(dir);
-      await fs.symlink(path.join(cwd, 'node_modules'), path.join(output, 'electron/node_modules'));
-    }
-    
-    sayTitle('BUILD ELECTRON');
+    sayTitle('NPM INSTALL');
     
     await copyElectronPackageJson({
       file: path.join(cwd, 'package.json'),
@@ -199,7 +192,7 @@ export async function buildElectron({
     
     console.log('BUILD ELECTRON COMPLETED');
     console.log(`Please execute this command below for pack this application:`);
-    console.log(chalk.bold.yellow(`electron-builder --project ${path.join(output, 'electron')}`));
+    console.log(chalk.bold.yellow(`cd ${path.relative(cwd, path.join(output, 'electron'))} && npm install && electron-rebuild && electron-builder --mac --win --linux`));
   } catch (error) {
     sayTitle('⚠️ BUILD ELECTRON ERROR');
     console.error(error);

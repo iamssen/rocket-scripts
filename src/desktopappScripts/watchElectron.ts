@@ -1,3 +1,4 @@
+import fs from 'fs-extra';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
@@ -12,7 +13,7 @@ import { sayTitle } from '../utils/sayTitle';
 import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConfig';
 import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
 import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
-import { externalWhiteList } from './externalWhiteList';
+import { validateAppDependencies } from './validateAppDependencies';
 
 export async function watchElectron({
                                       cwd,
@@ -22,6 +23,17 @@ export async function watchElectron({
                                       output,
                                       extend,
                                     }: DesktopappConfig) {
+  try {
+    validateAppDependencies({
+      projectPackageJson: fs.readJsonSync(path.join(cwd, 'package.json')),
+      appPackageJson: fs.readJsonSync(path.join(cwd, 'src', app, 'package.json')),
+    });
+  } catch (error) {
+    sayTitle('⚠️ APP PACKAGE.JSON DEPENDENCIES ERROR');
+    console.error(error);
+    process.exit(1);
+  }
+  
   const webpackMainConfig: Configuration = webpackMerge(
     createWebpackBaseConfig({zeroconfigPath}),
     {
@@ -37,7 +49,6 @@ export async function watchElectron({
         whitelist: [
           // include asset files
           /\.(?!(?:jsx?|json)$).{1,5}$/i,
-          ...externalWhiteList({cwd, app}),
         ],
       })],
       
@@ -77,7 +88,6 @@ export async function watchElectron({
         whitelist: [
           // include asset files
           /\.(?!(?:jsx?|json)$).{1,5}$/i,
-          ...externalWhiteList({cwd, app}),
         ],
       })],
       
