@@ -1,11 +1,11 @@
 import fs from 'fs-extra';
+import glob from 'glob';
 import path from 'path';
-import { glob } from '../utils/glob-promise';
 
-export async function getInternalPackageEntry({packageDir}: {packageDir: string}): Promise<string[]> {
+export function getInternalPackageEntry({packageDir}: {packageDir: string}): string[] {
   if (!fs.pathExistsSync(packageDir) || !fs.statSync(packageDir).isDirectory()) return [];
   
-  const packageJsonPaths: string[] = await glob(`${packageDir}/**/package.json`);
+  const packageJsonPaths: string[] = glob.sync(`${packageDir}/**/package.json`);
   
   return packageJsonPaths
     .map((packageJsonPath: string) => path.dirname(packageJsonPath)) // remove package.json

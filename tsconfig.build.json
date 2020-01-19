@@ -14,6 +14,7 @@
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
+    "resolveJsonModule": true,
     
     // export setting
     // -------------------------------

@@ -26,10 +26,15 @@ export async function buildPackages({cwd}: {cwd: string}) {
   try {
     await rimraf(path.join(cwd, 'dist/packages'));
     
-    const entry: string[] = await getInternalPackageEntry({packageDir: path.join(cwd, 'src/_packages')});
+    const entry: string[] = getInternalPackageEntry({packageDir: path.join(cwd, 'src/_packages')});
     const buildOptions: PackageBuildOption[] = await createPackageBuildOptions({entry, cwd});
     
-    for await (const {name, file, externals, buildTypescriptDeclaration} of buildOptions) {
+    sayTitle('START BUILD PACKAGES');
+    for (const {name} of buildOptions) {
+      console.log(name);
+    }
+    
+    for (const {name, file, externals, buildTypescriptDeclaration} of buildOptions) {
       //await fs.mkdirp(path.join(cwd, 'dist/packages', name));
       
       sayTitle('VALIDATE PACKAGE - ' + name);

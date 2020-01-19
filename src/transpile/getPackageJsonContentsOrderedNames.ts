@@ -5,6 +5,41 @@ interface PackageJsonSet {
   dependencies: Set<string>;
 }
 
+function compare(a: PackageJsonSet, b: PackageJsonSet): number {
+  const aIsHigher: number = 1;
+  const bIsHigher: number = -1;
+  
+  const aHasB: boolean = a.dependencies.has(b.name);
+  const bHasA: boolean = b.dependencies.has(a.name);
+  
+  if (!aHasB && !bHasA) {
+    return a.name > b.name ? bIsHigher : aIsHigher;
+  }
+  
+  if (aHasB && bHasA) {
+    throw new Error(`"${a.name}" dependent "${b.name}" and "${b.name}" dependent "${a.name}". packages can't be interdependent.`);
+  }
+  
+  return aHasB ? aIsHigher : bIsHigher;
+}
+
+function sort(array: PackageJsonSet[]): PackageJsonSet[] {
+  if (array.length < 2) {
+    return array;
+  }
+  const chosenIndex: number = array.length - 1;
+  const chosen: PackageJsonSet = array[chosenIndex];
+  const a: PackageJsonSet[] = [];
+  const b: PackageJsonSet[] = [];
+  for (let i: number = 0; i < chosenIndex; i++) {
+    const temp: PackageJsonSet = array[i];
+    
+    compare(temp, chosen) < 0 ? a.push(temp) : b.push(temp);
+  }
+  
+  return [...sort(a), chosen, ...sort(b)];
+}
+
 export function getPackageJsonContentsOrderedNames({packageJsonContents}: {packageJsonContents: PackageJson[]}): string[] {
   function searchNestedDependencies(ownerName: string, dependencies: PackageJson.Dependency | undefined, dependenciesSet: Set<string>): Set<string> {
     if (dependencies) {
@@ -28,30 +63,43 @@ export function getPackageJsonContentsOrderedNames({packageJsonContents}: {packa
     return dependenciesSet;
   }
   
-  return packageJsonContents
-    .map<PackageJsonSet>(packageJson => {
-      if (!packageJson.name) throw new Error(`Undefined "name" field on ${packageJson}`);
-      return {
-        name: packageJson.name,
-        dependencies: searchNestedDependencies(packageJson.name, packageJson.dependencies, new Set()),
-      };
-    })
-    .sort((a, b) => {
-      const aIsHigher: number = 1;
-      const bIsHigher: number = -1;
-      
-      const aHasB: boolean = a.dependencies.has(b.name);
-      const bHasA: boolean = b.dependencies.has(a.name);
-      
-      if (!aHasB && !bHasA) {
-        return a.name > b.name ? bIsHigher : aIsHigher;
-      }
-      
-      if (aHasB && bHasA) {
-        throw new Error(`"${a.name}" dependent "${b.name}" and "${b.name}" dependent "${a.name}". packages can't be interdependent.`);
-      }
-      
-      return aHasB ? aIsHigher : bIsHigher;
-    })
-    .map(({name}) => name);
+  // FIXME avoid Node.js 10 sort error
+  const array: PackageJsonSet[] = packageJsonContents.map<PackageJsonSet>(packageJson => {
+    if (!packageJson.name) throw new Error(`Undefined "name" field on ${packageJson}`);
+    return {
+      name: packageJson.name,
+      dependencies: searchNestedDependencies(packageJson.name, packageJson.dependencies, new Set()),
+    };
+  });
+  
+  return sort(array).map(({name}) => name);
+  
+  //return packageJsonContents
+  //  .map<PackageJsonSet>(packageJson => {
+  //    if (!packageJson.name) throw new Error(`Undefined "name" field on ${packageJson}`);
+  //    return {
+  //      name: packageJson.name,
+  //      dependencies: searchNestedDependencies(packageJson.name, packageJson.dependencies, new Set()),
+  //    };
+  //  })
+  //  .sort((a, b) => {
+  //    const aIsHigher: number = 1;
+  //    const bIsHigher: number = -1;
+  //
+  //    const aHasB: boolean = a.dependencies.has(b.name);
+  //    const bHasA: boolean = b.dependencies.has(a.name);
+  //
+  //    if (!aHasB && !bHasA) {
+  //      console.log('getPackageJsonContentsOrderedNames.ts..() c1', a.name, b.name, a.name > b.name ? bIsHigher : aIsHigher);
+  //      return a.name > b.name ? bIsHigher : aIsHigher;
+  //    }
+  //
+  //    if (aHasB && bHasA) {
+  //      throw new Error(`"${a.name}" dependent "${b.name}" and "${b.name}" dependent "${a.name}". packages can't be interdependent.`);
+  //    }
+  //
+  //    console.log('getPackageJsonContentsOrderedNames.ts..() c2', a.name, b.name, aHasB, aHasB ? aIsHigher : bIsHigher);
+  //    return aHasB ? aIsHigher : bIsHigher;
+  //  })
+  //  .map(({name}) => name);
 }

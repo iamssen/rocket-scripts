@@ -108,7 +108,7 @@ export function getBabelConfig({modules, cwd, targets}: {cwd: string, modules: M
             require.resolve('babel-plugin-import'),
             {
               libraryName: '@material-ui/core',
-              libraryDirectory: 'esm',
+              libraryDirectory: '',
               camel2DashComponentName: false,
             },
             'tree-shaking-mui-core',
@@ -120,7 +120,7 @@ export function getBabelConfig({modules, cwd, targets}: {cwd: string, modules: M
             require.resolve('babel-plugin-import'),
             {
               libraryName: '@material-ui/icons',
-              libraryDirectory: 'esm',
+              libraryDirectory: '',
               camel2DashComponentName: false,
             },
             'tree-shaking-mui-icons',

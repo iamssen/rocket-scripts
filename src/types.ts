@@ -3,15 +3,18 @@ import { PackageJson } from 'type-fest';
 // tslint:disable:typedef
 export const packageCommands = ['build', 'publish', 'validate', 'list', 'sync'] as const;
 export const webappCommands = ['build', 'start', 'server-watch', 'server-start', 'browser-start'] as const;
+export const desktopappCommands = ['build', 'start', 'electron-watch', 'electron-start'] as const;
 export const modes = ['production', 'development'] as const;
 // tslint:enable:typedef
 
 export type PackageCommand = typeof packageCommands[number];
 export type WebappCommand = typeof webappCommands[number];
+export type DesktopappCommand = typeof desktopappCommands[number];
 export type Mode = typeof modes[number];
 
 const packageCommandSet: Set<string> = new Set(packageCommands);
 const webappCommandSet: Set<string> = new Set(webappCommands);
+const desktopappCommandSet: Set<string> = new Set(desktopappCommands);
 const modeSet: Set<string> = new Set(modes);
 
 export function isPackageCommand(command: string): command is PackageCommand {
@@ -22,12 +25,20 @@ export function isWebappCommand(command: string): command is WebappCommand {
   return webappCommandSet.has(command);
 }
 
+export function isDesktopappCommand(command: string): command is DesktopappCommand {
+  return desktopappCommandSet.has(command);
+}
+
 export function isMode(mode: string | undefined): mode is Mode {
   return mode ? modeSet.has(mode) : false;
 }
 
 export interface PackageArgv {
   command: PackageCommand;
+  
+  // publish
+  // --choice false
+  choice: boolean;
 }
 
 export interface PackageBuildOption {
@@ -125,6 +136,33 @@ export interface WebappConfig {
   zeroconfigPath: string; // a absolute path
   extend: {
     serverSideRendering: boolean;
+    templateFiles: string[]; // file names without directory path
+  }
+}
+
+export interface DesktopappArgv {
+  command: DesktopappCommand;
+  app: string;
+  
+  output: string | undefined;
+  
+  staticFileDirectories: string | undefined;
+  staticFilePackages: string | undefined;
+}
+
+export interface DesktopappConfig {
+  command: DesktopappCommand;
+  app: string;
+  
+  // build
+  staticFileDirectories: string[];
+  
+  output: string; // absolute paths
+  
+  // internal
+  cwd: string; // a absolute path
+  zeroconfigPath: string; // a absolute path
+  extend: {
     templateFiles: string[]; // file names without directory path
   }
 }

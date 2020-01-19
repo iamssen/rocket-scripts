@@ -14,7 +14,7 @@ export async function packageScripts(nodeArgv: string[], {cwd = process.cwd()}: 
     return;
   }
   
-  const {command} = parsePackageArgv(nodeArgv);
+  const {command, choice} = parsePackageArgv(nodeArgv);
   
   sayZeroconfig();
   
@@ -25,7 +25,7 @@ export async function packageScripts(nodeArgv: string[], {cwd = process.cwd()}: 
     process.env.BROWSERSLIST_ENV = 'package';
     await buildPackages({cwd});
   } else if (command === 'publish') {
-    await publishPackages({cwd});
+    await publishPackages({cwd, choice});
   } else if (command === 'validate') {
     await validatePackages({cwd});
   } else if (command === 'list') {

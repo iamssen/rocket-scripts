@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.23.0] - Unrelease
+### Added
+- Add `zeroconfig-desktopapp-scripts` command
+    - `zeroconfig-desktopapp-scripts start {app} [--static-file-directories "dir1 dir2"] [--static-file-packages "package1 package2"]`
+    - `zeroconfig-desktopapp-scripts build {app} [--static-file-directories "dir1 dir2"] [--static-file-packages "package1 package2"] [--output dir]`
+- Add `zeroconfig-package-scripts publish [--choice false]` option for publish packages in CI
+- Add `electron` option to `browserslist` config for electron build (default value is `last 1 electron version`)  
+
+### Fixed
+- Add Node.js API to exclude list in `findInternalPackageMissingDependencies()`
+- Change the `getInternalPackageEntry()` from async to sync
+- Use the custom sort function for avoid Node.js@10 `Array.sort()` error
+- Remove `libraryDirectory: 'esm'` of `babel-plugin-import` for avoid pick esm directories
+
 ## [3.22.0] - 2019-12-17
 ### Added
 - Add `--source-map` option to `create-zeroconfig-app build` command
@@ -132,6 +146,7 @@ Nothing. Just dependencies update
 ### Changed
 - tsconfig's `strictFunctionTypes` to `true`
 
+[3.23.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.22.0...3.23.0
 [3.22.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.20.1...3.22.0
 [3.20.1]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.20.0...3.20.1
 [3.20.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.19.0...3.20.0

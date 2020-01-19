@@ -10,7 +10,7 @@ export async function createWebappConfig({argv, cwd, zeroconfigPath}: {argv: Web
   
   if (!(await fs.pathExists(path.join(cwd, 'src', app)))) throw new Error(`${path.join(cwd, 'src', app)} is undefined`);
   
-  const staticFileDirectories: string[] = await getStaticFileDirectories({argv, cwd});
+  const staticFileDirectories: string[] = await getStaticFileDirectories({...argv, cwd});
   const output: string = typeof argv.output === 'string'
     ? path.resolve(cwd, argv.output)
     : command === 'start'
@@ -24,7 +24,7 @@ export async function createWebappConfig({argv, cwd, zeroconfigPath}: {argv: Web
   return {
     command,
     app,
-  
+    
     sourceMap,
     
     staticFileDirectories,

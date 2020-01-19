@@ -14,6 +14,7 @@ const defaultQuery: {[env: string]: string | string[]} = {
   ],
   'server': 'node 10',
   'server_development': 'current node',
+  'electron': 'last 1 electron version',
   'package': [
     '>0.2%',
     'not dead',

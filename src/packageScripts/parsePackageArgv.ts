@@ -1,5 +1,6 @@
 import minimist, { ParsedArgs } from 'minimist';
 import { isPackageCommand, PackageArgv, PackageCommand, packageCommands } from '../types';
+import { takeMinimistLatestValue } from '../utils/takeMinimistLatestValue';
 
 export function parsePackageArgv(nodeArgv: string[]): PackageArgv {
   const argv: ParsedArgs = minimist(nodeArgv);
@@ -11,5 +12,6 @@ export function parsePackageArgv(nodeArgv: string[]): PackageArgv {
   
   return {
     command: command as PackageCommand,
+    choice: takeMinimistLatestValue(argv['choice']) !== 'false',
   };
 }
