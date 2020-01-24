@@ -54,6 +54,7 @@ export async function watchElectron({
       
       entry: {
         main: path.join(cwd, 'src', app, 'main'),
+        libraryTarget: 'commonjs2',
       },
       
       output: {
@@ -97,6 +98,7 @@ export async function watchElectron({
       
       output: {
         path: path.join(output, 'electron'),
+        libraryTarget: 'commonjs2',
       },
       
       plugins: [
