@@ -96,6 +96,7 @@ export async function buildElectron({
       
       output: {
         path: path.join(output, 'electron'),
+        libraryTarget: 'commonjs2',
       },
       
       optimization,
@@ -131,6 +132,7 @@ export async function buildElectron({
       
       output: {
         path: path.join(output, 'electron'),
+        libraryTarget: 'commonjs2',
       },
       
       optimization,
