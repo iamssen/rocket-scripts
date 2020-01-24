@@ -5,7 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.23.0] - Unrelease
+## [3.23.2] - 2020-01-24
+### Fixed
+- Fix "electron is not defined" error on desktop applications
+
+## [3.23.0] - 2020-01-19
 ### Added
 - Add `zeroconfig-desktopapp-scripts` command
     - `zeroconfig-desktopapp-scripts start {app} [--static-file-directories "dir1 dir2"] [--static-file-packages "package1 package2"]`
@@ -146,6 +150,7 @@ Nothing. Just dependencies update
 ### Changed
 - tsconfig's `strictFunctionTypes` to `true`
 
+[3.23.2]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.23.0...3.23.2
 [3.23.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.22.0...3.23.0
 [3.22.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.20.1...3.22.0
 [3.20.1]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.20.0...3.20.1
