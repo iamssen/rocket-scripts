@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.24.0] - Unreleased
+### Addded
+- Add `zeroconfig-extension-scripts` command for develop chrome extensions
+    - `zeroconfig-extension-scripts watch {app} [--static-file-directories "dir1 dir2"] [--static-file-packages "package1 package2"]`
+    - `zeroconfig-extension-scripts build {app} [--static-file-directories "dir1 dir2"] [--static-file-packages "package1 package2"] [--output dir]`
+
 ## [3.23.2] - 2020-01-24
 ### Fixed
 - Fix "electron is not defined" error on desktop applications
