@@ -56,7 +56,7 @@ export async function mirrorFiles({sources, output, ignored}: Params): Promise<O
           return;
         }
         const tofile: string = path.join(output, relpath);
-        await fs.mkdirp(path.basename(tofile));
+        await fs.mkdirp(path.dirname(tofile));
         await fs.copy(file, tofile, {dereference: false});
         
         observer.next({
@@ -71,7 +71,7 @@ export async function mirrorFiles({sources, output, ignored}: Params): Promise<O
           return;
         }
         const tofile: string = path.join(output, relpath);
-        await fs.mkdirp(path.basename(tofile));
+        await fs.mkdirp(path.dirname(tofile));
         await fs.copy(file, tofile, {dereference: false});
         
         observer.next({
