@@ -4,17 +4,20 @@ import { PackageJson } from 'type-fest';
 export const packageCommands = ['build', 'publish', 'validate', 'list', 'sync'] as const;
 export const webappCommands = ['build', 'start', 'server-watch', 'server-start', 'browser-start'] as const;
 export const desktopappCommands = ['build', 'start', 'electron-watch', 'electron-start'] as const;
+export const extensionCommands = ['build', 'watch'] as const;
 export const modes = ['production', 'development'] as const;
 // tslint:enable:typedef
 
 export type PackageCommand = typeof packageCommands[number];
 export type WebappCommand = typeof webappCommands[number];
 export type DesktopappCommand = typeof desktopappCommands[number];
+export type ExtensionCommand = typeof extensionCommands[number];
 export type Mode = typeof modes[number];
 
 const packageCommandSet: Set<string> = new Set(packageCommands);
 const webappCommandSet: Set<string> = new Set(webappCommands);
 const desktopappCommandSet: Set<string> = new Set(desktopappCommands);
+const extensionCommandSet: Set<string> = new Set(extensionCommands);
 const modeSet: Set<string> = new Set(modes);
 
 export function isPackageCommand(command: string): command is PackageCommand {
@@ -27,6 +30,10 @@ export function isWebappCommand(command: string): command is WebappCommand {
 
 export function isDesktopappCommand(command: string): command is DesktopappCommand {
   return desktopappCommandSet.has(command);
+}
+
+export function isExtensionCommand(command: string): command is ExtensionCommand {
+  return extensionCommandSet.has(command);
 }
 
 export function isMode(mode: string | undefined): mode is Mode {
@@ -158,6 +165,40 @@ export interface DesktopappConfig {
   staticFileDirectories: string[];
   
   output: string; // absolute paths
+  
+  // internal
+  cwd: string; // a absolute path
+  zeroconfigPath: string; // a absolute path
+  extend: {
+    templateFiles: string[]; // file names without directory path
+  }
+}
+
+export interface ExtensionArgv {
+  command: ExtensionCommand;
+  app: string;
+  
+  output: string | undefined;
+  
+  vendorFileName: string;
+  styleFileName: string;
+  
+  staticFileDirectories: string | undefined;
+  staticFilePackages: string | undefined;
+}
+
+export interface ExtensionConfig {
+  command: ExtensionCommand;
+  app: string;
+  
+  output: string; // absolute paths
+  
+  vendorFileName: string;
+  styleFileName: string;
+  
+  staticFileDirectories: string[];
+  
+  entryFiles: string[];
   
   // internal
   cwd: string; // a absolute path

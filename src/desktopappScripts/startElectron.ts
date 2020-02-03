@@ -23,6 +23,7 @@ export async function startElectron({
   
   sayTitle('START ELECTRON');
   
+  // TODO change to Observable (watch and sync?)
   await copyElectronPackageJson({
     file: path.join(cwd, 'package.json'),
     app: path.join(cwd, 'src', app, 'package.json'),

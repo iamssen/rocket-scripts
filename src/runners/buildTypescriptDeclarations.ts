@@ -32,6 +32,7 @@ export async function buildTypescriptDeclarations({file, name, compilerOptions, 
     moduleResolution: ModuleResolutionKind.NodeJs,
     skipLibCheck: true,
     sourceMap: false,
+    resolveJsonModule: true,
     
     typeRoots: [
       ...(compilerOptions.typeRoots || []),
