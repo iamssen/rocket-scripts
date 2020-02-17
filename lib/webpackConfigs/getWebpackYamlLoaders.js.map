@@ -1,0 +1,1 @@
+{"version":3,"file":"getWebpackYamlLoaders.js","sourceRoot":"","sources":["../../src/webpackConfigs/getWebpackYamlLoaders.ts"],"names":[],"mappings":";;AAEA,SAAgB,qBAAqB;IACnC,OAAO;QACL;YACE,IAAI,EAAE,eAAe;YACrB,GAAG,EAAE;gBACH,OAAO,CAAC,OAAO,CAAC,aAAa,CAAC;gBAC9B,OAAO,CAAC,OAAO,CAAC,aAAa,CAAC;aAC/B;SACF;KACF,CAAC;AACJ,CAAC;AAVD,sDAUC"}
