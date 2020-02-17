@@ -3,6 +3,7 @@ import { getWebpackAlias } from './webpackConfigs/getWebpackAlias';
 import { getWebpackMDXLoaders } from './webpackConfigs/getWebpackMDXLoaders';
 import { getWebpackScriptLoaders } from './webpackConfigs/getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './webpackConfigs/getWebpackStyleLoaders';
+import { getWebpackYamlLoaders } from './webpackConfigs/getWebpackYamlLoaders';
 
 const extractCss: boolean = false;
 
@@ -51,6 +52,9 @@ export function patchStorybookWebpackConfig({cwd = process.cwd(), config}: {cwd?
         
         // html, ejs, txt, md - plain text
         //...getWebpackRawLoaders(),
+  
+        // yaml, yml
+        ...getWebpackYamlLoaders(),
         
         // css, scss, sass, less - style
         // module.* - css module

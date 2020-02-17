@@ -3,6 +3,7 @@ import { getWebpackMDXLoaders } from './getWebpackMDXLoaders';
 import { getWebpackRawLoaders } from './getWebpackRawLoaders';
 import { getWebpackScriptLoaders } from './getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './getWebpackStyleLoaders';
+import { getWebpackYamlLoaders } from './getWebpackYamlLoaders';
 
 export function createWebpackPackageConfig({cwd, targets}: {cwd: string, targets?: string | string[]}): Configuration {
   const extractCss: boolean = true;
@@ -29,6 +30,9 @@ export function createWebpackPackageConfig({cwd, targets}: {cwd: string, targets
             
             // html, ejs, txt, md - plain text
             ...getWebpackRawLoaders(),
+            
+            // yaml, yml
+            ...getWebpackYamlLoaders(),
             
             // css, scss, sass, less - style
             // module.* - css module
