@@ -42,6 +42,16 @@ declare module '*.json' {
   export = content;
 }
 
+declare module '*.yaml' {
+  const content: any;
+  export = content;
+}
+
+declare module '*.yml' {
+  const content: any;
+  export = content;
+}
+
 declare module '*.svg' {
   const content: string & {ReactComponent: React.ComponentType<React.SVGProps<SVGSVGElement>>};
   export = content;
