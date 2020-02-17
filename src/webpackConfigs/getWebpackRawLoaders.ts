@@ -8,5 +8,12 @@ export function getWebpackRawLoaders(): RuleSetRule[] {
         require.resolve('raw-loader'),
       ],
     },
+    {
+      test: /\.(yaml|yml)$/,
+      use: [
+        require.resolve('json-loader'),
+        require.resolve('yaml-loader'),
+      ],
+    },
   ];
 }
