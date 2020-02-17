@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.25.0] - 2020-02-17
+### Added
+- Add YAML file support
+
 ## [3.24.0] - 2020-02-03
 ### Addded
 - Add `zeroconfig-extension-scripts` command for develop chrome extensions
@@ -158,6 +162,8 @@ Nothing. Just dependencies update
 ### Changed
 - tsconfig's `strictFunctionTypes` to `true`
 
+[3.25.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.24.0...3.25.0
+[3.24.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.23.2...3.24.0
 [3.23.2]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.23.0...3.23.2
 [3.23.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.22.0...3.23.0
 [3.22.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.20.1...3.22.0
