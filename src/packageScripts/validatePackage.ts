@@ -7,7 +7,7 @@ export async function validatePackage({name, packageDir}: {name: string, package
     const errors: Error[] = [];
     
     if (missingPackages.has(name)) {
-      errors.push(new Error(`Don't import "${name}" itself inside "${name}"`));
+      //errors.push(new Error(`Don't import "${name}" itself inside "${name}"`));
       missingPackages.delete(name);
     }
     

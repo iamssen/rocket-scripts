@@ -46,11 +46,18 @@ export async function buildTypescriptDeclarations({file, name, compilerOptions, 
     baseUrl: path.dirname(file),
     declarationDir,
     
-    paths: fs.existsSync(path.join(cwd, 'dist/packages')) ? {
-      '*': [
-        path.relative(path.dirname(file), path.join(cwd, 'dist/packages/*')),
+    paths: {
+      ...(
+        fs.existsSync(path.join(cwd, 'dist/packages')) ? {
+          '*': [
+            path.relative(path.dirname(file), path.join(cwd, 'dist/packages/*')),
+          ],
+        } : {}
+      ),
+      [name]: [
+        path.dirname(file),
       ],
-    } : {},
+    },
   };
   
   console.log(options);
