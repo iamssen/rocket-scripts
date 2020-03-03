@@ -43,7 +43,7 @@ export async function buildPackages({cwd}: {cwd: string}) {
         packageDir: path.join(cwd, 'src/_packages', name),
       });
       
-      if (validation) {
+      if (validation && validation.length > 0) {
         for (const v of validation) {
           console.error(chalk.red.bold(v.message));
         }
@@ -81,6 +81,12 @@ export async function buildPackages({cwd}: {cwd: string}) {
           mode: 'production',
           
           entry: () => file,
+          
+          resolve: {
+            alias: {
+              [name]: path.dirname(file),
+            },
+          },
           
           externals: [nodeExternals(), ...externals],
           
