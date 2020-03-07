@@ -4,7 +4,7 @@ import compression from 'compression';
 import fs from 'fs-extra';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { IncomingMessage, ServerResponse } from 'http';
-import proxyMiddleware, { Config } from 'http-proxy-middleware';
+import proxyMiddleware, { Options as HttpProxyMiddlewareOptions } from 'http-proxy-middleware';
 import path from 'path';
 import { PackageJson } from 'type-fest';
 import webpack, { Compiler, Configuration, HotModuleReplacementPlugin } from 'webpack';
@@ -131,7 +131,7 @@ export async function startBrowser({
   const packageJson: PackageJson = await fs.readJson(path.join(cwd, 'package.json'));
   
   if (typeof packageJson.proxy === 'object' && packageJson.proxy) {
-    const proxyConfigs: {[uri: string]: Config} = packageJson.proxy as {[uri: string]: Config};
+    const proxyConfigs: {[uri: string]: HttpProxyMiddlewareOptions} = packageJson.proxy as {[uri: string]: HttpProxyMiddlewareOptions};
     Object.keys(proxyConfigs).forEach(uri => {
       // @ts-ignore as MiddlewareHandler
       middleware.push(proxyMiddleware(uri, proxyConfigs[uri]));

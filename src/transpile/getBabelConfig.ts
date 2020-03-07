@@ -77,6 +77,8 @@ export function getBabelConfig({modules, cwd, targets}: {cwd: string, modules: M
           },
         },
       ],
+      // handbook transform
+      require.resolve('@handbook/babel-plugin'),
       // babel-plugin-styled-components
       ...(() => {
         const {dependencies}: PackageJson = fs.readJsonSync(path.join(cwd, 'package.json'));
