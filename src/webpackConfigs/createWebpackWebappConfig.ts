@@ -58,6 +58,7 @@ export function createWebpackWebappConfig({extractCss, cwd, chunkPath, publicPat
                   {
                     loader: require.resolve('eslint-loader'),
                     options: {
+                      cache: true,
                       eslintPath: require.resolve('eslint'),
                       cwd,
                     },
@@ -75,6 +76,7 @@ export function createWebpackWebappConfig({extractCss, cwd, chunkPath, publicPat
                   {
                     loader: require.resolve('eslint-loader'),
                     options: {
+                      cache: true,
                       eslintPath: require.resolve('eslint'),
                       resolvePluginsRelativeTo: __dirname,
                       baseConfig: {

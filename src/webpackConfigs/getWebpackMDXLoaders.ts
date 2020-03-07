@@ -7,6 +7,8 @@ export function getWebpackMDXLoaders({test = /\.mdx$/, cwd, mdxLoaderOptions = {
   const babelLoader: RuleSetLoader = {
     loader: require.resolve('babel-loader'),
     options: {
+      cacheDirectory: true,
+      cacheCompression: false,
       babelrc: false,
       configFile: false,
       ...getBabelConfig({
