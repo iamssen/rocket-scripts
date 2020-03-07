@@ -80,14 +80,14 @@ export function getBabelConfig({modules, cwd, targets}: {cwd: string, modules: M
       // handbook transform
       require.resolve('@handbook/babel-plugin'),
       // babel-plugin-styled-components
-      ...(() => {
-        const {dependencies}: PackageJson = fs.readJsonSync(path.join(cwd, 'package.json'));
-        if (!dependencies) return [];
-        
-        return dependencies['styled-components']
-          ? [require.resolve('babel-plugin-styled-components')]
-          : [];
-      })(),
+      //...(() => {
+      //  const {dependencies}: PackageJson = fs.readJsonSync(path.join(cwd, 'package.json'));
+      //  if (!dependencies) return [];
+      //
+      //  return dependencies['styled-components']
+      //    ? [require.resolve('babel-plugin-styled-components')]
+      //    : [];
+      //})(),
       // babel-plugin-import
       ...(() => {
         const {dependencies}: PackageJson = fs.readJsonSync(path.join(cwd, 'package.json'));

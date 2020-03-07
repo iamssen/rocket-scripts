@@ -44,6 +44,10 @@ export async function startBrowser({
         publicPath,
         filename: `${chunkPath}[name].js`,
         chunkFilename: `${chunkPath}[name].js`,
+        pathinfo: false,
+      },
+      resolve: {
+        symlinks: false,
       },
       entry: {
         [appFileName]: [
@@ -53,27 +57,31 @@ export async function startBrowser({
         ],
       },
       optimization: {
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+        
         namedModules: true,
         noEmitOnErrors: true,
         
-        splitChunks: {
-          cacheGroups: {
-            // vendor chunk
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: vendorFileName,
-              chunks: 'all',
-            },
-            
-            // extract single css file
-            style: {
-              test: m => m.constructor.name === 'CssModule',
-              name: styleFileName,
-              chunks: 'all',
-              enforce: true,
-            },
-          },
-        },
+        //splitChunks: {
+        //  cacheGroups: {
+        //    // vendor chunk
+        //    vendor: {
+        //      test: /[\\/]node_modules[\\/]/,
+        //      name: vendorFileName,
+        //      chunks: 'all',
+        //    },
+        //
+        //    // extract single css file
+        //    style: {
+        //      test: m => m.constructor.name === 'CssModule',
+        //      name: styleFileName,
+        //      chunks: 'all',
+        //      enforce: true,
+        //    },
+        //  },
+        //},
       },
       
       plugins: [
@@ -125,7 +133,7 @@ export async function startBrowser({
     // @ts-ignore as MiddlewareHandler
     webpackHotMiddleware(compiler),
     // @ts-ignore as MiddlewareHandler
-    compression(),
+    //compression(),
   ];
   
   const packageJson: PackageJson = await fs.readJson(path.join(cwd, 'package.json'));
