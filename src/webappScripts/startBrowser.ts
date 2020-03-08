@@ -61,7 +61,8 @@ export async function startBrowser({
         removeEmptyChunks: false,
         splitChunks: false,
         
-        namedModules: true,
+        moduleIds: 'named',
+        //namedModules: true,
         noEmitOnErrors: true,
         
         //splitChunks: {
