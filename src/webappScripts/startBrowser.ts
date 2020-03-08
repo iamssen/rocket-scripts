@@ -51,7 +51,7 @@ export async function startBrowser({
       },
       entry: {
         [appFileName]: [
-          `${path.dirname(require.resolve('webpack-hot-middleware/package.json'))}/client?http://localhost:${port}`,
+          `${path.dirname(require.resolve('webpack-hot-middleware/package.json'))}/client?path=${https ? 'https' : 'http'}://localhost:${port}/__webpack_hmr&timeout=20000&reload=true`,
           `${path.dirname(require.resolve('webpack/package.json'))}/hot/only-dev-server`,
           path.join(cwd, 'src', app),
         ],
