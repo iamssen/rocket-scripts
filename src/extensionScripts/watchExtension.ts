@@ -44,7 +44,8 @@ export async function watchExtension({
       }, {}),
       
       optimization: {
-        namedModules: true,
+        moduleIds: 'named',
+        //namedModules: true,
         noEmitOnErrors: true,
         
         splitChunks: {

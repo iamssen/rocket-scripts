@@ -4,7 +4,7 @@ import compression from 'compression';
 import fs from 'fs-extra';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { IncomingMessage, ServerResponse } from 'http';
-import proxyMiddleware, { Config } from 'http-proxy-middleware';
+import proxyMiddleware, { Options as HttpProxyMiddlewareOptions } from 'http-proxy-middleware';
 import path from 'path';
 import { PackageJson } from 'type-fest';
 import webpack, { Compiler, Configuration, HotModuleReplacementPlugin } from 'webpack';
@@ -44,36 +44,45 @@ export async function startBrowser({
         publicPath,
         filename: `${chunkPath}[name].js`,
         chunkFilename: `${chunkPath}[name].js`,
+        pathinfo: false,
+      },
+      resolve: {
+        symlinks: false,
       },
       entry: {
         [appFileName]: [
-          `${path.dirname(require.resolve('webpack-hot-middleware/package.json'))}/client?http://localhost:${port}`,
+          `${path.dirname(require.resolve('webpack-hot-middleware/package.json'))}/client?path=${https ? 'https' : 'http'}://localhost:${port}/__webpack_hmr&timeout=20000&reload=true`,
           `${path.dirname(require.resolve('webpack/package.json'))}/hot/only-dev-server`,
           path.join(cwd, 'src', app),
         ],
       },
       optimization: {
-        namedModules: true,
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+        
+        moduleIds: 'named',
+        //namedModules: true,
         noEmitOnErrors: true,
         
-        splitChunks: {
-          cacheGroups: {
-            // vendor chunk
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: vendorFileName,
-              chunks: 'all',
-            },
-            
-            // extract single css file
-            style: {
-              test: m => m.constructor.name === 'CssModule',
-              name: styleFileName,
-              chunks: 'all',
-              enforce: true,
-            },
-          },
-        },
+        //splitChunks: {
+        //  cacheGroups: {
+        //    // vendor chunk
+        //    vendor: {
+        //      test: /[\\/]node_modules[\\/]/,
+        //      name: vendorFileName,
+        //      chunks: 'all',
+        //    },
+        //
+        //    // extract single css file
+        //    style: {
+        //      test: m => m.constructor.name === 'CssModule',
+        //      name: styleFileName,
+        //      chunks: 'all',
+        //      enforce: true,
+        //    },
+        //  },
+        //},
       },
       
       plugins: [
@@ -125,13 +134,13 @@ export async function startBrowser({
     // @ts-ignore as MiddlewareHandler
     webpackHotMiddleware(compiler),
     // @ts-ignore as MiddlewareHandler
-    compression(),
+    //compression(),
   ];
   
   const packageJson: PackageJson = await fs.readJson(path.join(cwd, 'package.json'));
   
   if (typeof packageJson.proxy === 'object' && packageJson.proxy) {
-    const proxyConfigs: {[uri: string]: Config} = packageJson.proxy as {[uri: string]: Config};
+    const proxyConfigs: {[uri: string]: HttpProxyMiddlewareOptions} = packageJson.proxy as {[uri: string]: HttpProxyMiddlewareOptions};
     Object.keys(proxyConfigs).forEach(uri => {
       // @ts-ignore as MiddlewareHandler
       middleware.push(proxyMiddleware(uri, proxyConfigs[uri]));
