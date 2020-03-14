@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.27.0] - 2020-03-15
+### Added
+- Add `@handbook/babel-plugin`
+
 ## [3.26.0] - 2020-03-03
 ### Fixed
 - Allow import the package name itself (e.g. It is available the `import {} from 'some-package'` from inside the `src/_packages/some-package/` directory)
@@ -166,6 +170,7 @@ Nothing. Just dependencies update
 ### Changed
 - tsconfig's `strictFunctionTypes` to `true`
 
+[3.27.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.26.0...3.27.0
 [3.26.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.25.1...3.26.0
 [3.25.1]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.24.0...3.25.1
 [3.24.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.23.2...3.24.0
