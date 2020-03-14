@@ -170,7 +170,7 @@ Nothing. Just dependencies update
 ### Changed
 - tsconfig's `strictFunctionTypes` to `true`
 
-[3.27.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.26.0...3.27.0
+[3.27.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.26.0...v3.27.0
 [3.26.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.25.1...3.26.0
 [3.25.1]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.24.0...3.25.1
 [3.24.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.23.2...3.24.0
