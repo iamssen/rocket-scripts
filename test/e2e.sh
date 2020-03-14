@@ -85,8 +85,8 @@ createTmpFixture() {
   echo "PWD=$(pwd)";
   echo "npm registry=$(npm config get registry)";
   echo "yarn registry=$(yarn config get registry)";
-  npm install react-zeroconfig@"$TRAVIS_COMMIT" --save-dev --registry $LOCAL_REGISTRY_URL;
-  npm install;
+  npm install react-zeroconfig@"$TRAVIS_COMMIT" --quiet --save-dev --registry $LOCAL_REGISTRY_URL;
+  npm install --quiet;
 }
 
 # zeroconfig-package-scripts build

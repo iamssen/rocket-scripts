@@ -1,0 +1,71 @@
+{
+  "name": "my-app-test",
+  "version": "3.27.2-alpha.1",
+  "scripts": {
+    "app:build": "zeroconfig-webapp-scripts build app",
+    "app:start": "zeroconfig-webapp-scripts start app",
+    "storybook:start": "start-storybook",
+    "storybook:build": "build-storybook",
+    "start": "npm run app:start",
+    "test": "jest --colors",
+    "prettier": "prettier --write \"src/**/*.{js,jsx,mjs,ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{js,jsx,mjs,ts,tsx}\""
+  },
+  "jest": {
+    "preset": "react-zeroconfig",
+    "setupFiles": [
+      "./jest.setup.js"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "markdown-source-import \"{,!(node_modules)/**/}*.md\" --git-add && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,mjs,ts,tsx}": [
+      "prettier --write",
+      "eslint",
+      "jest --colors --findRelatedTests"
+    ]
+  },
+  "prettier": "@lunit/prettier-config",
+  "eslintConfig": {
+    "extends": [
+      "@lunit",
+      "prettier",
+      "prettier/react",
+      "prettier/@typescript-eslint"
+    ]
+  },
+  "eslintIgnore": [
+    "src/**/public/*",
+    "src/**/*.d.ts"
+  ],
+  "dependencies": {
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  },
+  "devDependencies": {
+    "@lunit/eslint-config": "^0.4.0",
+    "@lunit/prettier-config": "^0.1.1",
+    "@storybook/addon-storysource": "^5.3.14",
+    "@storybook/react": "^5.3.14",
+    "@storybook/source-loader": "^5.3.14",
+    "@types/eslint": "^6.1.8",
+    "@types/jest": "^25.1.3",
+    "@types/puppeteer": "^2.0.1",
+    "@types/react": "^16.9.23",
+    "@types/react-dom": "^16.9.5",
+    "@types/webpack-env": "^1.15.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "husky": "^4.2.3",
+    "jest": "^25.1.0",
+    "lint-staged": "^10.0.8",
+    "markdown-source-import": "^1.3.1",
+    "prettier": "^1.19.1",
+    "puppeteer": "^2.1.1",
+    "react-zeroconfig": "^3.27.2-alpha.1"
+  }
+}

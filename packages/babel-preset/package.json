@@ -1,0 +1,31 @@
+{
+  "name": "@react-zeroconfig/babel-preset",
+  "version": "3.27.2-alpha.1",
+  "description": "Babel preset",
+  "author": "SSen <i@ssen.name>",
+  "license": "MIT",
+  "repository": "github:react-zeroconfig/react-zeroconfig",
+  "bugs": "https://github.com/react-zeroconfig/react-zeroconfig/issues",
+  "homepage": "https://github.com/react-zeroconfig/react-zeroconfig/tree/develop/packages/babel-preset",
+  "engines": {
+    "node": ">=10"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "package.json",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "clean": "rimraf lib",
+    "build": "tsc --project tsconfig.build.json",
+    "watch": "tsc --watch --project tsconfig.build.json",
+    "prepublishOnly": "npm run build",
+    "lint": "tslint \"src/**/*.{ts,tsx}\""
+  }
+}

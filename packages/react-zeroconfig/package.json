@@ -1,7 +1,12 @@
 {
   "name": "react-zeroconfig",
-  "version": "3.27.0",
+  "version": "3.27.2-alpha.1",
   "description": "Zero config tools for React projects",
+  "author": "SSen <i@ssen.name>",
+  "license": "MIT",
+  "repository": "github:react-zeroconfig/react-zeroconfig",
+  "bugs": "https://github.com/react-zeroconfig/react-zeroconfig/issues",
+  "homepage": "https://github.com/react-zeroconfig/react-zeroconfig/tree/develop/packages/react-zeroconfig",
   "keywords": [
     "zeroconfig",
     "react",
@@ -10,22 +15,14 @@
     "build",
     "0cjs"
   ],
-  "author": "Seoyeon Lee",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/react-zeroconfig/react-zeroconfig.git"
-  },
-  "bugs": {
-    "url": "https://github.com/react-zeroconfig/react-zeroconfig/issues"
-  },
-  "homepage": "https://github.com/react-zeroconfig/react-zeroconfig",
   "engines": {
     "node": ">=10"
   },
   "publishConfig": {
     "access": "public"
   },
+  "main": "lib/index.js",
+  "typings": "./typings.d.ts",
   "files": [
     "bin",
     "lib",
@@ -35,48 +32,18 @@
     "tsconfig.json",
     "typings.d.ts"
   ],
-  "main": "lib/index.js",
-  "types": "./typings.d.ts",
   "scripts": {
     "clean": "rimraf lib",
     "build": "tsc --project tsconfig.build.json",
     "watch": "tsc --watch --project tsconfig.build.json",
-    "test": "jest --colors",
-    "coverage": "jest --colors --coverage",
-    "prepublishOnly": "npm run test && npm run lint && npm run build",
-    "lint": "tslint \"src/**/*.{ts,tsx}\"",
-    "pack": "npm run prepublishOnly && npm pack"
+    "prepublishOnly": "npm run build",
+    "lint": "tslint \"src/**/*.{ts,tsx}\""
   },
   "bin": {
     "zeroconfig-webapp-scripts": "./bin/zeroconfig-webapp-scripts",
     "zeroconfig-package-scripts": "./bin/zeroconfig-package-scripts",
     "zeroconfig-desktopapp-scripts": "./bin/zeroconfig-desktopapp-scripts",
     "zeroconfig-extension-scripts": "./bin/zeroconfig-extension-scripts"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint && npm run test"
-    }
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "transform": {
-      ".(ts|tsx)": "ts-jest"
-    },
-    "testMatch": [
-      "**/__test?(s)__/**/*.ts?(x)",
-      "**/?(*.)(spec|test).ts?(x)"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.ts"
-    ]
   },
   "dependencies": {
     "@babel/core": "^7.8.7",
@@ -95,6 +62,7 @@
     "@loadable/webpack-plugin": "^5.12.0",
     "@mapbox/rehype-prism": "^0.4.0",
     "@mdx-js/loader": "^1.5.7",
+    "@react-zeroconfig/babel-preset": "^3.27.2-alpha.1",
     "@svgr/webpack": "^5.2.0",
     "@typescript-eslint/eslint-plugin": "^2.22.0",
     "@typescript-eslint/parser": "^2.22.0",
@@ -157,7 +125,6 @@
     "terser": "^4.6.6",
     "terser-webpack-plugin": "^2.3.5",
     "tmp": "^0.1.0",
-    "tslint-loader": "^3.5.4",
     "type-fest": "^0.11.0",
     "typescript": "^3.8.3",
     "url-loader": "^2.3.0",
@@ -211,6 +178,7 @@
     "ts-jest": "^25.2.1"
   },
   "optionalDependencies": {
-    "tslint": "^6.0.0"
+    "tslint": ">=5.0.0",
+    "tslint-loader": "^3.5.4"
   }
 }
