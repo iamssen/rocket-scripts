@@ -23,6 +23,9 @@
   "engines": {
     "node": ">=10"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "bin",
     "lib",
