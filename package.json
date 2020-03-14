@@ -4,16 +4,19 @@
     "packages/*"
   ],
   "scripts": {
-    "clean": "lerna clean && lerna run clean --stream",
-    "build": "npm run clean && lerna run build --stream",
-    "watch": "npm run clean && lerna run watch --stream",
+    "clean": "lerna clean --yes && lerna run clean --stream",
+    "build": "yarn clean && lerna run build --stream",
+    "watch": "yarn clean && lerna run watch --stream",
+    "publish": "lerna publish from-package",
+    "canary": "lerna publish from-package --yes --canary",
     "test": "lerna run test --stream",
-    "e2e": "echo TODO e2e...",
+    "e2e": "bash test/e2e.sh",
     "coverage": "echo TODO coverage...",
     "lint": "lerna run lint --stream",
     "pack": "lerna run pack --stream",
     "postinstall": "lerna bootstrap && yarn build && lerna link",
-    "upgrade-interactive": "lerna exec --concurrency -- yarn upgrade-interactive"
+    "upgrade-interactive": "lerna exec --concurrency -- yarn upgrade-interactive",
+    "download": "node scripts/get-node-api-list.js"
   },
   "devDependencies": {
     "lerna": "^3.20.2",

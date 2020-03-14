@@ -1,3 +1,2 @@
-.circleci/* linguist-vendored
 coverage/* linguist-vendored
 lib/* linguist-vendored
