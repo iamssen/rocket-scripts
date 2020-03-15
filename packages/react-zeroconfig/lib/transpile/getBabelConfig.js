@@ -16,56 +16,16 @@ function getBabelConfig({ modules, cwd, targets }) {
         console.log('---------------------------------------------------------------------------------');
     }
     return {
-        // https://github.com/facebook/create-react-app/blob/master/packages/babel-preset-react-app/create.js#L78
         presets: [
             [
-                // https://babeljs.io/docs/en/babel-preset-env
-                require.resolve('@babel/preset-env'),
+                require.resolve('@react-zeroconfig/babel-preset'),
                 {
-                    // read browserslist config manually by getBrowserslistQuery
-                    targets,
-                    ignoreBrowserslistConfig: true,
-                    // TODO improved polyfill builtin?
-                    useBuiltIns: false,
-                    // https://babeljs.io/docs/en/babel-preset-env#modules
-                    // webpack - modules: false
-                    // jest - modules: 'commonjs'
                     modules,
-                    exclude: ['transform-typeof-symbol'],
+                    targets,
                 },
             ],
-            [
-                require.resolve('@babel/preset-react'),
-                {
-                    useBuiltIns: true,
-                },
-            ],
-            require.resolve('@babel/preset-typescript'),
         ],
         plugins: [
-            require.resolve('@babel/plugin-transform-destructuring'),
-            [
-                require.resolve('@babel/plugin-proposal-decorators'),
-                {
-                    legacy: false,
-                    decoratorsBeforeExport: true,
-                },
-            ],
-            [
-                require.resolve('@babel/plugin-proposal-class-properties'),
-                {
-                    loose: true,
-                },
-            ],
-            [
-                require.resolve('@babel/plugin-proposal-object-rest-spread'),
-                {
-                    useBuiltIns: true,
-                },
-            ],
-            require.resolve('@babel/plugin-syntax-dynamic-import'),
-            require.resolve('@babel/plugin-proposal-optional-chaining'),
-            require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
             require.resolve('@loadable/babel-plugin'),
             [
                 require.resolve('babel-plugin-named-asset-import'),
@@ -77,7 +37,6 @@ function getBabelConfig({ modules, cwd, targets }) {
                     },
                 },
             ],
-            // handbook transform
             require.resolve('@handbook/babel-plugin'),
             // babel-plugin-styled-components
             //...(() => {
@@ -88,7 +47,6 @@ function getBabelConfig({ modules, cwd, targets }) {
             //    ? [require.resolve('babel-plugin-styled-components')]
             //    : [];
             //})(),
-            // babel-plugin-import
             ...(() => {
                 const { dependencies } = fs_extra_1.default.readJsonSync(path_1.default.join(cwd, 'package.json'));
                 if (!dependencies)
@@ -127,19 +85,6 @@ function getBabelConfig({ modules, cwd, targets }) {
                 }
                 return pluginImports;
             })(),
-        ],
-        overrides: [
-            {
-                test: /\.(ts|tsx)$/,
-                plugins: [
-                    [
-                        require.resolve('@babel/plugin-proposal-decorators'),
-                        {
-                            legacy: true,
-                        },
-                    ],
-                ],
-            },
         ],
     };
 }

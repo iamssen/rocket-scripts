@@ -1,4 +1,5 @@
 {
+  "extends": "./tsconfig.base",
   "compilerOptions": {
     "downlevelIteration": true,
     "allowSyntheticDefaultImports": true,
@@ -9,6 +10,13 @@
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+  
+    "module": "commonjs",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "declaration": true
   }
 }

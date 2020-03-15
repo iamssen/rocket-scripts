@@ -19,12 +19,13 @@ echo "ORIGIN_YARN_REGISTRY_URL=$ORIGIN_YARN_REGISTRY_URL";
 function stopLocalRegistry {
   npm config set registry "$ORIGIN_NPM_REGISTRY_URL";
   yarn config set registry "$ORIGIN_YARN_REGISTRY_URL";
+
+  kill -9 $(lsof -t -i:$VERDACCIO_PORT); # kill verdaccio
+  rm -rf "$ROOT/test/storage"; # clean verdaccio storage
 }
 
 function cleanup {
   stopLocalRegistry;
-  kill -9 $(lsof -t -i:$VERDACCIO_PORT);
-  rm -rf "$ROOT/test/storage";
 }
 
 function handleError {
@@ -50,8 +51,9 @@ fi;
 
 VERDACCIO_REGISTRY_LOG=$(mktemp);
 echo "VERDACCIO_REGISTRY_LOG=$VERDACCIO_REGISTRY_LOG";
-(npx verdaccio@latest --config "$ROOT/test/verdaccio.yaml" --listen $VERDACCIO_PORT &>"$VERDACCIO_REGISTRY_LOG" &);
-grep -q 'http address' <(tail -f "$VERDACCIO_REGISTRY_LOG");
+
+(npx verdaccio@latest --config "$ROOT/test/verdaccio.yaml" --listen $VERDACCIO_PORT &>"$VERDACCIO_REGISTRY_LOG" &); # start verdaccio with log
+grep -q 'http address' <(tail -f "$VERDACCIO_REGISTRY_LOG"); # wating verdaccio
 
 npm config set registry "$LOCAL_REGISTRY_URL";
 yarn config set registry "$LOCAL_REGISTRY_URL";
@@ -59,11 +61,7 @@ yarn config set registry "$LOCAL_REGISTRY_URL";
 
 # LOCAL PUBLISH
 # ==================================================----------------------------------
-if [ -n "$TRAVIS_BRANCH" ]; then
-  npx lerna exec --stream -- npm version prerelease --preid="$TRAVIS_COMMIT";
-fi;
-
-npx lerna exec --stream -- npm publish --tag "$TRAVIS_COMMIT" --registry $LOCAL_REGISTRY_URL;
+npx lerna exec --stream -- npm publish --tag latest --registry $LOCAL_REGISTRY_URL;
 
 npx lerna exec --stream -- npm view \$LERNA_PACKAGE_NAME --registry $LOCAL_REGISTRY_URL;
 
@@ -85,8 +83,8 @@ createTmpFixture() {
   echo "PWD=$(pwd)";
   echo "npm registry=$(npm config get registry)";
   echo "yarn registry=$(yarn config get registry)";
-  npm install react-zeroconfig@"$TRAVIS_COMMIT" --quiet --save-dev --registry $LOCAL_REGISTRY_URL;
-  npm install --quiet;
+  yarn add react-zeroconfig@latest --dev;
+  yarn;
 }
 
 # zeroconfig-package-scripts build

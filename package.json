@@ -1,22 +1,26 @@
 {
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "samples/*"
   ],
   "scripts": {
-    "clean": "lerna clean --yes && lerna run clean --stream",
-    "build": "yarn clean && lerna run build --stream",
-    "watch": "yarn clean && lerna run watch --stream",
-    "version": "lerna version",
-    "publish": "lerna publish",
-    "test": "lerna run test --stream",
+    "clean": "lerna clean --yes && lerna run clean --stream --ignore my-app*",
+    "build": "yarn clean && lerna run build --stream --ignore my-app*",
+    "watch": "yarn clean && lerna run watch --parallel --ignore my-app*",
+    "start:my-app-test": "lerna run --stream --scope my-app-test app:start -- --port 3110",
     "e2e": "bash test/e2e.sh",
-    "coverage": "echo TODO coverage...",
+    "test": "jest --colors",
+    "coverage": "jest --coverage",
     "lint": "lerna run lint --stream",
-    "pack": "lerna run pack --stream",
     "postinstall": "lerna bootstrap && yarn build && lerna link",
     "upgrade-interactive": "lerna exec --concurrency -- yarn upgrade-interactive",
     "download": "node scripts/get-node-api-list.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn run lint && yarn run test"
+    }
   },
   "devDependencies": {
     "lerna": "^3.20.2",

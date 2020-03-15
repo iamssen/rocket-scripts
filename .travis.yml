@@ -9,14 +9,14 @@ git:
 before_install:
   - sudo apt-get -y install tree
   - npm install -g yarn@latest
-  - npm install -g verdaccio@latest # local npm registry for e2e test
+#  - npm install -g verdaccio@latest # local npm registry for e2e test
   - git submodule sync && git submodule update --init # get fixtures
 install:
   - yarn
 script:
   - yarn lint
   - yarn coverage
-#  - cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
+  - cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
   - yarn e2e
 notifications:
   email:

@@ -1,13 +1,7 @@
 {
-  "extends": "../../tsconfig.base",
+  "extends": "../../tsconfig.build",
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "esnext",
-    "moduleResolution": "node",
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "outDir": "lib",
-    "declaration": true
+    "outDir": "lib"
   },
   "include": [
     "./src/**/*"
