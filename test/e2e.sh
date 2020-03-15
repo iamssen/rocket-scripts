@@ -61,9 +61,7 @@ yarn config set registry "$LOCAL_REGISTRY_URL";
 
 # LOCAL PUBLISH
 # ==================================================----------------------------------
-npx lerna exec --stream -- npm publish --tag latest --registry $LOCAL_REGISTRY_URL;
-
-npx lerna exec --stream -- npm view \$LERNA_PACKAGE_NAME --registry $LOCAL_REGISTRY_URL;
+sh foreach.sh packages -- npm publish --tag latest --registry $LOCAL_REGISTRY_URL;
 
 
 # TEST
