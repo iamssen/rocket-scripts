@@ -23,8 +23,8 @@
   ],
   "scripts": {
     "clean": "rimraf lib",
-    "build": "tsc --project tsconfig.build.json",
-    "watch": "tsc --watch --project tsconfig.build.json",
+    "build": "tsc",
+    "watch": "tsc --watch",
     "prepublishOnly": "npm run build",
     "lint": "tslint \"src/**/*.{ts,tsx}\""
   },

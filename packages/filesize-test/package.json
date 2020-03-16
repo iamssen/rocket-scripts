@@ -1,0 +1,35 @@
+{
+  "name": "filesize-test",
+  "version": "0.1.0",
+  "description": "Filesize test",
+  "author": "SSen <i@ssen.name>",
+  "license": "MIT",
+  "repository": "github:react-zeroconfig/react-zeroconfig",
+  "bugs": "https://github.com/react-zeroconfig/react-zeroconfig/issues",
+  "homepage": "https://github.com/react-zeroconfig/react-zeroconfig/tree/develop/packages/filesize-test",
+  "engines": {
+    "node": ">=10"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "package.json",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "clean": "rimraf lib",
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "prepublishOnly": "npm run build",
+    "lint": "tslint \"src/**/*.{ts,tsx}\""
+  },
+  "dependencies": {
+    "glob": "^7.1.6",
+    "gzip-size": "^5.1.1"
+  }
+}

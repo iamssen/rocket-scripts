@@ -1,7 +1,6 @@
 module.exports = {
   roots: [
-    '<rootDir>/packages/react-zeroconfig',
-    '<rootDir>/packages/babel-preset'
+    '<rootDir>/packages'
   ],
   transform: {
     '.(ts|tsx)': 'ts-jest'
@@ -20,7 +19,7 @@ module.exports = {
   ],
   globals: {
     'ts-jest': {
-      tsConfig: 'tsconfig.base.json'
+      tsConfig: 'tsconfig.json'
     }
   }
 }

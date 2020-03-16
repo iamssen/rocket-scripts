@@ -1,10 +1,12 @@
 {
-  "private": true,
+  "name": "my-app-test",
+  "version": "0.1.0",
   "scripts": {
     "app:build": "zeroconfig-webapp-scripts build app",
     "app:start": "zeroconfig-webapp-scripts start app",
     "storybook:start": "start-storybook",
     "storybook:build": "build-storybook",
+    "build": "npm run app:build",
     "start": "npm run app:start",
     "test": "jest --colors",
     "prettier": "prettier --write \"src/**/*.{js,jsx,mjs,ts,tsx}\"",
