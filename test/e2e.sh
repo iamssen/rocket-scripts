@@ -61,7 +61,7 @@ yarn config set registry "$LOCAL_REGISTRY_URL";
 
 # LOCAL PUBLISH
 # ==================================================----------------------------------
-sh foreach.sh packages -- npm publish --tag latest --registry $LOCAL_REGISTRY_URL;
+sh foreach.sh packages "npm publish --tag latest --registry $LOCAL_REGISTRY_URL";
 
 
 # TEST
