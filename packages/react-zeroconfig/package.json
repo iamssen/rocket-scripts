@@ -36,10 +36,9 @@
   ],
   "scripts": {
     "clean": "rimraf lib",
-    "build": "tsc --project tsconfig.build.json",
-    "watch": "tsc --watch --project tsconfig.build.json",
-    "prepublishOnly": "npm run build",
-    "lint": "tslint \"src/**/*.{ts,tsx}\""
+    "build": "yarn run clean && tsc --project tsconfig.build.json",
+    "watch": "yarn run clean && tsc --watch --project tsconfig.build.json",
+    "prepublishOnly": "yarn run build"
   },
   "bin": {
     "zeroconfig-webapp-scripts": "./bin/zeroconfig-webapp-scripts",
@@ -174,10 +173,7 @@
     "@types/webpack-hot-middleware": "^2.25.0",
     "@types/webpack-merge": "^4.1.5",
     "@types/webpack-node-externals": "^1.7.1",
-    "coveralls": "^3.0.7",
-    "husky": "^4.2.3",
-    "node-fetch": "^2.6.0",
-    "ts-jest": "^25.2.1"
+    "node-fetch": "^2.6.0"
   },
   "optionalDependencies": {
     "tslint": ">=5.0.0",

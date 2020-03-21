@@ -23,10 +23,9 @@
   ],
   "scripts": {
     "clean": "rimraf lib",
-    "build": "tsc",
-    "watch": "tsc --watch",
-    "prepublishOnly": "npm run build",
-    "lint": "tslint \"src/**/*.{ts,tsx}\""
+    "build": "yarn run clean && tsc",
+    "watch": "yarn run clean && tsc --watch",
+    "prepublishOnly": "yarn run build"
   },
   "dependencies": {
     "glob": "^7.1.6",
