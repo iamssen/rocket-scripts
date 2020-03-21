@@ -155,5 +155,6 @@
     "webpack-node-externals": "^1.7.2",
     "worker-loader": "^2.0.0",
     "yaml-loader": "^0.6.0"
-  }
+  },
+  "version": "3.2.3"
 }
