@@ -5,8 +5,8 @@
 ROOT=$(pwd);
 VERDACCIO_PORT=4873;
 LOCAL_REGISTRY_URL="http://localhost:$VERDACCIO_PORT/";
-ORIGIN_NPM_REGISTRY_URL=$(npm config get registry);
-ORIGIN_YARN_REGISTRY_URL=$(yarn config get registry);
+ORIGIN_NPM_REGISTRY_URL="https://registry.npmjs.org/";
+ORIGIN_YARN_REGISTRY_URL="https://registry.yarnpkg.com/";
 
 echo "ROOT=$ROOT";
 echo "LOCAL_REGISTRY_URL=$LOCAL_REGISTRY_URL";
@@ -58,6 +58,12 @@ grep -q 'http address' <(tail -f "$VERDACCIO_REGISTRY_LOG"); # wating verdaccio
 npm config set registry "$LOCAL_REGISTRY_URL";
 yarn config set registry "$LOCAL_REGISTRY_URL";
 
+echo "npm registry=$(npm config get registry)";
+echo "yarn registry=$(yarn config get registry)";
+
+cat $HOME/.npmrc;
+cat $HOME/.yarnrc;
+
 
 # LOCAL PUBLISH
 # ==================================================----------------------------------
@@ -81,6 +87,8 @@ createTmpFixture() {
   echo "PWD=$(pwd)";
   echo "npm registry=$(npm config get registry)";
   echo "yarn registry=$(yarn config get registry)";
+  cat $HOME/.npmrc;
+  cat $HOME/.yarnrc;
   yarn install --silent;
   yarn add react-zeroconfig@e2e --dev;
 }
