@@ -61,7 +61,7 @@ yarn config set registry "$LOCAL_REGISTRY_URL";
 
 # LOCAL PUBLISH
 # ==================================================----------------------------------
-sh foreach.sh packages "npm publish --tag latest --registry $LOCAL_REGISTRY_URL";
+sh foreach.sh packages "npm publish --tag e2e --registry $LOCAL_REGISTRY_URL";
 
 
 # TEST
@@ -81,8 +81,8 @@ createTmpFixture() {
   echo "PWD=$(pwd)";
   echo "npm registry=$(npm config get registry)";
   echo "yarn registry=$(yarn config get registry)";
-  yarn add react-zeroconfig@latest --dev;
-  yarn;
+  yarn install --silent;
+  yarn add react-zeroconfig@e2e --dev;
 }
 
 # zeroconfig-package-scripts build
