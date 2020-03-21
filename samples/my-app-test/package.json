@@ -48,7 +48,7 @@
     "react-dom": "^16.13.0"
   },
   "devDependencies": {
-    "@lunit/eslint-config": "^0.4.0",
+    "@lunit/eslint-config": "^0.5.0",
     "@lunit/prettier-config": "^0.1.1",
     "@storybook/addon-storysource": "^5.3.14",
     "@storybook/react": "^5.3.14",

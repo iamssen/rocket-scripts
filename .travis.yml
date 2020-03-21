@@ -9,7 +9,6 @@ git:
 before_install:
   - sudo apt-get -y install tree
   - npm install -g yarn@latest
-#  - npm install -g verdaccio@latest # local npm registry for e2e test
   - git submodule sync && git submodule update --init # get fixtures
 install:
   - yarn
