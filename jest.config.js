@@ -15,7 +15,7 @@ module.exports = {
     "js"
   ],
   collectCoverageFrom: [
-    'packages/**/src/*.ts'
+    'packages/**/src/**/*.ts'
   ],
   globals: {
     'ts-jest': {
