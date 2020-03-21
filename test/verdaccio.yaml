@@ -20,6 +20,10 @@ packages:
     access: $anonymous
     publish: $anonymous
 
+  'filesize-test':
+    access: $anonymous
+    publish: $anonymous
+
   '@react-zeroconfig/*':
     access: $anonymous
     publish: $anonymous
@@ -35,7 +39,7 @@ packages:
     proxy: npmjs
 
 logs:
-  - {type: stdout, format: pretty, level: warn}
+  - { type: stdout, format: pretty, level: warn }
 
 server:
   keepAliveTimeout: 0
