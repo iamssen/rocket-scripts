@@ -19,13 +19,13 @@ import { getRendererExternals } from './getRendererExternals';
 import { validateAppDependencies } from './validateAppDependencies';
 
 export async function buildElectron({
-                                      cwd,
-                                      app,
-                                      zeroconfigPath,
-                                      staticFileDirectories,
-                                      output,
-                                      extend,
-                                    }: DesktopappConfig) {
+  cwd,
+  app,
+  zeroconfigPath,
+  staticFileDirectories,
+  output,
+  extend,
+}: DesktopappConfig) {
   try {
     validateAppDependencies({
       projectPackageJson: fs.readJsonSync(path.join(cwd, 'package.json')),
@@ -36,7 +36,7 @@ export async function buildElectron({
     console.error(error);
     process.exit(1);
   }
-  
+
   const optimization: Options.Optimization = {
     concatenateModules: true,
     minimize: true,
@@ -77,28 +77,28 @@ export async function buildElectron({
       }),
     ],
   };
-  
+
   const webpackMainConfig: Configuration = webpackMerge(
-    createWebpackBaseConfig({zeroconfigPath}),
+    createWebpackBaseConfig({ zeroconfigPath }),
     {
       target: 'electron-main',
       mode: 'production',
-      
+
       resolve: {
         mainFields: ['main'],
       },
-      
-      externals: ['electron', ...getRendererExternals({cwd, app})],
-      
+
+      externals: ['electron', ...getRendererExternals({ cwd, app })],
+
       entry: {
         main: path.join(cwd, 'src', app, 'main'),
       },
-      
+
       output: {
         path: path.join(output, 'electron'),
         libraryTarget: 'commonjs2',
       },
-      
+
       optimization,
     },
     createWebpackWebappConfig({
@@ -113,49 +113,51 @@ export async function buildElectron({
       publicPath: '',
     }),
   );
-  
+
   const webpackRendererConfig: Configuration = webpackMerge(
-    createWebpackBaseConfig({zeroconfigPath}),
+    createWebpackBaseConfig({ zeroconfigPath }),
     {
       target: 'electron-renderer',
       mode: 'production',
-      
+
       resolve: {
         mainFields: ['main'],
       },
-      
-      externals: ['electron', ...getRendererExternals({cwd, app})],
-      
+
+      externals: ['electron', ...getRendererExternals({ cwd, app })],
+
       entry: {
         renderer: path.join(cwd, 'src', app, 'renderer'),
       },
-      
+
       output: {
         path: path.join(output, 'electron'),
         libraryTarget: 'commonjs2',
       },
-      
+
       optimization,
-      
+
       plugins: [
         // create css files
         new MiniCssExtractPlugin({
           filename: `[name].css`,
         }),
-        
+
         // TODO bundle analyzer plugin
-        
+
         // create html files
-        ...(extend.templateFiles.length > 0 ? extend.templateFiles.map(templateFile => {
-          const extname: string = path.extname(templateFile);
-          const filename: string = path.basename(templateFile, extname);
-          
-          return new HtmlWebpackPlugin({
-            template: path.join(cwd, 'src', app, templateFile),
-            filename: filename + '.html',
-            chunks: ['renderer'],
-          });
-        }) : []),
+        ...(extend.templateFiles.length > 0
+          ? extend.templateFiles.map(templateFile => {
+              const extname: string = path.extname(templateFile);
+              const filename: string = path.basename(templateFile, extname);
+
+              return new HtmlWebpackPlugin({
+                template: path.join(cwd, 'src', app, templateFile),
+                filename: filename + '.html',
+                chunks: ['renderer'],
+              });
+            })
+          : []),
       ],
     },
     createWebpackWebappConfig({
@@ -170,31 +172,38 @@ export async function buildElectron({
       publicPath: '',
     }),
   );
-  
+
   try {
     sayTitle('COPY FILES');
-    
+
     const copyTo: string = path.join(output, 'electron');
     await fs.mkdirp(copyTo);
-    await Promise.all(staticFileDirectories.map(dir => fs.copy(dir, copyTo, {dereference: false})));
-    
+    await Promise.all(staticFileDirectories.map(dir => fs.copy(dir, copyTo, { dereference: false })));
+
     sayTitle('BUILD ELECTRON MAIN');
     console.log(await runWebpack(webpackMainConfig));
-    
+
     sayTitle('BUILD ELECTRON RENDERER');
     console.log(await runWebpack(webpackRendererConfig));
-    
+
     sayTitle('NPM INSTALL');
-    
+
     await copyElectronPackageJson({
       file: path.join(cwd, 'package.json'),
       app: path.join(cwd, 'src', app, 'package.json'),
       copyTo: path.join(output, 'electron/package.json'),
     });
-    
+
     console.log('BUILD ELECTRON COMPLETED');
     console.log(`Please execute this command below for pack this application:`);
-    console.log(chalk.bold.yellow(`cd ${path.relative(cwd, path.join(output, 'electron'))} && npm install && electron-rebuild && electron-builder --mac --win --linux`));
+    console.log(
+      chalk.bold.yellow(
+        `cd ${path.relative(
+          cwd,
+          path.join(output, 'electron'),
+        )} && npm install && electron-rebuild && electron-builder --mac --win --linux`,
+      ),
+    );
   } catch (error) {
     sayTitle('⚠️ BUILD ELECTRON ERROR');
     console.error(error);

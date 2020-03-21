@@ -16,15 +16,15 @@ interface WorkerUnuseParams {
 
 type Params = (WorkerUseParams | WorkerUnuseParams) & {
   targets?: string | string[];
-}
+};
 
 /** @return RuleSetRule[] for oneOf */
 export function getWebpackScriptLoaders(params: Params): RuleSetRule[] {
-  const {cwd, targets} = params;
-  
+  const { cwd, targets } = params;
+
   const scriptRegex: RegExp = /\.(ts|tsx|js|mjs|jsx)$/;
   const workerRegex: RegExp = /\.worker.(ts|tsx|js|mjs|jsx)$/;
-  
+
   const src: string = path.join(cwd, 'src');
   const babelLoader: RuleSetLoader = {
     loader: require.resolve('babel-loader'),
@@ -38,10 +38,10 @@ export function getWebpackScriptLoaders(params: Params): RuleSetRule[] {
       }),
     },
   };
-  
+
   if (params.useWebWorker) {
-    const {chunkPath, publicPath} = params;
-    
+    const { chunkPath, publicPath } = params;
+
     return [
       {
         test: workerRegex,

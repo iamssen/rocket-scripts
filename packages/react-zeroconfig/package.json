@@ -1,6 +1,6 @@
 {
   "name": "react-zeroconfig",
-  "version": "3.27.2",
+  "version": "3.27.3-alpha.1",
   "description": "Zero config tools for React projects",
   "author": "SSen <i@ssen.name>",
   "license": "MIT",
@@ -78,7 +78,6 @@
     "cfonts": "^2.8.0",
     "chalk": "^3.0.0",
     "chokidar": "^3.3.1",
-    "compression": "^1.7.4",
     "css-loader": "^3.4.2",
     "escape-string-regexp": "^2.0.0",
     "eslint": "^6.8.0",

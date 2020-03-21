@@ -5,9 +5,7 @@ export function getImportedPackagesFromSource(source: string): string[] {
     const dependency: string = matchedString.substring(7, matchedString.length - 1);
     const parts: string[] = dependency.split('/');
     const limit: number = /^@/.test(dependency) ? 2 : 1;
-    return parts.length > limit
-      ? parts.slice(0, limit).join('/')
-      : dependency;
+    return parts.length > limit ? parts.slice(0, limit).join('/') : dependency;
   });
   return Array.from(new Set(packages));
 }

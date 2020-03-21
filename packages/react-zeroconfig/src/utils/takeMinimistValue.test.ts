@@ -4,7 +4,13 @@ import { takeMinimistLatestValue } from './takeMinimistLatestValue';
 
 describe('takeLatest()', () => {
   test('같은 argv가 여럿 입력되었을때 마지막 값을 가져온다', () => {
-    const argv: ParsedArgs = minimist(['build', 'app', '--size-report=true', '--compress=false', '--size-report=false']);
+    const argv: ParsedArgs = minimist([
+      'build',
+      'app',
+      '--size-report=true',
+      '--compress=false',
+      '--size-report=false',
+    ]);
     expect(argv._).toEqual(['build', 'app']);
     expect(takeMinimistLatestValue(argv['size-report'])).toEqual('false');
     expect(takeMinimistLatestValue(argv['compress'])).toEqual('false');

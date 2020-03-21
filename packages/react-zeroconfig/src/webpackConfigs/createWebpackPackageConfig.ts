@@ -5,13 +5,19 @@ import { getWebpackScriptLoaders } from './getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './getWebpackStyleLoaders';
 import { getWebpackYamlLoaders } from './getWebpackYamlLoaders';
 
-export function createWebpackPackageConfig({cwd, targets}: {cwd: string, targets?: string | string[]}): Configuration {
+export function createWebpackPackageConfig({
+  cwd,
+  targets,
+}: {
+  cwd: string;
+  targets?: string | string[];
+}): Configuration {
   const extractCss: boolean = true;
-  
+
   return {
     module: {
       strictExportPresence: true,
-      
+
       rules: [
         {
           oneOf: [
@@ -21,19 +27,19 @@ export function createWebpackPackageConfig({cwd, targets}: {cwd: string, targets
               targets,
               useWebWorker: false,
             }),
-            
+
             // mdx - script
             ...getWebpackMDXLoaders({
               cwd,
               targets,
             }),
-            
+
             // html, ejs, txt, md - plain text
             ...getWebpackRawLoaders(),
-            
+
             // yaml, yml
             ...getWebpackYamlLoaders(),
-            
+
             // css, scss, sass, less - style
             // module.* - css module
             ...getWebpackStyleLoaders({
@@ -41,21 +47,21 @@ export function createWebpackPackageConfig({cwd, targets}: {cwd: string, targets
               cssModuleRegex: /\.module.css$/,
               extractCss,
             }),
-            
+
             ...getWebpackStyleLoaders({
               cssRegex: /\.(scss|sass)$/,
               cssModuleRegex: /\.module.(scss|sass)$/,
               extractCss,
               preProcessor: 'sass-loader',
             }),
-            
+
             ...getWebpackStyleLoaders({
               cssRegex: /\.less$/,
               cssModuleRegex: /\.module.less$/,
               extractCss,
               preProcessor: 'less-loader',
             }),
-            
+
             // every files import by data uri
             {
               loader: require.resolve('url-loader'),

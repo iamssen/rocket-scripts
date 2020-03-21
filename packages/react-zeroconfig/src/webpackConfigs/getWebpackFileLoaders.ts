@@ -1,6 +1,6 @@
 import { RuleSetRule } from 'webpack';
 
-export function getWebpackFileLoaders({chunkPath}: {chunkPath: string}): RuleSetRule[] {
+export function getWebpackFileLoaders({ chunkPath }: { chunkPath: string }): RuleSetRule[] {
   return [
     {
       loader: require.resolve('file-loader'),

@@ -10,11 +10,14 @@ interface GetWebpackStyleLoadersParameters {
 }
 
 /** @return RuleSetRule[] for oneOf */
-export function getWebpackStyleLoaders({cssRegex, cssModuleRegex, extractCss, preProcessor}: GetWebpackStyleLoadersParameters): RuleSetRule[] {
-  const styleLoader: RuleSetUseItem = extractCss
-    ? MiniCssExtractPlugin.loader
-    : require.resolve('style-loader');
-  
+export function getWebpackStyleLoaders({
+  cssRegex,
+  cssModuleRegex,
+  extractCss,
+  preProcessor,
+}: GetWebpackStyleLoadersParameters): RuleSetRule[] {
+  const styleLoader: RuleSetUseItem = extractCss ? MiniCssExtractPlugin.loader : require.resolve('style-loader');
+
   const postcssLoader: RuleSetUseItem = {
     loader: require.resolve('postcss-loader'),
     options: {
@@ -33,7 +36,7 @@ export function getWebpackStyleLoaders({cssRegex, cssModuleRegex, extractCss, pr
       sourceMap: true,
     },
   };
-  
+
   const use: RuleSetUse = [
     styleLoader,
     {
@@ -46,7 +49,7 @@ export function getWebpackStyleLoaders({cssRegex, cssModuleRegex, extractCss, pr
     },
     postcssLoader,
   ];
-  
+
   const moduleUse: RuleSetUse = [
     styleLoader,
     {
@@ -61,24 +64,20 @@ export function getWebpackStyleLoaders({cssRegex, cssModuleRegex, extractCss, pr
     },
     postcssLoader,
   ];
-  
+
   if (preProcessor) {
     const preProcessorLoader: RuleSetUseItem = {
       loader: require.resolve(preProcessor),
       options: {
         sourceMap: true,
-        ...(
-          preProcessor === 'less-loader'
-            ? {javascriptEnabled: true}
-            : {}
-        ),
+        ...(preProcessor === 'less-loader' ? { javascriptEnabled: true } : {}),
       },
     };
-    
+
     use.push(preProcessorLoader);
     moduleUse.push(preProcessorLoader);
   }
-  
+
   return [
     {
       test: cssModuleRegex,

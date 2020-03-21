@@ -14,36 +14,36 @@ import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig
 import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
 
 export async function buildExtension({
-                                       cwd,
-                                       app,
-                                       zeroconfigPath,
-                                       staticFileDirectories,
-                                       output,
-                                       extend,
-                                       entryFiles,
-                                       vendorFileName,
-                                       styleFileName,
-                                     }: ExtensionConfig) {
+  cwd,
+  app,
+  zeroconfigPath,
+  staticFileDirectories,
+  output,
+  extend,
+  entryFiles,
+  vendorFileName,
+  styleFileName,
+}: ExtensionConfig) {
   const webpackConfig: Configuration = webpackMerge(
-    createWebpackBaseConfig({zeroconfigPath}),
+    createWebpackBaseConfig({ zeroconfigPath }),
     {
       mode: 'production',
-      
+
       output: {
         path: path.join(output, 'extension'),
         filename: `[name].js`,
         chunkFilename: `[name].js`,
       },
-      
+
       entry: entryFiles.reduce((entry, entryFile) => {
         const extname: string = path.extname(entryFile);
         const filename: string = path.basename(entryFile, extname);
-        
+
         entry[filename] = path.join(cwd, 'src', app, filename);
-        
+
         return entry;
       }, {}),
-      
+
       optimization: {
         concatenateModules: true,
         minimize: true,
@@ -83,7 +83,7 @@ export async function buildExtension({
             },
           }),
         ],
-        
+
         splitChunks: {
           cacheGroups: {
             // vendor chunk
@@ -92,7 +92,7 @@ export async function buildExtension({
               name: vendorFileName,
               chunks: 'all',
             },
-            
+
             // extract single css file
             style: {
               test: m => m.constructor.name === 'CssModule',
@@ -103,19 +103,21 @@ export async function buildExtension({
           },
         },
       },
-      
+
       plugins: [
         // create html files
-        ...(extend.templateFiles.length > 0 ? extend.templateFiles.map(templateFile => {
-          const extname: string = path.extname(templateFile);
-          const filename: string = path.basename(templateFile, extname);
-          
-          return new HtmlWebpackPlugin({
-            template: path.join(cwd, 'src', app, templateFile),
-            filename: filename + '.html',
-            chunks: [filename],
-          });
-        }) : []),
+        ...(extend.templateFiles.length > 0
+          ? extend.templateFiles.map(templateFile => {
+              const extname: string = path.extname(templateFile);
+              const filename: string = path.basename(templateFile, extname);
+
+              return new HtmlWebpackPlugin({
+                template: path.join(cwd, 'src', app, templateFile),
+                filename: filename + '.html',
+                chunks: [filename],
+              });
+            })
+          : []),
       ],
     },
     createWebpackWebappConfig({
@@ -130,14 +132,14 @@ export async function buildExtension({
       publicPath: '',
     }),
   );
-  
+
   try {
     sayTitle('COPY FILES');
-    
+
     const copyTo: string = path.join(output, 'extension');
     await fs.mkdirp(copyTo);
-    await Promise.all(staticFileDirectories.map(dir => fs.copy(dir, copyTo, {dereference: false})));
-    
+    await Promise.all(staticFileDirectories.map(dir => fs.copy(dir, copyTo, { dereference: false })));
+
     // run webpack
     console.log(await runWebpack(webpackConfig));
   } catch (error) {

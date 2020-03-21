@@ -1,12 +1,12 @@
 import { PackageJson } from 'type-fest';
 
-// tslint:disable:typedef
+/* eslint-disable @typescript-eslint/typedef */
 export const packageCommands = ['build', 'publish', 'validate', 'list', 'sync'] as const;
 export const webappCommands = ['build', 'start', 'server-watch', 'server-start', 'browser-start'] as const;
 export const desktopappCommands = ['build', 'start', 'electron-watch', 'electron-start'] as const;
 export const extensionCommands = ['build', 'watch'] as const;
 export const modes = ['production', 'development'] as const;
-// tslint:enable:typedef
+/* eslint-enable @typescript-eslint/typedef */
 
 export type PackageCommand = typeof packageCommands[number];
 export type WebappCommand = typeof webappCommands[number];
@@ -42,7 +42,7 @@ export function isMode(mode: string | undefined): mode is Mode {
 
 export interface PackageArgv {
   command: PackageCommand;
-  
+
   // publish
   // --choice false
   choice: boolean;
@@ -74,16 +74,16 @@ export interface WebappArgv {
   // common
   command: WebappCommand;
   app: string;
-  
+
   // --source-map true --mode production
   // --source-map false --mode development
   sourceMap: boolean | undefined;
-  
+
   // --static-file-directories "public static" - relative paths from cwd or absolute paths
   // --static-file-packages "xxx yyy" - packages
   staticFileDirectories: string | undefined;
   staticFilePackages: string | undefined;
-  
+
   // build
   // --size-report false
   // --mode "production" | "development"
@@ -103,7 +103,7 @@ export interface WebappArgv {
   chunkPath: string;
   publicPath: string;
   internalEslint: boolean;
-  
+
   // start
   // --port 3100
   // --server-port 4100
@@ -111,18 +111,18 @@ export interface WebappArgv {
   // --https-key path-to-custom.key --https-cert path-to-custom.crt
   port: number;
   serverPort: number;
-  https: boolean | {key: string, cert: string};
+  https: boolean | { key: string; cert: string };
 }
 
 export interface WebappConfig {
   command: WebappCommand;
   app: string;
-  
+
   sourceMap: boolean | undefined;
-  
+
   // build
   staticFileDirectories: string[]; // absolute paths
-  
+
   sizeReport: boolean;
   mode: Mode;
   output: string; // absolute paths
@@ -132,27 +132,27 @@ export interface WebappConfig {
   chunkPath: string; // a relative path from output
   publicPath: string;
   internalEslint: boolean;
-  
+
   // start
   port: number;
   serverPort: number;
-  https: boolean | {key: string, cert: string};
-  
+  https: boolean | { key: string; cert: string };
+
   // internal
   cwd: string; // a absolute path
   zeroconfigPath: string; // a absolute path
   extend: {
     serverSideRendering: boolean;
     templateFiles: string[]; // file names without directory path
-  }
+  };
 }
 
 export interface DesktopappArgv {
   command: DesktopappCommand;
   app: string;
-  
+
   output: string | undefined;
-  
+
   staticFileDirectories: string | undefined;
   staticFilePackages: string | undefined;
 }
@@ -160,29 +160,29 @@ export interface DesktopappArgv {
 export interface DesktopappConfig {
   command: DesktopappCommand;
   app: string;
-  
+
   // build
   staticFileDirectories: string[];
-  
+
   output: string; // absolute paths
-  
+
   // internal
   cwd: string; // a absolute path
   zeroconfigPath: string; // a absolute path
   extend: {
     templateFiles: string[]; // file names without directory path
-  }
+  };
 }
 
 export interface ExtensionArgv {
   command: ExtensionCommand;
   app: string;
-  
+
   output: string | undefined;
-  
+
   vendorFileName: string;
   styleFileName: string;
-  
+
   staticFileDirectories: string | undefined;
   staticFilePackages: string | undefined;
 }
@@ -190,20 +190,20 @@ export interface ExtensionArgv {
 export interface ExtensionConfig {
   command: ExtensionCommand;
   app: string;
-  
+
   output: string; // absolute paths
-  
+
   vendorFileName: string;
   styleFileName: string;
-  
+
   staticFileDirectories: string[];
-  
+
   entryFiles: string[];
-  
+
   // internal
   cwd: string; // a absolute path
   zeroconfigPath: string; // a absolute path
   extend: {
     templateFiles: string[]; // file names without directory path
-  }
+  };
 }
