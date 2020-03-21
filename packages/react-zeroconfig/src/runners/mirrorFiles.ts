@@ -21,33 +21,31 @@ export interface MirrorResult {
   treat: MirrorTreat;
 }
 
-export async function mirrorFiles({sources, output, ignored}: Params): Promise<Observable<MirrorResult>> {
+export async function mirrorFiles({ sources, output, ignored }: Params): Promise<Observable<MirrorResult>> {
   function toRelativePath(file: string): string | undefined {
     const source: string | undefined = sources.find(s => file.indexOf(s) === 0);
-    return source
-      ? path.relative(source, file)
-      : undefined;
+    return source ? path.relative(source, file) : undefined;
   }
-  
+
   await fs.mkdirp(output);
-  await Promise.all(sources.map(dir => {
-    return fs.copy(dir, output, {
-      dereference: false,
-      filter: src => {
-        return ignored
-          ? !ignored.test(src)
-          : true;
-      },
-    });
-  }));
-  
+  await Promise.all(
+    sources.map(dir => {
+      return fs.copy(dir, output, {
+        dereference: false,
+        filter: src => {
+          return ignored ? !ignored.test(src) : true;
+        },
+      });
+    }),
+  );
+
   return new Observable<MirrorResult>((observer: Observer<MirrorResult>) => {
     const watcher: FSWatcher = watch(sources, {
       ignored,
       persistent: true,
       ignoreInitial: true,
     });
-    
+
     watcher
       .on('add', async file => {
         const relpath: string | undefined = toRelativePath(file);
@@ -57,8 +55,8 @@ export async function mirrorFiles({sources, output, ignored}: Params): Promise<O
         }
         const tofile: string = path.join(output, relpath);
         await fs.mkdirp(path.dirname(tofile));
-        await fs.copy(file, tofile, {dereference: false});
-        
+        await fs.copy(file, tofile, { dereference: false });
+
         observer.next({
           file: relpath,
           treat: MirrorTreat.ADDED,
@@ -72,8 +70,8 @@ export async function mirrorFiles({sources, output, ignored}: Params): Promise<O
         }
         const tofile: string = path.join(output, relpath);
         await fs.mkdirp(path.dirname(tofile));
-        await fs.copy(file, tofile, {dereference: false});
-        
+        await fs.copy(file, tofile, { dereference: false });
+
         observer.next({
           file: relpath,
           treat: MirrorTreat.UPDATED,
@@ -86,17 +84,17 @@ export async function mirrorFiles({sources, output, ignored}: Params): Promise<O
           return;
         }
         const tofile: string = path.join(output, relpath);
-        
+
         if (fs.pathExistsSync(tofile)) {
           await fs.remove(tofile);
-          
+
           observer.next({
             file: relpath,
             treat: MirrorTreat.REMOVED,
           });
         }
       });
-    
+
     return () => {
       watcher.close();
     };

@@ -10,23 +10,23 @@ import { watchExtension } from './watchExtension';
 
 const zeroconfigPath: string = path.join(__dirname, '../..');
 
-export async function extensionScripts(nodeArgv: string[], {cwd = process.cwd()}: {cwd?: string} = {}) {
+export async function extensionScripts(nodeArgv: string[], { cwd = process.cwd() }: { cwd?: string } = {}) {
   if (nodeArgv.indexOf('--help') > -1) {
     console.log(help);
     return;
   }
-  
+
   const argv: ExtensionArgv = parseExtensionArgv(nodeArgv);
-  const config: ExtensionConfig = await createExtensionConfig({argv, cwd, zeroconfigPath});
-  
+  const config: ExtensionConfig = await createExtensionConfig({ argv, cwd, zeroconfigPath });
+
   sayZeroconfig();
-  
+
   sayTitle('EXECUTED COMMAND');
   console.log('zeroconfig-extension-scripts ' + nodeArgv.join(' '));
-  
+
   sayTitle('CREATED CONFIG');
   console.log(config);
-  
+
   switch (config.command) {
     case 'build':
       process.env.BROWSERSLIST_ENV = 'development';

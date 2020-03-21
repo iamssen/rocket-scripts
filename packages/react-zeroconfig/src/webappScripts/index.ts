@@ -15,40 +15,43 @@ import { watchServer } from './watchServer';
 
 const zeroconfigPath: string = path.join(__dirname, '../..');
 
-export async function webappScripts(nodeArgv: string[], {cwd = process.cwd()}: {cwd?: string} = {}) {
+export async function webappScripts(nodeArgv: string[], { cwd = process.cwd() }: { cwd?: string } = {}) {
   if (nodeArgv.indexOf('--help') > -1) {
     console.log(help);
     return;
   }
-  
+
   const argv: WebappArgv = parseWebappArgv(nodeArgv);
-  const config: WebappConfig = await createWebappConfig({argv, cwd, zeroconfigPath});
-  
+  const config: WebappConfig = await createWebappConfig({ argv, cwd, zeroconfigPath });
+
   if (config.command === 'start' && config.extend.serverSideRendering) {
     const argvString: string = nodeArgv.slice(1).join(' ');
-    multiplerun([
+    multiplerun(
       [
-        `npx zeroconfig-webapp-scripts server-watch ${argvString} --output ${config.output}`,
-        `npx zeroconfig-webapp-scripts server-start ${argvString} --output ${config.output}`,
+        [
+          `npx zeroconfig-webapp-scripts server-watch ${argvString} --output ${config.output}`,
+          `npx zeroconfig-webapp-scripts server-start ${argvString} --output ${config.output}`,
+        ],
+        `npx zeroconfig-webapp-scripts browser-start ${argvString} --output ${config.output}`,
       ],
-      `npx zeroconfig-webapp-scripts browser-start ${argvString} --output ${config.output}`,
-    ], cwd);
+      cwd,
+    );
   } else {
     sayZeroconfig();
-    
+
     sayTitle('EXECUTED COMMAND');
     console.log('zeroconfig-webapp-scripts ' + nodeArgv.join(' '));
-    
+
     sayTitle('CREATED CONFIG');
     console.log(config);
-    
+
     switch (config.command) {
       case 'build':
         await rimraf(config.output);
-        
+
         process.env.BROWSERSLIST_ENV = config.mode;
         await buildBrowser(config);
-        
+
         if (config.extend.serverSideRendering) {
           process.env.BROWSERSLIST_ENV = config.mode === 'production' ? 'server' : 'server_development';
           await buildServer(config);

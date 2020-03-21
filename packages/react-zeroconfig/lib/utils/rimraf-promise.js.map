@@ -1,1 +1,1 @@
-{"version":3,"file":"rimraf-promise.js","sourceRoot":"","sources":["../../src/utils/rimraf-promise.ts"],"names":[],"mappings":";;;;;AAAA,oDAA6B;AAC7B,+BAAiC;AAEpB,QAAA,MAAM,GAAiC,gBAAS,CAAC,gBAAO,CAAC,CAAC"}
+{"version":3,"file":"rimraf-promise.js","sourceRoot":"","sources":["../../src/utils/rimraf-promise.ts"],"names":[],"mappings":";;;;;AAAA,oDAA6B;AAC7B,+BAAiC;AAEpB,QAAA,MAAM,GAAoC,gBAAS,CAAC,gBAAO,CAAC,CAAC"}

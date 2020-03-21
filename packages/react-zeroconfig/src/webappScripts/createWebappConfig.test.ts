@@ -29,16 +29,14 @@ describe('createWebappConfig', () => {
     const argv: WebappArgv = {
       ...defaultArgv,
     };
-    
+
     const cwd: string = await createTmpFixture('simple-ssr-ts');
-    
-    await expect(createWebappConfig({argv, cwd, zeroconfigPath})).resolves.toEqual({
+
+    await expect(createWebappConfig({ argv, cwd, zeroconfigPath })).resolves.toEqual({
       command: 'build',
       app: 'app',
       sourceMap: undefined,
-      staticFileDirectories: [
-        path.join(cwd, 'public'),
-      ],
+      staticFileDirectories: [path.join(cwd, 'public')],
       sizeReport: true,
       mode: 'production',
       output: path.join(cwd, 'dist', argv.app),
@@ -59,22 +57,20 @@ describe('createWebappConfig', () => {
       },
     } as WebappConfig);
   });
-  
+
   test('절대경로로 입력된 output 옵션이 정상적으로 반영되는지 확인', async () => {
     const argv: WebappArgv = {
       ...defaultArgv,
       output: '/path/to/output',
     };
-    
+
     const cwd: string = await createTmpFixture('simple-ssr-ts');
-    
-    await expect(createWebappConfig({argv, cwd, zeroconfigPath})).resolves.toEqual({
+
+    await expect(createWebappConfig({ argv, cwd, zeroconfigPath })).resolves.toEqual({
       command: 'build',
       app: 'app',
       sourceMap: undefined,
-      staticFileDirectories: [
-        path.join(cwd, 'public'),
-      ],
+      staticFileDirectories: [path.join(cwd, 'public')],
       sizeReport: true,
       mode: 'production',
       output: '/path/to/output',
@@ -95,22 +91,20 @@ describe('createWebappConfig', () => {
       },
     } as WebappConfig);
   });
-  
+
   test('상대경로로 입력된 output 옵션이 정상적으로 반영되는지 확인', async () => {
     const argv: WebappArgv = {
       ...defaultArgv,
       output: 'path/to/output',
     };
-    
+
     const cwd: string = await createTmpFixture('simple-ssr-ts');
-    
-    await expect(createWebappConfig({argv, cwd, zeroconfigPath})).resolves.toEqual({
+
+    await expect(createWebappConfig({ argv, cwd, zeroconfigPath })).resolves.toEqual({
       command: 'build',
       app: 'app',
       sourceMap: undefined,
-      staticFileDirectories: [
-        path.join(cwd, 'public'),
-      ],
+      staticFileDirectories: [path.join(cwd, 'public')],
       sizeReport: true,
       mode: 'production',
       output: path.join(cwd, 'path/to/output'),
@@ -131,15 +125,15 @@ describe('createWebappConfig', () => {
       },
     } as WebappConfig);
   });
-  
+
   test('존재하지 않는 app name은 에러로 처리', async () => {
     const argv: WebappArgv = {
       ...defaultArgv,
       app: 'xxx',
     };
-    
+
     const cwd: string = await createTmpFixture('simple-csr-ts');
-    
-    await expect(createWebappConfig({argv, cwd, zeroconfigPath})).rejects.toThrow();
+
+    await expect(createWebappConfig({ argv, cwd, zeroconfigPath })).rejects.toThrow();
   });
 });

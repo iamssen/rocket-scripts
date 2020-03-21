@@ -8,7 +8,7 @@ export interface Options {
 // references
 // https://github.com/facebook/create-react-app/blob/master/packages/babel-preset-react-app/create.js#L78
 
-export default function (api: unknown, {modules, targets}: Options) {
+export default function(api: unknown, { modules, targets }: Options) {
   return {
     presets: [
       [
@@ -33,16 +33,11 @@ export default function (api: unknown, {modules, targets}: Options) {
           useBuiltIns: true,
         },
       ],
-      [
-        require.resolve('@babel/preset-typescript'),
-      ],
+      [require.resolve('@babel/preset-typescript')],
     ],
     plugins: [
       //require.resolve('@babel/plugin-transform-destructuring'),
-      [
-        require.resolve('@babel/plugin-proposal-decorators'),
-        false,
-      ],
+      [require.resolve('@babel/plugin-proposal-decorators'), false],
       [
         require.resolve('@babel/plugin-proposal-class-properties'),
         {
@@ -72,5 +67,5 @@ export default function (api: unknown, {modules, targets}: Options) {
         ],
       },
     ],
-  }
+  };
 }

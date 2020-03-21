@@ -1,6 +1,6 @@
 import { RuleSetRule } from 'webpack';
 
-export function getWebpackDataURILoaders({chunkPath}: {chunkPath: string}): RuleSetRule[] {
+export function getWebpackDataURILoaders({ chunkPath }: { chunkPath: string }): RuleSetRule[] {
   return [
     {
       test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],

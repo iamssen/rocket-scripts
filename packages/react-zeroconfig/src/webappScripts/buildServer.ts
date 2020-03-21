@@ -13,52 +13,54 @@ import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebapp
 import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
 
 export async function buildServer({
-                                    app,
-                                    sourceMap,
-                                    mode,
-                                    cwd,
-                                    output,
-                                    publicPath,
-                                    serverPort,
-                                    zeroconfigPath,
-                                    internalEslint,
-                                    chunkPath,
-                                  }: WebappConfig) {
+  app,
+  sourceMap,
+  mode,
+  cwd,
+  output,
+  publicPath,
+  serverPort,
+  zeroconfigPath,
+  internalEslint,
+  chunkPath,
+}: WebappConfig) {
   const loadableStatsJson: string = path.join(output, 'loadable-stats.json');
-  
+
   if (![loadableStatsJson].every(fs.pathExistsSync)) {
     throw new Error(`Required file ${loadableStatsJson}`);
   }
-  
+
   const webpackConfig: Configuration = webpackMerge(
-    createWebpackBaseConfig({zeroconfigPath}),
+    createWebpackBaseConfig({ zeroconfigPath }),
     {
       target: 'node',
       mode,
       //devtool: mode === 'production' ? false : 'source-map',
       devtool: 'source-map',
-      
+
       entry: {
         index: path.join(cwd, 'src', app, 'server'),
       },
-      
+
       output: {
         path: path.join(output, 'server'),
         libraryTarget: 'commonjs',
       },
-      
+
       resolve: {
         alias: {
           'loadable-stats.json': loadableStatsJson,
           '@loadable/stats.json': loadableStatsJson,
         },
       },
-      
-      externals: [nodeExternals({
-        // include asset files
-        whitelist: [/\.(?!(?:jsx?|json)$).{1,5}$/i],
-      })],
-      
+
+      externals: [
+        nodeExternals({
+          // include asset files
+          whitelist: [/\.(?!(?:jsx?|json)$).{1,5}$/i],
+        }),
+      ],
+
       plugins: [
         new MiniCssExtractPlugin({
           filename: `[name].css`,
@@ -77,13 +79,13 @@ export async function buildServer({
       publicPath,
     }),
   );
-  
+
   try {
     sayTitle('BUILD SERVER');
-    
+
     // run webpack
     console.log(await runWebpack(webpackConfig));
-    
+
     // copy package.json
     await copyServerPackageJson({
       file: path.join(cwd, 'package.json'),

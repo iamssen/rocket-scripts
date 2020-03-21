@@ -7,11 +7,11 @@ import { takeMinimistLatestValue } from '../utils/takeMinimistLatestValue';
 export function parseExtensionArgv(nodeArgv: string[]): ExtensionArgv {
   const argv: ParsedArgs = minimist(nodeArgv);
   const [command, app] = argv._;
-  
+
   if (!isExtensionCommand(command)) {
     throw new Error(`command must be one of ${extensionCommands.join(', ')}`);
   }
-  
+
   switch (command) {
     case 'build':
       if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
@@ -19,7 +19,7 @@ export function parseExtensionArgv(nodeArgv: string[]): ExtensionArgv {
         console.log(`In "zeroconfig-extension-scripts ${command}". NODE_ENV should always be "production"`);
         console.log('[setting change]: process.env.NODE_ENV → production');
       }
-      
+
       process.env.NODE_ENV = 'production';
       break;
     case 'watch':
@@ -28,13 +28,13 @@ export function parseExtensionArgv(nodeArgv: string[]): ExtensionArgv {
         console.log(`In "zeroconfig-extension-scripts ${command}". NODE_ENV should always be "development"`);
         console.log('[setting change]: process.env.NODE_ENV → development');
       }
-      
+
       process.env.NODE_ENV = 'development';
       break;
     default:
       throw new Error(`command must be one of ${extensionCommands.join(', ')}`);
   }
-  
+
   return {
     command: command as ExtensionCommand,
     app,

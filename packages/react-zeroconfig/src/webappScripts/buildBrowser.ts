@@ -17,43 +17,48 @@ import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig
 import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
 
 export async function buildBrowser({
-                                     mode,
-                                     sourceMap,
-                                     output,
-                                     app,
-                                     cwd,
-                                     serverPort,
-                                     staticFileDirectories,
-                                     chunkPath,
-                                     publicPath,
-                                     internalEslint,
-                                     appFileName,
-                                     vendorFileName,
-                                     styleFileName,
-                                     sizeReport,
-                                     extend,
-                                     zeroconfigPath,
-                                   }: WebappConfig) {
+  mode,
+  sourceMap,
+  output,
+  app,
+  cwd,
+  serverPort,
+  staticFileDirectories,
+  chunkPath,
+  publicPath,
+  internalEslint,
+  appFileName,
+  vendorFileName,
+  styleFileName,
+  sizeReport,
+  extend,
+  zeroconfigPath,
+}: WebappConfig) {
   const webpackConfig: Configuration = webpackMerge(
-    createWebpackBaseConfig({zeroconfigPath}),
+    createWebpackBaseConfig({ zeroconfigPath }),
     {
       mode,
       //devtool: mode === 'production' ? false : 'source-map',
-      devtool: typeof sourceMap === 'boolean'
-        ? sourceMap ? 'source-map' : false
-        : mode === 'production' ? false : 'source-map',
-      
+      devtool:
+        typeof sourceMap === 'boolean'
+          ? sourceMap
+            ? 'source-map'
+            : false
+          : mode === 'production'
+          ? false
+          : 'source-map',
+
       entry: {
         [appFileName]: path.join(cwd, 'src', app),
       },
-      
+
       output: {
         path: path.join(output, 'browser'),
         filename: `${chunkPath}[name].[hash].js`,
         chunkFilename: `${chunkPath}[name].[hash].js`,
         publicPath,
       },
-      
+
       optimization: {
         concatenateModules: mode === 'production',
         minimize: mode === 'production',
@@ -86,16 +91,17 @@ export async function buildBrowser({
           new OptimizeCSSAssetsPlugin({
             cssProcessorOptions: {
               parser: safePostCssParser,
-              map: mode === 'production'
-                ? {
-                  inline: false,
-                  annotation: true,
-                }
-                : false,
+              map:
+                mode === 'production'
+                  ? {
+                      inline: false,
+                      annotation: true,
+                    }
+                  : false,
             },
           }),
         ],
-        
+
         splitChunks: {
           cacheGroups: {
             // vendor chunk
@@ -104,7 +110,7 @@ export async function buildBrowser({
               name: vendorFileName,
               chunks: 'all',
             },
-            
+
             // extract single css file
             style: {
               test: m => m.constructor.name === 'CssModule',
@@ -115,39 +121,43 @@ export async function buildBrowser({
           },
         },
       },
-      
+
       plugins: [
         // create css files
         new MiniCssExtractPlugin({
           filename: `${chunkPath}[name].[hash].css`,
           chunkFilename: `${chunkPath}[name].[hash].css`,
         }),
-        
+
         // create size report
         new BundleAnalyzerPlugin({
           analyzerMode: 'static',
           reportFilename: path.join(output, 'size-report.html'),
           openAnalyzer: sizeReport,
         }),
-        
+
         // create loadable-stats.json when server side rendering is enabled
-        ...(extend.serverSideRendering ? [
-          new LoadablePlugin({
-            filename: '../loadable-stats.json',
-            writeToDisk: true,
-          }),
-        ] : []),
-        
+        ...(extend.serverSideRendering
+          ? [
+              new LoadablePlugin({
+                filename: '../loadable-stats.json',
+                writeToDisk: true,
+              }),
+            ]
+          : []),
+
         // create html files
-        ...(extend.templateFiles.length > 0 ? extend.templateFiles.map(templateFile => {
-          const extname: string = path.extname(templateFile);
-          const filename: string = path.basename(templateFile, extname);
-          
-          return new HtmlWebpackPlugin({
-            template: path.join(cwd, 'src', app, templateFile),
-            filename: filename + '.html',
-          });
-        }) : []),
+        ...(extend.templateFiles.length > 0
+          ? extend.templateFiles.map(templateFile => {
+              const extname: string = path.extname(templateFile);
+              const filename: string = path.basename(templateFile, extname);
+
+              return new HtmlWebpackPlugin({
+                template: path.join(cwd, 'src', app, templateFile),
+                filename: filename + '.html',
+              });
+            })
+          : []),
       ],
     },
     createWebpackWebappConfig({
@@ -162,18 +172,18 @@ export async function buildBrowser({
       publicPath,
     }),
   );
-  
+
   try {
     sayTitle('BUILD BROWSER');
-    
+
     // create output directory if not exists for loadable-stats.json
     if (extend.serverSideRendering) await fs.mkdirp(path.join(output));
-    
+
     // copy static file directories
     const copyTo: string = path.join(output, 'browser');
     await fs.mkdirp(copyTo);
-    await Promise.all(staticFileDirectories.map(dir => fs.copy(dir, copyTo, {dereference: true})));
-    
+    await Promise.all(staticFileDirectories.map(dir => fs.copy(dir, copyTo, { dereference: true })));
+
     // run webpack
     console.log(await runWebpack(webpackConfig));
   } catch (error) {

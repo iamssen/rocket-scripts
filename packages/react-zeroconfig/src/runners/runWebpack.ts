@@ -6,14 +6,16 @@ export function runWebpack(webpackConfig: Configuration): Promise<string> {
       if (error) {
         reject(error);
       } else {
-        resolve(stats.toString(
-          typeof webpackConfig.stats === 'object'
-            ? {
-              ...webpackConfig.stats,
-              colors: true,
-            }
-            : webpackConfig.stats,
-        ));
+        resolve(
+          stats.toString(
+            typeof webpackConfig.stats === 'object'
+              ? {
+                  ...webpackConfig.stats,
+                  colors: true,
+                }
+              : webpackConfig.stats,
+          ),
+        );
       }
     });
   });

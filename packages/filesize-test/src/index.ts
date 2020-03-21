@@ -21,10 +21,10 @@ function log(message: string, level: 'error' | 'warning') {
 
 export function test(config: Config, { cwd = process.cwd() }: { cwd: string }) {
   Object.keys(config).forEach(filename => {
-    const {level = 'error', maxGzipSize, maxSize} = config[filename];
-    
-    const files: string[] = glob.sync(filename, {cwd});
-    
+    const { level = 'error', maxGzipSize, maxSize } = config[filename];
+
+    const files: string[] = glob.sync(filename, { cwd });
+
     for (const file of files) {
       if (typeof maxSize === 'number') {
         const stat: Stats = fs.statSync(path.join(cwd, file));
@@ -43,12 +43,12 @@ export function test(config: Config, { cwd = process.cwd() }: { cwd: string }) {
 
 export function testByConfig({ cwd = process.cwd() }: { cwd: string }) {
   const configFile: string = path.join(cwd, 'filesize-test.json');
-  
+
   if (!fs.existsSync(configFile)) {
     throw new Error(`Undefined ${configFile}`);
   }
-  
-  const config: Config = JSON.parse(fs.readFileSync(configFile, {encoding: 'utf8'}));
-  
-  test(config, {cwd});
+
+  const config: Config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' }));
+
+  test(config, { cwd });
 }

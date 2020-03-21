@@ -16,13 +16,13 @@ import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebapp
 import { validateAppDependencies } from './validateAppDependencies';
 
 export async function watchElectron({
-                                      cwd,
-                                      app,
-                                      zeroconfigPath,
-                                      staticFileDirectories,
-                                      output,
-                                      extend,
-                                    }: DesktopappConfig) {
+  cwd,
+  app,
+  zeroconfigPath,
+  staticFileDirectories,
+  output,
+  extend,
+}: DesktopappConfig) {
   try {
     validateAppDependencies({
       projectPackageJson: fs.readJsonSync(path.join(cwd, 'package.json')),
@@ -33,29 +33,31 @@ export async function watchElectron({
     console.error(error);
     process.exit(1);
   }
-  
+
   const webpackMainConfig: Configuration = webpackMerge(
-    createWebpackBaseConfig({zeroconfigPath}),
+    createWebpackBaseConfig({ zeroconfigPath }),
     {
       target: 'electron-main',
       mode: 'development',
       devtool: 'source-map',
-      
+
       resolve: {
         mainFields: ['main'],
       },
-      
-      externals: [nodeExternals({
-        whitelist: [
-          // include asset files
-          /\.(?!(?:jsx?|json)$).{1,5}$/i,
-        ],
-      })],
-      
+
+      externals: [
+        nodeExternals({
+          whitelist: [
+            // include asset files
+            /\.(?!(?:jsx?|json)$).{1,5}$/i,
+          ],
+        }),
+      ],
+
       entry: {
         main: path.join(cwd, 'src', app, 'main'),
       },
-      
+
       output: {
         path: path.join(output, 'electron'),
         libraryTarget: 'commonjs2',
@@ -73,51 +75,55 @@ export async function watchElectron({
       publicPath: '',
     }),
   );
-  
+
   const webpackRendererConfig: Configuration = webpackMerge(
-    createWebpackBaseConfig({zeroconfigPath}),
+    createWebpackBaseConfig({ zeroconfigPath }),
     {
       target: 'electron-renderer',
       mode: 'development',
       devtool: 'source-map',
-      
+
       resolve: {
         mainFields: ['main'],
       },
-      
-      externals: [nodeExternals({
-        whitelist: [
-          // include asset files
-          /\.(?!(?:jsx?|json)$).{1,5}$/i,
-        ],
-      })],
-      
+
+      externals: [
+        nodeExternals({
+          whitelist: [
+            // include asset files
+            /\.(?!(?:jsx?|json)$).{1,5}$/i,
+          ],
+        }),
+      ],
+
       entry: {
         renderer: path.join(cwd, 'src', app, 'renderer'),
       },
-      
+
       output: {
         path: path.join(output, 'electron'),
         libraryTarget: 'commonjs2',
       },
-      
+
       plugins: [
         // create css files
         new MiniCssExtractPlugin({
           filename: `[name].css`,
         }),
-        
+
         // create html files
-        ...(extend.templateFiles.length > 0 ? extend.templateFiles.map(templateFile => {
-          const extname: string = path.extname(templateFile);
-          const filename: string = path.basename(templateFile, extname);
-          
-          return new HtmlWebpackPlugin({
-            template: path.join(cwd, 'src', app, templateFile),
-            filename: filename + '.html',
-            chunks: ['renderer'],
-          });
-        }) : []),
+        ...(extend.templateFiles.length > 0
+          ? extend.templateFiles.map(templateFile => {
+              const extname: string = path.extname(templateFile);
+              const filename: string = path.basename(templateFile, extname);
+
+              return new HtmlWebpackPlugin({
+                template: path.join(cwd, 'src', app, templateFile),
+                filename: filename + '.html',
+                chunks: ['renderer'],
+              });
+            })
+          : []),
       ],
     },
     createWebpackWebappConfig({
@@ -132,18 +138,18 @@ export async function watchElectron({
       publicPath: '',
     }),
   );
-  
+
   try {
     sayTitle('MIRROR FILES START');
-    
+
     const watcher: Observable<MirrorResult> = await mirrorFiles({
       sources: staticFileDirectories,
       output: path.join(output, 'electron'),
     });
-    
+
     // mirror files
     watcher.subscribe({
-      next: ({file, treat}) => {
+      next: ({ file, treat }) => {
         sayTitle('MIRROR FILE');
         console.log(`[${treat}] ${file}`);
       },
@@ -152,7 +158,7 @@ export async function watchElectron({
         console.error(error);
       },
     });
-    
+
     // watch webpack
     watchWebpack(webpackMainConfig).subscribe({
       next: webpackMessage => {
@@ -164,7 +170,7 @@ export async function watchElectron({
         console.error(error);
       },
     });
-    
+
     // watch webpack
     watchWebpack(webpackRendererConfig).subscribe({
       next: webpackMessage => {

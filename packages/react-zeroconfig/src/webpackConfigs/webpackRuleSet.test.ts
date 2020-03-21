@@ -6,7 +6,7 @@ const cwd: string = __dirname;
 
 function match(ruleSet: RuleSet, resource: string) {
   return ruleSet
-    .exec({resource})
+    .exec({ resource })
     .filter(r => r.type === 'use')
     .map(r => r.value as RuleSetLoader)
     .map(r => {
@@ -28,17 +28,17 @@ describe('webpack/lib/RuleSet', () => {
         loader: 'babel',
       },
     ]);
-    
+
     function test(filePath: string, expected: string[]) {
       expect(match(ruleSet, path.join(cwd, filePath))).toEqual(expected);
     }
-    
+
     test('test/test.js', []);
     test('src/app/test.js', ['babel']);
     test('src/app/worker.js', ['babel']);
     test('src/app/test.worker.js', []);
   });
-  
+
   test('oneOf [test ∩ include] : test와 include가 동시에 만족되는 항목 중 우선 순위로 하나가 선택됨', () => {
     const ruleSet: RuleSet = new RuleSet([
       {
@@ -46,10 +46,7 @@ describe('webpack/lib/RuleSet', () => {
           {
             test: /\.worker\.(js|jsx|mjs|ts|tsx)$/,
             include: path.join(cwd, 'src'),
-            use: [
-              'worker',
-              'babel',
-            ],
+            use: ['worker', 'babel'],
           },
           {
             test: /\.(js|jsx|mjs|ts|tsx)$/,
@@ -63,11 +60,11 @@ describe('webpack/lib/RuleSet', () => {
         ],
       },
     ]);
-    
+
     function test(filePath: string, expected: string[]) {
       expect(match(ruleSet, path.join(cwd, filePath))).toEqual(expected);
     }
-    
+
     test('src/app/test.worker.js', ['worker', 'babel']);
     test('src/app/test.js', ['babel']);
     test('src/app/worker.js', ['babel']);
@@ -75,7 +72,7 @@ describe('webpack/lib/RuleSet', () => {
     test('node_modules/some-module/test.js', ['-']);
     test('test/test.json', []);
   });
-  
+
   test('Style 선택 구조', () => {
     const ruleSet: RuleSet = new RuleSet([
       {
@@ -107,11 +104,11 @@ describe('webpack/lib/RuleSet', () => {
         ],
       },
     ]);
-    
+
     function test(filePath: string, expected: string[]) {
       expect(match(ruleSet, path.join(cwd, filePath))).toEqual(expected);
     }
-    
+
     test('src/app/style.css', ['css']);
     test('src/app/style.module.css', ['module', 'css']);
     test('src/app/style.scss', ['sass']);
@@ -120,10 +117,10 @@ describe('webpack/lib/RuleSet', () => {
     test('src/app/style.module.sass', ['module', 'sass']);
     test('src/app/style.less', ['less']);
     test('src/app/style.module.less', ['module', 'less']);
-    
+
     test('node_modules/module/style.less', ['less']);
   });
-  
+
   test('Zeroconfig 전체 RuleSet Test', () => {
     const ruleSet: RuleSet = new RuleSet([
       {
@@ -177,22 +174,22 @@ describe('webpack/lib/RuleSet', () => {
         ],
       },
     ]);
-    
+
     function test(filePath: string, expected: string[]) {
       expect(match(ruleSet, path.join(cwd, filePath))).toEqual(expected);
     }
-    
+
     // url
     test('node_modules/module/image.gif', ['url']);
     test('src/app/image.png', ['url']);
-    
+
     // script
     test('src/app/test.worker.js', ['worker', 'babel']);
     test('src/app/test.js', ['babel']);
     test('src/app/worker.js', ['babel']);
     test('test/test.js', []);
     test('node_modules/some-module/test.js', []);
-    
+
     // style
     test('src/app/style.css', ['css']);
     test('src/app/style.module.css', ['module', 'css']);
@@ -203,11 +200,11 @@ describe('webpack/lib/RuleSet', () => {
     test('src/app/style.less', ['less']);
     test('src/app/style.module.less', ['module', 'less']);
     test('node_modules/module/style.less', ['less']);
-    
+
     // file
     test('src/app/file.mp3', ['file']);
     test('node_modules/module/file.xls', ['file']);
-    
+
     // etc
     test('test/test.json', []);
   });

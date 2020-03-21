@@ -1,6 +1,6 @@
 {
   "name": "react-zeroconfig",
-  "version": "3.27.2",
+  "version": "3.27.3-alpha.1",
   "description": "Zero config tools for React projects",
   "author": "SSen <i@ssen.name>",
   "license": "MIT",
@@ -36,10 +36,9 @@
   ],
   "scripts": {
     "clean": "rimraf lib",
-    "build": "tsc --project tsconfig.build.json",
-    "watch": "tsc --watch --project tsconfig.build.json",
-    "prepublishOnly": "npm run build",
-    "lint": "tslint \"src/**/*.{ts,tsx}\""
+    "build": "yarn run clean && tsc --project tsconfig.build.json",
+    "watch": "yarn run clean && tsc --watch --project tsconfig.build.json",
+    "prepublishOnly": "yarn run build"
   },
   "bin": {
     "zeroconfig-webapp-scripts": "./bin/zeroconfig-webapp-scripts",
@@ -79,7 +78,6 @@
     "cfonts": "^2.8.0",
     "chalk": "^3.0.0",
     "chokidar": "^3.3.1",
-    "compression": "^1.7.4",
     "css-loader": "^3.4.2",
     "escape-string-regexp": "^2.0.0",
     "eslint": "^6.8.0",
@@ -92,7 +90,7 @@
     "eslint-plugin-react-hooks": "^2.5.0",
     "file-loader": "^4.3.0",
     "fork-ts-checker-webpack-plugin-alt": "^0.4.14",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.0",
     "glob": "^7.1.5",
     "html-webpack-plugin": "^4.0.0-beta.8",
     "http-proxy-middleware": "^1.0.1",
@@ -127,7 +125,7 @@
     "terser": "^4.6.6",
     "terser-webpack-plugin": "^2.3.5",
     "tmp": "^0.1.0",
-    "type-fest": "^0.11.0",
+    "type-fest": "^0.12.0",
     "typescript": "^3.8.3",
     "url-loader": "^2.3.0",
     "webpack": "^4.42.0",
@@ -137,7 +135,7 @@
     "webpack-merge": "^4.2.2",
     "webpack-node-externals": "^1.7.2",
     "worker-loader": "^2.0.0",
-    "yaml-loader": "^0.5.0"
+    "yaml-loader": "^0.6.0"
   },
   "devDependencies": {
     "@types/babel__core": "^7.1.6",
@@ -163,7 +161,7 @@
     "@types/prompts": "^2.4.0",
     "@types/react-dev-utils": "^9.0.4",
     "@types/resolve": "^1.14.0",
-    "@types/rimraf": "^2.0.3",
+    "@types/rimraf": "^3.0.0",
     "@types/semver": "^7.1.0",
     "@types/source-map-support": "^0.5.1",
     "@types/terser-webpack-plugin": "^2.2.0",
@@ -174,10 +172,7 @@
     "@types/webpack-hot-middleware": "^2.25.0",
     "@types/webpack-merge": "^4.1.5",
     "@types/webpack-node-externals": "^1.7.1",
-    "coveralls": "^3.0.7",
-    "husky": "^4.2.3",
-    "node-fetch": "^2.6.0",
-    "ts-jest": "^25.2.1"
+    "node-fetch": "^2.6.0"
   },
   "optionalDependencies": {
     "tslint": ">=5.0.0",

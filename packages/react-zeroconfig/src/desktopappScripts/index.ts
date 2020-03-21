@@ -12,30 +12,33 @@ import { watchElectron } from './watchElectron';
 
 const zeroconfigPath: string = path.join(__dirname, '../..');
 
-export async function desktopappScripts(nodeArgv: string[], {cwd = process.cwd()}: {cwd?: string} = {}) {
+export async function desktopappScripts(nodeArgv: string[], { cwd = process.cwd() }: { cwd?: string } = {}) {
   if (nodeArgv.indexOf('--help') > -1) {
     console.log(help);
     return;
   }
-  
+
   const argv: DesktopappArgv = parseDesktopappArgv(nodeArgv);
-  const config: DesktopappConfig = await createDesktopappConfig({argv, cwd, zeroconfigPath});
-  
+  const config: DesktopappConfig = await createDesktopappConfig({ argv, cwd, zeroconfigPath });
+
   if (config.command === 'start') {
     const argvString: string = nodeArgv.slice(1).join(' ');
-    multiplerun([
-      `npx zeroconfig-desktopapp-scripts electron-start ${argvString} --output ${config.output}`,
-      `npx zeroconfig-desktopapp-scripts electron-watch ${argvString} --output ${config.output}`,
-    ], cwd);
+    multiplerun(
+      [
+        `npx zeroconfig-desktopapp-scripts electron-start ${argvString} --output ${config.output}`,
+        `npx zeroconfig-desktopapp-scripts electron-watch ${argvString} --output ${config.output}`,
+      ],
+      cwd,
+    );
   } else {
     sayZeroconfig();
-    
+
     sayTitle('EXECUTED COMMAND');
     console.log('zeroconfig-desktopapp-scripts ' + nodeArgv.join(' '));
-    
+
     sayTitle('CREATED CONFIG');
     console.log(config);
-    
+
     switch (config.command) {
       case 'build':
         process.env.BROWSERSLIST_ENV = 'electron';

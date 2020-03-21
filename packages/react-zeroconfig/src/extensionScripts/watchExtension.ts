@@ -12,42 +12,42 @@ import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig
 import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
 
 export async function watchExtension({
-                                       cwd,
-                                       app,
-                                       zeroconfigPath,
-                                       staticFileDirectories,
-                                       output,
-                                       extend,
-                                       entryFiles,
-                                       vendorFileName,
-                                       styleFileName,
-                                     }: ExtensionConfig) {
+  cwd,
+  app,
+  zeroconfigPath,
+  staticFileDirectories,
+  output,
+  extend,
+  entryFiles,
+  vendorFileName,
+  styleFileName,
+}: ExtensionConfig) {
   const webpackConfig: Configuration = webpackMerge(
-    createWebpackBaseConfig({zeroconfigPath}),
+    createWebpackBaseConfig({ zeroconfigPath }),
     {
       mode: 'development',
       devtool: 'source-map',
-      
+
       output: {
         path: path.join(output, 'extension'),
         filename: `[name].js`,
         chunkFilename: `[name].js`,
       },
-      
+
       entry: entryFiles.reduce((entry, entryFile) => {
         const extname: string = path.extname(entryFile);
         const filename: string = path.basename(entryFile, extname);
-        
+
         entry[filename] = path.join(cwd, 'src', app, filename);
-        
+
         return entry;
       }, {}),
-      
+
       optimization: {
         moduleIds: 'named',
         //namedModules: true,
         noEmitOnErrors: true,
-        
+
         splitChunks: {
           cacheGroups: {
             // vendor chunk
@@ -56,7 +56,7 @@ export async function watchExtension({
               name: vendorFileName,
               chunks: 'all',
             },
-            
+
             // extract single css file
             style: {
               test: m => m.constructor.name === 'CssModule',
@@ -67,19 +67,21 @@ export async function watchExtension({
           },
         },
       },
-      
+
       plugins: [
         // create html files
-        ...(extend.templateFiles.length > 0 ? extend.templateFiles.map(templateFile => {
-          const extname: string = path.extname(templateFile);
-          const filename: string = path.basename(templateFile, extname);
-          
-          return new HtmlWebpackPlugin({
-            template: path.join(cwd, 'src', app, templateFile),
-            filename: filename + '.html',
-            chunks: [filename],
-          });
-        }) : []),
+        ...(extend.templateFiles.length > 0
+          ? extend.templateFiles.map(templateFile => {
+              const extname: string = path.extname(templateFile);
+              const filename: string = path.basename(templateFile, extname);
+
+              return new HtmlWebpackPlugin({
+                template: path.join(cwd, 'src', app, templateFile),
+                filename: filename + '.html',
+                chunks: [filename],
+              });
+            })
+          : []),
       ],
     },
     createWebpackWebappConfig({
@@ -94,18 +96,18 @@ export async function watchExtension({
       publicPath: '',
     }),
   );
-  
+
   try {
     sayTitle('MIRROR FILES START');
-    
+
     const watcher: Observable<MirrorResult> = await mirrorFiles({
       sources: staticFileDirectories,
       output: path.join(output, 'extension'),
     });
-    
+
     // mirror files
     watcher.subscribe({
-      next: ({file, treat}) => {
+      next: ({ file, treat }) => {
         sayTitle('MIRROR FILE');
         console.log(`[${treat}] ${file}`);
       },
@@ -114,7 +116,7 @@ export async function watchExtension({
         console.error(error);
       },
     });
-    
+
     // watch webpack
     watchWebpack(webpackConfig).subscribe({
       next: webpackMessage => {

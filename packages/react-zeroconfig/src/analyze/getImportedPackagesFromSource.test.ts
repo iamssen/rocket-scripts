@@ -12,7 +12,7 @@ describe('getImportedPackagesFromSource', () => {
       import y1 from 'y/a/b';
       import y2 from 'y/a/c';
     `;
-    
+
     expect(getImportedPackagesFromSource(source).sort()).toEqual(['@group/a', 'x', 'y']);
   });
 });
