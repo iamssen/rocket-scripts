@@ -58,12 +58,6 @@ grep -q 'http address' <(tail -f "$VERDACCIO_REGISTRY_LOG"); # wating verdaccio
 npm config set registry "$LOCAL_REGISTRY_URL";
 yarn config set registry "$LOCAL_REGISTRY_URL";
 
-echo "npm registry=$(npm config get registry)";
-echo "yarn registry=$(yarn config get registry)";
-
-cat $HOME/.npmrc;
-cat $HOME/.yarnrc;
-
 
 # LOCAL PUBLISH
 # ==================================================----------------------------------
@@ -89,8 +83,8 @@ createTmpFixture() {
   echo "yarn registry=$(yarn config get registry)";
   cat $HOME/.npmrc;
   cat $HOME/.yarnrc;
-  yarn install --silent;
-  yarn add react-zeroconfig@e2e --dev;
+  npm install react-zeroconfig@e2e --save-dev --registry "$LOCAL_REGISTRY_URL";
+  npm install;
 }
 
 # zeroconfig-package-scripts build
