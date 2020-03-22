@@ -27,16 +27,11 @@ function default_1(api, { modules, targets }) {
                     useBuiltIns: true,
                 },
             ],
-            [
-                require.resolve('@babel/preset-typescript'),
-            ],
+            [require.resolve('@babel/preset-typescript')],
         ],
         plugins: [
             //require.resolve('@babel/plugin-transform-destructuring'),
-            [
-                require.resolve('@babel/plugin-proposal-decorators'),
-                false,
-            ],
+            //[require.resolve('@babel/plugin-proposal-decorators'), false],
             [
                 require.resolve('@babel/plugin-proposal-class-properties'),
                 {
@@ -52,19 +47,6 @@ function default_1(api, { modules, targets }) {
             //require.resolve('@babel/plugin-syntax-dynamic-import'),
             require.resolve('@babel/plugin-proposal-optional-chaining'),
             require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
-        ],
-        overrides: [
-            {
-                test: /\.(ts|tsx)$/,
-                plugins: [
-                    [
-                        require.resolve('@babel/plugin-proposal-decorators'),
-                        {
-                            legacy: true,
-                        },
-                    ],
-                ],
-            },
         ],
     };
 }

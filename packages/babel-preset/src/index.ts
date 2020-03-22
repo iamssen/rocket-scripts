@@ -8,7 +8,7 @@ export interface Options {
 // references
 // https://github.com/facebook/create-react-app/blob/master/packages/babel-preset-react-app/create.js#L78
 
-export default function(api: unknown, { modules, targets }: Options) {
+export default function (api: unknown, { modules, targets }: Options) {
   return {
     presets: [
       [
@@ -37,7 +37,7 @@ export default function(api: unknown, { modules, targets }: Options) {
     ],
     plugins: [
       //require.resolve('@babel/plugin-transform-destructuring'),
-      [require.resolve('@babel/plugin-proposal-decorators'), false],
+      //[require.resolve('@babel/plugin-proposal-decorators'), false],
       [
         require.resolve('@babel/plugin-proposal-class-properties'),
         {
@@ -54,18 +54,18 @@ export default function(api: unknown, { modules, targets }: Options) {
       require.resolve('@babel/plugin-proposal-optional-chaining'),
       require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
     ],
-    overrides: [
-      {
-        test: /\.(ts|tsx)$/,
-        plugins: [
-          [
-            require.resolve('@babel/plugin-proposal-decorators'),
-            {
-              legacy: true,
-            },
-          ],
-        ],
-      },
-    ],
+    //overrides: [
+    //  {
+    //    test: /\.(ts|tsx)$/,
+    //    plugins: [
+    //      [
+    //        require.resolve('@babel/plugin-proposal-decorators'),
+    //        {
+    //          legacy: true,
+    //        },
+    //      ],
+    //    ],
+    //  },
+    //],
   };
 }

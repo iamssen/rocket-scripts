@@ -13,13 +13,7 @@ export default function (api: unknown, { modules, targets }: Options): {
     })[] | (string | {
         useBuiltIns: boolean;
     })[])[];
-    plugins: (string | (string | boolean)[] | (string | {
+    plugins: (string | (string | {
         loose: boolean;
     })[])[];
-    overrides: {
-        test: RegExp;
-        plugins: (string | {
-            legacy: boolean;
-        })[][];
-    }[];
 };
