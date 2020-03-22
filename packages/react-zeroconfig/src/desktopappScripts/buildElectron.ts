@@ -147,7 +147,7 @@ export async function buildElectron({
 
         // create html files
         ...(extend.templateFiles.length > 0
-          ? extend.templateFiles.map(templateFile => {
+          ? extend.templateFiles.map((templateFile) => {
               const extname: string = path.extname(templateFile);
               const filename: string = path.basename(templateFile, extname);
 
@@ -178,7 +178,7 @@ export async function buildElectron({
 
     const copyTo: string = path.join(output, 'electron');
     await fs.mkdirp(copyTo);
-    await Promise.all(staticFileDirectories.map(dir => fs.copy(dir, copyTo, { dereference: false })));
+    await Promise.all(staticFileDirectories.map((dir) => fs.copy(dir, copyTo, { dereference: false })));
 
     sayTitle('BUILD ELECTRON MAIN');
     console.log(await runWebpack(webpackMainConfig));

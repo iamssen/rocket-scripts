@@ -43,7 +43,7 @@ export async function createWebappConfig({
       ? path.join(cwd, '.dev', app)
       : path.join(cwd, 'dist', app);
   const serverSideRendering: boolean = (await glob(`${cwd}/src/${app}/server.{js,jsx,ts,tsx}`)).length > 0;
-  const templateFiles: string[] = (await glob(`${cwd}/src/${app}/*.html`)).map(file => path.basename(file));
+  const templateFiles: string[] = (await glob(`${cwd}/src/${app}/*.html`)).map((file) => path.basename(file));
 
   return {
     command,

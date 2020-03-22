@@ -95,7 +95,7 @@ export async function buildExtension({
 
             // extract single css file
             style: {
-              test: m => m.constructor.name === 'CssModule',
+              test: (m) => m.constructor.name === 'CssModule',
               name: styleFileName,
               chunks: 'all',
               enforce: true,
@@ -107,7 +107,7 @@ export async function buildExtension({
       plugins: [
         // create html files
         ...(extend.templateFiles.length > 0
-          ? extend.templateFiles.map(templateFile => {
+          ? extend.templateFiles.map((templateFile) => {
               const extname: string = path.extname(templateFile);
               const filename: string = path.basename(templateFile, extname);
 
@@ -138,7 +138,7 @@ export async function buildExtension({
 
     const copyTo: string = path.join(output, 'extension');
     await fs.mkdirp(copyTo);
-    await Promise.all(staticFileDirectories.map(dir => fs.copy(dir, copyTo, { dereference: false })));
+    await Promise.all(staticFileDirectories.map((dir) => fs.copy(dir, copyTo, { dereference: false })));
 
     // run webpack
     console.log(await runWebpack(webpackConfig));

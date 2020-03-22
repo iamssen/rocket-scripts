@@ -113,7 +113,7 @@ export async function watchElectron({
 
         // create html files
         ...(extend.templateFiles.length > 0
-          ? extend.templateFiles.map(templateFile => {
+          ? extend.templateFiles.map((templateFile) => {
               const extname: string = path.extname(templateFile);
               const filename: string = path.basename(templateFile, extname);
 
@@ -153,7 +153,7 @@ export async function watchElectron({
         sayTitle('MIRROR FILE');
         console.log(`[${treat}] ${file}`);
       },
-      error: error => {
+      error: (error) => {
         sayTitle('⚠️ MIRROR FILE ERROR');
         console.error(error);
       },
@@ -161,11 +161,11 @@ export async function watchElectron({
 
     // watch webpack
     watchWebpack(webpackMainConfig).subscribe({
-      next: webpackMessage => {
+      next: (webpackMessage) => {
         sayTitle('WATCH ELECTRON MAIN');
         console.log(webpackMessage);
       },
-      error: error => {
+      error: (error) => {
         sayTitle('⚠️ WATCH ELECTRON MAIN ERROR');
         console.error(error);
       },
@@ -173,11 +173,11 @@ export async function watchElectron({
 
     // watch webpack
     watchWebpack(webpackRendererConfig).subscribe({
-      next: webpackMessage => {
+      next: (webpackMessage) => {
         sayTitle('WATCH ELECTRON RENDERER');
         console.log(webpackMessage);
       },
-      error: error => {
+      error: (error) => {
         sayTitle('⚠️ WATCH ELECTRON RENDERER ERROR');
         console.error(error);
       },

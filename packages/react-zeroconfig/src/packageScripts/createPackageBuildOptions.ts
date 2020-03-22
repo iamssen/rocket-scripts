@@ -13,7 +13,7 @@ export async function createPackageBuildOptions({
   cwd: string;
 }): Promise<PackageBuildOption[]> {
   const packageJsonContents: PackageJson[] = await Promise.all(
-    entry.map(packageName => fs.readJson(path.join(cwd, `src/_packages/${packageName}/package.json`))),
+    entry.map((packageName) => fs.readJson(path.join(cwd, `src/_packages/${packageName}/package.json`))),
   );
   const orderedNames: string[] = getPackageJsonContentsOrderedNames({ packageJsonContents });
   const externals: string[] = [];

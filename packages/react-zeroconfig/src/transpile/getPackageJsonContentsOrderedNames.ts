@@ -53,7 +53,7 @@ export function getPackageJsonContentsOrderedNames({
     dependenciesSet: Set<string>,
   ): Set<string> {
     if (dependencies) {
-      Object.keys(dependencies).forEach(dependencyName => {
+      Object.keys(dependencies).forEach((dependencyName) => {
         if (dependencyName === ownerName) {
           throw new Error(`package.json files have circularly referenced dependencies : "${ownerName}"`);
         }
@@ -76,7 +76,7 @@ export function getPackageJsonContentsOrderedNames({
   }
 
   // FIXME avoid Node.js 10 sort error
-  const array: PackageJsonSet[] = packageJsonContents.map<PackageJsonSet>(packageJson => {
+  const array: PackageJsonSet[] = packageJsonContents.map<PackageJsonSet>((packageJson) => {
     if (!packageJson.name) throw new Error(`Undefined "name" field on ${packageJson}`);
     return {
       name: packageJson.name,

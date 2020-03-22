@@ -101,7 +101,7 @@ export async function startBrowser({
 
         // create html files
         ...(extend.templateFiles.length > 0
-          ? extend.templateFiles.map(templateFile => {
+          ? extend.templateFiles.map((templateFile) => {
               const extname: string = path.extname(templateFile);
               const filename: string = path.basename(templateFile, extname);
 
@@ -148,7 +148,7 @@ export async function startBrowser({
     const proxyConfigs: { [uri: string]: HttpProxyMiddlewareOptions } = packageJson.proxy as {
       [uri: string]: HttpProxyMiddlewareOptions;
     };
-    Object.keys(proxyConfigs).forEach(uri => {
+    Object.keys(proxyConfigs).forEach((uri) => {
       // @ts-ignore as MiddlewareHandler
       middleware.push(proxyMiddleware(uri, proxyConfigs[uri]));
     });
@@ -164,7 +164,7 @@ export async function startBrowser({
   } else {
     middleware.push(
       // @ts-ignore as MiddlewareHandler
-      function(req: IncomingMessage, res: ServerResponse, next: () => void) {
+      function (req: IncomingMessage, res: ServerResponse, next: () => void) {
         if (req.url && !/\.[a-zA-Z0-9]+$/.test(req.url)) {
           if (fs.pathExistsSync(path.join(cwd, 'src', app, 'index.html'))) {
             req.url = '/index.html';
@@ -199,7 +199,7 @@ export async function startBrowser({
 
   // run browser-sync
   sayTitle('START BROWSER-SYNC + WEBPACK');
-  browserSync(browserSyncConfig, error => {
+  browserSync(browserSyncConfig, (error) => {
     if (error) console.error(error);
   });
 }

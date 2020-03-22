@@ -23,16 +23,16 @@ export interface MirrorResult {
 
 export async function mirrorFiles({ sources, output, ignored }: Params): Promise<Observable<MirrorResult>> {
   function toRelativePath(file: string): string | undefined {
-    const source: string | undefined = sources.find(s => file.indexOf(s) === 0);
+    const source: string | undefined = sources.find((s) => file.indexOf(s) === 0);
     return source ? path.relative(source, file) : undefined;
   }
 
   await fs.mkdirp(output);
   await Promise.all(
-    sources.map(dir => {
+    sources.map((dir) => {
       return fs.copy(dir, output, {
         dereference: false,
-        filter: src => {
+        filter: (src) => {
           return ignored ? !ignored.test(src) : true;
         },
       });
@@ -47,7 +47,7 @@ export async function mirrorFiles({ sources, output, ignored }: Params): Promise
     });
 
     watcher
-      .on('add', async file => {
+      .on('add', async (file) => {
         const relpath: string | undefined = toRelativePath(file);
         if (!relpath) {
           console.log(`Can't found ${file} from sources`);
@@ -62,7 +62,7 @@ export async function mirrorFiles({ sources, output, ignored }: Params): Promise
           treat: MirrorTreat.ADDED,
         });
       })
-      .on('change', async file => {
+      .on('change', async (file) => {
         const relpath: string | undefined = toRelativePath(file);
         if (!relpath) {
           console.log(`Can't found ${file} from sources`);
@@ -77,7 +77,7 @@ export async function mirrorFiles({ sources, output, ignored }: Params): Promise
           treat: MirrorTreat.UPDATED,
         });
       })
-      .on('unlink', async file => {
+      .on('unlink', async (file) => {
         const relpath: string | undefined = toRelativePath(file);
         if (!relpath) {
           console.log(`Can't found ${file} from sources`);

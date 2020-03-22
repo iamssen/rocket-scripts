@@ -59,7 +59,7 @@ export async function watchExtension({
 
             // extract single css file
             style: {
-              test: m => m.constructor.name === 'CssModule',
+              test: (m) => m.constructor.name === 'CssModule',
               name: styleFileName,
               chunks: 'all',
               enforce: true,
@@ -71,7 +71,7 @@ export async function watchExtension({
       plugins: [
         // create html files
         ...(extend.templateFiles.length > 0
-          ? extend.templateFiles.map(templateFile => {
+          ? extend.templateFiles.map((templateFile) => {
               const extname: string = path.extname(templateFile);
               const filename: string = path.basename(templateFile, extname);
 
@@ -111,7 +111,7 @@ export async function watchExtension({
         sayTitle('MIRROR FILE');
         console.log(`[${treat}] ${file}`);
       },
-      error: error => {
+      error: (error) => {
         sayTitle('⚠️ MIRROR FILE ERROR');
         console.error(error);
       },
@@ -119,11 +119,11 @@ export async function watchExtension({
 
     // watch webpack
     watchWebpack(webpackConfig).subscribe({
-      next: webpackMessage => {
+      next: (webpackMessage) => {
         sayTitle('WATCH EXTENSION');
         console.log(webpackMessage);
       },
-      error: error => {
+      error: (error) => {
         sayTitle('⚠️ WATCH EXTENSION ERROR');
         console.error(error);
       },

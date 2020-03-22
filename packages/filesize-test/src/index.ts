@@ -20,7 +20,7 @@ function log(message: string, level: 'error' | 'warning') {
 }
 
 export function test(config: Config, { cwd = process.cwd() }: { cwd: string }) {
-  Object.keys(config).forEach(filename => {
+  Object.keys(config).forEach((filename) => {
     const { level = 'error', maxGzipSize, maxSize } = config[filename];
 
     const files: string[] = glob.sync(filename, { cwd });

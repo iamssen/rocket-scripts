@@ -8,7 +8,7 @@ type RawEnv = { [key: string]: string | number | boolean };
 
 function getProcessEnv(): RawEnv {
   return Object.keys(process.env)
-    .filter(key => /^REACT_APP_/i.test(key))
+    .filter((key) => /^REACT_APP_/i.test(key))
     .reduce((e, key) => {
       e[key] = process.env[key];
       return e;
@@ -56,10 +56,10 @@ class InterpolateHtmlPlugin {
   constructor(private htmlWebpackPlugin, private replacements) {}
 
   apply(compiler) {
-    compiler.hooks.compilation.tap('InterpolateHtmlPlugin', compilation => {
-      this.htmlWebpackPlugin.getHooks(compilation).beforeEmit.tap('InterpolateHtmlPlugin', data => {
+    compiler.hooks.compilation.tap('InterpolateHtmlPlugin', (compilation) => {
+      this.htmlWebpackPlugin.getHooks(compilation).beforeEmit.tap('InterpolateHtmlPlugin', (data) => {
         // Run HTML through a series of user-specified string replacements.
-        Object.keys(this.replacements).forEach(key => {
+        Object.keys(this.replacements).forEach((key) => {
           const value = this.replacements[key];
           data.html = data.html.replace(new RegExp('%' + escapeStringRegexp(key) + '%', 'g'), value);
         });

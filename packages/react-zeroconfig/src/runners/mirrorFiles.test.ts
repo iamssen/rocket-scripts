@@ -6,7 +6,7 @@ import { createTmpFixture } from '../utils/createTmpFixture';
 import { mirrorFiles, MirrorResult, MirrorTreat } from './mirrorFiles';
 
 async function timeout(t: number): Promise<void> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, t);
   });
 }

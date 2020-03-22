@@ -8,7 +8,7 @@ import { sayTitle } from '../utils/sayTitle';
 export async function listPackages({ cwd }: { cwd: string }) {
   const entry: string[] = getInternalPackageEntry({ packageDir: path.join(cwd, 'src/_packages') });
 
-  const n: (name: string) => string = name => {
+  const n: (name: string) => string = (name) => {
     return entry.indexOf(name) > -1 ? chalk.bold.blue(name) : name;
   };
 

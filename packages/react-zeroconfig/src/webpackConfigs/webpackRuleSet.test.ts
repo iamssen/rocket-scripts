@@ -7,9 +7,9 @@ const cwd: string = __dirname;
 function match(ruleSet: RuleSet, resource: string) {
   return ruleSet
     .exec({ resource })
-    .filter(r => r.type === 'use')
-    .map(r => r.value as RuleSetLoader)
-    .map(r => {
+    .filter((r) => r.type === 'use')
+    .map((r) => r.value as RuleSetLoader)
+    .map((r) => {
       if (!r.options) return r.loader;
       if (typeof r.options === 'string') return r.loader + '?' + r.options;
       return r.loader + '?' + JSON.stringify(r.options);

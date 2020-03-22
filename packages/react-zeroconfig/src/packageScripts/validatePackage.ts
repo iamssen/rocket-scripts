@@ -23,7 +23,7 @@ export async function validatePackage({
           `There are dependencies imported inside package "${name}" but not added to "${name}/package.json". please add ${Array.from(
             missingPackages,
           )
-            .map(p => '"' + p + '"')
+            .map((p) => '"' + p + '"')
             .join(', ')} to "${name}/package.json".`,
         ),
       );

@@ -12,7 +12,6 @@ describe('createDesktopappConfig()', () => {
     //const argv: DesktopappArgv = {
     //  ...defaultArgv,
     //};
-
     //const cwd: string = await createTmpFixture('')
   });
 });

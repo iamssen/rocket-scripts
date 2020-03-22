@@ -10,7 +10,7 @@ export async function findMissingDependencies({ cwd }: { cwd: string }): Promise
   const entry: string[] = getInternalPackageEntry({ packageDir: path.join(cwd, 'src/_packages') });
 
   const modulePackageJsons: PackageJson[] = await Promise.all(
-    entry.map(packageName => fs.readJson(path.join(cwd, 'src/_packages', packageName, 'package.json'))),
+    entry.map((packageName) => fs.readJson(path.join(cwd, 'src/_packages', packageName, 'package.json'))),
   );
 
   const hostDependencies: PackageJson.Dependency = hostPackageJson.dependencies || {};

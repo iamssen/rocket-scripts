@@ -20,9 +20,9 @@ export async function createExtensionConfig({
   const staticFileDirectories: string[] = await getStaticFileDirectories({ ...argv, cwd });
   const output: string =
     typeof argv.output === 'string' ? path.resolve(cwd, argv.output) : path.join(cwd, 'dist-dev', app);
-  const templateFiles: string[] = (await glob(`${cwd}/src/${app}/*.html`)).map(file => path.basename(file));
+  const templateFiles: string[] = (await glob(`${cwd}/src/${app}/*.html`)).map((file) => path.basename(file));
 
-  const entryFiles: string[] = (await glob(`${cwd}/src/${app}/*.{js,jsx,ts,tsx}`)).map(file => path.basename(file));
+  const entryFiles: string[] = (await glob(`${cwd}/src/${app}/*.{js,jsx,ts,tsx}`)).map((file) => path.basename(file));
 
   return {
     command,

@@ -77,11 +77,11 @@ export async function watchServer({
 
   // watch webpack
   watchWebpack(webpackConfig).subscribe({
-    next: webpackMessage => {
+    next: (webpackMessage) => {
       sayTitle('WATCH SERVER');
       console.log(webpackMessage);
     },
-    error: error => {
+    error: (error) => {
       sayTitle('⚠️ WATCH SERVER ERROR');
       console.error(error);
     },

@@ -20,7 +20,7 @@ export async function selectPublishOptions({
   choice: boolean;
 }): Promise<PackagePublishOption[]> {
   if (!choice) {
-    const availablePublishOptions: PackagePublishOption[] = publishOptions.filter(publishOption => {
+    const availablePublishOptions: PackagePublishOption[] = publishOptions.filter((publishOption) => {
       const { currentVersion, remoteVersion } = getVersions(publishOption);
       return !remoteVersion || semver.gt(currentVersion, remoteVersion);
     });
@@ -45,7 +45,7 @@ export async function selectPublishOptions({
     type: 'multiselect',
     name: 'publishOptions',
     message: 'Select packages to publish',
-    choices: publishOptions.map(publishOption => {
+    choices: publishOptions.map((publishOption) => {
       const { name, tag } = publishOption;
       const { currentVersion, remoteVersion } = getVersions(publishOption);
 
@@ -61,5 +61,5 @@ export async function selectPublishOptions({
 
   const filter: Set<string> = new Set(answer.publishOptions);
 
-  return publishOptions.filter(publishOption => filter.has(publishOption.name));
+  return publishOptions.filter((publishOption) => filter.has(publishOption.name));
 }

@@ -10,7 +10,7 @@ export async function watingFiles(files: string[], timeout: number = 1000 * 60):
     }
 
     function start() {
-      if (files.every(file => fs.existsSync(file))) {
+      if (files.every((file) => fs.existsSync(file))) {
         resolve();
       } else if (Date.now() - t > timeout) {
         reject(new Error(`Timeout wating... ${files.join(', ')}`));

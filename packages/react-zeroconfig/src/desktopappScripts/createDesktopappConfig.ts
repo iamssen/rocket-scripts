@@ -25,7 +25,7 @@ export async function createDesktopappConfig({
       : command === 'start'
       ? tmp.dirSync().name
       : path.join(cwd, 'dist', app);
-  const templateFiles: string[] = (await glob(`${cwd}/src/${app}/*.html`)).map(file => path.basename(file));
+  const templateFiles: string[] = (await glob(`${cwd}/src/${app}/*.html`)).map((file) => path.basename(file));
 
   return {
     command,

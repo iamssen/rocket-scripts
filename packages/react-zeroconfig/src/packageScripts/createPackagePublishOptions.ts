@@ -9,7 +9,7 @@ type GetRemotePackageJson = (params: { name: string } & Options) => Promise<Pack
 
 const getNpmRemotePackageJson: GetRemotePackageJson = ({ name, ...options }) => {
   return getPackageJson(name, options)
-    .then(value => (value && typeof value.version === 'string' ? (value as PackageJson) : undefined))
+    .then((value) => (value && typeof value.version === 'string' ? (value as PackageJson) : undefined))
     .catch(() => undefined);
 };
 
@@ -34,9 +34,9 @@ export async function createPackagePublishOptions({
   }
 
   const currentPackageJsons: PackageJson[] = entry
-    .map(packageName => path.join(packageDirectory, packageName, 'package.json'))
-    .filter(packageJsonFile => fs.existsSync(packageJsonFile))
-    .map(packageJsonFile => fs.readJsonSync(packageJsonFile))
+    .map((packageName) => path.join(packageDirectory, packageName, 'package.json'))
+    .filter((packageJsonFile) => fs.existsSync(packageJsonFile))
+    .map((packageJsonFile) => fs.readJsonSync(packageJsonFile))
     .filter(({ name }) => typeof name === 'string');
 
   const remotePackageJsons: (PackageJson | undefined)[] = await Promise.all<PackageJson | undefined>(

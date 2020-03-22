@@ -14,7 +14,7 @@ export async function getStaticFileDirectories({
   const directories: string[] = [];
 
   if (typeof staticFileDirectories === 'string') {
-    const manualDirectories: string[] = staticFileDirectories.split(' ').map(directory => path.join(cwd, directory));
+    const manualDirectories: string[] = staticFileDirectories.split(' ').map((directory) => path.join(cwd, directory));
 
     directories.push(...manualDirectories);
   } else {
@@ -34,12 +34,12 @@ export async function getStaticFileDirectories({
   if (typeof staticFilePackages === 'string') {
     const packageDirectories: string[] = staticFilePackages
       .split(' ')
-      .map(packageName => {
+      .map((packageName) => {
         const paths: string[] = [...(require.resolve.paths(packageName) || []), path.join(cwd, 'node_modules')];
         const packageJson: string = require.resolve(`${packageName}/package.json`, { paths });
         return path.join(path.dirname(packageJson), 'public');
       })
-      .filter(directory => fs.pathExistsSync(directory) && fs.statSync(directory).isDirectory());
+      .filter((directory) => fs.pathExistsSync(directory) && fs.statSync(directory).isDirectory());
 
     directories.push(...packageDirectories);
   }
