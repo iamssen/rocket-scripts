@@ -8,9 +8,7 @@ const path_1 = __importDefault(require("path"));
 function getRendererExternals({ cwd, app }) {
     const file = path_1.default.join(cwd, 'src', app, 'package.json');
     const packageJson = fs_extra_1.default.readJsonSync(file);
-    return packageJson.dependencies
-        ? Object.keys(packageJson.dependencies)
-        : [];
+    return packageJson.dependencies ? Object.keys(packageJson.dependencies) : [];
 }
 exports.getRendererExternals = getRendererExternals;
 //# sourceMappingURL=getRendererExternals.js.map

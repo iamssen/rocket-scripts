@@ -60,7 +60,9 @@ async function buildPackages({ cwd }) {
             await fs_extra_1.default.copy(path_1.default.join(cwd, 'src/_packages', name), path_1.default.join(cwd, 'dist/packages', name), {
                 filter: fsCopySourceFilter_1.fsCopySourceFilter,
             });
-            const targets = await getPackageJsonBrowserslistQuery_1.getPackageJsonBrowserslistQuery({ packageJson: path_1.default.join(cwd, 'src/_packages', name, 'package.json') });
+            const targets = await getPackageJsonBrowserslistQuery_1.getPackageJsonBrowserslistQuery({
+                packageJson: path_1.default.join(cwd, 'src/_packages', name, 'package.json'),
+            });
             const webpackConfig = webpack_merge_1.default(createWebpackBaseConfig_1.createWebpackBaseConfig({ zeroconfigPath }), {
                 mode: 'production',
                 entry: () => file,

@@ -17,7 +17,7 @@ const getWebpackRawLoaders_1 = require("./getWebpackRawLoaders");
 const getWebpackScriptLoaders_1 = require("./getWebpackScriptLoaders");
 const getWebpackStyleLoaders_1 = require("./getWebpackStyleLoaders");
 const getWebpackYamlLoaders_1 = require("./getWebpackYamlLoaders");
-function createWebpackWebappConfig({ extractCss, cwd, chunkPath, publicPath, internalEslint }) {
+function createWebpackWebappConfig({ extractCss, cwd, chunkPath, publicPath, internalEslint, }) {
     const tsconfig = path_1.default.join(cwd, 'tsconfig.json');
     const tslint = path_1.default.join(cwd, 'tslint.json');
     const eslintConfigExists = eslintConfigExistsSync_1.eslintConfigExistsSync({ cwd });
@@ -29,22 +29,24 @@ function createWebpackWebappConfig({ extractCss, cwd, chunkPath, publicPath, int
             strictExportPresence: true,
             rules: [
                 // tslint
-                ...(fs_extra_1.default.pathExistsSync(tsconfig) && fs_extra_1.default.pathExistsSync(tslint) ? [
-                    {
-                        test: /\.(ts|tsx)$/,
-                        include: path_1.default.join(cwd, 'src'),
-                        enforce: 'pre',
-                        use: [
-                            {
-                                loader: require.resolve('tslint-loader'),
-                                options: {
-                                    configFile: tslint,
-                                    tsConfigFile: tsconfig,
+                ...(fs_extra_1.default.pathExistsSync(tsconfig) && fs_extra_1.default.pathExistsSync(tslint)
+                    ? [
+                        {
+                            test: /\.(ts|tsx)$/,
+                            include: path_1.default.join(cwd, 'src'),
+                            enforce: 'pre',
+                            use: [
+                                {
+                                    loader: require.resolve('tslint-loader'),
+                                    options: {
+                                        configFile: tslint,
+                                        tsConfigFile: tsconfig,
+                                    },
                                 },
-                            },
-                        ],
-                    },
-                ] : []),
+                            ],
+                        },
+                    ]
+                    : []),
                 // eslint
                 ...(() => {
                     if (eslintConfigExists) {
@@ -142,27 +144,29 @@ function createWebpackWebappConfig({ extractCss, cwd, chunkPath, publicPath, int
             ],
         },
         plugins: [
-            ...(fs_extra_1.default.pathExistsSync(tsconfig) ? [
-                new fork_ts_checker_webpack_plugin_alt_1.default({
-                    typescript: resolve_1.default.sync('typescript', {
-                        basedir: path_1.default.join(cwd, 'node_modules'),
+            ...(fs_extra_1.default.pathExistsSync(tsconfig)
+                ? [
+                    new fork_ts_checker_webpack_plugin_alt_1.default({
+                        typescript: resolve_1.default.sync('typescript', {
+                            basedir: path_1.default.join(cwd, 'node_modules'),
+                        }),
+                        async: false,
+                        checkSyntacticErrors: true,
+                        tsconfig,
+                        reportFiles: [
+                            '**',
+                            '!**/*.json',
+                            '!**/__tests__/**',
+                            '!**/?(*.)(spec|test).*',
+                            '!**/src/setupProxy.*',
+                            '!**/src/setupTests.*',
+                        ],
+                        watch: path_1.default.join(cwd, 'src'),
+                        silent: true,
+                        formatter: typescriptFormatter_1.default,
                     }),
-                    async: false,
-                    checkSyntacticErrors: true,
-                    tsconfig,
-                    reportFiles: [
-                        '**',
-                        '!**/*.json',
-                        '!**/__tests__/**',
-                        '!**/?(*.)(spec|test).*',
-                        '!**/src/setupProxy.*',
-                        '!**/src/setupTests.*',
-                    ],
-                    watch: path_1.default.join(cwd, 'src'),
-                    silent: true,
-                    formatter: typescriptFormatter_1.default,
-                }),
-            ] : []),
+                ]
+                : []),
         ],
         node: {
             module: 'empty',

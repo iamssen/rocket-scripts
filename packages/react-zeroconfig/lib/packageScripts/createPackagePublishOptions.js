@@ -9,22 +9,22 @@ const path_1 = __importDefault(require("path"));
 const semver_1 = require("semver");
 const getNpmRemotePackageJson = ({ name, ...options }) => {
     return package_json_1.default(name, options)
-        .then(value => value && typeof value.version === 'string' ? value : undefined)
+        .then((value) => (value && typeof value.version === 'string' ? value : undefined))
         .catch(() => undefined);
 };
 function getTag(version) {
     const prereleaseVersions = semver_1.prerelease(version || '');
     return prereleaseVersions ? prereleaseVersions[0] : 'latest';
 }
-async function createPackagePublishOptions({ entry, cwd, getRemotePackageJson = getNpmRemotePackageJson }) {
+async function createPackagePublishOptions({ entry, cwd, getRemotePackageJson = getNpmRemotePackageJson, }) {
     const packageDirectory = path_1.default.join(cwd, 'dist/packages');
     if (!fs_extra_1.default.pathExistsSync(packageDirectory) || !fs_extra_1.default.statSync(packageDirectory).isDirectory()) {
         throw new Error(`"${packageDirectory}" directory is undefined`);
     }
     const currentPackageJsons = entry
-        .map(packageName => path_1.default.join(packageDirectory, packageName, 'package.json'))
-        .filter(packageJsonFile => fs_extra_1.default.existsSync(packageJsonFile))
-        .map(packageJsonFile => fs_extra_1.default.readJsonSync(packageJsonFile))
+        .map((packageName) => path_1.default.join(packageDirectory, packageName, 'package.json'))
+        .filter((packageJsonFile) => fs_extra_1.default.existsSync(packageJsonFile))
+        .map((packageJsonFile) => fs_extra_1.default.readJsonSync(packageJsonFile))
         .filter(({ name }) => typeof name === 'string');
     const remotePackageJsons = await Promise.all(currentPackageJsons.map(({ name, version }) => {
         return getRemotePackageJson({

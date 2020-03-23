@@ -8,7 +8,7 @@ const nodemon_1 = __importDefault(require("nodemon"));
 const path_1 = __importDefault(require("path"));
 const watingFiles_1 = require("../runners/watingFiles");
 const sayTitle_1 = require("../utils/sayTitle");
-async function startServer({ cwd, output, }) {
+async function startServer({ cwd, output }) {
     const file = path_1.default.join(output, 'server/index.js');
     const dir = path_1.default.join(output, 'server');
     await watingFiles_1.watingFiles([file]);

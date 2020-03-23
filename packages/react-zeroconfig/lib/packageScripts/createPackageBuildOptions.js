@@ -7,8 +7,8 @@ const fs_extra_1 = __importDefault(require("fs-extra"));
 const path_1 = __importDefault(require("path"));
 const getPackageJsonContentsOrderedNames_1 = require("../transpile/getPackageJsonContentsOrderedNames");
 const glob_promise_1 = require("../utils/glob-promise");
-async function createPackageBuildOptions({ entry, cwd }) {
-    const packageJsonContents = await Promise.all(entry.map(packageName => fs_extra_1.default.readJson(path_1.default.join(cwd, `src/_packages/${packageName}/package.json`))));
+async function createPackageBuildOptions({ entry, cwd, }) {
+    const packageJsonContents = await Promise.all(entry.map((packageName) => fs_extra_1.default.readJson(path_1.default.join(cwd, `src/_packages/${packageName}/package.json`))));
     const orderedNames = getPackageJsonContentsOrderedNames_1.getPackageJsonContentsOrderedNames({ packageJsonContents });
     const externals = [];
     const buildOptions = [];

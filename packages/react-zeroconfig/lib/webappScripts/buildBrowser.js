@@ -18,13 +18,18 @@ const sayTitle_1 = require("../utils/sayTitle");
 const createWebpackBaseConfig_1 = require("../webpackConfigs/createWebpackBaseConfig");
 const createWebpackEnvConfig_1 = require("../webpackConfigs/createWebpackEnvConfig");
 const createWebpackWebappConfig_1 = require("../webpackConfigs/createWebpackWebappConfig");
+const getBackdoorWebpackConfig_1 = require("../webpackConfigs/getBackdoorWebpackConfig");
 async function buildBrowser({ mode, sourceMap, output, app, cwd, serverPort, staticFileDirectories, chunkPath, publicPath, internalEslint, appFileName, vendorFileName, styleFileName, sizeReport, extend, zeroconfigPath, }) {
-    const webpackConfig = webpack_merge_1.default(createWebpackBaseConfig_1.createWebpackBaseConfig({ zeroconfigPath }), {
+    const webpackConfig = webpack_merge_1.default(getBackdoorWebpackConfig_1.getBackdoorWebpackConfig({ cwd }), createWebpackBaseConfig_1.createWebpackBaseConfig({ zeroconfigPath }), {
         mode,
         //devtool: mode === 'production' ? false : 'source-map',
         devtool: typeof sourceMap === 'boolean'
-            ? sourceMap ? 'source-map' : false
-            : mode === 'production' ? false : 'source-map',
+            ? sourceMap
+                ? 'source-map'
+                : false
+            : mode === 'production'
+                ? false
+                : 'source-map',
         entry: {
             [appFileName]: path_1.default.join(cwd, 'src', app),
         },
@@ -85,7 +90,7 @@ async function buildBrowser({ mode, sourceMap, output, app, cwd, serverPort, sta
                     },
                     // extract single css file
                     style: {
-                        test: m => m.constructor.name === 'CssModule',
+                        test: (m) => m.constructor.name === 'CssModule',
                         name: styleFileName,
                         chunks: 'all',
                         enforce: true,
@@ -106,21 +111,25 @@ async function buildBrowser({ mode, sourceMap, output, app, cwd, serverPort, sta
                 openAnalyzer: sizeReport,
             }),
             // create loadable-stats.json when server side rendering is enabled
-            ...(extend.serverSideRendering ? [
-                new webpack_plugin_1.default({
-                    filename: '../loadable-stats.json',
-                    writeToDisk: true,
-                }),
-            ] : []),
+            ...(extend.serverSideRendering
+                ? [
+                    new webpack_plugin_1.default({
+                        filename: '../loadable-stats.json',
+                        writeToDisk: true,
+                    }),
+                ]
+                : []),
             // create html files
-            ...(extend.templateFiles.length > 0 ? extend.templateFiles.map(templateFile => {
-                const extname = path_1.default.extname(templateFile);
-                const filename = path_1.default.basename(templateFile, extname);
-                return new html_webpack_plugin_1.default({
-                    template: path_1.default.join(cwd, 'src', app, templateFile),
-                    filename: filename + '.html',
-                });
-            }) : []),
+            ...(extend.templateFiles.length > 0
+                ? extend.templateFiles.map((templateFile) => {
+                    const extname = path_1.default.extname(templateFile);
+                    const filename = path_1.default.basename(templateFile, extname);
+                    return new html_webpack_plugin_1.default({
+                        template: path_1.default.join(cwd, 'src', app, templateFile),
+                        filename: filename + '.html',
+                    });
+                })
+                : []),
         ],
     }, createWebpackWebappConfig_1.createWebpackWebappConfig({
         extractCss: true,
@@ -140,7 +149,7 @@ async function buildBrowser({ mode, sourceMap, output, app, cwd, serverPort, sta
         // copy static file directories
         const copyTo = path_1.default.join(output, 'browser');
         await fs_extra_1.default.mkdirp(copyTo);
-        await Promise.all(staticFileDirectories.map(dir => fs_extra_1.default.copy(dir, copyTo, { dereference: true })));
+        await Promise.all(staticFileDirectories.map((dir) => fs_extra_1.default.copy(dir, copyTo, { dereference: true })));
         // run webpack
         console.log(await runWebpack_1.runWebpack(webpackConfig));
     }

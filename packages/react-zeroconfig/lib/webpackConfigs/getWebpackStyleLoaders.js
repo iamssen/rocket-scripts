@@ -6,10 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mini_css_extract_plugin_1 = __importDefault(require("mini-css-extract-plugin"));
 const getCSSModuleLocalIdent_1 = __importDefault(require("react-dev-utils/getCSSModuleLocalIdent"));
 /** @return RuleSetRule[] for oneOf */
-function getWebpackStyleLoaders({ cssRegex, cssModuleRegex, extractCss, preProcessor }) {
-    const styleLoader = extractCss
-        ? mini_css_extract_plugin_1.default.loader
-        : require.resolve('style-loader');
+function getWebpackStyleLoaders({ cssRegex, cssModuleRegex, extractCss, preProcessor, }) {
+    const styleLoader = extractCss ? mini_css_extract_plugin_1.default.loader : require.resolve('style-loader');
     const postcssLoader = {
         loader: require.resolve('postcss-loader'),
         options: {
@@ -59,9 +57,7 @@ function getWebpackStyleLoaders({ cssRegex, cssModuleRegex, extractCss, preProce
             loader: require.resolve(preProcessor),
             options: {
                 sourceMap: true,
-                ...(preProcessor === 'less-loader'
-                    ? { javascriptEnabled: true }
-                    : {}),
+                ...(preProcessor === 'less-loader' ? { javascriptEnabled: true } : {}),
             },
         };
         use.push(preProcessorLoader);

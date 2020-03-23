@@ -10,13 +10,13 @@ const types_1 = require("../types");
 const sayTitle_1 = require("../utils/sayTitle");
 function getProcessEnv() {
     return Object.keys(process.env)
-        .filter(key => /^REACT_APP_/i.test(key))
+        .filter((key) => /^REACT_APP_/i.test(key))
         .reduce((e, key) => {
         e[key] = process.env[key];
         return e;
     }, {});
 }
-function createWebpackEnvConfig({ serverPort, publicPath }) {
+function createWebpackEnvConfig({ serverPort, publicPath, }) {
     if (!process.env.NODE_ENV || !types_1.isMode(process.env.NODE_ENV)) {
         throw new Error('Required process.env.NODE_ENV');
     }
@@ -43,19 +43,17 @@ function createWebpackEnvConfig({ serverPort, publicPath }) {
 }
 exports.createWebpackEnvConfig = createWebpackEnvConfig;
 // from https://github.com/facebook/create-react-app/blob/master/packages/react-dev-utils/InterpolateHtmlPlugin.js
-// tslint:disable
+/* eslint-disable @typescript-eslint/typedef */
 class InterpolateHtmlPlugin {
     constructor(htmlWebpackPlugin, replacements) {
         this.htmlWebpackPlugin = htmlWebpackPlugin;
         this.replacements = replacements;
     }
     apply(compiler) {
-        compiler.hooks.compilation.tap('InterpolateHtmlPlugin', compilation => {
-            this.htmlWebpackPlugin
-                .getHooks(compilation)
-                .beforeEmit.tap('InterpolateHtmlPlugin', data => {
+        compiler.hooks.compilation.tap('InterpolateHtmlPlugin', (compilation) => {
+            this.htmlWebpackPlugin.getHooks(compilation).beforeEmit.tap('InterpolateHtmlPlugin', (data) => {
                 // Run HTML through a series of user-specified string replacements.
-                Object.keys(this.replacements).forEach(key => {
+                Object.keys(this.replacements).forEach((key) => {
                     const value = this.replacements[key];
                     data.html = data.html.replace(new RegExp('%' + escape_string_regexp_1.default(key) + '%', 'g'), value);
                 });

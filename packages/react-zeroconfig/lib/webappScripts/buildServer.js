@@ -37,10 +37,12 @@ async function buildServer({ app, sourceMap, mode, cwd, output, publicPath, serv
                 '@loadable/stats.json': loadableStatsJson,
             },
         },
-        externals: [webpack_node_externals_1.default({
+        externals: [
+            webpack_node_externals_1.default({
                 // include asset files
                 whitelist: [/\.(?!(?:jsx?|json)$).{1,5}$/i],
-            })],
+            }),
+        ],
         plugins: [
             new mini_css_extract_plugin_1.default({
                 filename: `[name].css`,

@@ -15,6 +15,7 @@ import { sayTitle } from '../utils/sayTitle';
 import { createWebpackBaseConfig } from '../webpackConfigs/createWebpackBaseConfig';
 import { createWebpackEnvConfig } from '../webpackConfigs/createWebpackEnvConfig';
 import { createWebpackWebappConfig } from '../webpackConfigs/createWebpackWebappConfig';
+import { getBackdoorWebpackConfig } from '../webpackConfigs/getBackdoorWebpackConfig';
 
 export async function startBrowser({
   cwd,
@@ -34,6 +35,7 @@ export async function startBrowser({
   zeroconfigPath,
 }: WebappConfig) {
   const webpackConfig: Configuration = webpackMerge(
+    getBackdoorWebpackConfig({ cwd }),
     createWebpackBaseConfig({ zeroconfigPath }),
     {
       mode: 'development',

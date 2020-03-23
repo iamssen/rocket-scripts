@@ -48,7 +48,7 @@ function parseWebappArgv(nodeArgv) {
         default:
             throw new Error(`command must be one of ${types_1.webappCommands.join(', ')}`);
     }
-    const https = (typeof argv['https-key'] === 'string' && typeof argv['https-cert'] === 'string')
+    const https = typeof argv['https-key'] === 'string' && typeof argv['https-cert'] === 'string'
         ? { key: argv['https-key'], cert: argv['https-cert'] }
         : argv['https'] === 'true';
     let chunkPath = (takeMinimistLatestValue_1.takeMinimistLatestValue(argv['chunk-path']) || '').trim();
@@ -60,7 +60,11 @@ function parseWebappArgv(nodeArgv) {
     return {
         command: command,
         app,
-        sourceMap: takeMinimistLatestValue_1.takeMinimistLatestValue(argv['source-map']) === 'true' ? true : takeMinimistLatestValue_1.takeMinimistLatestValue(argv['source-map']) === 'false' ? false : undefined,
+        sourceMap: takeMinimistLatestValue_1.takeMinimistLatestValue(argv['source-map']) === 'true'
+            ? true
+            : takeMinimistLatestValue_1.takeMinimistLatestValue(argv['source-map']) === 'false'
+                ? false
+                : undefined,
         staticFileDirectories: takeMinimistEveryValues_1.takeMinimistEveryValues(argv['static-file-directories']),
         staticFilePackages: takeMinimistEveryValues_1.takeMinimistEveryValues(argv['static-file-packages']),
         sizeReport: takeMinimistLatestValue_1.takeMinimistLatestValue(argv['size-report']) === 'true',

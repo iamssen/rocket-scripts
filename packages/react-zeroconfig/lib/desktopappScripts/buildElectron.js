@@ -119,15 +119,17 @@ async function buildElectron({ cwd, app, zeroconfigPath, staticFileDirectories, 
             }),
             // TODO bundle analyzer plugin
             // create html files
-            ...(extend.templateFiles.length > 0 ? extend.templateFiles.map(templateFile => {
-                const extname = path_1.default.extname(templateFile);
-                const filename = path_1.default.basename(templateFile, extname);
-                return new html_webpack_plugin_1.default({
-                    template: path_1.default.join(cwd, 'src', app, templateFile),
-                    filename: filename + '.html',
-                    chunks: ['renderer'],
-                });
-            }) : []),
+            ...(extend.templateFiles.length > 0
+                ? extend.templateFiles.map((templateFile) => {
+                    const extname = path_1.default.extname(templateFile);
+                    const filename = path_1.default.basename(templateFile, extname);
+                    return new html_webpack_plugin_1.default({
+                        template: path_1.default.join(cwd, 'src', app, templateFile),
+                        filename: filename + '.html',
+                        chunks: ['renderer'],
+                    });
+                })
+                : []),
         ],
     }, createWebpackWebappConfig_1.createWebpackWebappConfig({
         extractCss: true,
@@ -143,7 +145,7 @@ async function buildElectron({ cwd, app, zeroconfigPath, staticFileDirectories, 
         sayTitle_1.sayTitle('COPY FILES');
         const copyTo = path_1.default.join(output, 'electron');
         await fs_extra_1.default.mkdirp(copyTo);
-        await Promise.all(staticFileDirectories.map(dir => fs_extra_1.default.copy(dir, copyTo, { dereference: false })));
+        await Promise.all(staticFileDirectories.map((dir) => fs_extra_1.default.copy(dir, copyTo, { dereference: false })));
         sayTitle_1.sayTitle('BUILD ELECTRON MAIN');
         console.log(await runWebpack_1.runWebpack(webpackMainConfig));
         sayTitle_1.sayTitle('BUILD ELECTRON RENDERER');

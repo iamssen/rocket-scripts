@@ -10,10 +10,8 @@ const getInternalPackageEntry_1 = require("../internalPackage/getInternalPackage
 const sayTitle_1 = require("../utils/sayTitle");
 async function listPackages({ cwd }) {
     const entry = getInternalPackageEntry_1.getInternalPackageEntry({ packageDir: path_1.default.join(cwd, 'src/_packages') });
-    const n = name => {
-        return entry.indexOf(name) > -1
-            ? chalk_1.default.bold.blue(name)
-            : name;
+    const n = (name) => {
+        return entry.indexOf(name) > -1 ? chalk_1.default.bold.blue(name) : name;
     };
     function nv(name, version) {
         return n(name) + chalk_1.default.green('@' + version);
@@ -34,7 +32,7 @@ async function listPackages({ cwd }) {
     }
     sayTitle_1.sayTitle('LIST DEPENDENCIES');
     for await (const name of entry) {
-        const { version, dependencies, devDependencies, peerDependencies, optionalDependencies } = await fs_extra_1.default.readJsonSync(path_1.default.join(cwd, 'src/_packages', name, 'package.json'));
+        const { version, dependencies, devDependencies, peerDependencies, optionalDependencies, } = await fs_extra_1.default.readJsonSync(path_1.default.join(cwd, 'src/_packages', name, 'package.json'));
         console.log(nv(name, version));
         tree('dependencies', dependencies);
         tree('devDependencies', devDependencies);

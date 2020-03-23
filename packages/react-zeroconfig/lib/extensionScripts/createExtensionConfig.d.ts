@@ -1,5 +1,5 @@
 import { ExtensionArgv, ExtensionConfig } from '../types';
-export declare function createExtensionConfig({ argv, cwd, zeroconfigPath }: {
+export declare function createExtensionConfig({ argv, cwd, zeroconfigPath, }: {
     argv: ExtensionArgv;
     cwd: string;
     zeroconfigPath: string;
