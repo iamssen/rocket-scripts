@@ -16,11 +16,7 @@ script:
   - yarn run lint
   - yarn run coverage
   - yarn run e2e
-deploy:
-  - provider: script
-    script: cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
-    on:
-      branch: master
+  - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then cat ./coverage/lcov.info | ./node_modules/.bin/coveralls; fi
 notifications:
   email:
     on_success: never
