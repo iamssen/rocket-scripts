@@ -6,13 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const path_1 = __importDefault(require("path"));
 // https://github.com/eslint/eslint/blob/master/lib/cli-engine/config-array-factory.js#L52
-const configFilenames = [
-    '.eslintrc.js',
-    '.eslintrc.yaml',
-    '.eslintrc.yml',
-    '.eslintrc.json',
-    '.eslintrc',
-];
+const configFilenames = ['.eslintrc.js', '.eslintrc.yaml', '.eslintrc.yml', '.eslintrc.json', '.eslintrc'];
 function eslintConfigExistsSync({ cwd }) {
     for (const filename of configFilenames) {
         if (fs_extra_1.default.pathExistsSync(filename)) {

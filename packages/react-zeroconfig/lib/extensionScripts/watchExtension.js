@@ -41,7 +41,7 @@ async function watchExtension({ cwd, app, zeroconfigPath, staticFileDirectories,
                     },
                     // extract single css file
                     style: {
-                        test: m => m.constructor.name === 'CssModule',
+                        test: (m) => m.constructor.name === 'CssModule',
                         name: styleFileName,
                         chunks: 'all',
                         enforce: true,
@@ -51,15 +51,17 @@ async function watchExtension({ cwd, app, zeroconfigPath, staticFileDirectories,
         },
         plugins: [
             // create html files
-            ...(extend.templateFiles.length > 0 ? extend.templateFiles.map(templateFile => {
-                const extname = path_1.default.extname(templateFile);
-                const filename = path_1.default.basename(templateFile, extname);
-                return new html_webpack_plugin_1.default({
-                    template: path_1.default.join(cwd, 'src', app, templateFile),
-                    filename: filename + '.html',
-                    chunks: [filename],
-                });
-            }) : []),
+            ...(extend.templateFiles.length > 0
+                ? extend.templateFiles.map((templateFile) => {
+                    const extname = path_1.default.extname(templateFile);
+                    const filename = path_1.default.basename(templateFile, extname);
+                    return new html_webpack_plugin_1.default({
+                        template: path_1.default.join(cwd, 'src', app, templateFile),
+                        filename: filename + '.html',
+                        chunks: [filename],
+                    });
+                })
+                : []),
         ],
     }, createWebpackWebappConfig_1.createWebpackWebappConfig({
         extractCss: true,
@@ -83,18 +85,18 @@ async function watchExtension({ cwd, app, zeroconfigPath, staticFileDirectories,
                 sayTitle_1.sayTitle('MIRROR FILE');
                 console.log(`[${treat}] ${file}`);
             },
-            error: error => {
+            error: (error) => {
                 sayTitle_1.sayTitle('⚠️ MIRROR FILE ERROR');
                 console.error(error);
             },
         });
         // watch webpack
         watchWebpack_1.watchWebpack(webpackConfig).subscribe({
-            next: webpackMessage => {
+            next: (webpackMessage) => {
                 sayTitle_1.sayTitle('WATCH EXTENSION');
                 console.log(webpackMessage);
             },
-            error: error => {
+            error: (error) => {
                 sayTitle_1.sayTitle('⚠️ WATCH EXTENSION ERROR');
                 console.error(error);
             },

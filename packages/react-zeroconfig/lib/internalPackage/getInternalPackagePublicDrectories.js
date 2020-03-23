@@ -8,8 +8,8 @@ const path_1 = __importDefault(require("path"));
 const getInternalPackageEntry_1 = require("./getInternalPackageEntry");
 async function getInternalPackagePublicDrectories({ packageDir }) {
     return getInternalPackageEntry_1.getInternalPackageEntry({ packageDir })
-        .map(packageName => path_1.default.join(packageDir, packageName, 'public'))
-        .filter(publicDirectory => fs_extra_1.default.pathExistsSync(publicDirectory) && fs_extra_1.default.statSync(publicDirectory).isDirectory());
+        .map((packageName) => path_1.default.join(packageDir, packageName, 'public'))
+        .filter((publicDirectory) => fs_extra_1.default.pathExistsSync(publicDirectory) && fs_extra_1.default.statSync(publicDirectory).isDirectory());
 }
 exports.getInternalPackagePublicDrectories = getInternalPackagePublicDrectories;
 //# sourceMappingURL=getInternalPackagePublicDrectories.js.map

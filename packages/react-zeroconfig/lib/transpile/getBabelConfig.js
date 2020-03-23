@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const getBrowserslistQuery_1 = require("./getBrowserslistQuery");
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const path_1 = __importDefault(require("path"));
-function getBabelConfig({ modules, cwd, targets }) {
+function getBabelConfig({ modules, cwd, targets, }) {
     if (!targets)
         targets = getBrowserslistQuery_1.getBrowserslistQuery({ cwd });
     if (!process.env.JEST_WORKER_ID) {

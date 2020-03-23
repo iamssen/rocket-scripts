@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const semver_1 = __importDefault(require("semver"));
-function validateAppDependencies({ projectPackageJson, appPackageJson: { dependencies }, }) {
+function validateAppDependencies({ projectPackageJson, appPackageJson: { dependencies } }) {
     if (dependencies && projectPackageJson.dependencies) {
         for (const name of Object.keys(dependencies)) {
             if (!projectPackageJson.dependencies[name]) {

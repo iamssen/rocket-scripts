@@ -8,9 +8,7 @@ const path_1 = __importDefault(require("path"));
 async function copyElectronPackageJson({ file, app, copyTo }) {
     const { devDependencies } = await fs_extra_1.default.readJson(file);
     const { electron } = devDependencies;
-    const appPackageJson = (await fs_extra_1.default.pathExistsSync(app))
-        ? await fs_extra_1.default.readJson(app)
-        : {};
+    const appPackageJson = (await fs_extra_1.default.pathExistsSync(app)) ? await fs_extra_1.default.readJson(app) : {};
     await fs_extra_1.default.mkdirp(path_1.default.dirname(copyTo));
     const content = {
         main: 'main.js',

@@ -34,10 +34,12 @@ async function watchServer({ app, cwd, serverPort, publicPath, internalEslint, o
                 '@loadable/stats.json': loadableStatsJson,
             },
         },
-        externals: [webpack_node_externals_1.default({
+        externals: [
+            webpack_node_externals_1.default({
                 // include asset files
                 whitelist: [/\.(?!(?:jsx?|json)$).{1,5}$/i],
-            })],
+            }),
+        ],
         plugins: [
             new mini_css_extract_plugin_1.default({
                 filename: `[name].css`,
@@ -55,11 +57,11 @@ async function watchServer({ app, cwd, serverPort, publicPath, internalEslint, o
     }));
     // watch webpack
     watchWebpack_1.watchWebpack(webpackConfig).subscribe({
-        next: webpackMessage => {
+        next: (webpackMessage) => {
             sayTitle_1.sayTitle('WATCH SERVER');
             console.log(webpackMessage);
         },
-        error: error => {
+        error: (error) => {
             sayTitle_1.sayTitle('⚠️ WATCH SERVER ERROR');
             console.error(error);
         },

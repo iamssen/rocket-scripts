@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_extra_1 = __importDefault(require("fs-extra"));
-async function getPackageJsonBrowserslistQuery({ packageJson }) {
+async function getPackageJsonBrowserslistQuery({ packageJson, }) {
     const { browserslist } = await fs_extra_1.default.readJson(packageJson, { encoding: 'utf8' });
     if (typeof browserslist === 'string' || Array.isArray(browserslist)) {
         return browserslist;

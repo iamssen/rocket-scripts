@@ -16,8 +16,11 @@ script:
   - yarn run lint
   - yarn run coverage
   - yarn run e2e
-after_success:
-  - cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
+deploy:
+  - provider: script
+    script: cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
+    on:
+      branch: master
 notifications:
   email:
     on_success: never

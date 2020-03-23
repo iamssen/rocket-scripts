@@ -14,11 +14,11 @@ function getWebpackAlias({ cwd }) {
         .filter((dirname) => dirname[0] !== '_')
         .map((dirname) => path_1.default.join(src, dirname))
         .filter((dirpath) => fs_extra_1.default.statSync(dirpath).isDirectory())
-        .forEach((dirpath) => alias[path_1.default.basename(dirpath)] = path_1.default.resolve(cwd, dirpath));
+        .forEach((dirpath) => (alias[path_1.default.basename(dirpath)] = path_1.default.resolve(cwd, dirpath)));
     if (fs_extra_1.default.existsSync(packageDir) && fs_extra_1.default.statSync(packageDir).isDirectory()) {
         getInternalPackageEntry_1.getInternalPackageEntry({ packageDir: path_1.default.join(src, '_packages') })
             .filter((packageName) => fs_extra_1.default.statSync(path_1.default.join(src, `_packages/${packageName}`)).isDirectory())
-            .forEach((packageName) => alias[packageName] = path_1.default.join(src, `_packages/${packageName}`));
+            .forEach((packageName) => (alias[packageName] = path_1.default.join(src, `_packages/${packageName}`)));
     }
     return alias;
 }

@@ -24,8 +24,9 @@ const sayTitle_1 = require("../utils/sayTitle");
 const createWebpackBaseConfig_1 = require("../webpackConfigs/createWebpackBaseConfig");
 const createWebpackEnvConfig_1 = require("../webpackConfigs/createWebpackEnvConfig");
 const createWebpackWebappConfig_1 = require("../webpackConfigs/createWebpackWebappConfig");
+const getBackdoorWebpackConfig_1 = require("../webpackConfigs/getBackdoorWebpackConfig");
 async function startBrowser({ cwd, app, output, port, https, serverPort, staticFileDirectories, chunkPath, publicPath, internalEslint, appFileName, vendorFileName, styleFileName, extend, zeroconfigPath, }) {
-    const webpackConfig = webpack_merge_1.default(createWebpackBaseConfig_1.createWebpackBaseConfig({ zeroconfigPath }), {
+    const webpackConfig = webpack_merge_1.default(getBackdoorWebpackConfig_1.getBackdoorWebpackConfig({ cwd }), createWebpackBaseConfig_1.createWebpackBaseConfig({ zeroconfigPath }), {
         mode: 'development',
         devtool: 'cheap-module-eval-source-map',
         output: {
@@ -56,21 +57,25 @@ async function startBrowser({ cwd, app, output, port, https, serverPort, staticF
         plugins: [
             new webpack_1.HotModuleReplacementPlugin(),
             // create loadable-stats.json when server side rendering enabled
-            ...(extend.serverSideRendering ? [
-                new webpack_plugin_1.default({
-                    filename: path_1.default.join(output, 'loadable-stats.json'),
-                    writeToDisk: true,
-                }),
-            ] : []),
+            ...(extend.serverSideRendering
+                ? [
+                    new webpack_plugin_1.default({
+                        filename: path_1.default.join(output, 'loadable-stats.json'),
+                        writeToDisk: true,
+                    }),
+                ]
+                : []),
             // create html files
-            ...(extend.templateFiles.length > 0 ? extend.templateFiles.map(templateFile => {
-                const extname = path_1.default.extname(templateFile);
-                const filename = path_1.default.basename(templateFile, extname);
-                return new html_webpack_plugin_1.default({
-                    template: path_1.default.join(cwd, 'src', app, templateFile),
-                    filename: filename + '.html',
-                });
-            }) : []),
+            ...(extend.templateFiles.length > 0
+                ? extend.templateFiles.map((templateFile) => {
+                    const extname = path_1.default.extname(templateFile);
+                    const filename = path_1.default.basename(templateFile, extname);
+                    return new html_webpack_plugin_1.default({
+                        template: path_1.default.join(cwd, 'src', app, templateFile),
+                        filename: filename + '.html',
+                    });
+                })
+                : []),
         ],
     }, createWebpackWebappConfig_1.createWebpackWebappConfig({
         extractCss: false,
@@ -96,7 +101,7 @@ async function startBrowser({ cwd, app, output, port, https, serverPort, staticF
     const packageJson = await fs_extra_1.default.readJson(path_1.default.join(cwd, 'package.json'));
     if (typeof packageJson.proxy === 'object' && packageJson.proxy) {
         const proxyConfigs = packageJson.proxy;
-        Object.keys(proxyConfigs).forEach(uri => {
+        Object.keys(proxyConfigs).forEach((uri) => {
             // @ts-ignore as MiddlewareHandler
             middleware.push(http_proxy_middleware_1.default(uri, proxyConfigs[uri]));
         });
@@ -143,7 +148,7 @@ async function startBrowser({ cwd, app, output, port, https, serverPort, staticF
         await fs_extra_1.default.mkdirp(path_1.default.join(output));
     // run browser-sync
     sayTitle_1.sayTitle('START BROWSER-SYNC + WEBPACK');
-    browser_sync_1.default(browserSyncConfig, error => {
+    browser_sync_1.default(browserSyncConfig, (error) => {
         if (error)
             console.error(error);
     });

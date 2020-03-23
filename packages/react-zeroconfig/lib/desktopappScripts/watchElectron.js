@@ -35,12 +35,14 @@ async function watchElectron({ cwd, app, zeroconfigPath, staticFileDirectories, 
         resolve: {
             mainFields: ['main'],
         },
-        externals: [webpack_node_externals_1.default({
+        externals: [
+            webpack_node_externals_1.default({
                 whitelist: [
                     // include asset files
                     /\.(?!(?:jsx?|json)$).{1,5}$/i,
                 ],
-            })],
+            }),
+        ],
         entry: {
             main: path_1.default.join(cwd, 'src', app, 'main'),
         },
@@ -65,12 +67,14 @@ async function watchElectron({ cwd, app, zeroconfigPath, staticFileDirectories, 
         resolve: {
             mainFields: ['main'],
         },
-        externals: [webpack_node_externals_1.default({
+        externals: [
+            webpack_node_externals_1.default({
                 whitelist: [
                     // include asset files
                     /\.(?!(?:jsx?|json)$).{1,5}$/i,
                 ],
-            })],
+            }),
+        ],
         entry: {
             renderer: path_1.default.join(cwd, 'src', app, 'renderer'),
         },
@@ -84,15 +88,17 @@ async function watchElectron({ cwd, app, zeroconfigPath, staticFileDirectories, 
                 filename: `[name].css`,
             }),
             // create html files
-            ...(extend.templateFiles.length > 0 ? extend.templateFiles.map(templateFile => {
-                const extname = path_1.default.extname(templateFile);
-                const filename = path_1.default.basename(templateFile, extname);
-                return new html_webpack_plugin_1.default({
-                    template: path_1.default.join(cwd, 'src', app, templateFile),
-                    filename: filename + '.html',
-                    chunks: ['renderer'],
-                });
-            }) : []),
+            ...(extend.templateFiles.length > 0
+                ? extend.templateFiles.map((templateFile) => {
+                    const extname = path_1.default.extname(templateFile);
+                    const filename = path_1.default.basename(templateFile, extname);
+                    return new html_webpack_plugin_1.default({
+                        template: path_1.default.join(cwd, 'src', app, templateFile),
+                        filename: filename + '.html',
+                        chunks: ['renderer'],
+                    });
+                })
+                : []),
         ],
     }, createWebpackWebappConfig_1.createWebpackWebappConfig({
         extractCss: true,
@@ -116,29 +122,29 @@ async function watchElectron({ cwd, app, zeroconfigPath, staticFileDirectories, 
                 sayTitle_1.sayTitle('MIRROR FILE');
                 console.log(`[${treat}] ${file}`);
             },
-            error: error => {
+            error: (error) => {
                 sayTitle_1.sayTitle('⚠️ MIRROR FILE ERROR');
                 console.error(error);
             },
         });
         // watch webpack
         watchWebpack_1.watchWebpack(webpackMainConfig).subscribe({
-            next: webpackMessage => {
+            next: (webpackMessage) => {
                 sayTitle_1.sayTitle('WATCH ELECTRON MAIN');
                 console.log(webpackMessage);
             },
-            error: error => {
+            error: (error) => {
                 sayTitle_1.sayTitle('⚠️ WATCH ELECTRON MAIN ERROR');
                 console.error(error);
             },
         });
         // watch webpack
         watchWebpack_1.watchWebpack(webpackRendererConfig).subscribe({
-            next: webpackMessage => {
+            next: (webpackMessage) => {
                 sayTitle_1.sayTitle('WATCH ELECTRON RENDERER');
                 console.log(webpackMessage);
             },
-            error: error => {
+            error: (error) => {
                 sayTitle_1.sayTitle('⚠️ WATCH ELECTRON RENDERER ERROR');
                 console.error(error);
             },

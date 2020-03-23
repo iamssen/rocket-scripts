@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// tslint:disable:typedef
+/* eslint-disable @typescript-eslint/typedef */
 exports.packageCommands = ['build', 'publish', 'validate', 'list', 'sync'];
 exports.webappCommands = ['build', 'start', 'server-watch', 'server-start', 'browser-start'];
 exports.desktopappCommands = ['build', 'start', 'electron-watch', 'electron-start'];

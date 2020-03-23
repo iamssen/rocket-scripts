@@ -8,8 +8,8 @@ const path_1 = __importDefault(require("path"));
 const tmp_1 = __importDefault(require("tmp"));
 const glob_promise_1 = require("../utils/glob-promise");
 const getStaticFileDirectories_1 = require("./getStaticFileDirectories");
-async function createWebappConfig({ argv, cwd, zeroconfigPath }) {
-    const { command, app, sourceMap, sizeReport, mode, appFileName, vendorFileName, styleFileName, chunkPath, publicPath, port, serverPort, https, internalEslint } = argv;
+async function createWebappConfig({ argv, cwd, zeroconfigPath, }) {
+    const { command, app, sourceMap, sizeReport, mode, appFileName, vendorFileName, styleFileName, chunkPath, publicPath, port, serverPort, https, internalEslint, } = argv;
     if (!(await fs_extra_1.default.pathExists(path_1.default.join(cwd, 'src', app))))
         throw new Error(`${path_1.default.join(cwd, 'src', app)} is undefined`);
     const staticFileDirectories = await getStaticFileDirectories_1.getStaticFileDirectories({ ...argv, cwd });
@@ -21,7 +21,7 @@ async function createWebappConfig({ argv, cwd, zeroconfigPath }) {
                 ? path_1.default.join(cwd, '.dev', app)
                 : path_1.default.join(cwd, 'dist', app);
     const serverSideRendering = (await glob_promise_1.glob(`${cwd}/src/${app}/server.{js,jsx,ts,tsx}`)).length > 0;
-    const templateFiles = (await glob_promise_1.glob(`${cwd}/src/${app}/*.html`)).map(file => path_1.default.basename(file));
+    const templateFiles = (await glob_promise_1.glob(`${cwd}/src/${app}/*.html`)).map((file) => path_1.default.basename(file));
     return {
         command,
         app,

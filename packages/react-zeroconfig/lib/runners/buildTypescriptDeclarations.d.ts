@@ -7,5 +7,5 @@ interface BuildTypescriptDeclarationsParams {
     typeRoots: string[];
     declarationDir: string;
 }
-export declare function buildTypescriptDeclarations({ file, name, compilerOptions, cwd, typeRoots, declarationDir }: BuildTypescriptDeclarationsParams): Promise<void>;
+export declare function buildTypescriptDeclarations({ file, name, compilerOptions, cwd, typeRoots, declarationDir, }: BuildTypescriptDeclarationsParams): Promise<void>;
 export {};

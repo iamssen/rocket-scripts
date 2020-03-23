@@ -1,3 +1,3 @@
-export declare function findInternalPackageMissingDependencies({ packageDir }: {
+export declare function findInternalPackageMissingDependencies({ packageDir, }: {
     packageDir: string;
 }): Promise<Set<string> | undefined>;

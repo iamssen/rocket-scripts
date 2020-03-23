@@ -78,7 +78,7 @@ async function buildExtension({ cwd, app, zeroconfigPath, staticFileDirectories,
                     },
                     // extract single css file
                     style: {
-                        test: m => m.constructor.name === 'CssModule',
+                        test: (m) => m.constructor.name === 'CssModule',
                         name: styleFileName,
                         chunks: 'all',
                         enforce: true,
@@ -88,15 +88,17 @@ async function buildExtension({ cwd, app, zeroconfigPath, staticFileDirectories,
         },
         plugins: [
             // create html files
-            ...(extend.templateFiles.length > 0 ? extend.templateFiles.map(templateFile => {
-                const extname = path_1.default.extname(templateFile);
-                const filename = path_1.default.basename(templateFile, extname);
-                return new html_webpack_plugin_1.default({
-                    template: path_1.default.join(cwd, 'src', app, templateFile),
-                    filename: filename + '.html',
-                    chunks: [filename],
-                });
-            }) : []),
+            ...(extend.templateFiles.length > 0
+                ? extend.templateFiles.map((templateFile) => {
+                    const extname = path_1.default.extname(templateFile);
+                    const filename = path_1.default.basename(templateFile, extname);
+                    return new html_webpack_plugin_1.default({
+                        template: path_1.default.join(cwd, 'src', app, templateFile),
+                        filename: filename + '.html',
+                        chunks: [filename],
+                    });
+                })
+                : []),
         ],
     }, createWebpackWebappConfig_1.createWebpackWebappConfig({
         extractCss: true,
@@ -112,7 +114,7 @@ async function buildExtension({ cwd, app, zeroconfigPath, staticFileDirectories,
         sayTitle_1.sayTitle('COPY FILES');
         const copyTo = path_1.default.join(output, 'extension');
         await fs_extra_1.default.mkdirp(copyTo);
-        await Promise.all(staticFileDirectories.map(dir => fs_extra_1.default.copy(dir, copyTo, { dereference: false })));
+        await Promise.all(staticFileDirectories.map((dir) => fs_extra_1.default.copy(dir, copyTo, { dereference: false })));
         // run webpack
         console.log(await runWebpack_1.runWebpack(webpackConfig));
     }

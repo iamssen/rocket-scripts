@@ -12,7 +12,7 @@ async function watingFiles(files, timeout = 1000 * 60) {
             return `${Math.floor((Date.now() - t) / 1000)}`;
         }
         function start() {
-            if (files.every(file => fs_extra_1.default.existsSync(file))) {
+            if (files.every((file) => fs_extra_1.default.existsSync(file))) {
                 resolve();
             }
             else if (Date.now() - t > timeout) {

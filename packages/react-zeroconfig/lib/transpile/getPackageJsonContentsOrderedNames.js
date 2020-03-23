@@ -27,10 +27,10 @@ function sort(array) {
     }
     return [...sort(a), chosen, ...sort(b)];
 }
-function getPackageJsonContentsOrderedNames({ packageJsonContents }) {
+function getPackageJsonContentsOrderedNames({ packageJsonContents, }) {
     function searchNestedDependencies(ownerName, dependencies, dependenciesSet) {
         if (dependencies) {
-            Object.keys(dependencies).forEach(dependencyName => {
+            Object.keys(dependencies).forEach((dependencyName) => {
                 if (dependencyName === ownerName) {
                     throw new Error(`package.json files have circularly referenced dependencies : "${ownerName}"`);
                 }
@@ -46,7 +46,7 @@ function getPackageJsonContentsOrderedNames({ packageJsonContents }) {
         return dependenciesSet;
     }
     // FIXME avoid Node.js 10 sort error
-    const array = packageJsonContents.map(packageJson => {
+    const array = packageJsonContents.map((packageJson) => {
         if (!packageJson.name)
             throw new Error(`Undefined "name" field on ${packageJson}`);
         return {

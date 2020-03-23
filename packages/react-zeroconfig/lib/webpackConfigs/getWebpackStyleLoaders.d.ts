@@ -6,5 +6,5 @@ interface GetWebpackStyleLoadersParameters {
     preProcessor?: string;
 }
 /** @return RuleSetRule[] for oneOf */
-export declare function getWebpackStyleLoaders({ cssRegex, cssModuleRegex, extractCss, preProcessor }: GetWebpackStyleLoadersParameters): RuleSetRule[];
+export declare function getWebpackStyleLoaders({ cssRegex, cssModuleRegex, extractCss, preProcessor, }: GetWebpackStyleLoadersParameters): RuleSetRule[];
 export {};

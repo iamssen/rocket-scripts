@@ -8,7 +8,7 @@ const path_1 = __importDefault(require("path"));
 const tmp_1 = __importDefault(require("tmp"));
 const glob_promise_1 = require("../utils/glob-promise");
 const getStaticFileDirectories_1 = require("../webappScripts/getStaticFileDirectories");
-async function createDesktopappConfig({ argv, cwd, zeroconfigPath }) {
+async function createDesktopappConfig({ argv, cwd, zeroconfigPath, }) {
     const { command, app } = argv;
     if (!(await fs_extra_1.default.pathExists(path_1.default.join(cwd, 'src', app))))
         throw new Error(`${path_1.default.join(cwd, 'src', app)} is undefined`);
@@ -18,7 +18,7 @@ async function createDesktopappConfig({ argv, cwd, zeroconfigPath }) {
         : command === 'start'
             ? tmp_1.default.dirSync().name
             : path_1.default.join(cwd, 'dist', app);
-    const templateFiles = (await glob_promise_1.glob(`${cwd}/src/${app}/*.html`)).map(file => path_1.default.basename(file));
+    const templateFiles = (await glob_promise_1.glob(`${cwd}/src/${app}/*.html`)).map((file) => path_1.default.basename(file));
     return {
         command,
         app,

@@ -9,7 +9,7 @@ const path_1 = __importDefault(require("path"));
 const copyElectronPackageJson_1 = require("./copyElectronPackageJson");
 const watingFiles_1 = require("../runners/watingFiles");
 const sayTitle_1 = require("../utils/sayTitle");
-async function startElectron({ cwd, app, output, }) {
+async function startElectron({ cwd, app, output }) {
     const file = path_1.default.join(output, 'electron/main.js');
     const dir = path_1.default.join(output, 'electron');
     await watingFiles_1.watingFiles([file]);

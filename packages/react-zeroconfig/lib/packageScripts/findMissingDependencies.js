@@ -10,7 +10,7 @@ const getInternalPackageEntry_1 = require("../internalPackage/getInternalPackage
 async function findMissingDependencies({ cwd }) {
     const hostPackageJson = await fs_extra_1.default.readJson(path_1.default.join(cwd, 'package.json'));
     const entry = getInternalPackageEntry_1.getInternalPackageEntry({ packageDir: path_1.default.join(cwd, 'src/_packages') });
-    const modulePackageJsons = await Promise.all(entry.map(packageName => fs_extra_1.default.readJson(path_1.default.join(cwd, 'src/_packages', packageName, 'package.json'))));
+    const modulePackageJsons = await Promise.all(entry.map((packageName) => fs_extra_1.default.readJson(path_1.default.join(cwd, 'src/_packages', packageName, 'package.json'))));
     const hostDependencies = hostPackageJson.dependencies || {};
     const moduleDependencies = Object.assign({}, ...modulePackageJsons.map(({ dependencies }) => dependencies));
     for (const packageName of entry) {

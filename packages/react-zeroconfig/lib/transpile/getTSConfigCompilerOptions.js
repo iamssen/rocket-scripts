@@ -7,7 +7,7 @@ const parseConfigHost = {
     readDirectory: typescript_1.sys.readDirectory,
     useCaseSensitiveFileNames: true,
 };
-function getTSConfigCompilerOptions({ cwd, configName = 'tsconfig.json' }) {
+function getTSConfigCompilerOptions({ cwd, configName = 'tsconfig.json', }) {
     const configFileName = typescript_1.findConfigFile(cwd, typescript_1.sys.fileExists, configName);
     if (!configFileName)
         throw new Error(`Undefined "${configName}" file on "${cwd}"`);

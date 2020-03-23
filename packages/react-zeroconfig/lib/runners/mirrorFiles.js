@@ -15,19 +15,15 @@ var MirrorTreat;
 })(MirrorTreat = exports.MirrorTreat || (exports.MirrorTreat = {}));
 async function mirrorFiles({ sources, output, ignored }) {
     function toRelativePath(file) {
-        const source = sources.find(s => file.indexOf(s) === 0);
-        return source
-            ? path_1.default.relative(source, file)
-            : undefined;
+        const source = sources.find((s) => file.indexOf(s) === 0);
+        return source ? path_1.default.relative(source, file) : undefined;
     }
     await fs_extra_1.default.mkdirp(output);
-    await Promise.all(sources.map(dir => {
+    await Promise.all(sources.map((dir) => {
         return fs_extra_1.default.copy(dir, output, {
             dereference: false,
-            filter: src => {
-                return ignored
-                    ? !ignored.test(src)
-                    : true;
+            filter: (src) => {
+                return ignored ? !ignored.test(src) : true;
             },
         });
     }));

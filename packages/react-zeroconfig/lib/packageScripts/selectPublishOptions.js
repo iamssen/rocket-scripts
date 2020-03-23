@@ -5,15 +5,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const prompts_1 = __importDefault(require("prompts"));
 const semver_1 = __importDefault(require("semver"));
-function getVersions({ currentPackageJson, remotePackageJson }) {
+function getVersions({ currentPackageJson, remotePackageJson, }) {
     const currentVersion = currentPackageJson.version;
     const remoteVersion = remotePackageJson && typeof remotePackageJson.version === 'string' ? remotePackageJson.version : undefined;
     return { currentVersion, remoteVersion };
 }
 exports.getVersions = getVersions;
-async function selectPublishOptions({ publishOptions, choice }) {
+async function selectPublishOptions({ publishOptions, choice, }) {
     if (!choice) {
-        const availablePublishOptions = publishOptions.filter(publishOption => {
+        const availablePublishOptions = publishOptions.filter((publishOption) => {
             const { currentVersion, remoteVersion } = getVersions(publishOption);
             return !remoteVersion || semver_1.default.gt(currentVersion, remoteVersion);
         });
@@ -33,7 +33,7 @@ async function selectPublishOptions({ publishOptions, choice }) {
         type: 'multiselect',
         name: 'publishOptions',
         message: 'Select packages to publish',
-        choices: publishOptions.map(publishOption => {
+        choices: publishOptions.map((publishOption) => {
             const { name, tag } = publishOption;
             const { currentVersion, remoteVersion } = getVersions(publishOption);
             return {
@@ -46,7 +46,7 @@ async function selectPublishOptions({ publishOptions, choice }) {
         }),
     });
     const filter = new Set(answer.publishOptions);
-    return publishOptions.filter(publishOption => filter.has(publishOption.name));
+    return publishOptions.filter((publishOption) => filter.has(publishOption.name));
 }
 exports.selectPublishOptions = selectPublishOptions;
 //# sourceMappingURL=selectPublishOptions.js.map

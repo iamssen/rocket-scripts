@@ -5,7 +5,7 @@ const getWebpackRawLoaders_1 = require("./getWebpackRawLoaders");
 const getWebpackScriptLoaders_1 = require("./getWebpackScriptLoaders");
 const getWebpackStyleLoaders_1 = require("./getWebpackStyleLoaders");
 const getWebpackYamlLoaders_1 = require("./getWebpackYamlLoaders");
-function createWebpackPackageConfig({ cwd, targets }) {
+function createWebpackPackageConfig({ cwd, targets, }) {
     const extractCss = true;
     return {
         module: {
