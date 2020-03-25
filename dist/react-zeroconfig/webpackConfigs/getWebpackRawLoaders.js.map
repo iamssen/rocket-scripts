@@ -1,0 +1,1 @@
+{"version":3,"file":"getWebpackRawLoaders.js","sourceRoot":"","sources":["../../../src/react-zeroconfig/webpackConfigs/getWebpackRawLoaders.ts"],"names":[],"mappings":";;AAEA,SAAgB,oBAAoB;IAClC,OAAO;QACL;YACE,IAAI,EAAE,sBAAsB;YAC5B,GAAG,EAAE,CAAC,OAAO,CAAC,OAAO,CAAC,YAAY,CAAC,CAAC;SACrC;KACF,CAAC;AACJ,CAAC;AAPD,oDAOC"}

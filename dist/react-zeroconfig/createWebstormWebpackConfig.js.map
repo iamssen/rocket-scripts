@@ -1,0 +1,1 @@
+{"version":3,"file":"createWebstormWebpackConfig.js","sourceRoot":"","sources":["../../src/react-zeroconfig/createWebstormWebpackConfig.ts"],"names":[],"mappings":";;AACA,sEAAmE;AAEnE,SAAgB,2BAA2B,CAAC,EAAE,GAAG,GAAG,OAAO,CAAC,GAAG,EAAE,KAAuB,EAAE;IACxF,OAAO;QACL,OAAO,EAAE;YACP,KAAK,EAAE,iCAAe,CAAC,EAAE,GAAG,EAAE,CAAC;SAChC;KACF,CAAC;AACJ,CAAC;AAND,kEAMC"}

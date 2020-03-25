@@ -1,0 +1,12 @@
+{
+  "name": "@react-zeroconfig/babel-preset",
+  "version": "3.28.0-alpha.1",
+  "dependencies": {
+    "@babel/preset-env": "^7.8.7",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3"
+  }
+}

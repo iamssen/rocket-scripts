@@ -1,0 +1,8 @@
+{
+  "name": "filesize-test",
+  "version": "0.1.1",
+  "dependencies": {
+    "glob": "^7.1.6",
+    "gzip-size": "^5.1.1"
+  }
+}
