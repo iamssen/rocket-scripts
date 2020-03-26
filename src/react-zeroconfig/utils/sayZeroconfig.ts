@@ -6,7 +6,9 @@ import { PackageJson } from 'type-fest';
 export function sayZeroconfig() {
   say('ZERO\nCONFIG', { font: 'block' });
 
-  const { version }: PackageJson = fs.readJsonSync(path.join(__dirname, '../../package.json'));
+  const file: string = path.join(__dirname, '../package.json');
+
+  const { version }: PackageJson = fs.existsSync(file) ? fs.readJsonSync(file) : { version: '0.0.0-test.0' };
 
   console.log(`${version}`);
 }

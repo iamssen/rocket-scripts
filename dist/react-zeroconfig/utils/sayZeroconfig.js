@@ -8,7 +8,8 @@ const fs_extra_1 = __importDefault(require("fs-extra"));
 const path_1 = __importDefault(require("path"));
 function sayZeroconfig() {
     cfonts_1.say('ZERO\nCONFIG', { font: 'block' });
-    const { version } = fs_extra_1.default.readJsonSync(path_1.default.join(__dirname, '../../package.json'));
+    const file = path_1.default.join(__dirname, '../package.json');
+    const { version } = fs_extra_1.default.existsSync(file) ? fs_extra_1.default.readJsonSync(file) : { version: '0.0.0-test.0' };
     console.log(`${version}`);
 }
 exports.sayZeroconfig = sayZeroconfig;

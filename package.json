@@ -3,7 +3,12 @@
   "scripts": {
     "build": "trism build",
     "publish": "npm test && trism build && trism publish",
-    "test": "jest --colors"
+    "test": "jest --colors",
+    "coverage": "jest --coverage --colors",
+    "e2e": "npm run build && bash test/e2e.sh",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "download": "node scripts/get-node-api-list.js"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
@@ -74,6 +79,7 @@
     "cfonts": "^2.8.0",
     "chalk": "^3.0.0",
     "chokidar": "^3.3.1",
+    "coveralls": "^3.0.11",
     "css-loader": "^3.4.2",
     "escape-string-regexp": "^2.0.0",
     "eslint": "^6.8.0",
@@ -125,7 +131,7 @@
     "terser": "^4.6.6",
     "terser-webpack-plugin": "^2.3.5",
     "tmp": "^0.1.0",
-    "trism": "file:../trism",
+    "trism": "^0.3.0",
     "ts-jest": "^25.2.1",
     "type-fest": "^0.12.0",
     "typescript": "^3.8.3",

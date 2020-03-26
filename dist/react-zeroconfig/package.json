@@ -1,4 +1,18 @@
 {
+  "keywords": [
+    "zeroconfig",
+    "react",
+    "typescript",
+    "webpack",
+    "build",
+    "0cjs"
+  ],
+  "bin": {
+    "zeroconfig-webapp-scripts": "./bin/zeroconfig-webapp-scripts",
+    "zeroconfig-package-scripts": "./bin/zeroconfig-package-scripts",
+    "zeroconfig-desktopapp-scripts": "./bin/zeroconfig-desktopapp-scripts",
+    "zeroconfig-extension-scripts": "./bin/zeroconfig-extension-scripts"
+  },
   "author": "SSen <i@ssen.name>",
   "license": "MIT",
   "repository": "github:react-zeroconfig/react-zeroconfig",
@@ -13,6 +27,19 @@
   "name": "react-zeroconfig",
   "version": "3.28.0-alpha.2",
   "dependencies": {
+    "less": "^3.11.1",
+    "less-loader": "^5.0.0",
+    "node-sass": "^4.13.1",
+    "sass-loader": "^8.0.2",
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-flowtype": "^4.6.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.0",
     "webpack": "^4.42.0",
     "type-fest": "^0.12.0",
     "fs-extra": "^9.0.0",
@@ -59,7 +86,6 @@
     "react-dev-utils": "^10.2.0",
     "resolve": "^1.15.1",
     "eslint-loader": "^3.0.3",
-    "eslint": "^6.8.0",
     "eslint-config-react-app": "^5.2.0",
     "file-loader": "^4.3.0",
     "babel-loader": "^8.0.6",
