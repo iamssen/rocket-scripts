@@ -10,6 +10,18 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "download": "node scripts/get-node-api-list.js"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "packages/**/src/**/*.{ts,tsx}": [
+      "prettier --write",
+      "eslint",
+      "jest --colors --findRelatedTests"
+    ]
+  },
   "devDependencies": {
     "@babel/core": "^7.8.7",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
@@ -98,11 +110,13 @@
     "gzip-size": "^5.1.1",
     "html-webpack-plugin": "^4.0.0-beta.8",
     "http-proxy-middleware": "^1.0.1",
+    "husky": "^4.2.3",
     "jest": "^25.1.0",
     "js-yaml": "^3.13.1",
     "json-loader": "^0.5.7",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
+    "lint-staged": "^10.0.9",
     "mini-css-extract-plugin": "^0.9.0",
     "minimist": "^1.2.0",
     "moment": "^2.24.0",

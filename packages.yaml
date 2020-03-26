@@ -1,9 +1,9 @@
 '@react-zeroconfig/babel-preset':
-  version: 3.28.0-alpha.2
-  tag: trism
+  version: 3.28.0-alpha.3
+  tag: dev
 filesize-test:
-  version: 0.1.2
-  tag: trism
+  version: 0.1.3
+  tag: dev
 react-zeroconfig:
   version: 3.28.0-alpha.3
-  tag: trism
+  tag: dev

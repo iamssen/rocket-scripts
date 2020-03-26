@@ -11,7 +11,7 @@
     "access": "public"
   },
   "name": "@react-zeroconfig/babel-preset",
-  "version": "3.28.0-alpha.2",
+  "version": "3.28.0-alpha.3",
   "dependencies": {
     "@babel/preset-env": "^7.8.7",
     "@babel/preset-react": "^7.8.3",
