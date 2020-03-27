@@ -5,5 +5,5 @@ filesize-test:
   version: 0.1.3
   tag: dev
 react-zeroconfig:
-  version: 3.28.0-alpha.3
+  version: 3.28.0-alpha.4
   tag: dev

@@ -31,5 +31,7 @@ module.exports = (computedPackageJson, rootPackageJson) => {
     },
     ...computedPackageJson,
     dependencies: { ...customDependencies, ...computedPackageJson.dependencies },
+    main: 'index.js',
+    typings: 'typings.d.ts',
   };
 };
