@@ -25,7 +25,7 @@
     "access": "public"
   },
   "name": "react-zeroconfig",
-  "version": "3.28.0-alpha.4",
+  "version": "3.29.0",
   "dependencies": {
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
@@ -64,7 +64,7 @@
     "package-json": "^6.5.0",
     "prompts": "^2.3.1",
     "chokidar": "^3.3.1",
-    "@react-zeroconfig/babel-preset": "^3.28.0-alpha.3",
+    "@react-zeroconfig/babel-preset": "^3.28.0",
     "@loadable/babel-plugin": "^5.12.0",
     "babel-plugin-named-asset-import": "^0.3.6",
     "@handbook/babel-plugin": "*",
@@ -82,7 +82,7 @@
     "source-map-support": "^0.5.16",
     "escape-string-regexp": "^2.0.0",
     "url-loader": "^2.3.0",
-    "fork-ts-checker-webpack-plugin-alt": "^0.4.14",
+    "fork-ts-checker-webpack-plugin": "^4.1.2",
     "react-dev-utils": "^10.2.0",
     "resolve": "^1.15.1",
     "eslint-loader": "^3.0.3",
