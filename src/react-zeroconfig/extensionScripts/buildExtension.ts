@@ -126,6 +126,7 @@ export async function buildExtension({
       chunkPath: '',
       publicPath: '',
       internalEslint: true,
+      asyncTypeCheck: false,
     }),
     createWebpackEnvConfig({
       serverPort: 0,

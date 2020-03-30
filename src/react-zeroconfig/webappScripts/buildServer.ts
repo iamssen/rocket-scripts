@@ -73,6 +73,7 @@ export async function buildServer({
       chunkPath,
       publicPath,
       internalEslint,
+      asyncTypeCheck: false,
     }),
     createWebpackEnvConfig({
       serverPort,

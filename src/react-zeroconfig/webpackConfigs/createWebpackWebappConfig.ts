@@ -1,4 +1,4 @@
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin-alt';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
 import typescriptFormatter from 'react-dev-utils/typescriptFormatter';
@@ -20,12 +20,14 @@ export function createWebpackWebappConfig({
   chunkPath,
   publicPath,
   internalEslint,
+  asyncTypeCheck,
 }: {
   extractCss: boolean;
   cwd: string;
   chunkPath: string;
   publicPath: string;
   internalEslint: boolean;
+  asyncTypeCheck: boolean;
 }): Configuration {
   const tsconfig: string = path.join(cwd, 'tsconfig.json');
   const tslint: string = path.join(cwd, 'tslint.json');
@@ -171,8 +173,10 @@ export function createWebpackWebappConfig({
               typescript: resolve.sync('typescript', {
                 basedir: path.join(cwd, 'node_modules'),
               }),
-              async: false,
+              async: asyncTypeCheck,
+              useTypescriptIncrementalApi: true,
               checkSyntacticErrors: true,
+              measureCompilationTime: true,
               tsconfig,
               reportFiles: [
                 '**',
@@ -182,9 +186,8 @@ export function createWebpackWebappConfig({
                 '!**/src/setupProxy.*',
                 '!**/src/setupTests.*',
               ],
-              watch: path.join(cwd, 'src'),
               silent: true,
-              formatter: typescriptFormatter,
+              formatter: process.env.NODE_ENV === 'production' ? typescriptFormatter : undefined,
             }),
           ]
         : []),

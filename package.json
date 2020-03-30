@@ -104,7 +104,7 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
     "file-loader": "^4.3.0",
-    "fork-ts-checker-webpack-plugin-alt": "^0.4.14",
+    "fork-ts-checker-webpack-plugin": "^4.1.2",
     "fs-extra": "^9.0.0",
     "glob": "^7.1.6",
     "gzip-size": "^5.1.1",

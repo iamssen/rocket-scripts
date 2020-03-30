@@ -90,6 +90,7 @@ export async function watchExtension({
       chunkPath: '',
       publicPath: '',
       internalEslint: true,
+      asyncTypeCheck: false,
     }),
     createWebpackEnvConfig({
       serverPort: 0,

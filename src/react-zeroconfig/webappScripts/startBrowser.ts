@@ -6,7 +6,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import proxyMiddleware, { Options as HttpProxyMiddlewareOptions } from 'http-proxy-middleware';
 import path from 'path';
 import { PackageJson } from 'type-fest';
-import webpack, { Compiler, Configuration, HotModuleReplacementPlugin } from 'webpack';
+import webpack, { Compiler, Configuration, HotModuleReplacementPlugin, WatchIgnorePlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackMerge from 'webpack-merge';
@@ -34,6 +34,8 @@ export async function startBrowser({
   extend,
   zeroconfigPath,
 }: WebappConfig) {
+  const hotMiddleware: string = path.dirname(require.resolve('webpack-hot-middleware/package.json'));
+
   const webpackConfig: Configuration = webpackMerge(
     getBackdoorWebpackConfig({ cwd }),
     createWebpackBaseConfig({ zeroconfigPath }),
@@ -52,10 +54,7 @@ export async function startBrowser({
       },
       entry: {
         [appFileName]: [
-          `${path.dirname(require.resolve('webpack-hot-middleware/package.json'))}/client?path=${
-            https ? 'https' : 'http'
-          }://localhost:${port}/__webpack_hmr&timeout=20000&reload=true`,
-          `${path.dirname(require.resolve('webpack/package.json'))}/hot/only-dev-server`,
+          `${hotMiddleware}/client?path=/__webpack_hmr&timeout=20000&reload=true`,
           path.join(cwd, 'src', app),
         ],
       },
@@ -91,6 +90,8 @@ export async function startBrowser({
       plugins: [
         new HotModuleReplacementPlugin(),
 
+        new WatchIgnorePlugin([path.join(cwd, 'node_modules')]),
+
         // create loadable-stats.json when server side rendering enabled
         ...(extend.serverSideRendering
           ? [
@@ -121,6 +122,7 @@ export async function startBrowser({
       chunkPath,
       publicPath,
       internalEslint,
+      asyncTypeCheck: true,
     }),
     createWebpackEnvConfig({
       serverPort,
