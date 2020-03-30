@@ -25,7 +25,7 @@
     "access": "public"
   },
   "name": "react-zeroconfig",
-  "version": "3.29.0",
+  "version": "3.29.1",
   "dependencies": {
     "less": "^3.11.1",
     "less-loader": "^5.0.0",

@@ -187,7 +187,7 @@ export function createWebpackWebappConfig({
                 '!**/src/setupTests.*',
               ],
               silent: true,
-              formatter: process.env.NODE_ENV === 'production' ? typescriptFormatter : undefined,
+              formatter: process.env.NODE_ENV === 'production' ? 'default' : undefined,
             }),
           ]
         : []),

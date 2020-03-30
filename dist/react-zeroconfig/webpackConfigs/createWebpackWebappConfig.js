@@ -8,7 +8,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const fork_ts_checker_webpack_plugin_1 = __importDefault(require('fork-ts-checker-webpack-plugin'));
 const fs_extra_1 = __importDefault(require('fs-extra'));
 const path_1 = __importDefault(require('path'));
-const typescriptFormatter_1 = __importDefault(require('react-dev-utils/typescriptFormatter'));
 const resolve_1 = __importDefault(require('resolve'));
 const eslintConfigExistsSync_1 = require('./eslintConfigExistsSync');
 const getWebpackAlias_1 = require('./getWebpackAlias');
@@ -164,7 +163,7 @@ function createWebpackWebappConfig({ extractCss, cwd, chunkPath, publicPath, int
                 '!**/src/setupTests.*',
               ],
               silent: true,
-              formatter: process.env.NODE_ENV === 'production' ? typescriptFormatter_1.default : undefined,
+              formatter: process.env.NODE_ENV === 'production' ? 'default' : undefined,
             }),
           ]
         : []),
