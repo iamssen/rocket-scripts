@@ -1,7 +1,6 @@
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
-import typescriptFormatter from 'react-dev-utils/typescriptFormatter';
 import resolve from 'resolve';
 import { Configuration, RuleSetRule } from 'webpack';
 import { eslintConfigExistsSync } from './eslintConfigExistsSync';
