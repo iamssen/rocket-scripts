@@ -6,8 +6,8 @@
     "test": "jest --colors",
     "coverage": "jest --coverage --colors",
     "e2e": "npm run build && bash test/e2e.sh",
-    "format": "prettier --write \"src/**/*.{js,jsx,mjs,ts,tsx}\"",
-    "lint": "eslint \"src/**/*.{js,jsx,mjs,ts,tsx}\"",
+    "format": "prettier --write \"src/{**/*,*}/*.{ts,tsx}\"",
+    "lint": "eslint \"src/{**/*,*}/*.{ts,tsx}\"",
     "download": "node scripts/get-node-api-list.js"
   },
   "husky": {
@@ -16,7 +16,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,mjs,ts,tsx}": [
+    "src/{**/*,*}/*.{ts,tsx}": [
       "prettier --write",
       "eslint",
       "jest --colors --findRelatedTests"

@@ -23,17 +23,17 @@ declare module '*.mdx' {
 }
 
 declare module '*.css' {
-  const content: {[className: string]: string};
+  const content: { [className: string]: string };
   export = content;
 }
 
 declare module '*.scss' {
-  const content: {[className: string]: string};
+  const content: { [className: string]: string };
   export = content;
 }
 
 declare module '*.less' {
-  const content: {[className: string]: string};
+  const content: { [className: string]: string };
   export = content;
 }
 
@@ -53,7 +53,7 @@ declare module '*.yml' {
 }
 
 declare module '*.svg' {
-  const content: string & {ReactComponent: React.ComponentType<React.SVGProps<SVGSVGElement>>};
+  const content: string & { ReactComponent: React.ComponentType<React.SVGProps<SVGSVGElement>> };
   export = content;
 }
 
