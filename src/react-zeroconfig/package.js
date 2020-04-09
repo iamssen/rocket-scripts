@@ -1,6 +1,8 @@
 module.exports = (computedPackageJson, rootPackageJson) => {
   const rootDependencies = { ...rootPackageJson.devDependencies, ...rootPackageJson.dependencies };
   const customDependencies = [
+    // babel
+    '@svgr/webpack',
     // style loaders
     'less',
     'less-loader',
