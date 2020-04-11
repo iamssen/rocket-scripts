@@ -12,22 +12,8 @@ module.exports = {
         '\\.(bmp|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|html|ejs|txt|md)$': path_1.default.join(__dirname, 'jest-preset-files/mockup/file.js'),
         '\\.(css|less|scss|sass)$': path_1.default.join(__dirname, 'jest-preset-files/mockup/style.js'),
     },
-    testMatch: [
-        '**/__test?(s)__/**/*.[jt]s?(x)',
-        '**/?(*.)(spec|test).[jt]s?(x)',
-    ],
-    moduleFileExtensions: [
-        'ts',
-        'tsx',
-        'js',
-        'jsx',
-        'yaml',
-        'yml'
-    ],
-    moduleDirectories: [
-        '<rootDir>/node_modules',
-        '<rootDir>/src/_packages',
-        '<rootDir>/src',
-    ],
+    testMatch: ['**/__test?(s)__/**/*.[jt]s?(x)', '**/?(*.)(spec|test).[jt]s?(x)'],
+    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'yaml', 'yml'],
+    moduleDirectories: ['<rootDir>/node_modules', '<rootDir>/src/_packages', '<rootDir>/src'],
 };
 //# sourceMappingURL=jest-preset.js.map
