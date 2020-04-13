@@ -170,7 +170,7 @@ export function createWebpackWebappConfig({
               typescript: resolve.sync('typescript', {
                 basedir: path.join(cwd, 'node_modules'),
               }),
-              //async: false,
+              async: false,
               useTypescriptIncrementalApi: true,
               checkSyntacticErrors: true,
               measureCompilationTime: true,

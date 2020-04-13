@@ -149,7 +149,7 @@ function createWebpackWebappConfig({ extractCss, cwd, chunkPath, publicPath, int
                         typescript: resolve_1.default.sync('typescript', {
                             basedir: path_1.default.join(cwd, 'node_modules'),
                         }),
-                        //async: false,
+                        async: false,
                         useTypescriptIncrementalApi: true,
                         checkSyntacticErrors: true,
                         measureCompilationTime: true,
