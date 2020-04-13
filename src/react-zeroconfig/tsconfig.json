@@ -2,9 +2,9 @@
   "compilerOptions": {
     // language setting
     // -------------------------------
+    "allowJs": true,
     "jsx": "react",
     "experimentalDecorators": true,
-    "allowJs": true,
     "downlevelIteration": true,
     "importHelpers": true,
     "resolveJsonModule": true,

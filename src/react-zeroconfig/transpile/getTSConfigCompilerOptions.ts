@@ -32,6 +32,8 @@ export function getTSConfigCompilerOptions({
   } else if (!config) {
     throw new Error(`It was not generated config from readConfigFile("${configFileName}")`);
   }
+  
+  // TODO config 형식 확인하고, @react-zeroconfig/typescript-helpers로 filtering
 
   const { options } = parseJsonConfigFileContent(config, parseConfigHost, cwd);
 
