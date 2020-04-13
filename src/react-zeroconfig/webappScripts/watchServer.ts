@@ -68,7 +68,6 @@ export async function watchServer({
       chunkPath,
       publicPath,
       internalEslint,
-      asyncTypeCheck: false,
     }),
     createWebpackEnvConfig({
       serverPort,

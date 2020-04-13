@@ -51,7 +51,6 @@ async function watchServer({ app, cwd, serverPort, publicPath, internalEslint, o
         chunkPath,
         publicPath,
         internalEslint,
-        asyncTypeCheck: false,
     }), createWebpackEnvConfig_1.createWebpackEnvConfig({
         serverPort,
         publicPath,

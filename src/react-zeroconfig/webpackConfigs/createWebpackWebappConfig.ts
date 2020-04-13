@@ -19,14 +19,12 @@ export function createWebpackWebappConfig({
   chunkPath,
   publicPath,
   internalEslint,
-  asyncTypeCheck,
 }: {
   extractCss: boolean;
   cwd: string;
   chunkPath: string;
   publicPath: string;
   internalEslint: boolean;
-  asyncTypeCheck: boolean;
 }): Configuration {
   const tsconfig: string = path.join(cwd, 'tsconfig.json');
   const tslint: string = path.join(cwd, 'tslint.json');
@@ -172,7 +170,7 @@ export function createWebpackWebappConfig({
               typescript: resolve.sync('typescript', {
                 basedir: path.join(cwd, 'node_modules'),
               }),
-              async: asyncTypeCheck,
+              //async: false,
               useTypescriptIncrementalApi: true,
               checkSyntacticErrors: true,
               measureCompilationTime: true,
@@ -186,7 +184,7 @@ export function createWebpackWebappConfig({
                 '!**/src/setupTests.*',
               ],
               silent: true,
-              formatter: process.env.NODE_ENV === 'production' ? 'default' : undefined,
+              //formatter: process.env.NODE_ENV === 'production' ? 'default' : undefined,
             }),
           ]
         : []),

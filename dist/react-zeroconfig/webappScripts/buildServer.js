@@ -54,7 +54,6 @@ async function buildServer({ app, sourceMap, mode, cwd, output, publicPath, serv
         chunkPath,
         publicPath,
         internalEslint,
-        asyncTypeCheck: false,
     }), createWebpackEnvConfig_1.createWebpackEnvConfig({
         serverPort,
         publicPath,

@@ -16,7 +16,7 @@ const getWebpackRawLoaders_1 = require("./getWebpackRawLoaders");
 const getWebpackScriptLoaders_1 = require("./getWebpackScriptLoaders");
 const getWebpackStyleLoaders_1 = require("./getWebpackStyleLoaders");
 const getWebpackYamlLoaders_1 = require("./getWebpackYamlLoaders");
-function createWebpackWebappConfig({ extractCss, cwd, chunkPath, publicPath, internalEslint, asyncTypeCheck, }) {
+function createWebpackWebappConfig({ extractCss, cwd, chunkPath, publicPath, internalEslint, }) {
     const tsconfig = path_1.default.join(cwd, 'tsconfig.json');
     const tslint = path_1.default.join(cwd, 'tslint.json');
     const eslintConfigExists = eslintConfigExistsSync_1.eslintConfigExistsSync({ cwd });
@@ -149,7 +149,7 @@ function createWebpackWebappConfig({ extractCss, cwd, chunkPath, publicPath, int
                         typescript: resolve_1.default.sync('typescript', {
                             basedir: path_1.default.join(cwd, 'node_modules'),
                         }),
-                        async: asyncTypeCheck,
+                        //async: false,
                         useTypescriptIncrementalApi: true,
                         checkSyntacticErrors: true,
                         measureCompilationTime: true,
@@ -163,7 +163,6 @@ function createWebpackWebappConfig({ extractCss, cwd, chunkPath, publicPath, int
                             '!**/src/setupTests.*',
                         ],
                         silent: true,
-                        formatter: process.env.NODE_ENV === 'production' ? 'default' : undefined,
                     }),
                 ]
                 : []),
