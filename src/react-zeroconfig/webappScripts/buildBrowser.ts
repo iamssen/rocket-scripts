@@ -168,7 +168,6 @@ export async function buildBrowser({
       chunkPath,
       publicPath,
       internalEslint,
-      asyncTypeCheck: false,
     }),
     createWebpackEnvConfig({
       serverPort,

@@ -69,7 +69,6 @@ async function watchExtension({ cwd, app, zeroconfigPath, staticFileDirectories,
         chunkPath: '',
         publicPath: '',
         internalEslint: true,
-        asyncTypeCheck: false,
     }), createWebpackEnvConfig_1.createWebpackEnvConfig({
         serverPort: 0,
         publicPath: '',

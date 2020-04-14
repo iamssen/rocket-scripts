@@ -84,7 +84,6 @@ async function startBrowser({ cwd, app, output, port, https, serverPort, staticF
         chunkPath,
         publicPath,
         internalEslint,
-        asyncTypeCheck: true,
     }), createWebpackEnvConfig_1.createWebpackEnvConfig({
         serverPort,
         publicPath,

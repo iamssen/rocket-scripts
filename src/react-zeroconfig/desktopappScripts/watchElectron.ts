@@ -69,7 +69,6 @@ export async function watchElectron({
       chunkPath: '',
       publicPath: '',
       internalEslint: true,
-      asyncTypeCheck: false,
     }),
     createWebpackEnvConfig({
       serverPort: 0,
@@ -133,7 +132,6 @@ export async function watchElectron({
       chunkPath: '',
       publicPath: '',
       internalEslint: true,
-      asyncTypeCheck: false,
     }),
     createWebpackEnvConfig({
       serverPort: 0,

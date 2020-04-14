@@ -137,7 +137,6 @@ async function buildBrowser({ mode, sourceMap, output, app, cwd, serverPort, sta
         chunkPath,
         publicPath,
         internalEslint,
-        asyncTypeCheck: false,
     }), createWebpackEnvConfig_1.createWebpackEnvConfig({
         serverPort,
         publicPath,
