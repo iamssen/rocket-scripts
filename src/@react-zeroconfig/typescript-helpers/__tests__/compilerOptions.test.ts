@@ -132,6 +132,10 @@ describe('@react-zeroconfig/typescript-helpers', () => {
       // https://www.typescriptlang.org/tsconfig#jsxFactory
       // Zeroconfig 기본 설정 - jsx react
       jsxFactory: 'React',
+
+      // https://www.typescriptlang.org/v2/en/tsconfig#resolveJsonModule
+      // Zeroconfig 기본 지원
+      resolveJsonModule: true,
     };
 
     // IDE 지원을 위해 사용자에 의해 필수적으로 입력되어야 하는 설정들
@@ -266,6 +270,22 @@ describe('@react-zeroconfig/typescript-helpers', () => {
       strictBindCallApply: true,
       strictNullChecks: true,
       strictPropertyInitialization: true,
+
+      // https://www.typescriptlang.org/v2/en/tsconfig#stripInternal
+      // @internal 주석을 달아놓은 항목을 JSDoc comment를 만들지 않는다
+      // @internal 주석을 달아놓은 항목을 d.ts 에 포함시키지 않는다
+      stripInternal: false,
+
+      // https://www.typescriptlang.org/v2/en/tsconfig#esModuleInterop
+      // Babel 기능 기능
+      esModuleInterop: true,
+
+      // https://www.typescriptlang.org/v2/en/tsconfig#allowUnreachableCode
+      // if (condition) { return true }
+      // else { return false }
+      // return true // Error
+      // 이 Check를 없애준다
+      allowUnreachableCode: false,
     } as const;
 
     // 사용자가 설정해도 무시됨
@@ -469,6 +489,41 @@ describe('@react-zeroconfig/typescript-helpers', () => {
       // Babel에 의해 통제되므로 큰 의미가 없을듯...;;;
       // TODO tsc build에서 테스트해볼 필요가 있을듯 싶은데... 잘 모르겠다.
       sourceRoot: '',
+
+      // https://www.typescriptlang.org/v2/en/tsconfig#suppressExcessPropertyErrors
+      // 추천되지 않는 option, @ts-ignore 를 추천
+      suppressExcessPropertyErrors: false,
+
+      // https://www.typescriptlang.org/v2/en/tsconfig#suppressImplicitAnyIndexErrors
+      // 추천되지 않는 option, @ts-ignore 를 추천
+      suppressImplicitAnyIndexErrors: false,
+
+      // https://www.typescriptlang.org/v2/en/tsconfig#target
+      // Babel에 의해 결정된다 browserslist 사용
+      target: 'es5',
+
+      // https://www.typescriptlang.org/v2/en/tsconfig#traceResolution
+      // https://www.typescriptlang.org/v2/docs/handbook/module-resolution.html#tracing-module-resolution
+      // tsc module resolution 정보를 좀 더 디테일하게 보여준다?
+      // fork-ts-checker-webpack-plugin 에서 지원하지 않음
+      traceResolution: false,
+
+      // https://www.typescriptlang.org/v2/en/tsconfig#types
+      // types 개별 지정. 별 의미없는 기능일 것 같으니 사용하지 않음
+      types: undefined, // of string[]
+
+      // https://www.typescriptlang.org/v2/en/tsconfig#typeRoots
+      // @types 디렉토리들을 지정
+      // 사용자에게 허락하지 않아야 하는 기능
+      typeRoots: undefined, // of string[]
+
+      // https://www.typescriptlang.org/v2/en/tsconfig#useDefineForClassFields
+      // Babel에서는 영향이 없을듯
+      useDefineForClassFields: false,
+
+      // tsc --project tsconfig.json
+      // tsconfig.json 에서는 사용되지 않는 옵션
+      project: '',
     } as const;
 
     type Fixed = keyof typeof fixed;
