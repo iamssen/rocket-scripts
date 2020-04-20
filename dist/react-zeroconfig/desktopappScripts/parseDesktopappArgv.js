@@ -14,14 +14,25 @@ function parseDesktopappArgv(nodeArgv) {
     if (!types_1.isDesktopappCommand(command)) {
         throw new Error(`command must be one of ${types_1.desktopappCommands.join(', ')}`);
     }
+    const inputMode = takeMinimistLatestValue_1.takeMinimistLatestValue(argv['mode']);
+    if (inputMode !== undefined && !types_1.isMode(inputMode)) {
+        throw new Error(`mode must be one of ${types_1.modes.join(', ')}`);
+    }
     switch (command) {
         case 'build':
-            if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
-                sayTitle_1.sayTitle('FOUND NODE_ENV');
-                console.log(`In "zeroconfig-desktopapp-scripts ${command}". NODE_ENV should always be "production"`);
-                console.log('[setting change]: process.env.NODE_ENV → production');
+            if (process.env.NODE_ENV && types_1.isMode(process.env.NODE_ENV)) {
+                if (types_1.isMode(inputMode) && process.env.NODE_ENV !== inputMode) {
+                    sayTitle_1.sayTitle('FOUND NODE_ENV');
+                    console.log('if NODE_ENV and --mode are entered differently, NODE_ENV takes precedence.');
+                    console.log(`[setting change]: --mode → ${process.env.NODE_ENV}`);
+                }
             }
-            process.env.NODE_ENV = 'production';
+            else if (!process.env.NODE_ENV && types_1.isMode(inputMode)) {
+                process.env.NODE_ENV = inputMode;
+            }
+            else {
+                process.env.NODE_ENV = 'production';
+            }
             break;
         case 'start':
         case 'electron-watch':
@@ -39,9 +50,15 @@ function parseDesktopappArgv(nodeArgv) {
     return {
         command: command,
         app,
-        output: takeMinimistLatestValue_1.takeMinimistLatestValue(argv['output']),
+        sourceMap: takeMinimistLatestValue_1.takeMinimistLatestValue(argv['source-map']) === 'true'
+            ? true
+            : takeMinimistLatestValue_1.takeMinimistLatestValue(argv['source-map']) === 'false'
+                ? false
+                : undefined,
         staticFileDirectories: takeMinimistEveryValues_1.takeMinimistEveryValues(argv['static-file-directories']),
         staticFilePackages: takeMinimistEveryValues_1.takeMinimistEveryValues(argv['static-file-packages']),
+        output: takeMinimistLatestValue_1.takeMinimistLatestValue(argv['output']),
+        mode: process.env.NODE_ENV,
     };
 }
 exports.parseDesktopappArgv = parseDesktopappArgv;

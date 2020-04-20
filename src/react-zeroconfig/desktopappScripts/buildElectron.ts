@@ -19,6 +19,8 @@ import { getRendererExternals } from './getRendererExternals';
 import { validateAppDependencies } from './validateAppDependencies';
 
 export async function buildElectron({
+  mode,
+  sourceMap,
   cwd,
   app,
   zeroconfigPath,
@@ -82,7 +84,16 @@ export async function buildElectron({
     createWebpackBaseConfig({ zeroconfigPath }),
     {
       target: 'electron-main',
-      mode: 'production',
+
+      mode,
+      devtool:
+        typeof sourceMap === 'boolean'
+          ? sourceMap
+            ? 'source-map'
+            : false
+          : mode === 'production'
+          ? false
+          : 'source-map',
 
       resolve: {
         mainFields: ['main'],
@@ -118,7 +129,16 @@ export async function buildElectron({
     createWebpackBaseConfig({ zeroconfigPath }),
     {
       target: 'electron-renderer',
-      mode: 'production',
+
+      mode,
+      devtool:
+        typeof sourceMap === 'boolean'
+          ? sourceMap
+            ? 'source-map'
+            : false
+          : mode === 'production'
+          ? false
+          : 'source-map',
 
       resolve: {
         mainFields: ['main'],

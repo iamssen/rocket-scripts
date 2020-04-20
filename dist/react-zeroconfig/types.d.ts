@@ -90,6 +90,8 @@ export interface WebappConfig {
 export interface DesktopappArgv {
     command: DesktopappCommand;
     app: string;
+    mode: Mode;
+    sourceMap: boolean | undefined;
     output: string | undefined;
     staticFileDirectories: string | undefined;
     staticFilePackages: string | undefined;
@@ -97,7 +99,9 @@ export interface DesktopappArgv {
 export interface DesktopappConfig {
     command: DesktopappCommand;
     app: string;
+    sourceMap: boolean | undefined;
     staticFileDirectories: string[];
+    mode: Mode;
     output: string;
     cwd: string;
     zeroconfigPath: string;

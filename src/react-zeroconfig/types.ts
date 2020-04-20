@@ -148,11 +148,22 @@ export interface WebappConfig {
 }
 
 export interface DesktopappArgv {
+  // common
   command: DesktopappCommand;
   app: string;
 
+  // --mode "production" | "development"
+  mode: Mode;
+
+  // --source-map true --mode production
+  // --source-map false --mode development
+  sourceMap: boolean | undefined;
+
+  // --output "/path/to" - relative paths from cwd or absolute paths
   output: string | undefined;
 
+  // --static-file-directories "public static" - relative paths from cwd or absolute paths
+  // --static-file-packages "xxx yyy" - packages
   staticFileDirectories: string | undefined;
   staticFilePackages: string | undefined;
 }
@@ -161,9 +172,12 @@ export interface DesktopappConfig {
   command: DesktopappCommand;
   app: string;
 
+  sourceMap: boolean | undefined;
+
   // build
   staticFileDirectories: string[];
 
+  mode: Mode;
   output: string; // absolute paths
 
   // internal

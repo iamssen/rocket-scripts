@@ -14,7 +14,7 @@ export async function createDesktopappConfig({
   cwd: string;
   zeroconfigPath: string;
 }): Promise<DesktopappConfig> {
-  const { command, app } = argv;
+  const { command, app, mode, sourceMap } = argv;
 
   if (!(await fs.pathExists(path.join(cwd, 'src', app)))) throw new Error(`${path.join(cwd, 'src', app)} is undefined`);
 
@@ -30,6 +30,9 @@ export async function createDesktopappConfig({
   return {
     command,
     app,
+
+    mode,
+    sourceMap,
 
     staticFileDirectories,
 

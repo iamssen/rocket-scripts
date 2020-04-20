@@ -20,7 +20,7 @@ const createWebpackWebappConfig_1 = require("../webpackConfigs/createWebpackWeba
 const copyElectronPackageJson_1 = require("./copyElectronPackageJson");
 const getRendererExternals_1 = require("./getRendererExternals");
 const validateAppDependencies_1 = require("./validateAppDependencies");
-async function buildElectron({ cwd, app, zeroconfigPath, staticFileDirectories, output, extend, }) {
+async function buildElectron({ mode, sourceMap, cwd, app, zeroconfigPath, staticFileDirectories, output, extend, }) {
     try {
         validateAppDependencies_1.validateAppDependencies({
             projectPackageJson: fs_extra_1.default.readJsonSync(path_1.default.join(cwd, 'package.json')),
@@ -74,7 +74,14 @@ async function buildElectron({ cwd, app, zeroconfigPath, staticFileDirectories, 
     };
     const webpackMainConfig = webpack_merge_1.default(createWebpackBaseConfig_1.createWebpackBaseConfig({ zeroconfigPath }), {
         target: 'electron-main',
-        mode: 'production',
+        mode,
+        devtool: typeof sourceMap === 'boolean'
+            ? sourceMap
+                ? 'source-map'
+                : false
+            : mode === 'production'
+                ? false
+                : 'source-map',
         resolve: {
             mainFields: ['main'],
         },
@@ -99,7 +106,14 @@ async function buildElectron({ cwd, app, zeroconfigPath, staticFileDirectories, 
     }));
     const webpackRendererConfig = webpack_merge_1.default(createWebpackBaseConfig_1.createWebpackBaseConfig({ zeroconfigPath }), {
         target: 'electron-renderer',
-        mode: 'production',
+        mode,
+        devtool: typeof sourceMap === 'boolean'
+            ? sourceMap
+                ? 'source-map'
+                : false
+            : mode === 'production'
+                ? false
+                : 'source-map',
         resolve: {
             mainFields: ['main'],
         },

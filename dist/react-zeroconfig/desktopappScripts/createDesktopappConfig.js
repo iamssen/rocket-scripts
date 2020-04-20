@@ -9,7 +9,7 @@ const tmp_1 = __importDefault(require("tmp"));
 const glob_promise_1 = require("../utils/glob-promise");
 const getStaticFileDirectories_1 = require("../webappScripts/getStaticFileDirectories");
 async function createDesktopappConfig({ argv, cwd, zeroconfigPath, }) {
-    const { command, app } = argv;
+    const { command, app, mode, sourceMap } = argv;
     if (!(await fs_extra_1.default.pathExists(path_1.default.join(cwd, 'src', app))))
         throw new Error(`${path_1.default.join(cwd, 'src', app)} is undefined`);
     const staticFileDirectories = await getStaticFileDirectories_1.getStaticFileDirectories({ ...argv, cwd });
@@ -22,6 +22,8 @@ async function createDesktopappConfig({ argv, cwd, zeroconfigPath, }) {
     return {
         command,
         app,
+        mode,
+        sourceMap,
         staticFileDirectories,
         output,
         cwd,

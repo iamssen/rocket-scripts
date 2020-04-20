@@ -1,5 +1,13 @@
 import minimist, { ParsedArgs } from 'minimist';
-import { DesktopappArgv, DesktopappCommand, desktopappCommands, isDesktopappCommand } from '../types';
+import {
+  DesktopappArgv,
+  DesktopappCommand,
+  desktopappCommands,
+  isDesktopappCommand,
+  isMode,
+  Mode,
+  modes,
+} from '../types';
 import { sayTitle } from '../utils/sayTitle';
 import { takeMinimistEveryValues } from '../utils/takeMinimistEveryValues';
 import { takeMinimistLatestValue } from '../utils/takeMinimistLatestValue';
@@ -12,15 +20,25 @@ export function parseDesktopappArgv(nodeArgv: string[]): DesktopappArgv {
     throw new Error(`command must be one of ${desktopappCommands.join(', ')}`);
   }
 
+  const inputMode: string | undefined = takeMinimistLatestValue(argv['mode']);
+
+  if (inputMode !== undefined && !isMode(inputMode)) {
+    throw new Error(`mode must be one of ${modes.join(', ')}`);
+  }
+
   switch (command) {
     case 'build':
-      if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
-        sayTitle('FOUND NODE_ENV');
-        console.log(`In "zeroconfig-desktopapp-scripts ${command}". NODE_ENV should always be "production"`);
-        console.log('[setting change]: process.env.NODE_ENV → production');
+      if (process.env.NODE_ENV && isMode(process.env.NODE_ENV)) {
+        if (isMode(inputMode) && process.env.NODE_ENV !== inputMode) {
+          sayTitle('FOUND NODE_ENV');
+          console.log('if NODE_ENV and --mode are entered differently, NODE_ENV takes precedence.');
+          console.log(`[setting change]: --mode → ${process.env.NODE_ENV}`);
+        }
+      } else if (!process.env.NODE_ENV && isMode(inputMode)) {
+        process.env.NODE_ENV = inputMode;
+      } else {
+        process.env.NODE_ENV = 'production';
       }
-
-      process.env.NODE_ENV = 'production';
       break;
     case 'start':
     case 'electron-watch':
@@ -40,8 +58,15 @@ export function parseDesktopappArgv(nodeArgv: string[]): DesktopappArgv {
   return {
     command: command as DesktopappCommand,
     app,
-    output: takeMinimistLatestValue(argv['output']),
+    sourceMap:
+      takeMinimistLatestValue(argv['source-map']) === 'true'
+        ? true
+        : takeMinimistLatestValue(argv['source-map']) === 'false'
+        ? false
+        : undefined,
     staticFileDirectories: takeMinimistEveryValues(argv['static-file-directories']),
     staticFilePackages: takeMinimistEveryValues(argv['static-file-packages']),
+    output: takeMinimistLatestValue(argv['output']),
+    mode: process.env.NODE_ENV as Mode,
   };
 }
