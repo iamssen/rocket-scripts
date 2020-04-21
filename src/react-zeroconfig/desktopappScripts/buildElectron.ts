@@ -40,8 +40,8 @@ export async function buildElectron({
   }
 
   const optimization: Options.Optimization = {
-    concatenateModules: true,
-    minimize: true,
+    concatenateModules: mode === 'production',
+    minimize: mode === 'production',
     minimizer: [
       new TerserPlugin({
         terserOptions: {
@@ -71,10 +71,13 @@ export async function buildElectron({
       new OptimizeCSSAssetsPlugin({
         cssProcessorOptions: {
           parser: safePostCssParser,
-          map: {
-            inline: false,
-            annotation: true,
-          },
+          map:
+            mode === 'production'
+              ? {
+                  inline: false,
+                  annotation: true,
+                }
+              : false,
         },
       }),
     ],
