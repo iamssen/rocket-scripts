@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.30.0] - 2020-04-21
+### Added
+- Add parameters `mode` and `source-map` to `zeroconfig-desktopapp-scripts`
+
 ## [3.29.4] - 2020-04-13
 ### Fixed
 - Bug fixes...
@@ -181,6 +185,7 @@ Nothing. Just dependencies update
 ### Changed
 - tsconfig's `strictFunctionTypes` to `true`
 
+[3.30.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/react-zeroconfig@3.29.4...react-zeroconfig@3.30.0
 [3.29.4]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.29.0...react-zeroconfig@3.29.4
 [3.29.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.28.0...3.29.0
 [3.28.0]: https://github.com/react-zeroconfig/react-zeroconfig/compare/3.27.0...3.28.0
