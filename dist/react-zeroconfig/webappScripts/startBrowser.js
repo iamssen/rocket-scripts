@@ -14,7 +14,7 @@ const webpack_plugin_1 = __importDefault(require("@loadable/webpack-plugin"));
 const browser_sync_1 = __importDefault(require("browser-sync"));
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const html_webpack_plugin_1 = __importDefault(require("html-webpack-plugin"));
-const http_proxy_middleware_1 = __importDefault(require("http-proxy-middleware"));
+const http_proxy_middleware_1 = require("http-proxy-middleware");
 const path_1 = __importDefault(require("path"));
 const webpack_1 = __importStar(require("webpack"));
 const webpack_dev_middleware_1 = __importDefault(require("webpack-dev-middleware"));
@@ -104,13 +104,13 @@ async function startBrowser({ cwd, app, output, port, https, serverPort, staticF
         const proxyConfigs = packageJson.proxy;
         Object.keys(proxyConfigs).forEach((uri) => {
             // @ts-ignore as MiddlewareHandler
-            middleware.push(http_proxy_middleware_1.default(uri, proxyConfigs[uri]));
+            middleware.push(http_proxy_middleware_1.createProxyMiddleware(uri, proxyConfigs[uri]));
         });
     }
     if (extend.serverSideRendering) {
         middleware.push(
         // @ts-ignore as MiddlewareHandler
-        http_proxy_middleware_1.default(['**', '!**/*.*'], {
+        http_proxy_middleware_1.createProxyMiddleware(['**', '!**/*.*'], {
             target: `http://localhost:${serverPort}`,
         }));
     }
