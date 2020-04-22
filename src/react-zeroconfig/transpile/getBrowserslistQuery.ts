@@ -1,12 +1,12 @@
 import { loadConfig } from 'browserslist/node';
 
 const defaultQuery: { [env: string]: string | string[] } = {
-  production: ['>0.2%', 'not dead', 'not op_mini all'],
-  development: ['last 1 chrome version', 'last 1 firefox version', 'last 1 safari version', 'ie 11'],
+  production: ['chrome > 60', 'firefox > 60', 'safari > 12'],
+  development: ['last 1 chrome version', 'last 1 firefox version', 'last 1 safari version'],
   server: 'node 10',
   server_development: 'current node',
   electron: 'last 1 electron version',
-  package: ['>0.2%', 'not dead', 'not op_mini all'],
+  package: ['chrome > 60', 'firefox > 60', 'safari > 12'],
   defaults: 'current node',
 };
 
