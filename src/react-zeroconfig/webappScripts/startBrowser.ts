@@ -3,7 +3,7 @@ import browserSync, { MiddlewareHandler, Options } from 'browser-sync';
 import fs from 'fs-extra';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { IncomingMessage, ServerResponse } from 'http';
-import proxyMiddleware, { Options as HttpProxyMiddlewareOptions } from 'http-proxy-middleware';
+import { createProxyMiddleware, Options as HttpProxyMiddlewareOptions } from 'http-proxy-middleware';
 import path from 'path';
 import { PackageJson } from 'type-fest';
 import webpack, { Compiler, Configuration, HotModuleReplacementPlugin, WatchIgnorePlugin } from 'webpack';
@@ -153,14 +153,14 @@ export async function startBrowser({
     };
     Object.keys(proxyConfigs).forEach((uri) => {
       // @ts-ignore as MiddlewareHandler
-      middleware.push(proxyMiddleware(uri, proxyConfigs[uri]));
+      middleware.push(createProxyMiddleware(uri, proxyConfigs[uri]));
     });
   }
 
   if (extend.serverSideRendering) {
     middleware.push(
       // @ts-ignore as MiddlewareHandler
-      proxyMiddleware(['**', '!**/*.*'], {
+      createProxyMiddleware(['**', '!**/*.*'], {
         target: `http://localhost:${serverPort}`,
       }),
     );

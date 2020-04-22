@@ -33,8 +33,8 @@ async function buildElectron({ mode, sourceMap, cwd, app, zeroconfigPath, static
         process.exit(1);
     }
     const optimization = {
-        concatenateModules: true,
-        minimize: true,
+        concatenateModules: mode === 'production',
+        minimize: mode === 'production',
         minimizer: [
             new terser_webpack_plugin_1.default({
                 terserOptions: {
@@ -64,10 +64,12 @@ async function buildElectron({ mode, sourceMap, cwd, app, zeroconfigPath, static
             new optimize_css_assets_webpack_plugin_1.default({
                 cssProcessorOptions: {
                     parser: postcss_safe_parser_1.default,
-                    map: {
-                        inline: false,
-                        annotation: true,
-                    },
+                    map: mode === 'production'
+                        ? {
+                            inline: false,
+                            annotation: true,
+                        }
+                        : false,
                 },
             }),
         ],
