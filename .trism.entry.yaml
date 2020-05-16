@@ -1,7 +1,13 @@
 '@ssen/collect-dependencies':
   version: 0.1.0
   tag: canary
+'@ssen/promised':
+  version: 0.1.0
+  tag: canary
 '@ssen/tmp-directory':
+  version: 0.1.0
+  tag: canary
+'@ssen/tsconfig':
   version: 0.1.0
   tag: canary
 '@react-zeroconfig/babel-preset':

@@ -1,0 +1,31 @@
+{
+  "author": "SSen <i@ssen.name>",
+  "license": "MIT",
+  "repository": "github:react-zeroconfig/react-zeroconfig",
+  "bugs": "https://github.com/react-zeroconfig/react-zeroconfig/issues",
+  "homepage": "https://github.com/react-zeroconfig/react-zeroconfig/tree/master/src/@react-zeroconfig/packages",
+  "engines": {
+    "node": ">=10"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "name": "@react-zeroconfig/packages",
+  "version": "4.0.0-alpha.1",
+  "dependencies": {
+    "@react-zeroconfig/core": "^4.0.0-alpha.1",
+    "@ssen/collect-dependencies": "^0.1.0",
+    "@ssen/promised": "^0.1.0",
+    "@ssen/tsconfig": "^0.1.0",
+    "fs-extra": "^9.0.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "type-fest": "^0.13.1",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.0",
+    "webpack-node-externals": "^1.7.2",
+    "@react-zeroconfig/babel-preset": "^3.28.0",
+    "@handbook/babel-plugin": "*",
+    "url-loader": "^4.1.0",
+    "js-yaml": "^3.13.1"
+  }
+}

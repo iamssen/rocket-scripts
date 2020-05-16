@@ -1,8 +1,8 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { PackageJson } from 'type-fest';
-import { PackageInfo } from '@react-zeroconfig/packages/types';
-import { packageJsonFactoryFileName } from '@react-zeroconfig/packages/rule/fileNames';
+import { packageJsonFactoryFileName } from '../rule/fileNames';
+import { PackageInfo } from '../types';
 
 interface Params {
   packageDir: string;

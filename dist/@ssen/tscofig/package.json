@@ -1,0 +1,16 @@
+{
+  "author": "SSen <i@ssen.name>",
+  "license": "MIT",
+  "repository": "github:react-zeroconfig/react-zeroconfig",
+  "bugs": "https://github.com/react-zeroconfig/react-zeroconfig/issues",
+  "homepage": "https://github.com/react-zeroconfig/react-zeroconfig/tree/master/src/@ssen/tscofig",
+  "engines": {
+    "node": ">=10"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "name": "@ssen/tscofig",
+  "version": "0.1.0",
+  "dependencies": {}
+}

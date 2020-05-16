@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.validatePackage = void 0;
 const findInternalPackageMissingDependencies_1 = require("../internalPackage/findInternalPackageMissingDependencies");
 async function validatePackage({ name, packageDir, }) {
     const missingPackages = await findInternalPackageMissingDependencies_1.findInternalPackageMissingDependencies({ packageDir });

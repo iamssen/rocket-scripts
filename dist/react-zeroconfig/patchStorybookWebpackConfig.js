@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.patchStorybookWebpackConfig = void 0;
 const getWebpackAlias_1 = require("./webpackConfigs/getWebpackAlias");
 const getWebpackMDXLoaders_1 = require("./webpackConfigs/getWebpackMDXLoaders");
 const getWebpackScriptLoaders_1 = require("./webpackConfigs/getWebpackScriptLoaders");

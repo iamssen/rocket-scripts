@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.parsePackageArgv = void 0;
 const minimist_1 = __importDefault(require("minimist"));
 const types_1 = require("../types");
 const takeMinimistLatestValue_1 = require("../utils/takeMinimistLatestValue");

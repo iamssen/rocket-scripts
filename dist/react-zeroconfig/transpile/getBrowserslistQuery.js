@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getBrowserslistQuery = void 0;
 const node_1 = require("browserslist/node");
 const defaultQuery = {
     production: ['chrome > 60', 'firefox > 60', 'safari > 12'],

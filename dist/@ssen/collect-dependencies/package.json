@@ -1,0 +1,19 @@
+{
+  "author": "SSen <i@ssen.name>",
+  "license": "MIT",
+  "repository": "github:react-zeroconfig/react-zeroconfig",
+  "bugs": "https://github.com/react-zeroconfig/react-zeroconfig/issues",
+  "homepage": "https://github.com/react-zeroconfig/react-zeroconfig/tree/master/src/@ssen/collect-dependencies",
+  "engines": {
+    "node": ">=10"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "name": "@ssen/collect-dependencies",
+  "version": "0.1.0",
+  "dependencies": {
+    "type-fest": "^0.13.1",
+    "typescript": "^3.8.3"
+  }
+}

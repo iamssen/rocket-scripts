@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.webappScripts = void 0;
 const multiplerun_1 = __importDefault(require("multiplerun"));
 const path_1 = __importDefault(require("path"));
 const rimraf_promise_1 = require("../utils/rimraf-promise");

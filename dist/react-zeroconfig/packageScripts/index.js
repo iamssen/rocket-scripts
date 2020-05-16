@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.packageScripts = void 0;
 const sayTitle_1 = require("../utils/sayTitle");
 const sayZeroconfig_1 = require("../utils/sayZeroconfig");
 const buildPackages_1 = require("./buildPackages");

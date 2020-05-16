@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.publishPackages = void 0;
 const path_1 = __importDefault(require("path"));
 const getInternalPackageEntry_1 = require("../internalPackage/getInternalPackageEntry");
 const exec_promise_1 = require("../utils/exec-promise");

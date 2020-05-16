@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getPackageJsonContentsOrderedNames = void 0;
 function compare(a, b) {
     const aIsHigher = 1;
     const bIsHigher = -1;

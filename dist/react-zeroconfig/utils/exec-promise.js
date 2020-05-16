@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.exec = void 0;
 const child_process_1 = require("child_process");
 const util_1 = require("util");
 exports.exec = util_1.promisify(child_process_1.exec);

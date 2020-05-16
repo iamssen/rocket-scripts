@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createWebpackPackageConfig = void 0;
 const getWebpackMDXLoaders_1 = require("./getWebpackMDXLoaders");
 const getWebpackRawLoaders_1 = require("./getWebpackRawLoaders");
 const getWebpackScriptLoaders_1 = require("./getWebpackScriptLoaders");

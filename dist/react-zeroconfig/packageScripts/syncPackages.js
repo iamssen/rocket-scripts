@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.syncPackages = void 0;
 const sayTitle_1 = require("../utils/sayTitle");
 const findMissingDependencies_1 = require("./findMissingDependencies");
 async function syncPackages({ cwd }) {

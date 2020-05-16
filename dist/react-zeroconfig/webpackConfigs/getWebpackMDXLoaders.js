@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getWebpackMDXLoaders = void 0;
 const path_1 = __importDefault(require("path"));
 const getBabelConfig_1 = require("../transpile/getBabelConfig");
 function getWebpackMDXLoaders({ test = /\.mdx$/, cwd, mdxLoaderOptions = {}, targets, }) {

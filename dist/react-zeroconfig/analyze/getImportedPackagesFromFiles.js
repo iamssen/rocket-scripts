@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getImportedPackagesFromFiles = void 0;
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const getImportedPackagesFromSource_1 = require("./getImportedPackagesFromSource");
 async function getImportedPackagesFromFiles(files) {

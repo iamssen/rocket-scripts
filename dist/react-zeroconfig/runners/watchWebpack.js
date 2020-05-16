@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.watchWebpack = void 0;
 const rxjs_1 = require("rxjs");
 const webpack_1 = __importDefault(require("webpack"));
 function watchWebpack(webpackConfig, watchOptions = {}) {

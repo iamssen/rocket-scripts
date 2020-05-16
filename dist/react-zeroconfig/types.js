@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isMode = exports.isExtensionCommand = exports.isDesktopappCommand = exports.isWebappCommand = exports.isPackageCommand = exports.modes = exports.extensionCommands = exports.desktopappCommands = exports.webappCommands = exports.packageCommands = void 0;
 /* eslint-disable @typescript-eslint/typedef */
 exports.packageCommands = ['build', 'publish', 'validate', 'list', 'sync'];
 exports.webappCommands = ['build', 'start', 'server-watch', 'server-start', 'browser-start'];

@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.watchServer = void 0;
 const mini_css_extract_plugin_1 = __importDefault(require("mini-css-extract-plugin"));
 const path_1 = __importDefault(require("path"));
 const webpack_merge_1 = __importDefault(require("webpack-merge"));

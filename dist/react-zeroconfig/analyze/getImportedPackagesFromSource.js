@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getImportedPackagesFromSource = void 0;
 function getImportedPackagesFromSource(source) {
     const testImport = / from ['"]([@a-zA-Z][a-zA-Z0-9-_./]*)['"]/g;
     const matchedStrings = source.match(testImport) || [];
