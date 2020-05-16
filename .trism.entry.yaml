@@ -1,6 +1,18 @@
+'@ssen/collect-dependencies':
+  version: 0.1.0
+  tag: canary
+'@ssen/tmp-directory':
+  version: 0.1.0
+  tag: canary
 '@react-zeroconfig/babel-preset':
   version: 3.28.0
   tag: latest
+'@react-zeroconfig/core':
+  version: 4.0.0-alpha.1
+  tag: canary
+'@react-zeroconfig/packages':
+  version: 4.0.0-alpha.1
+  tag: canary
 filesize-test:
   version: 0.1.4
   tag: latest

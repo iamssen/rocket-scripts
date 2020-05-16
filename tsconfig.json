@@ -21,5 +21,8 @@
         "*"
       ]
     }
-  }
+  },
+  "exclude": [
+    "test/fixtures"
+  ]
 }
