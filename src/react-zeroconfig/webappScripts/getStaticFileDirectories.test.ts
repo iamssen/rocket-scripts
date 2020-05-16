@@ -15,17 +15,16 @@ describe('getStaticFileDirectories()', () => {
 
   test('staticFileDirectories를 입력하지 않았을때 static 디렉토리를 자동으로 가져옴', async () => {
     const cwd: string = await createTmpFixture('packages');
+    const dirs: string[] = await getStaticFileDirectories({ cwd });
 
-    await expect(getStaticFileDirectories({ cwd })).resolves.toEqual([
-      path.join(cwd, 'public'),
-      path.join(cwd, 'src/_packages/c/public'),
-    ]);
+    expect(dirs).toEqual([path.join(cwd, 'public'), path.join(cwd, 'src/_packages/c/public')]);
   });
 
   test('staticFilePackages를 입력했을때 public을 가져옴', async () => {
     const cwd: string = await createTmpFixture('mock-modules');
+    const dirs: string[] = await getStaticFileDirectories({ staticFilePackages: 'x y', cwd });
 
-    await expect(getStaticFileDirectories({ staticFilePackages: 'x y', cwd })).resolves.toEqual([
+    expect(dirs).toEqual([
       path.join(cwd, 'public'),
       path.join(cwd, 'src/_packages/c/public'),
       //path.join(cwd, 'node_modules/x/public'), // x/public 디렉토리가 없음
