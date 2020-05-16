@@ -20,15 +20,15 @@ describe('getStaticFileDirectories()', () => {
     expect(dirs).toEqual([path.join(cwd, 'public'), path.join(cwd, 'src/_packages/c/public')]);
   });
 
-  test('staticFilePackages를 입력했을때 public을 가져옴', async () => {
-    const cwd: string = await createTmpFixture('mock-modules');
-    const dirs: string[] = await getStaticFileDirectories({ staticFilePackages: 'x y', cwd });
-
-    expect(dirs).toEqual([
-      path.join(cwd, 'public'),
-      path.join(cwd, 'src/_packages/c/public'),
-      //path.join(cwd, 'node_modules/x/public'), // x/public 디렉토리가 없음
-      path.join(cwd, 'node_modules/y/public'),
-    ]);
-  });
+  //test('staticFilePackages를 입력했을때 public을 가져옴', async () => {
+  //  const cwd: string = await createTmpFixture('mock-modules');
+  //  const dirs: string[] = await getStaticFileDirectories({ staticFilePackages: 'x y', cwd });
+  //
+  //  expect(dirs).toEqual([
+  //    path.join(cwd, 'public'),
+  //    path.join(cwd, 'src/_packages/c/public'),
+  //    //path.join(cwd, 'node_modules/x/public'), // x/public 디렉토리가 없음
+  //    path.join(cwd, 'node_modules/y/public'),
+  //  ]);
+  //});
 });
