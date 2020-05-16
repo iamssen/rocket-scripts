@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "scripts": {
+    "app:build": "zeroconfig-webapp-scripts build app",
+    "app:start": "zeroconfig-webapp-scripts start app",
+    "build": "npm run app:build",
+    "start": "npm run app:start"
+  },
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-app-polyfill": "^1.0.1",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.17",
+    "@types/react-dom": "^16.8.4",
+    "@types/webpack-env": "^1.13.9",
+    "react-zeroconfig": "^3.0.0-alpha.3",
+    "tslint": "^5.16.0",
+    "tslint-loader": "^3.5.4",
+    "tslint-ssen-rules": "^1.1.1",
+    "typescript": "^3.4.5"
+  }
+}

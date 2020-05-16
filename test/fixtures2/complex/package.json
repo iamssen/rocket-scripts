@@ -1,0 +1,36 @@
+{
+  "private": true,
+  "scripts": {
+    "csr:js:build": "zeroconfig-webapp-scripts build csrjs --size-report false",
+    "csr:js:start": "zeroconfig-webapp-scripts start csrjs",
+    "ssr:js:build": "zeroconfig-webapp-scripts build ssrjs --size-report false",
+    "ssr:js:start": "zeroconfig-webapp-scripts start ssrjs",
+    "csr:ts:build": "zeroconfig-webapp-scripts build csrts --size-report false",
+    "csr:ts:start": "zeroconfig-webapp-scripts start csrts",
+    "ssr:ts:build": "zeroconfig-webapp-scripts build ssrts --size-report false",
+    "ssr:ts:start": "zeroconfig-webapp-scripts start ssrts",
+    "build": "npm run csr:js:build && npm run ssr:js:build && npm run csr:ts:build && npm run ssr:ts:build"
+  },
+  "dependencies": {
+    "@loadable/component": "^5.10.1",
+    "@loadable/server": "^5.9.0",
+    "koa": "^2.7.0",
+    "koa-router": "^7.4.0",
+    "react": "^16.8.6",
+    "react-app-polyfill": "^1.0.1",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.48",
+    "@types/koa-router": "^7.0.40",
+    "@types/loadable__component": "^5.9.0",
+    "@types/loadable__server": "^5.9.0",
+    "@types/react": "^16.8.17",
+    "@types/react-dom": "^16.8.4",
+    "@types/webpack-env": "^1.13.9",
+    "react-zeroconfig": "^3.0.0-alpha.5",
+    "tslint": "^5.16.0",
+    "tslint-ssen-rules": "^1.1.1",
+    "typescript": "^3.4.5"
+  }
+}

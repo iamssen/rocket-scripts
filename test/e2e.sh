@@ -37,7 +37,7 @@ function handleExit {
 trap 'handleError $LINE0 $BASH_COMMAND' ERR;
 trap 'handleExit' SIGQUIT SIGTERM SIGINT SIGHUP;
 
-if [ -d "$ROOT/test/storage" ]; then
+if [[ -d "$ROOT/test/storage" ]]; then
   tree "$ROOT/test/storage";
   rm -rf "$ROOT/test/storage";
 fi;
@@ -75,7 +75,6 @@ createTmpFixture() {
 
 # zeroconfig-package-scripts build
 createTmpFixture simple-packages;
-echo "????? $(pwd)";
 npm run package:build;
 fileExists "$TEMP"/dist/packages/iamssen-test-component/index.js;
 fileExists "$TEMP"/dist/packages/iamssen-test-component/index.d.ts;

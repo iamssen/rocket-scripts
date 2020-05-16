@@ -1,0 +1,32 @@
+{
+  "private": true,
+  "scripts": {
+    "app:build": "zeroconfig-webapp-scripts build app",
+    "app:start": "zeroconfig-webapp-scripts start app",
+    "build": "npm run app:build",
+    "start": "npm run app:start"
+  },
+  "dependencies": {
+    "@loadable/component": "^5.10.1",
+    "@loadable/server": "^5.9.0",
+    "koa": "^2.7.0",
+    "koa-router": "^7.4.0",
+    "react": "^16.8.6",
+    "react-app-polyfill": "^1.0.1",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.48",
+    "@types/koa-router": "^7.0.40",
+    "@types/loadable__component": "^5.9.0",
+    "@types/loadable__server": "^5.9.0",
+    "@types/react": "^16.8.17",
+    "@types/react-dom": "^16.8.4",
+    "@types/webpack-env": "^1.13.9",
+    "react-zeroconfig": "^3.0.0-alpha.5",
+    "tslint": "^5.16.0",
+    "tslint-ssen-rules": "^1.1.1",
+    "tslint-loader": "^3.5.4",
+    "typescript": "^3.4.5"
+  }
+}

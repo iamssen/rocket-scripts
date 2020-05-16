@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "scripts": {
+    "app:build": "zeroconfig-webapp-scripts build app",
+    "app:start": "zeroconfig-webapp-scripts start app",
+    "package:build": "zeroconfig-package-scripts build",
+    "package:publish": "zeroconfig-package-scripts publish",
+    "build": "npm run app:build",
+    "start": "npm run app:start"
+  },
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-app-polyfill": "^1.0.1",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.17",
+    "@types/react-dom": "^16.8.4",
+    "@types/webpack-env": "^1.13.9"
+  }
+}

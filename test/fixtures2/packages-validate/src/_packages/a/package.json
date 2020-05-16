@@ -1,0 +1,9 @@
+{
+  "name": "a",
+  "version": "0.0.2",
+  "main": "index.js",
+  "dependencies": {
+    "react": "^16.8.0",
+    "c": "^2.0.0"
+  }
+}

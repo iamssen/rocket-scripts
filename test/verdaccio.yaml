@@ -28,6 +28,10 @@ packages:
     access: $anonymous
     publish: $anonymous
 
+  '@ssen/*':
+    access: $anonymous
+    publish: $anonymous
+
   '@*/*':
     access: $anonymous
     publish: $anonymous
