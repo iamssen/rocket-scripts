@@ -2,11 +2,14 @@
 
 # 🚀 Quick Start
 
-```bash
-npm install -g create-zeroconfig-app
-
-create-zeroconfig-app my-app
-```
+- [✈️ Click to Create a Javascript Web App](https://github.com/react-zeroconfig/basic-javascript-app/generate)
+- [✈️ Click to Create a Javascript Electron Desktop App](https://github.com/react-zeroconfig/basic-javascript-electron-app/generate)
+- [✈️ Click to Create a Javascript SSR Web App](https://github.com/react-zeroconfig/basic-javascript-ssr-app/generate)
+- [✈️ Click to Create a Javascript Playground (storybook, jest...)](https://github.com/react-zeroconfig/javascript-playground/generate)
+- [🚀 Click to Create a Typescript Web App](https://github.com/react-zeroconfig/basic-typescript-app/generate)
+- [🚀 Click to Create a Typescript Electron Desktop App](https://github.com/react-zeroconfig/basic-typescript-electron-app/generate)
+- [🚀 Click to Create a Typescript SSR Web App](https://github.com/react-zeroconfig/basic-typescript-ssr-app/generate)
+- [🚀 Click to Create a Typescript Playground (storybook, jest...)](https://github.com/react-zeroconfig/typescript-playground/generate)
 
 # Links
 
