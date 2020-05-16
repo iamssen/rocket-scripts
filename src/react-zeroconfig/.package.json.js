@@ -1,4 +1,4 @@
-const rootPackageJson = require('../../../package.json');
+const rootPackageJson = require('../../package.json');
 
 module.exports = (computedPackageJson) => {
   const rootDependencies = { ...rootPackageJson.devDependencies, ...rootPackageJson.dependencies };
