@@ -4,6 +4,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "alwaysStrict": true,
+    "jsx": "react",
     "strictNullChecks": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
@@ -17,12 +18,7 @@
     "declaration": true,
     "baseUrl": "src",
     "paths": {
-      "*": [
-        "*"
-      ]
+      "*": ["*"]
     }
-  },
-  "exclude": [
-    "test/fixtures"
-  ]
+  }
 }

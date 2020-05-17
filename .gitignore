@@ -1,6 +1,7 @@
-.idea/
-.vscode/
-node_modules/
+/.idea
+/.vscode
+/node_modules
+
 .DS_Store
 *.tgz
 lerna-debug.log
@@ -11,3 +12,4 @@ yarn-error.log*
 .npm/
 coverage/
 package-lock.json
+.history

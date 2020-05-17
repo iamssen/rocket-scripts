@@ -14,13 +14,12 @@ const parseConfigHost: ParseConfigHost = {
   useCaseSensitiveFileNames: true,
 };
 
-export function getTSConfigCompilerOptions({
-  cwd,
-  configName = 'tsconfig.json',
-}: {
+interface Params {
   cwd: string;
   configName?: string;
-}): CompilerOptions {
+}
+
+export function getTSConfigCompilerOptions({ cwd, configName = 'tsconfig.json' }: Params): CompilerOptions {
   const configFileName: string | undefined = findConfigFile(cwd, sys.fileExists, configName);
 
   if (!configFileName) throw new Error(`Undefined "${configName}" file on "${cwd}"`);

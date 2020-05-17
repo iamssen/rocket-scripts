@@ -1,8 +1,7 @@
 import fs from 'fs-extra';
 import yaml from 'js-yaml';
 import path from 'path';
-import { PackageInfo } from '../types';
-import { packagesFileName } from './fileNames';
+import { PackageInfo, packagesFileName } from '../rule';
 
 interface Params {
   cwd: string;

@@ -6,7 +6,7 @@ interface Params {
   cwd: string;
 }
 
-export async function getDependencies({ cwd }: Params): Promise<PackageJson.Dependency> {
+export async function getRootDependencies({ cwd }: Params): Promise<PackageJson.Dependency> {
   const packageJson: PackageJson = await fs.readJson(path.join(cwd, 'package.json'));
 
   return {

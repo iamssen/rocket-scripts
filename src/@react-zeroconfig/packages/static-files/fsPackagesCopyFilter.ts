@@ -1,8 +1,8 @@
-import { packageJsonFactoryFileNamePattern } from './fileNames';
 import fs from 'fs-extra';
+import { packageJsonFactoryFileNamePattern } from '../rule';
 
 // prettier-ignore
-export function fsCopyFilter(src: string): boolean {
+export function fsPackagesCopyFilter(src: string): boolean {
   const pass: boolean = (
       // IGNORE PATTERNS
       !/__(\w*)__/.test(src) &&                    // IGNORE : __tests__ , __fixtures__

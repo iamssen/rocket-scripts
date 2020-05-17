@@ -1,18 +1,16 @@
-import { getDependencies } from '@react-zeroconfig/core';
-import { build, getPackagesEntry } from '@react-zeroconfig/packages';
+import { build, getPackagesEntry, getRootDependencies, PackageInfo } from '@react-zeroconfig/packages';
 import { exec } from '@ssen/promised';
 import { copyTmpDirectory } from '@ssen/tmp-directory';
 import fs from 'fs-extra';
 import path from 'path';
 import { PackageJson } from 'type-fest';
-import { PackageInfo } from '../types';
 
 describe('@react-zeroconfig/packages', () => {
   describe('build()', () => {
     test('...', async () => {
       const cwd: string = await copyTmpDirectory(process.cwd(), 'test/fixtures/v4-packages');
       const entry: Map<string, PackageInfo> = await getPackagesEntry({ cwd });
-      const externalPackages: PackageJson.Dependency = await getDependencies({ cwd });
+      const externalPackages: PackageJson.Dependency = await getRootDependencies({ cwd });
       const outDir: string = path.join(cwd, 'dist/packages');
 
       expect(entry.has('a')).toBeTruthy();

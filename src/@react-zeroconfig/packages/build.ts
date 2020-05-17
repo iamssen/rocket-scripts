@@ -1,4 +1,4 @@
-import { collectPackageScripts, getBrowserslistQuery, getDependencies } from '@react-zeroconfig/core';
+import { getBrowserslistQuery } from '@react-zeroconfig/browserslist';
 import {
   getWebpackMDXLoaders,
   getWebpackRawLoaders,
@@ -9,6 +9,7 @@ import {
   runWebpack,
 } from '@react-zeroconfig/webpack';
 import { collectDependencies, getPackagesOrder } from '@ssen/collect-dependencies';
+import { flatPackageName } from '@ssen/flat-package-name';
 import { rimraf } from '@ssen/promised';
 import { getTSConfigCompilerOptions } from '@ssen/tsconfig';
 import fs from 'fs-extra';
@@ -29,29 +30,29 @@ import {
 } from 'typescript';
 import { Configuration, Stats } from 'webpack';
 import nodeExternals from 'webpack-node-externals';
-import { getIndexFile } from './build/getIndexFile';
-import { computePackageJson } from './entry/computePackageJson';
-import { flatPackageName } from './rule/flatPackageName';
-import { fsCopyFilter } from './rule/fsCopyFilter';
-import { getPackagesEntry } from './rule/getPackagesEntry';
-import { getSharedConfig } from './rule/getSharedConfig';
-import { PackageInfo } from './types';
+import { getIndexFile } from './entry/getIndexFile';
+import { getPackagesEntry } from './entry/getPackagesEntry';
+import { computePackageJson } from './package-json/computePackageJson';
+import { getRootDependencies } from './package-json/getRootDependencies';
+import { getSharedPackageJson } from './package-json/getSharedPackageJson';
+import { collectPackageScripts, PackageInfo } from './rule';
+import { fsPackagesCopyFilter } from './static-files/fsPackagesCopyFilter';
 
-interface BuildParams {
+interface Params {
   cwd: string;
   outDir: string;
   tsconfig?: string;
   mode?: 'production' | 'development';
 }
 
-export async function build({ cwd, outDir, tsconfig = 'tsconfig.json', mode = 'production' }: BuildParams) {
+export async function build({ cwd, outDir, tsconfig = 'tsconfig.json', mode = 'production' }: Params) {
   // ---------------------------------------------
   // rule
   // collect information based on directory rules
   // ---------------------------------------------
   const entry: Map<string, PackageInfo> = await getPackagesEntry({ cwd });
-  const externalPackages: PackageJson.Dependency = await getDependencies({ cwd });
-  const sharedConfig: PackageJson = await getSharedConfig({ cwd });
+  const externalPackages: PackageJson.Dependency = await getRootDependencies({ cwd });
+  const sharedConfig: PackageJson = await getSharedPackageJson({ cwd });
 
   // ---------------------------------------------
   // entry
@@ -181,7 +182,7 @@ export async function build({ cwd, outDir, tsconfig = 'tsconfig.json', mode = 'p
     // ---------------------------------------------
     // copy files
     // ---------------------------------------------
-    await fs.copy(sourceDir, outputDir, { filter: fsCopyFilter });
+    await fs.copy(sourceDir, outputDir, { filter: fsPackagesCopyFilter });
 
     // ---------------------------------------------
     // webpack build
@@ -204,21 +205,20 @@ export async function build({ cwd, outDir, tsconfig = 'tsconfig.json', mode = 'p
 
       entry: () => indexFile,
 
-      resolve: {
-        extensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx', '.json', '.mdx'],
-
-        alias: {
-          // allow syntax `import 'PACKAGE-SELF-NAME'`
-          [packageName]: sourceDir,
-        },
-      },
-
       externals: [nodeExternals(), ...externals],
 
       output: {
         path: outputDir,
         filename: 'index.js',
         libraryTarget: 'commonjs',
+      },
+
+      resolve: {
+        extensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx', '.json', '.mdx'],
+        alias: {
+          // allow syntax `import 'PACKAGE-SELF-NAME'`
+          [packageName]: sourceDir,
+        },
       },
 
       optimization: {
@@ -310,6 +310,7 @@ export async function build({ cwd, outDir, tsconfig = 'tsconfig.json', mode = 'p
         }),
       ],
 
+      // miscellaneous configs
       resolveLoader: {
         modules: ['node_modules'],
       },
