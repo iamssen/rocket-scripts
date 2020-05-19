@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['@lunit/eslint-config/without-react', 'prettier', 'prettier/@typescript-eslint'],
+  extends: ['@lunit', 'prettier', 'prettier/react', 'prettier/@typescript-eslint'],
   ignorePatterns: ['src/**/public/**/*', 'src/**/*.d.ts', 'src/**/*.js'],
   overrides: [
     {

@@ -1,4 +1,5 @@
 import { getBrowserslistQuery } from '@react-zeroconfig/browserslist';
+import { icuFormat } from '@react-zeroconfig/rule';
 import {
   getWebpackMDXLoaders,
   getWebpackRawLoaders,
@@ -38,14 +39,16 @@ import { getSharedPackageJson } from './package-json/getSharedPackageJson';
 import { collectPackageScripts, PackageInfo } from './rule';
 import { fsPackagesCopyFilter } from './static-files/fsPackagesCopyFilter';
 
-interface Params {
+export interface BuildParams {
   cwd: string;
   outDir: string;
   tsconfig?: string;
   mode?: 'production' | 'development';
 }
 
-export async function build({ cwd, outDir, tsconfig = 'tsconfig.json', mode = 'production' }: Params) {
+export async function build({ cwd, outDir: _outDir, tsconfig = 'tsconfig.json', mode = 'production' }: BuildParams) {
+  const outDir: string = icuFormat(_outDir, { cwd, mode });
+
   // ---------------------------------------------
   // rule
   // collect information based on directory rules

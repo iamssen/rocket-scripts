@@ -8,7 +8,10 @@
     "e2e": "npm run build && bash test/e2e.sh",
     "format": "prettier --write \"src/{**/*,*}/*.{ts,tsx}\"",
     "lint": "eslint \"src/{**/*,*}/*.{ts,tsx}\"",
-    "download": "node scripts/get-node-api-list.js"
+    "download": "node scripts/get-node-api-list.js",
+    "env-test": "MODE=develpment XXX=a YYY=b node test.js",
+    "env-test2": "node test.js",
+    "env-test3": "MODE=develpment XXX=a YYY=b node test.js && node test.js"
   },
   "husky": {
     "hooks": {
@@ -43,6 +46,7 @@
     "@mdx-js/loader": "^1.5.8",
     "@react-zeroconfig/babel-preset": "^3.27.2-alpha.1",
     "@svgr/webpack": "^5.2.0",
+    "@testing-library/react-hooks": "^3.2.1",
     "@types/babel__core": "^7.1.6",
     "@types/babel__preset-env": "^7.9.0",
     "@types/browser-sync": "^3001.0.28-alpha",
@@ -66,6 +70,7 @@
     "@types/optimize-css-assets-webpack-plugin": "^5.0.1",
     "@types/prettier": "^2.0.0",
     "@types/prompts": "^2.4.0",
+    "@types/ramda": "^0.27.5",
     "@types/react": "^16.9.35",
     "@types/react-dev-utils": "^9.0.4",
     "@types/resolve": "^1.14.0",
@@ -73,6 +78,7 @@
     "@types/semver": "^7.1.0",
     "@types/source-map-support": "^0.5.1",
     "@types/terser-webpack-plugin": "^2.2.0",
+    "@types/testing-library__react-hooks": "^3.2.0",
     "@types/tmp": "^0.2.0",
     "@types/webpack": "^4.41.7",
     "@types/webpack-bundle-analyzer": "^2.13.3",
@@ -137,6 +143,7 @@
     "prompts": "^2.3.1",
     "raw-loader": "^4.0.0",
     "react-dev-utils": "^10.2.0",
+    "react-test-renderer": "^16.13.1",
     "resolve": "^1.15.1",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
@@ -162,7 +169,10 @@
     "yaml-loader": "^0.6.0"
   },
   "dependencies": {
+    "get-port": "^5.1.1",
     "ink": "^2.7.1",
+    "intl-messageformat": "^8.3.11",
+    "ramda": "^0.27.0",
     "react": "^16.13.1",
     "react-svg-loader": "^3.0.3"
   }
