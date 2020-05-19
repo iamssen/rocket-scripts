@@ -5,7 +5,7 @@ module.exports = {
   },
   testMatch: ['**/__test?(s)__/**/*.ts?(x)', '**/?(*.)(spec|test).ts?(x)'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
-  collectCoverageFrom: ['src/**/*.ts'],
+  collectCoverageFrom: ['src/**/*.ts?(x)'],
   globals: {
     'ts-jest': {
       tsConfig: 'tsconfig.json',
