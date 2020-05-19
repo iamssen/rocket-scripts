@@ -8,7 +8,7 @@ describe('useAppEntry()', () => {
   test('should update the entry list with the files add and delete', async () => {
     const cwd: string = await copyTmpDirectory(process.cwd(), 'test/fixtures/web/useAppEntry');
 
-    const { result, waitForValueToChange } = renderHook(() => useAppEntry({ appDir: cwd }));
+    const { result, waitForValueToChange, unmount } = renderHook(() => useAppEntry({ appDir: cwd }));
 
     await waitForValueToChange(() => result.current);
 
@@ -30,5 +30,7 @@ describe('useAppEntry()', () => {
     await waitForValueToChange(() => result.current);
 
     expect(result.current?.length).toBe(2);
-  }, 100000);
+
+    unmount();
+  }, 10000);
 });
