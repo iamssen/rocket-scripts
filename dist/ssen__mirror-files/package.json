@@ -3,18 +3,19 @@
   "license": "MIT",
   "repository": "github:react-zeroconfig/react-zeroconfig",
   "bugs": "https://github.com/react-zeroconfig/react-zeroconfig/issues",
-  "homepage": "https://github.com/react-zeroconfig/react-zeroconfig/tree/master/src/filesize-test",
+  "homepage": "https://github.com/react-zeroconfig/react-zeroconfig/tree/master/src/@ssen/mirror-files",
   "engines": {
     "node": ">=10"
   },
   "publishConfig": {
     "access": "public"
   },
-  "name": "filesize-test",
-  "version": "0.1.4",
+  "name": "@ssen/mirror-files",
+  "version": "0.1.2",
   "dependencies": {
-    "glob": "^7.1.6",
-    "gzip-size": "^5.1.1"
+    "chokidar": "^3.3.1",
+    "fs-extra": "^9.0.0",
+    "rxjs": "^6.5.4"
   },
   "main": "index.js",
   "typings": "index.d.ts"

@@ -3,18 +3,18 @@
   "license": "MIT",
   "repository": "github:react-zeroconfig/react-zeroconfig",
   "bugs": "https://github.com/react-zeroconfig/react-zeroconfig/issues",
-  "homepage": "https://github.com/react-zeroconfig/react-zeroconfig/tree/master/src/filesize-test",
+  "homepage": "https://github.com/react-zeroconfig/react-zeroconfig/tree/master/src/@ssen/promised",
   "engines": {
     "node": ">=10"
   },
   "publishConfig": {
     "access": "public"
   },
-  "name": "filesize-test",
-  "version": "0.1.4",
+  "name": "@ssen/promised",
+  "version": "0.1.2",
   "dependencies": {
     "glob": "^7.1.6",
-    "gzip-size": "^5.1.1"
+    "rimraf": "^3.0.2"
   },
   "main": "index.js",
   "typings": "index.d.ts"

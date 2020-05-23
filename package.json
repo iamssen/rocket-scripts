@@ -44,7 +44,6 @@
     "@lunit/prettier-config": "^0.1.1",
     "@mapbox/rehype-prism": "^0.4.0",
     "@mdx-js/loader": "^1.5.8",
-    "@react-zeroconfig/babel-preset": "^3.27.2-alpha.1",
     "@svgr/webpack": "^5.2.0",
     "@testing-library/react-hooks": "^3.2.1",
     "@types/babel__core": "^7.1.6",
@@ -73,6 +72,7 @@
     "@types/ramda": "^0.27.5",
     "@types/react": "^16.9.35",
     "@types/react-dev-utils": "^9.0.4",
+    "@types/react-test-renderer": "^16.9.2",
     "@types/resolve": "^1.14.0",
     "@types/rimraf": "^3.0.0",
     "@types/semver": "^7.1.0",
@@ -154,7 +154,7 @@
     "terser": "^4.6.6",
     "terser-webpack-plugin": "^3.0.1",
     "tmp": "^0.2.1",
-    "trism": "^0.7.0",
+    "trism": "^0.8.1",
     "ts-jest": "^26.0.0",
     "type-fest": "^0.13.1",
     "typescript": "^3.8.3",
@@ -169,6 +169,7 @@
     "yaml-loader": "^0.6.0"
   },
   "dependencies": {
+    "ansi-to-html": "^0.6.14",
     "get-port": "^5.1.1",
     "ink": "^2.7.1",
     "intl-messageformat": "^8.3.11",

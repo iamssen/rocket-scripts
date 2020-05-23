@@ -1,0 +1,1 @@
+{"version":3,"file":"fixChunkPath.js","sourceRoot":"","sources":["../../../src/@react-zeroconfig/web/rules/fixChunkPath.ts"],"names":[],"mappings":";;;AAAA,SAAgB,YAAY,CAAC,SAAiB;IAC5C,OAAO,SAAS,CAAC,MAAM,GAAG,CAAC,IAAI,CAAC,KAAK,CAAC,IAAI,CAAC,SAAS,CAAC,CAAC,CAAC,CAAC,SAAS,GAAG,GAAG,CAAC,CAAC,CAAC,SAAS,CAAC;AACtF,CAAC;AAFD,oCAEC"}

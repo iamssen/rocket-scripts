@@ -1,3 +1,0 @@
-#!/usr/bin/env node
-const {desktopappScripts} = require('../');
-desktopappScripts(process.argv.slice(2));

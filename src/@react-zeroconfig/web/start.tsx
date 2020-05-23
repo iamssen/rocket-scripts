@@ -1,14 +1,13 @@
-import LoadablePlugin from '@loadable/webpack-plugin';
 import { icuFormat } from '@react-zeroconfig/rule';
-import { AppEntry, getAppEntry } from '@react-zeroconfig/web/rules/getAppEntry';
-import { useAppEntry } from '@react-zeroconfig/web/rules/useAppEntry';
+import getPort from 'get-port';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { Color, render } from 'ink';
 import path from 'path';
 import React, { useMemo } from 'react';
 import { Configuration, HotModuleReplacementPlugin, WatchIgnorePlugin } from 'webpack';
 import { fixChunkPath } from './rules/fixChunkPath';
-import getPort from 'get-port';
+import { AppEntry } from './rules/getAppEntry';
+import { useAppEntry } from './rules/useAppEntry';
 
 export interface StartPrams {
   cwd: string;
@@ -123,7 +122,7 @@ export function Start({
         errorDetails: true,
       },
     };
-  }, [entry]);
+  }, [app, chunkPath, cwd, entry, publicPath]);
 
   return (
     <>

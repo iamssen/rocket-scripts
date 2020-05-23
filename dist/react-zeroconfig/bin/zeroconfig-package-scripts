@@ -1,3 +1,0 @@
-#!/usr/bin/env node
-const {packageScripts} = require('../');
-packageScripts(process.argv.slice(2));

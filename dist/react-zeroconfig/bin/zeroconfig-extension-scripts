@@ -1,3 +1,0 @@
-#!/usr/bin/env node
-const {extensionScripts} = require('../');
-extensionScripts(process.argv.slice(2));

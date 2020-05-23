@@ -1,4 +1,4 @@
-import { getPackagesEntry } from '@react-zeroconfig/packages/entry/getPackagesEntry';
+import { getPackagesEntry } from './entry/getPackagesEntry';
 import { exec } from '@ssen/promised';
 import { getPublishOptions, PublishOption, selectPublishOptions } from '@ssen/publish-packages';
 import path from 'path';

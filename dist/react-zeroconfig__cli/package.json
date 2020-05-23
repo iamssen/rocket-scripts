@@ -3,19 +3,16 @@
   "license": "MIT",
   "repository": "github:react-zeroconfig/react-zeroconfig",
   "bugs": "https://github.com/react-zeroconfig/react-zeroconfig/issues",
-  "homepage": "https://github.com/react-zeroconfig/react-zeroconfig/tree/master/src/filesize-test",
+  "homepage": "https://github.com/react-zeroconfig/react-zeroconfig/tree/master/src/@react-zeroconfig/cli",
   "engines": {
     "node": ">=10"
   },
   "publishConfig": {
     "access": "public"
   },
-  "name": "filesize-test",
-  "version": "0.1.4",
-  "dependencies": {
-    "glob": "^7.1.6",
-    "gzip-size": "^5.1.1"
-  },
+  "name": "@react-zeroconfig/cli",
+  "version": "4.0.0-alpha.3",
+  "dependencies": {},
   "main": "index.js",
   "typings": "index.d.ts"
 }
