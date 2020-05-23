@@ -1,6 +1,7 @@
 /.idea
 /.vscode
 /node_modules
+/dist
 
 .DS_Store
 *.tgz
@@ -9,7 +10,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 /.changelog
-.npm/
-coverage/
+/.npm
+/coverage
 package-lock.json
-.history
+/.history
