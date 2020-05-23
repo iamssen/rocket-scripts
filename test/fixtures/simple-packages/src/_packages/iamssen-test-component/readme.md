@@ -1,1 +1,0 @@
-# Hello, iamssen-test-component
