@@ -31,6 +31,9 @@ jobs:
       run: |
         echo Add other actions to build,
         echo test, and deploy your project.
+    
+    - name: Git submodule update
+      run: git submodule sync && git submodule update --init # get fixtures
 
     - name: NPM install
       run: npm install
