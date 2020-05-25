@@ -22,7 +22,6 @@ import {
   createProgram,
   Diagnostic,
   EmitResult,
-  flattenDiagnosticMessageText,
   getPreEmitDiagnostics,
   ModuleKind,
   ModuleResolutionKind,
@@ -31,6 +30,7 @@ import {
 } from 'typescript';
 import { Configuration, Stats } from 'webpack';
 import nodeExternals from 'webpack-node-externals';
+import { getBuildTransform } from './build/getBuildTransform';
 import { getIndexFile } from './entry/getIndexFile';
 import { getPackagesEntry } from './entry/getPackagesEntry';
 import { computePackageJson } from './package-json/computePackageJson';
@@ -39,14 +39,52 @@ import { getSharedPackageJson } from './package-json/getSharedPackageJson';
 import { collectPackageScripts, PackageInfo } from './rule';
 import { fsPackagesCopyFilter } from './static-files/fsPackagesCopyFilter';
 
+export type BuildMessage =
+  | {
+      type: 'browserslist';
+      targets: string | string[];
+    }
+  | {
+      type: 'begin';
+      packageName: string;
+      indexFile: string;
+      sourceDir: string;
+      outputDir: string;
+    }
+  | {
+      type: 'tsc';
+      packageName: string;
+      index: string;
+      compilerOptions: CompilerOptions;
+      diagnostics: Diagnostic[];
+    }
+  | {
+      type: 'webpack';
+      packageName: string;
+      webpackConfig: Configuration;
+      stats: Stats;
+    }
+  | {
+      type: 'error';
+      packageName?: string;
+      error: Error;
+    };
+
 export interface BuildParams {
   cwd: string;
   outDir: string;
   tsconfig?: string;
   mode?: 'production' | 'development';
+  onMessage: (message: BuildMessage) => void;
 }
 
-export async function build({ cwd, outDir: _outDir, tsconfig = 'tsconfig.json', mode = 'production' }: BuildParams) {
+export async function build({
+  cwd,
+  outDir: _outDir,
+  tsconfig = 'tsconfig.json',
+  mode = 'production',
+  onMessage,
+}: BuildParams) {
   const outDir: string = icuFormat(_outDir, { cwd, mode });
 
   // ---------------------------------------------
@@ -80,7 +118,11 @@ export async function build({ cwd, outDir: _outDir, tsconfig = 'tsconfig.json', 
     const dependencies: PackageJson.Dependency | undefined = dependenciesMap.get(packageName);
 
     if (!dependencies) {
-      console.error(`undefiend dependencies of ${packageName}`);
+      onMessage({
+        type: 'error',
+        packageName,
+        error: new Error(`undefiend dependencies of ${packageName}`),
+      });
       process.exit(1);
     }
 
@@ -105,17 +147,35 @@ export async function build({ cwd, outDir: _outDir, tsconfig = 'tsconfig.json', 
   const targets: string | string[] = getBrowserslistQuery({ cwd, env: 'package' });
   const externals: string[] = [];
 
-  if (!process.env.JEST_WORKER_ID) {
-    console.log('');
-    console.log('---------------------------------------------------------------------------------');
-    console.log('= BABEL PRESET-ENV TARGETS (=BROWSERSLIST QUERY) : ', targets);
-    console.log('---------------------------------------------------------------------------------');
-  }
+  onMessage({
+    type: 'browserslist',
+    targets,
+  });
+  // if (!process.env.JEST_WORKER_ID) {
+  //   console.log('');
+  //   console.log('---------------------------------------------------------------------------------');
+  //   console.log('= BABEL PRESET-ENV TARGETS (=BROWSERSLIST QUERY) : ', targets);
+  //   console.log('---------------------------------------------------------------------------------');
+  // }
 
   for (const packageName of order) {
     const indexFile: string = await getIndexFile({ packageDir: path.join(cwd, 'src', packageName) });
     const sourceDir: string = path.dirname(indexFile);
     const outputDir: string = path.join(outDir, flatPackageName(packageName));
+    const {
+      transformCompilerOptions = (compilerOptions: CompilerOptions) => compilerOptions,
+      transformWebpackConfig = (webpackConfig: Configuration) => webpackConfig,
+    } = await getBuildTransform({
+      packageDir: path.join(cwd, 'src', packageName),
+    });
+
+    onMessage({
+      type: 'begin',
+      packageName,
+      indexFile,
+      sourceDir,
+      outputDir,
+    });
 
     // ---------------------------------------------
     // build typescript declaration
@@ -128,7 +188,7 @@ export async function build({ cwd, outDir: _outDir, tsconfig = 'tsconfig.json', 
         configName: tsconfig,
       });
 
-      const options: CompilerOptions = {
+      const options: CompilerOptions = transformCompilerOptions({
         ...compilerOptions,
 
         allowJs: false,
@@ -155,26 +215,35 @@ export async function build({ cwd, outDir: _outDir, tsconfig = 'tsconfig.json', 
             : {}),
           [packageName]: [path.dirname(indexFile)],
         },
-      };
-
-      console.log(options);
+      });
 
       const program: Program = createProgram([indexFile], options);
       const emitResult: EmitResult = program.emit();
       const diagnostics: Diagnostic[] = getPreEmitDiagnostics(program).concat(emitResult.diagnostics);
 
-      for (const diagnostic of diagnostics) {
-        if (diagnostic.file && diagnostic.start) {
-          const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
-          const message: string = flattenDiagnosticMessageText(diagnostic.messageText, '\n');
-          console.log(`TS${diagnostic.code} : ${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`);
-        } else {
-          console.log(`TS${diagnostic.code} : ${flattenDiagnosticMessageText(diagnostic.messageText, '\n')}`);
-        }
-      }
+      onMessage({
+        type: 'tsc',
+        packageName,
+        index: indexFile,
+        compilerOptions: options,
+        diagnostics,
+      });
+
+      // for (const diagnostic of diagnostics) {
+      //   if (diagnostic.file && diagnostic.start) {
+      //     const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
+      //     const message: string = flattenDiagnosticMessageText(diagnostic.messageText, '\n');
+      //     console.log(`TS${diagnostic.code} : ${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`);
+      //   } else {
+      //     console.log(`TS${diagnostic.code} : ${flattenDiagnosticMessageText(diagnostic.messageText, '\n')}`);
+      //   }
+      // }
 
       if (emitResult.emitSkipped) {
-        console.error(`Build the declaration files of "${packageName}" is failed`);
+        onMessage({
+          type: 'error',
+          error: new Error(`Build the declaration files of "${packageName}" is failed`),
+        });
         process.exit(1);
       }
     } else {
@@ -203,7 +272,7 @@ export async function build({ cwd, outDir: _outDir, tsconfig = 'tsconfig.json', 
       plugins: [require.resolve('@handbook/babel-plugin')],
     };
 
-    const webpackConfig: Configuration = {
+    const webpackConfig: Configuration = transformWebpackConfig({
       mode,
 
       entry: () => indexFile,
@@ -335,37 +404,27 @@ export async function build({ cwd, outDir: _outDir, tsconfig = 'tsconfig.json', 
         moduleTrace: true,
         errorDetails: true,
       },
-    };
+    });
 
     try {
       const stats: Stats = await runWebpack(webpackConfig);
 
+      onMessage({
+        type: 'webpack',
+        packageName,
+        webpackConfig,
+        stats,
+      });
+
       if (stats.hasErrors()) {
-        console.error(
-          stats.toString(
-            typeof webpackConfig.stats === 'object'
-              ? {
-                  ...webpackConfig.stats,
-                  colors: true,
-                }
-              : webpackConfig.stats,
-          ),
-        );
         process.exit(1);
-      } else {
-        console.log(
-          stats.toString(
-            typeof webpackConfig.stats === 'object'
-              ? {
-                  ...webpackConfig.stats,
-                  colors: true,
-                }
-              : webpackConfig.stats,
-          ),
-        );
       }
     } catch (error) {
-      console.error(error);
+      onMessage({
+        type: 'error',
+        packageName,
+        error,
+      });
       process.exit(1);
     }
 

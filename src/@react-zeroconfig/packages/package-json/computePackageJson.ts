@@ -1,7 +1,8 @@
+import { requireTypescript } from '@ssen/require-typescript';
 import fs from 'fs-extra';
 import path from 'path';
 import { PackageJson } from 'type-fest';
-import { PackageInfo, packageJsonFactoryFileName } from '../rule';
+import { PackageInfo, packageJsonFactoryFileName, PackageJsonTransformFile } from '../rule';
 
 interface Params {
   packageDir: string;
@@ -10,7 +11,7 @@ interface Params {
   sharedConfig?: PackageJson;
 }
 
-export function computePackageJson({
+export async function computePackageJson({
   packageDir,
   packageInfo,
   dependencies,
@@ -33,11 +34,14 @@ export function computePackageJson({
     name: packageInfo.name,
     version: packageInfo.version,
     dependencies: dependencies,
+
     main: 'index.js',
     typings: 'index.d.ts',
   };
 
   const factoryFile: string = path.join(packageDir, packageJsonFactoryFileName);
 
-  return fs.existsSync(factoryFile) ? require(factoryFile)(computedConfig) : computedConfig;
+  return fs.existsSync(factoryFile)
+    ? requireTypescript<PackageJsonTransformFile>(factoryFile).defualt(computedConfig)
+    : computedConfig;
 }

@@ -1,13 +1,14 @@
 import fs from 'fs-extra';
-import { packageJsonFactoryFileNamePattern } from '../rule';
+import { buildTransformFileNamePattern, packageJsonFactoryFileNamePattern } from '../rule';
 
 // prettier-ignore
 export function fsPackagesCopyFilter(src: string): boolean {
   const pass: boolean = (
       // IGNORE PATTERNS
-      !/__(\w*)__/.test(src) &&                    // IGNORE : __tests__ , __fixtures__
-      !/\.(ts|tsx|mjs|js|jsx)$/.test(src) &&       // IGNORE : *.ts, *.tsx, *.js, *.jsx, *.mjs
-      !packageJsonFactoryFileNamePattern.test(src) // IGNORE : .package.json.js
+      !/__(\w*)__/.test(src) &&                         // IGNORE : __tests__ , __fixtures__
+      !/\.(ts|tsx|mjs|js|jsx)$/.test(src) &&            // IGNORE : *.ts, *.tsx, *.js, *.jsx, *.mjs
+      !packageJsonFactoryFileNamePattern.test(src) &&   // IGNORE : .package.json.ts
+      !buildTransformFileNamePattern.test(src)          // IGNORE : .build.ts
     ) ||
     // OK PATTERNS
     /\.d\.ts$/.test(src) ||                        // OK : *.d.ts
