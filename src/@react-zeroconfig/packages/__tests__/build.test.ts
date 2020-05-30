@@ -50,5 +50,4 @@ describe('build()', () => {
 
   test.todo('should build packages with a .package.json.ts config file');
   test.todo('should build packages with a .build.ts config file');
-  test.todo('should build packages with a .build.ts config file');
 });

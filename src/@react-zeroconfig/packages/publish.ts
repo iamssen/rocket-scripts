@@ -6,7 +6,10 @@ import { PackageInfo } from './rule';
 
 interface Params {
   cwd: string;
+
   outDir: string;
+
+  /** skip user selection of packages to publish */
   force?: boolean;
   registry?: string;
   tag?: string;

@@ -67,9 +67,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: E2E Test
-        run: npm run e2e
-
       - name: Coveralls Finished
         uses: coverallsapp/github-action@master
         with:
