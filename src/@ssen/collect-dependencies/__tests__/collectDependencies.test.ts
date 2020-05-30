@@ -1,8 +1,8 @@
+import { collectDependencies, collectScripts, collectTypeScript } from '@ssen/collect-dependencies';
 import fs from 'fs-extra';
 import path from 'path';
 import { PackageJson } from 'type-fest';
 import { devDependencies } from '../../../../package.json';
-import { collectDependencies, collectScripts, collectTypeScript } from '../collectDependencies';
 import { PackageInfo } from '../types';
 
 describe('@ssen/collect-dependencies', () => {
@@ -36,7 +36,7 @@ describe('@ssen/collect-dependencies', () => {
     });
 
     test('should get all dependencies from sources', async () => {
-      const rootDir: string = path.join(__dirname, '../../../../test/fixtures/collect-dependencies/js');
+      const rootDir: string = path.join(process.cwd(), 'test/fixtures/collect-dependencies/js');
       expect(fs.statSync(rootDir).isDirectory()).toBeTruthy();
 
       const dependencies: PackageJson.Dependency = await collectDependencies({
@@ -64,7 +64,7 @@ describe('@ssen/collect-dependencies', () => {
     });
 
     test('should can not get unspecified internal dependency', async () => {
-      const rootDir: string = path.join(__dirname, '../../../../test/fixtures/collect-dependencies/ts');
+      const rootDir: string = path.join(process.cwd(), 'test/fixtures/collect-dependencies/ts');
       expect(fs.statSync(rootDir).isDirectory()).toBeTruthy();
 
       const dependencies: PackageJson.Dependency = await collectDependencies({
