@@ -1,16 +1,12 @@
 branches:
   only:
     - master
-    - feature/trism
 language: node_js
 node_js: '12'
 cache: npm
-git:
-  submodules: false
 before_install:
   - sudo apt-get -y install tree
   - npm install -g npm@latest
-  - git submodule sync && git submodule update --init # get fixtures
 install:
   - npm install
 script:
@@ -18,7 +14,7 @@ script:
   - npm run lint
   - npm run coverage
   - npm run e2e
-  - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then cat ./coverage/lcov.info | ./node_modules/.bin/coveralls; fi
+#  - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then cat ./coverage/lcov.info | ./node_modules/.bin/coveralls; fi
 notifications:
   email:
     on_success: never
