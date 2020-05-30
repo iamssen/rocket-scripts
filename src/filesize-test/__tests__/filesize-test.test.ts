@@ -47,7 +47,7 @@ describe('filesize-test', () => {
             maxGzipSize: 856,
           },
           'browser/vendor.*.js': {
-            maxGzipSize: 40272,
+            maxGzipSize: 40275,
           },
         },
         { cwd },
