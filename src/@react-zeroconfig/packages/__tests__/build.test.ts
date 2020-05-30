@@ -26,7 +26,7 @@ describe('build()', () => {
       onMessage: (message) => {
         switch (message.type) {
           case 'error':
-            throw message.error;
+            throw new Error(message.errors.join('\n'));
         }
       },
     });

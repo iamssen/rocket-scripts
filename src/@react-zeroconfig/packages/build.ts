@@ -79,7 +79,7 @@ export type BuildMessage =
   | {
       type: 'error';
       packageName?: string;
-      error: Error;
+      errors: Error[];
     };
 
 export interface BuildParams {
@@ -133,7 +133,7 @@ export async function build({
       onMessage({
         type: 'error',
         packageName,
-        error: new Error(`undefiend dependencies of ${packageName}`),
+        errors: [new Error(`undefiend dependencies of ${packageName}`)],
       });
       return;
     }
@@ -172,7 +172,7 @@ export async function build({
 
   for (const packageName of order) {
     const indexFile: string = await getIndexFile({ packageDir: path.join(cwd, 'src', packageName) });
-    const sourceDir: string = path.dirname(indexFile);
+    const sourceDir: string = path.resolve(path.dirname(indexFile));
     const outputDir: string = path.join(outDir, flatPackageName(packageName));
     const {
       transformCompilerOptions = (compilerOptions: CompilerOptions) => compilerOptions,
@@ -254,7 +254,7 @@ export async function build({
       if (emitResult.emitSkipped) {
         onMessage({
           type: 'error',
-          error: new Error(`Build the declaration files of "${packageName}" is failed`),
+          errors: [new Error(`Build the declaration files of "${packageName}" is failed`)],
         });
       }
     } else {
@@ -431,14 +431,14 @@ export async function build({
         onMessage({
           type: 'error',
           packageName,
-          error: new Error(stats.toJson().errors.join('\n')),
+          errors: stats.toJson().errors.map((message) => new Error(message)),
         });
       }
     } catch (error) {
       onMessage({
         type: 'error',
         packageName,
-        error,
+        errors: [error],
       });
     }
 
@@ -451,7 +451,7 @@ export async function build({
       onMessage({
         type: 'error',
         packageName,
-        error: new Error(`undefiend package.json content of ${packageName}`),
+        errors: [new Error(`undefiend package.json content of ${packageName}`)],
       });
       return;
     }
