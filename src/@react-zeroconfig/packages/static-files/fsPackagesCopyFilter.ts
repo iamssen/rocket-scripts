@@ -7,8 +7,8 @@ export function fsPackagesCopyFilter(src: string): boolean {
       // IGNORE PATTERNS
       !/__(\w*)__/.test(src) &&                         // IGNORE : __tests__ , __fixtures__
       !/\.(ts|tsx|mjs|js|jsx)$/.test(src) &&            // IGNORE : *.ts, *.tsx, *.js, *.jsx, *.mjs
-      !packageJsonFactoryFileNamePattern.test(src) &&   // IGNORE : .package.json.ts
-      !buildTransformFileNamePattern.test(src)          // IGNORE : .build.ts
+      !packageJsonFactoryFileNamePattern.test(src) &&   // IGNORE : .package.json.(js|ts)
+      !buildTransformFileNamePattern.test(src)          // IGNORE : .build.(js|ts)
     ) ||
     // OK PATTERNS
     /\.d\.ts$/.test(src) ||                        // OK : *.d.ts

@@ -1,5 +1,5 @@
 '@ssen/*':
-  version: 0.1.2
+  version: 0.2.0
   tag: canary
 '@react-zeroconfig/*':
   version: 4.0.0-alpha.3

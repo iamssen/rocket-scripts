@@ -1,5 +1,4 @@
 import { requireTypescript } from '@ssen/require-typescript';
-import fs from 'fs-extra';
 import path from 'path';
 import { PackageJson } from 'type-fest';
 import { PackageInfo, packageJsonFactoryFileName, PackageJsonTransformFile } from '../rule';
@@ -41,7 +40,9 @@ export async function computePackageJson({
 
   const factoryFile: string = path.join(packageDir, packageJsonFactoryFileName);
 
-  return fs.existsSync(factoryFile)
-    ? requireTypescript<PackageJsonTransformFile>(factoryFile).defualt(computedConfig)
-    : computedConfig;
+  try {
+    return requireTypescript<PackageJsonTransformFile>(factoryFile).defualt(computedConfig);
+  } catch {
+    return computedConfig;
+  }
 }
