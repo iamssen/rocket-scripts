@@ -27,5 +27,8 @@ jobs:
           node --version
           npm --version
 
+      - name: Install Dependencies
+        run: npm install
+
       - name: E2E Test
         run: npm run e2e
