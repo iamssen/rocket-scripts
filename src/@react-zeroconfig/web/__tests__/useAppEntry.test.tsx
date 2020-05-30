@@ -32,5 +32,5 @@ describe('useAppEntry()', () => {
     expect(result.current?.length).toBe(2);
 
     unmount();
-  }, 10000);
+  }, 50000);
 });
