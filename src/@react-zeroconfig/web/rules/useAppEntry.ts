@@ -21,10 +21,7 @@ export function useAppEntry({ appDir }: { appDir: string }): AppEntry[] | null {
 
     update();
 
-    const watcher: FSWatcher = watch([`${appDir}/*.{js,jsx,ts,tsx}`, `${appDir}/*.html`], {
-      persistent: true,
-      ignoreInitial: true,
-    });
+    const watcher: FSWatcher = watch([`${appDir}/*.{js,jsx,ts,tsx}`, `${appDir}/*.html`]);
 
     watcher.on('add', update).on('unlink', update);
 
