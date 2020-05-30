@@ -32,6 +32,7 @@ export function build({ cwd, env }: CommandParams) {
     outDir: e[OUT_DIR]!,
     mode: e[NODE_ENV] === 'development' ? 'development' : 'production',
     tsconfig: e[TSCONFIG],
+    onMessage: () => {},
   });
 }
 

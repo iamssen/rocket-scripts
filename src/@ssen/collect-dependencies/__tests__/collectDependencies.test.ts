@@ -8,7 +8,7 @@ import { PackageInfo } from '../types';
 describe('@ssen/collect-dependencies', () => {
   describe('collectDependencies()', () => {
     test('should get all dependencies from typescript sources', async () => {
-      const rootDir: string = path.join(__dirname, '../../../../test/fixtures/collect-dependencies/ts');
+      const rootDir: string = path.join(process.cwd(), 'test/fixtures/collect-dependencies/ts');
       expect(fs.statSync(rootDir).isDirectory()).toBeTruthy();
 
       const dependencies: PackageJson.Dependency = await collectDependencies({

@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 interface Stream {
   output: string;
   columns: number;
@@ -20,3 +22,5 @@ const createToStringStream: (options: { columns: number }) => Stream = ({ column
     },
   };
 };
+
+//function inkToString(el: ReactNode)

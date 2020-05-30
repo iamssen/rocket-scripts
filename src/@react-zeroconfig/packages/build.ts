@@ -52,6 +52,13 @@ export type BuildMessage =
       outputDir: string;
     }
   | {
+      type: 'success';
+      packageName: string;
+      indexFile: string;
+      sourceDir: string;
+      outputDir: string;
+    }
+  | {
       type: 'tsc';
       packageName: string;
       index: string;
@@ -63,6 +70,11 @@ export type BuildMessage =
       packageName: string;
       webpackConfig: Configuration;
       stats: Stats;
+    }
+  | {
+      type: 'package-json';
+      packageName: string;
+      packageJson: PackageJson;
     }
   | {
       type: 'error';
@@ -431,8 +443,33 @@ export async function build({
     // ---------------------------------------------
     // create package.json
     // ---------------------------------------------
-    await fs.writeJson(path.join(outputDir, 'package.json'), packageJsonMap.get(packageName));
+    const packageJson: PackageJson | undefined = packageJsonMap.get(packageName);
+
+    if (!packageJson) {
+      onMessage({
+        type: 'error',
+        packageName,
+        error: new Error(`undefiend package.json content of ${packageName}`),
+      });
+      process.exit(1);
+    }
+
+    await fs.writeJson(path.join(outputDir, 'package.json'), packageJson);
+
+    onMessage({
+      type: 'package-json',
+      packageName,
+      packageJson,
+    });
 
     externals.push(packageName);
+
+    onMessage({
+      type: 'success',
+      packageName,
+      indexFile,
+      sourceDir,
+      outputDir,
+    });
   }
 }

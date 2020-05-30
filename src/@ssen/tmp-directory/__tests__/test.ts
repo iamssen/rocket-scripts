@@ -9,7 +9,7 @@ describe('tmp-directory', () => {
   });
 
   test('should get a copied tmp directory', async () => {
-    const source: string = path.join(__dirname, '../../../../test/fixtures/v4-packages');
+    const source: string = path.join(process.cwd(), 'test/fixtures/packages/basic');
     expect(fs.statSync(source).isDirectory()).toBeTruthy();
 
     const dir: string = await copyTmpDirectory(source);
