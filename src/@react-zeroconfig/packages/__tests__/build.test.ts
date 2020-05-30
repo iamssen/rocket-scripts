@@ -23,7 +23,12 @@ describe('build()', () => {
     await build({
       cwd,
       outDir,
-      onMessage: () => {},
+      onMessage: (message) => {
+        switch (message.type) {
+          case 'error':
+            throw message.error;
+        }
+      },
     });
 
     expect(fs.existsSync(path.join(outDir, 'dist/packages/a/README.md')));

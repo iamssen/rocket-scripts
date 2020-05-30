@@ -135,7 +135,7 @@ export async function build({
         packageName,
         error: new Error(`undefiend dependencies of ${packageName}`),
       });
-      process.exit(1);
+      return;
     }
 
     const packageJson: PackageJson = await computePackageJson({
@@ -256,7 +256,6 @@ export async function build({
           type: 'error',
           error: new Error(`Build the declaration files of "${packageName}" is failed`),
         });
-        process.exit(1);
       }
     } else {
       await fs.mkdirp(outputDir);
@@ -429,7 +428,11 @@ export async function build({
       });
 
       if (stats.hasErrors()) {
-        process.exit(1);
+        onMessage({
+          type: 'error',
+          packageName,
+          error: new Error(stats.toJson().errors.join('\n')),
+        });
       }
     } catch (error) {
       onMessage({
@@ -437,7 +440,6 @@ export async function build({
         packageName,
         error,
       });
-      process.exit(1);
     }
 
     // ---------------------------------------------
@@ -451,7 +453,7 @@ export async function build({
         packageName,
         error: new Error(`undefiend package.json content of ${packageName}`),
       });
-      process.exit(1);
+      return;
     }
 
     await fs.writeJson(path.join(outputDir, 'package.json'), packageJson);
