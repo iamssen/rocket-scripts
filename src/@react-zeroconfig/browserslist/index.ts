@@ -19,5 +19,5 @@ interface Params {
 export function getBrowserslistQuery({ cwd, env }: Params): string | string[] {
   if (env) process.env.BROWSERSLIST_ENV = env;
   const query: string | string[] | undefined = loadConfig({ path: cwd });
-  return query || defaultQuery[process.env.BROWSERSLIST_ENV || 'defaults'] || defaultQuery['defaults'];
+  return query || defaultQuery[process.env.BROWSERSLIST_ENV || 'defaults'] || defaultQuery.defaults;
 }

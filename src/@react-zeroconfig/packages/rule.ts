@@ -17,7 +17,7 @@ export type TransformWebpackConfig = (webpackConfig: Configuration) => Configura
 export type TransformPackageJson = (computedPackageJson: PackageJson) => PackageJson;
 
 export interface PackageJsonTransformFile {
-  defualt: TransformPackageJson;
+  default: TransformPackageJson;
 }
 
 export interface BuildTransformFile {
@@ -45,6 +45,7 @@ export const collectPackageScripts: { extensions: string[]; excludes: string[]; 
     '**/*.test.tsx',
     '**/__tests__',
     '**/__test__',
+    '**/__*',
 
     // exclude public
     '**/public',

@@ -41,7 +41,7 @@ export async function computePackageJson({
   const factoryFile: string = path.join(packageDir, packageJsonFactoryFileName);
 
   try {
-    return requireTypescript<PackageJsonTransformFile>(factoryFile).defualt(computedConfig);
+    return requireTypescript<PackageJsonTransformFile>(factoryFile).default(computedConfig);
   } catch {
     return computedConfig;
   }

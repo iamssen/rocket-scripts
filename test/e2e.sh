@@ -74,6 +74,7 @@ createTmpFixture() {
   npm install;
 }
 
+# should build packages normally
 createTmpFixture packages/basic;
 npm run package:build;
 
@@ -92,6 +93,17 @@ fileExists "$TEMP/dist/packages/a/index.js";
 fileExists "$TEMP/dist/packages/c/index.d.ts";
 fileExists "$TEMP/dist/packages/c/package.json";
 fileExists "$TEMP/dist/packages/c/public/test.txt";
+
+# TODO should build packages with a .env.ts config file
+# TODO should build packages with a .package.json.ts config file
+# TODO should build packages with a .build.ts config file
+
+
+
+
+
+# OLD TEST
+# ==================================================----------------------------------
 
 # zeroconfig-package-scripts build
 # createTmpFixture simple-packages;

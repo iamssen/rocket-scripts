@@ -55,4 +55,11 @@ describe('browserslist', () => {
     expect(getBrowserslistQuery({ cwd, env: 'electron' })).toBe(browserslist.electron);
     expect(getBrowserslistQuery({ cwd, env: 'package' })).toBe(browserslist.package);
   });
+
+  test('should get default query by wrong env', () => {
+    const cwd: string = path.join(process.cwd(), 'test/fixtures/browserslist/custom');
+
+    // @ts-expect-error
+    expect(getBrowserslistQuery({ cwd, env: '???' })).toBe(browserslist.defaults);
+  });
 });

@@ -44,6 +44,30 @@ describe('publish()', () => {
 
     expect([...packageNames].sort((a, b) => (a < b ? -1 : 1))).toEqual(['a', 'b', 'c']);
   }, 100000);
+
   test.todo('should publish packages with the registry option');
+
   test.todo('should publish packages with the tag option');
+
+  test('should get error with wrong cwd', async () => {
+    const cwd: string = await copyTmpDirectory(process.cwd(), 'test/fixtures/browserslist/custom');
+    const outDir: string = path.join(cwd, 'dist/packages');
+
+    async function check() {
+      await publish({
+        cwd,
+        outDir,
+        skipSelection: true,
+        tag: dummyTag,
+        onMessage: async (message) => {
+          switch (message.type) {
+            case 'error':
+              throw new Error(message.errors.join('\n'));
+          }
+        },
+      });
+    }
+
+    await expect(check()).rejects.toThrow();
+  });
 });
