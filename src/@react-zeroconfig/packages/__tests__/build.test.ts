@@ -66,7 +66,7 @@ describe('build()', () => {
     expect('react' in externalPackages).toBeTruthy();
 
     await exec(`npm install`, { cwd });
-    await exec(`open ${cwd}`);
+    //await exec(`open ${cwd}`);
 
     await build({
       cwd,
