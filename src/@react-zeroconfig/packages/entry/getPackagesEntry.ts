@@ -13,6 +13,8 @@ export async function getPackagesEntry({ cwd }: Params): Promise<Map<string, Pac
   });
   const packages: { [name: string]: string | { version: string; tag?: string } } = yaml.safeLoad(source);
 
+  // TODO @group/* 지원
+
   return Object.keys(packages).reduce((map, name) => {
     const versionOrInfo: string | { version: string; tag?: string } = packages[name];
     const version: string = typeof versionOrInfo === 'string' ? versionOrInfo : versionOrInfo.version;
