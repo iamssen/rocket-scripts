@@ -11,7 +11,7 @@
     "strictPropertyInitialization": true,
     "resolveJsonModule": true,
     "module": "commonjs",
-    "target": "esnext",
+    "target": "ES2018",
     "moduleResolution": "node",
     "skipLibCheck": true,
     "sourceMap": true,
