@@ -1,4 +1,4 @@
-import { getPublishOptions, PublishOption, selectPublishOptions } from '@ssen/publish-packages';
+import { AvailablePublishOption, getPublishOptions, PublishOption, selectPublishOptions } from '@ssen/publish-packages';
 import path from 'path';
 import { getPackagesEntry } from './entry/getPackagesEntry';
 import { PackageInfo } from './rule';
@@ -7,6 +7,7 @@ export type PublishMessages =
   | {
       type: 'exec';
       command: string;
+      publishOption: AvailablePublishOption;
     }
   | {
       type: 'error';
@@ -35,7 +36,7 @@ export async function publish({ cwd, outDir, skipSelection = false, registry, ta
       registry,
       tag,
     });
-    const selectedPublishOptions: PublishOption[] = await selectPublishOptions({
+    const selectedPublishOptions: AvailablePublishOption[] = await selectPublishOptions({
       publishOptions,
       skipSelection,
     });
@@ -46,12 +47,13 @@ export async function publish({ cwd, outDir, skipSelection = false, registry, ta
 
       const command: string =
         process.platform === 'win32'
-          ? `cd "${path.join(cwd, 'dist', publishOption.name)}" && npm publish${t}${r}`
-          : `cd "${path.join(cwd, 'dist', publishOption.name)}"; npm publish${t}${r};`;
+          ? `cd "${path.join(outDir, publishOption.name)}" && npm publish${t}${r}`
+          : `cd "${path.join(outDir, publishOption.name)}"; npm publish${t}${r};`;
 
       await onMessage({
         type: 'exec',
         command,
+        publishOption,
       });
 
       //const { stderr, stdout } = await exec(command, { encoding: 'utf8' });
