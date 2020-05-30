@@ -23,7 +23,7 @@ describe('build()', () => {
     await build({
       cwd,
       outDir,
-      onMessage: (message) => {
+      onMessage: async (message) => {
         switch (message.type) {
           case 'error':
             throw new Error(message.errors.join('\n'));

@@ -87,7 +87,7 @@ export interface BuildParams {
   outDir: string;
   tsconfig?: string;
   mode?: 'production' | 'development';
-  onMessage: (message: BuildMessage) => void;
+  onMessage: (message: BuildMessage) => Promise<void>;
 }
 
 export async function build({
@@ -130,7 +130,7 @@ export async function build({
     const dependencies: PackageJson.Dependency | undefined = dependenciesMap.get(packageName);
 
     if (!dependencies) {
-      onMessage({
+      await onMessage({
         type: 'error',
         packageName,
         errors: [new Error(`undefiend dependencies of ${packageName}`)],
@@ -159,7 +159,7 @@ export async function build({
   const targets: string | string[] = getBrowserslistQuery({ cwd, env: 'package' });
   const externals: string[] = [];
 
-  onMessage({
+  await onMessage({
     type: 'browserslist',
     targets,
   });
@@ -181,7 +181,7 @@ export async function build({
       packageDir: path.join(cwd, 'src', packageName),
     });
 
-    onMessage({
+    await onMessage({
       type: 'begin',
       packageName,
       indexFile,
@@ -233,7 +233,7 @@ export async function build({
       const emitResult: EmitResult = program.emit();
       const diagnostics: Diagnostic[] = getPreEmitDiagnostics(program).concat(emitResult.diagnostics);
 
-      onMessage({
+      await onMessage({
         type: 'tsc',
         packageName,
         index: indexFile,
@@ -252,7 +252,7 @@ export async function build({
       // }
 
       if (emitResult.emitSkipped) {
-        onMessage({
+        await onMessage({
           type: 'error',
           errors: [new Error(`Build the declaration files of "${packageName}" is failed`)],
         });
@@ -364,14 +364,14 @@ export async function build({
                 cssRegex: /\.(scss|sass)$/,
                 cssModuleRegex: /\.module.(scss|sass)$/,
                 extractCss: true,
-                preProcessor: 'sass-loader',
+                preProcessor: require.resolve('sass-loader'),
               }),
 
               ...getWebpackStyleLoaders({
                 cssRegex: /\.less$/,
                 cssModuleRegex: /\.module.less$/,
                 extractCss: true,
-                preProcessor: 'less-loader',
+                preProcessor: require.resolve('less-loader'),
               }),
 
               // every files import by data uri
@@ -420,7 +420,7 @@ export async function build({
     try {
       const stats: Stats = await runWebpack(webpackConfig);
 
-      onMessage({
+      await onMessage({
         type: 'webpack',
         packageName,
         webpackConfig,
@@ -428,14 +428,14 @@ export async function build({
       });
 
       if (stats.hasErrors()) {
-        onMessage({
+        await onMessage({
           type: 'error',
           packageName,
           errors: stats.toJson().errors.map((message) => new Error(message)),
         });
       }
     } catch (error) {
-      onMessage({
+      await onMessage({
         type: 'error',
         packageName,
         errors: [error],
@@ -448,7 +448,7 @@ export async function build({
     const packageJson: PackageJson | undefined = packageJsonMap.get(packageName);
 
     if (!packageJson) {
-      onMessage({
+      await onMessage({
         type: 'error',
         packageName,
         errors: [new Error(`undefiend package.json content of ${packageName}`)],
@@ -458,7 +458,7 @@ export async function build({
 
     await fs.writeJson(path.join(outputDir, 'package.json'), packageJson);
 
-    onMessage({
+    await onMessage({
       type: 'package-json',
       packageName,
       packageJson,
@@ -466,7 +466,7 @@ export async function build({
 
     externals.push(packageName);
 
-    onMessage({
+    await onMessage({
       type: 'success',
       packageName,
       indexFile,

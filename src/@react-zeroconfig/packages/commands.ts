@@ -32,7 +32,7 @@ export function build({ cwd, env }: CommandParams) {
     outDir: e[OUT_DIR]!,
     mode: e[NODE_ENV] === 'development' ? 'development' : 'production',
     tsconfig: e[TSCONFIG],
-    onMessage: () => {},
+    onMessage: async () => {},
   });
 }
 
@@ -47,8 +47,9 @@ export function publish({ cwd, env }: CommandParams) {
   _publish({
     cwd,
     outDir: e[OUT_DIR]!,
-    force: e[FORCE_PUBLISH] === 'true',
+    skipSelection: e[FORCE_PUBLISH] === 'true',
     tag: e[FORCE_TAG],
     registry: e[FORCE_REGISTRY],
+    onMessage: async () => {},
   });
 }

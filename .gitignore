@@ -14,3 +14,4 @@ yarn-error.log*
 /coverage
 package-lock.json
 /.history
+/test/storage

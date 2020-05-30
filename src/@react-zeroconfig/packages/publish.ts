@@ -1,21 +1,32 @@
-import { getPackagesEntry } from './entry/getPackagesEntry';
-import { exec } from '@ssen/promised';
 import { getPublishOptions, PublishOption, selectPublishOptions } from '@ssen/publish-packages';
 import path from 'path';
+import { getPackagesEntry } from './entry/getPackagesEntry';
 import { PackageInfo } from './rule';
 
-interface Params {
+export type PublishMessages =
+  | {
+      type: 'exec';
+      command: string;
+    }
+  | {
+      type: 'error';
+      errors: Error[];
+    };
+
+export interface PublishParams {
   cwd: string;
 
   outDir: string;
 
   /** skip user selection of packages to publish */
-  force?: boolean;
+  skipSelection?: boolean;
   registry?: string;
   tag?: string;
+
+  onMessage: (message: PublishMessages) => Promise<void>;
 }
 
-export async function publish({ cwd, outDir, force = false, registry, tag }: Params) {
+export async function publish({ cwd, outDir, skipSelection = false, registry, tag, onMessage }: PublishParams) {
   try {
     const entry: Map<string, PackageInfo> = await getPackagesEntry({ cwd });
     const publishOptions: Map<string, PublishOption> = await getPublishOptions({
@@ -26,27 +37,31 @@ export async function publish({ cwd, outDir, force = false, registry, tag }: Par
     });
     const selectedPublishOptions: PublishOption[] = await selectPublishOptions({
       publishOptions,
-      force,
+      skipSelection,
     });
 
     for (const publishOption of selectedPublishOptions) {
       const t: string = ` --tag ${tag || publishOption.tag}`;
       const r: string = registry ? ` --registry "${registry}"` : '';
 
-      console.log(`npm publish ${publishOption.name}${t}${r}`);
-      console.log('');
-
       const command: string =
         process.platform === 'win32'
           ? `cd "${path.join(cwd, 'dist', publishOption.name)}" && npm publish${t}${r}`
           : `cd "${path.join(cwd, 'dist', publishOption.name)}"; npm publish${t}${r};`;
 
-      const { stderr, stdout } = await exec(command, { encoding: 'utf8' });
-      console.log(stdout);
-      console.error(stderr);
+      await onMessage({
+        type: 'exec',
+        command,
+      });
+
+      //const { stderr, stdout } = await exec(command, { encoding: 'utf8' });
+      //console.log(stdout);
+      //console.error(stderr);
     }
   } catch (error) {
-    console.error(error);
-    process.exit(1);
+    await onMessage({
+      type: 'error',
+      errors: [error],
+    });
   }
 }

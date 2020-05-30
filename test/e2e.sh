@@ -65,13 +65,33 @@ fileExists() {
 
 createTmpFixture() {
   TEMP=$(mktemp -d);
-  cp -R -v "$ROOT/test/fixtures/$1"/* "$TEMP";
+  cp -rv "$ROOT/test/fixtures/$1"/* "$TEMP";
+  cp -rv "$ROOT/test/fixtures/$1"/.[^.]* "$TEMP";
   cd "$TEMP" || exit 1;
   echo "TEMP=$TEMP";
   echo "PWD=$(pwd)";
-  npm install react-zeroconfig@e2e --save-dev --registry "$LOCAL_REGISTRY_URL";
+  npm install @react-zeroconfig/cli@e2e --save-dev --registry "$LOCAL_REGISTRY_URL";
   npm install;
 }
+
+createTmpFixture packages/basic;
+npm run package:build;
+
+fileExists "$TEMP/dist/packages/a/README.md";
+fileExists "$TEMP/dist/packages/a/index.js";
+fileExists "$TEMP/dist/packages/a/index.d.ts";
+fileExists "$TEMP/dist/packages/a/package.json";
+
+fileExists "$TEMP/dist/packages/b/README.md";
+fileExists "$TEMP/dist/packages/b/index.js";
+fileExists "$TEMP/dist/packages/b/index.d.ts";
+fileExists "$TEMP/dist/packages/b/package.json";
+
+fileExists "$TEMP/dist/packages/c/README.md";
+fileExists "$TEMP/dist/packages/a/index.js";
+fileExists "$TEMP/dist/packages/c/index.d.ts";
+fileExists "$TEMP/dist/packages/c/package.json";
+fileExists "$TEMP/dist/packages/c/public/test.txt";
 
 # zeroconfig-package-scripts build
 # createTmpFixture simple-packages;

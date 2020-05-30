@@ -1,10 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "app:build": "zeroconfig-webapp-scripts build app",
-    "app:start": "zeroconfig-webapp-scripts start app",
-    "package:build": "zeroconfig-package-scripts build",
-    "package:publish": "zeroconfig-package-scripts publish",
+    "app:build": "zeroconfig web build app",
+    "app:start": "zeroconfig web start app",
+    "package:build": "zeroconfig packages build",
+    "package:publish": "zeroconfig packages publish",
     "build": "npm run app:build",
     "start": "npm run app:start"
   },

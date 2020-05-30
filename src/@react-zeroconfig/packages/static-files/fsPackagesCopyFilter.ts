@@ -15,7 +15,7 @@ export function fsPackagesCopyFilter(src: string): boolean {
     /\/bin\/[a-zA-Z0-9._-]+.js$/.test(src);        // OK : bin/*.js
   
   if (pass && !process.env.JEST_WORKER_ID) {
-    if (fs.statSync(src).isFile()) console.log(src);
+    if (fs.statSync(src).isFile()) console.log('COPY:', src);
   }
   
   return pass;

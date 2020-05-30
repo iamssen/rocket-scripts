@@ -13,11 +13,11 @@ export function getVersions({
 
 interface Params {
   publishOptions: Map<string, PublishOption>;
-  force: boolean;
+  skipSelection: boolean;
 }
 
-export async function selectPublishOptions({ publishOptions, force }: Params): Promise<PublishOption[]> {
-  if (force) {
+export async function selectPublishOptions({ publishOptions, skipSelection }: Params): Promise<PublishOption[]> {
+  if (skipSelection) {
     // no remote package
     // or build version is higher than remote version
     const availablePublishOptions: PublishOption[] = Array.from(publishOptions.values()).filter((publishOption) => {

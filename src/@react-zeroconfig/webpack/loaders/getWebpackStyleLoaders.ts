@@ -6,6 +6,8 @@ interface GetWebpackStyleLoadersParameters {
   cssRegex: RegExp;
   cssModuleRegex: RegExp;
   extractCss: boolean;
+
+  /** require.resolve('less-loader') */
   preProcessor?: string;
 }
 
@@ -66,10 +68,10 @@ export function getWebpackStyleLoaders({
 
   if (preProcessor) {
     const preProcessorLoader: RuleSetUseItem = {
-      loader: require.resolve(preProcessor),
+      loader: preProcessor,
       options: {
         sourceMap: true,
-        ...(preProcessor === 'less-loader' ? { javascriptEnabled: true } : {}),
+        ...(preProcessor.indexOf('less-loader') > -1 ? { javascriptEnabled: true } : {}),
       },
     };
 
