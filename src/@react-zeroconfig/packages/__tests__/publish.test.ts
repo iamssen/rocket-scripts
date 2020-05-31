@@ -23,7 +23,7 @@ describe('publish()', () => {
       },
     });
 
-    let packageNames: Set<string> = new Set<string>();
+    const packageNames: Set<string> = new Set<string>();
 
     await publish({
       cwd,
