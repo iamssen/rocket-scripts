@@ -3,25 +3,27 @@ import { buildTransformFileNamePattern, packageJsonFactoryFileNamePattern } from
 
 // prettier-ignore
 export function fsPackagesCopyFilter(src: string): boolean {
+  const s: string = src.replace(/\\/g, '/');
+  
   const completelyIgnore: boolean =
-    /__(\w*)__/.test(src);                           // __tests__ , __fixtures__
+    /__(\w*)__/.test(s);                           // __tests__ , __fixtures__
   
   const ignore: boolean =
-    /\.(ts|tsx|mjs|js|jsx)$/.test(src) ||            // *.ts, *.tsx, *.js, *.jsx, *.mjs
-    packageJsonFactoryFileNamePattern.test(src) ||   // .package.json.(js|ts)
-    buildTransformFileNamePattern.test(src);         // .build.(js|ts)
+    /\.(ts|tsx|mjs|js|jsx)$/.test(s) ||            // *.ts, *.tsx, *.js, *.jsx, *.mjs
+    packageJsonFactoryFileNamePattern.test(s) ||   // .package.json.(js|ts)
+    buildTransformFileNamePattern.test(s);         // .build.(js|ts)
   
   const pass: boolean =
     !completelyIgnore &&
     (
       !ignore ||
-      /\.d\.ts$/.test(src) ||                        // *.d.ts
-      /\/bin\/[a-zA-Z0-9._-]+.js$/.test(src) ||      // bin/*.js
-      /\/public\//.test(src)                         // public/*
+      /\.d\.ts$/.test(s) ||                        // *.d.ts
+      /\/bin\/[a-zA-Z0-9._-]+.js$/.test(s) ||      // bin/*.js
+      /\/public\//.test(s)                         // public/*
     );
   
   if (pass && !process.env.JEST_WORKER_ID) {
-    if (fs.statSync(src).isFile()) console.log('COPY:', src);
+    if (fs.statSync(s).isFile()) console.log('COPY:', s);
   }
   
   return pass;

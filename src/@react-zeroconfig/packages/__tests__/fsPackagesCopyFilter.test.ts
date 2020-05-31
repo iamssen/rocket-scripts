@@ -18,7 +18,8 @@ describe('fsPackagesCopyFilter()', () => {
     '__tests__/a.d.ts',
     'public/__xxx__/a/b/c.png',
   ])('should ignore file pattern %s', (pattern: string) => {
-    expect(fsPackagesCopyFilter(path.join(process.cwd(), pattern))).toBeFalsy();
+    expect(fsPackagesCopyFilter(path.join('/Users/foo/bar', pattern))).toBeFalsy();
+    expect(fsPackagesCopyFilter(path.win32.join('C:/foo/bar', pattern))).toBeFalsy();
   });
 
   test.each([
@@ -37,6 +38,7 @@ describe('fsPackagesCopyFilter()', () => {
     'a/bin/trism',
     'a/bin/trism.js',
   ])('should pass file pattern %s', (pattern: string) => {
-    expect(fsPackagesCopyFilter(path.join(process.cwd(), pattern))).toBeTruthy();
+    expect(fsPackagesCopyFilter(path.join('/Users/foo/bar', pattern))).toBeTruthy();
+    expect(fsPackagesCopyFilter(path.win32.join('C:/foo/bar', pattern))).toBeTruthy();
   });
 });
