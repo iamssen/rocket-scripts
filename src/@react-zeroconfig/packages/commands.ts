@@ -1,5 +1,5 @@
 import { CommandParams } from '@react-zeroconfig/rule';
-import { mapEnv, printEnv } from '@ssen/env';
+import { mapEnv, pickEnv } from '@ssen/env';
 import path from 'path';
 import { pipe } from 'ramda';
 import { build as _build } from './build';
@@ -21,11 +21,11 @@ const defaultEnv = (env: NodeJS.ProcessEnv) => ({
 
 export function build({ cwd, env }: CommandParams) {
   const e: NodeJS.ProcessEnv = pipe(
-    mapEnv(path.join(cwd, '.env.js')), // root env
+    mapEnv(path.join(cwd, '.env')), // root env
     defaultEnv,
   )(env);
 
-  printEnv(OUT_DIR, NODE_ENV, TSCONFIG)(e);
+  console.log(JSON.stringify(pickEnv(OUT_DIR, NODE_ENV, TSCONFIG)(e), null, 2));
 
   _build({
     cwd,
@@ -38,11 +38,11 @@ export function build({ cwd, env }: CommandParams) {
 
 export function publish({ cwd, env }: CommandParams) {
   const e: NodeJS.ProcessEnv = pipe(
-    mapEnv(path.join(cwd, '.env.js')), // root env
+    mapEnv(path.join(cwd, '.env')), // root env
     defaultEnv,
   )(env);
 
-  printEnv(OUT_DIR, FORCE_PUBLISH, FORCE_TAG, FORCE_REGISTRY)(e);
+  console.log(JSON.stringify(pickEnv(OUT_DIR, FORCE_PUBLISH, FORCE_TAG, FORCE_REGISTRY)(e)));
 
   _publish({
     cwd,

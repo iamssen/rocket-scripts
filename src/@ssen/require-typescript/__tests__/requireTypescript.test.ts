@@ -22,6 +22,11 @@ describe('requireTypescript', () => {
       path.join(process.cwd(), `test/fixtures/require-typescript/${dir}/func`),
     );
     expect(func(1, 2)).toBe(3);
+
+    const { some } = requireTypescript<{ some: string }>(
+      path.join(process.cwd(), `test/fixtures/require-typescript/${dir}/dirname`),
+    );
+    expect(some).toBe(path.join(path.join(process.cwd(), `test/fixtures/require-typescript/${dir}/hello`)));
   });
 
   test('should get exports with index file', () => {

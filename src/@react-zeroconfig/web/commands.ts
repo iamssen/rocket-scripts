@@ -1,5 +1,5 @@
 import { CommandParams, parseNumber } from '@react-zeroconfig/rule';
-import { mapEnv, printEnv } from '@ssen/env';
+import { mapEnv, pickEnv } from '@ssen/env';
 import path from 'path';
 import { pipe } from 'ramda';
 import { start as _start } from './start';
@@ -26,18 +26,22 @@ export function start({ cwd, env, commands: [app] }: CommandParams) {
     }),
   )(env);
 
-  printEnv(
-    PORT,
-    OUT_DIR,
-    STATIC_FILE_DIRECTORIES,
-    PUBLIC_PATH,
-    CHUNK_PATH,
-    SOURCE_MAP,
-    HTTPS,
-    HTTPS_KEY,
-    HTTPS_CERT,
-    EXTERNALS,
-  )(e);
+  console.log(
+    JSON.stringify(
+      pickEnv(
+        PORT,
+        OUT_DIR,
+        STATIC_FILE_DIRECTORIES,
+        PUBLIC_PATH,
+        CHUNK_PATH,
+        SOURCE_MAP,
+        HTTPS,
+        HTTPS_KEY,
+        HTTPS_CERT,
+        EXTERNALS,
+      )(e),
+    ),
+  );
 
   _start({
     cwd,

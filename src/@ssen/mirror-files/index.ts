@@ -1,96 +1,104 @@
+import { Matcher } from 'anymatch';
 import { watch } from 'chokidar';
 import { FSWatcher } from 'fs';
 import fs from 'fs-extra';
 import path from 'path';
-import { Observable, Observer } from 'rxjs';
+import { useEffect } from 'react';
 
 interface Params {
-  sources: string[];
-  output: string;
-  ignored?: RegExp;
+  filesDirsOrGlobs: string[];
+  outDir: string;
+  ignored?: Matcher;
+  onMessage: (message: MirrorMessage) => void;
 }
 
-export enum MirrorTreat {
-  ADDED = 'added',
-  UPDATED = 'updated',
-  REMOVED = 'removed',
-}
+export type MirrorMessage =
+  | {
+      type: 'added' | 'updated' | 'removed';
+      file: string;
+    }
+  | {
+      type: 'undefined';
+      file: string;
+    };
 
-export interface MirrorResult {
-  treat: MirrorTreat;
-  file: string;
-}
+export function useMirrorFiles({ filesDirsOrGlobs, outDir, ignored, onMessage }: Params) {
+  useEffect(() => {
+    fs.mkdirpSync(outDir);
 
-export async function mirrorFiles({ sources, output, ignored }: Params): Promise<Observable<MirrorResult>> {
-  function toRelativePath(file: string): string | undefined {
-    const source: string | undefined = sources.find((s) => file.indexOf(s) === 0);
-    return source ? path.relative(source, file) : undefined;
-  }
+    function toRelativePath(file: string): string | undefined {
+      const source: string | undefined = filesDirsOrGlobs.find((s) => file.indexOf(s) === 0);
+      return source ? path.relative(source, file) : undefined;
+    }
 
-  await fs.mkdirp(output);
-  await Promise.all(
-    sources.map((dir) => {
-      return fs.copy(dir, output, {
-        dereference: false,
-        filter: (src) => {
-          return ignored ? !ignored.test(src) : true;
-        },
-      });
-    }),
-  );
-
-  return new Observable<MirrorResult>((observer: Observer<MirrorResult>) => {
-    const watcher: FSWatcher = watch(sources, {
+    const watcher: FSWatcher = watch(filesDirsOrGlobs, {
       ignored,
-      persistent: true,
-      ignoreInitial: true,
     });
 
     watcher
+      //.on('ready', () => {
+      //})
       .on('add', async (file) => {
         const relpath: string | undefined = toRelativePath(file);
+
         if (!relpath) {
-          console.log(`Can't found ${file} from sources`);
+          onMessage({
+            type: 'undefined',
+            file,
+          });
           return;
         }
-        const tofile: string = path.join(output, relpath);
+
+        const tofile: string = path.join(outDir, relpath);
+
         await fs.mkdirp(path.dirname(tofile));
         await fs.copy(file, tofile, { dereference: false });
 
-        observer.next({
+        onMessage({
+          type: 'added',
           file: relpath,
-          treat: MirrorTreat.ADDED,
         });
       })
       .on('change', async (file) => {
         const relpath: string | undefined = toRelativePath(file);
+
         if (!relpath) {
-          console.log(`Can't found ${file} from sources`);
+          onMessage({
+            type: 'undefined',
+            file,
+          });
           return;
         }
-        const tofile: string = path.join(output, relpath);
+
+        const tofile: string = path.join(outDir, relpath);
+
         await fs.mkdirp(path.dirname(tofile));
         await fs.copy(file, tofile, { dereference: false });
 
-        observer.next({
+        onMessage({
+          type: 'updated',
           file: relpath,
-          treat: MirrorTreat.UPDATED,
         });
       })
       .on('unlink', async (file) => {
         const relpath: string | undefined = toRelativePath(file);
+
         if (!relpath) {
-          console.log(`Can't found ${file} from sources`);
+          onMessage({
+            type: 'undefined',
+            file,
+          });
           return;
         }
-        const tofile: string = path.join(output, relpath);
+
+        const tofile: string = path.join(outDir, relpath);
 
         if (fs.pathExistsSync(tofile)) {
           await fs.remove(tofile);
 
-          observer.next({
+          onMessage({
+            type: 'removed',
             file: relpath,
-            treat: MirrorTreat.REMOVED,
           });
         }
       });
@@ -98,5 +106,5 @@ export async function mirrorFiles({ sources, output, ignored }: Params): Promise
     return () => {
       watcher.close();
     };
-  });
+  }, [ignored, onMessage, outDir, filesDirsOrGlobs]);
 }
