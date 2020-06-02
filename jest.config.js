@@ -11,6 +11,7 @@ module.exports = {
     '!**/__*__/**',
     '!src/@react-zeroconfig/*/commands.ts',
     '!src/@react-zeroconfig/cli/**',
+    '!src/@react-zeroconfig/webpack/**',
   ],
   globals: {
     'ts-jest': {
