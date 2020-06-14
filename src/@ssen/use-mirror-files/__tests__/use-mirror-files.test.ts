@@ -1,5 +1,5 @@
-import { useMirrorFiles } from '@ssen/mirror-files';
 import { createTmpDirectory } from '@ssen/tmp-directory';
+import { useMirrorFiles } from '@ssen/use-mirror-files';
 import { renderHook } from '@testing-library/react-hooks';
 import fs from 'fs-extra';
 import path from 'path';
@@ -28,9 +28,9 @@ async function copy(file: string, dir: string, toDir: string) {
   await fs.copyFile(path.join(dir, file), f);
 }
 
-describe('useMirrorFiles', () => {
+describe('useMirrorFiles()', () => {
   test('should mirror static files', async () => {
-    const source: string = path.join(process.cwd(), 'test/fixtures/mirror-files/static-files');
+    const source: string = path.join(process.cwd(), 'test/fixtures/use-mirror-files/static-files');
     const dir: string = await createTmpDirectory();
     const outDir: string = await createTmpDirectory();
 
