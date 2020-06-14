@@ -9,8 +9,8 @@ module.exports = {
     'src/**/*.ts?(x)',
     '!**/*.d.ts?(x)',
     '!**/__*__/**',
-    '!src/@react-zeroconfig/*/commands.ts',
-    '!src/@react-zeroconfig/cli/**',
+    '!src/@rocket-scripts/*/commands.ts',
+    '!src/@rocket-scripts/cli/**',
   ],
   globals: {
     'ts-jest': {

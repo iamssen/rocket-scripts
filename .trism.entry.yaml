@@ -1,9 +1,0 @@
-'@ssen/*':
-  version: 0.2.0
-  tag: canary
-'@react-zeroconfig/*':
-  version: 4.0.0-alpha.3
-  tag: canary
-filesize-test:
-  version: 0.1.4
-  tag: latest

@@ -51,8 +51,8 @@ grep -q 'http address' <(tail -f "$VERDACCIO_REGISTRY_LOG"); # wating verdaccio
 
 # LOCAL PUBLISH
 # ==================================================----------------------------------
-echo "TRISM=$(which trism)";
-npx trism publish --force --tag e2e --registry "$LOCAL_REGISTRY_URL";
+echo "ROCKET=$(which rocket-scripts)";
+npx rocket-scripts publish --skip-selection --tag e2e --registry "$LOCAL_REGISTRY_URL";
 
 # TEST
 # ==================================================----------------------------------
@@ -70,7 +70,7 @@ createTmpFixture() {
   cd "$TEMP" || exit 1;
   echo "TEMP=$TEMP";
   echo "PWD=$(pwd)";
-  npm install @react-zeroconfig/cli@e2e --save-dev --registry "$LOCAL_REGISTRY_URL";
+  npm install @rocket-scripts/cli@e2e --save-dev --registry "$LOCAL_REGISTRY_URL";
   npm install;
 }
 

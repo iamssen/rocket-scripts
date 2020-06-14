@@ -1,9 +1,0 @@
-a:
-  version: 0.0.2
-  tag: latest
-b:
-  version: 1.0.2
-  tag: latest
-c:
-  version: 2.0.2
-  tag: latest

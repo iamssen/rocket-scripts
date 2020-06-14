@@ -9,5 +9,8 @@ fetch('https://api.github.com/repos/nodejs/node/contents/doc/api')
       .filter(({name}) => /\.md$/.test(name))
       .map(({name}) => path.basename(name, '.md'));
     
-    return fs.writeFile(path.join(__dirname, '../src/react-zeroconfig/internalPackage/node-api-list.json'), JSON.stringify(api));
+    console.log('get-node-api-list.js..()', JSON.stringify(api));
+    
+    // TODO
+    //return fs.writeFile(path.join(__dirname, '../src/react-zeroconfig/internalPackage/node-api-list.json'), JSON.stringify(api));
   });

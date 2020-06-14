@@ -16,19 +16,27 @@ uplinks:
       maxFreeSockets: 10
 
 packages:
-  'react-zeroconfig':
+  'rocket-scripts':
     access: $anonymous
     publish: $anonymous
 
-  'filesize-test':
+  '@rocket-scripts/*':
     access: $anonymous
     publish: $anonymous
 
-  '@react-zeroconfig/*':
+  '@ssen/env':
     access: $anonymous
     publish: $anonymous
 
-  '@ssen/*':
+  '@ssen/ink-to-string':
+    access: $anonymous
+    publish: $anonymous
+
+  '@ssen/mirror-files':
+    access: $anonymous
+    publish: $anonymous
+
+  '@ssen/tsconfig':
     access: $anonymous
     publish: $anonymous
 

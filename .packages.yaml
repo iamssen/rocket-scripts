@@ -1,0 +1,9 @@
+'@ssen/*':
+  version: 0.3.0
+  tag: canary
+'@rocket-scripts/*':
+  version: 0.3.0
+  tag: canary
+rocket-scripts:
+  version: 0.3.0
+  tag: canary

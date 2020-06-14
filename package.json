@@ -1,17 +1,14 @@
 {
   "private": true,
   "scripts": {
-    "build": "trism build",
-    "publish": "npm test && trism build && trism publish",
+    "build": "rocket-punch build",
+    "publish": "npm test && rocket-punch build && rocket-punch publish",
     "test": "jest --colors",
     "coverage": "jest --coverage --colors",
     "e2e": "npm run build && bash test/e2e.sh",
     "format": "prettier --write \"src/{**/*,*}/*.{ts,tsx}\"",
     "lint": "eslint \"src/{**/*,*}/*.{ts,tsx}\"",
-    "download": "node scripts/get-node-api-list.js",
-    "env-test": "MODE=develpment XXX=a YYY=b node test.js",
-    "env-test2": "node test.js",
-    "env-test3": "MODE=develpment XXX=a YYY=b node test.js && node test.js"
+    "download": "node scripts/get-node-api-list.js"
   },
   "husky": {
     "hooks": {
@@ -40,10 +37,11 @@
     "@handbook/babel-plugin": "*",
     "@loadable/babel-plugin": "^5.12.0",
     "@loadable/webpack-plugin": "^5.12.0",
-    "@lunit/eslint-config": "^0.5.0",
-    "@lunit/prettier-config": "^0.1.1",
     "@mapbox/rehype-prism": "^0.4.0",
     "@mdx-js/loader": "^1.5.8",
+    "@ssen/eslint-config": "^1.0.0",
+    "@ssen/prettier-config": "^1.0.0",
+    "@ssen/tmp-directory": "^1.0.0-alpha.1",
     "@svgr/webpack": "^5.2.0",
     "@testing-library/react-hooks": "^3.2.1",
     "@types/anymatch": "^1.3.1",
@@ -161,6 +159,7 @@
     "react-test-renderer": "^16.13.1",
     "resolve": "^1.15.1",
     "rimraf": "^3.0.2",
+    "rocket-punch": "^1.0.0-alpha.2",
     "rxjs": "^6.5.4",
     "sass-loader": "^8.0.2",
     "semver": "^7.1.3",
@@ -169,7 +168,6 @@
     "terser": "^4.6.6",
     "terser-webpack-plugin": "^3.0.1",
     "tmp": "^0.2.1",
-    "trism": "^0.8.1",
     "ts-jest": "^26.0.0",
     "type-fest": "^0.13.1",
     "typescript": "^3.8.3",
