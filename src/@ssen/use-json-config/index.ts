@@ -18,11 +18,7 @@ export function useJsonConfig<T>(file: string, selector: (object: any) => T | un
           return !next ? undefined : JSON.stringify(prev) !== JSON.stringify(next) ? next : prev;
         });
       } else {
-        if (process.env.JEST_WORKER_ID) {
-          setTimeout(() => setConfig(undefined), 1);
-        } else {
-          setConfig(undefined);
-        }
+        setConfig(undefined);
       }
     }
 

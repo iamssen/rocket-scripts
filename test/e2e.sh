@@ -51,8 +51,8 @@ grep -q 'http address' <(tail -f "$VERDACCIO_REGISTRY_LOG"); # wating verdaccio
 
 # LOCAL PUBLISH
 # ==================================================----------------------------------
-echo "ROCKET=$(which rocket-scripts)";
-npx rocket-scripts publish --skip-selection --tag e2e --registry "$LOCAL_REGISTRY_URL";
+echo "PUNCH=$(which rocket-punch)";
+npx rocket-punch publish --skip-selection --tag e2e --registry "$LOCAL_REGISTRY_URL";
 
 # TEST
 # ==================================================----------------------------------
@@ -75,24 +75,24 @@ createTmpFixture() {
 }
 
 # should build packages normally
-createTmpFixture packages/basic;
-npm run package:build;
-
-fileExists "$TEMP/dist/packages/a/README.md";
-fileExists "$TEMP/dist/packages/a/index.js";
-fileExists "$TEMP/dist/packages/a/index.d.ts";
-fileExists "$TEMP/dist/packages/a/package.json";
-
-fileExists "$TEMP/dist/packages/b/README.md";
-fileExists "$TEMP/dist/packages/b/index.js";
-fileExists "$TEMP/dist/packages/b/index.d.ts";
-fileExists "$TEMP/dist/packages/b/package.json";
-
-fileExists "$TEMP/dist/packages/c/README.md";
-fileExists "$TEMP/dist/packages/a/index.js";
-fileExists "$TEMP/dist/packages/c/index.d.ts";
-fileExists "$TEMP/dist/packages/c/package.json";
-fileExists "$TEMP/dist/packages/c/public/test.txt";
+#createTmpFixture packages/basic;
+#npm run package:build;
+#
+#fileExists "$TEMP/dist/packages/a/README.md";
+#fileExists "$TEMP/dist/packages/a/index.js";
+#fileExists "$TEMP/dist/packages/a/index.d.ts";
+#fileExists "$TEMP/dist/packages/a/package.json";
+#
+#fileExists "$TEMP/dist/packages/b/README.md";
+#fileExists "$TEMP/dist/packages/b/index.js";
+#fileExists "$TEMP/dist/packages/b/index.d.ts";
+#fileExists "$TEMP/dist/packages/b/package.json";
+#
+#fileExists "$TEMP/dist/packages/c/README.md";
+#fileExists "$TEMP/dist/packages/a/index.js";
+#fileExists "$TEMP/dist/packages/c/index.d.ts";
+#fileExists "$TEMP/dist/packages/c/package.json";
+#fileExists "$TEMP/dist/packages/c/public/test.txt";
 
 # TODO should build packages with a .env.ts config file
 # TODO should build packages with a .package.json.ts config file
