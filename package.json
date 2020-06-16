@@ -41,6 +41,7 @@
     "@mdx-js/loader": "^1.5.8",
     "@ssen/eslint-config": "^1.0.0",
     "@ssen/prettier-config": "^1.0.0",
+    "@ssen/promised": "^1.0.0-alpha.1",
     "@ssen/tmp-directory": "^1.0.0-alpha.1",
     "@svgr/webpack": "^5.2.0",
     "@testing-library/react-hooks": "^3.2.1",
@@ -69,6 +70,7 @@
     "@types/optimize-css-assets-webpack-plugin": "^5.0.1",
     "@types/prettier": "^2.0.0",
     "@types/prompts": "^2.4.0",
+    "@types/puppeteer": "^3.0.0",
     "@types/ramda": "^0.27.5",
     "@types/react": "^16.9.35",
     "@types/react-dev-utils": "^9.0.4",
@@ -84,6 +86,7 @@
     "@types/webpack": "^4.41.7",
     "@types/webpack-bundle-analyzer": "^2.13.3",
     "@types/webpack-dev-middleware": "^3.7.0",
+    "@types/webpack-dev-server": "^3.11.0",
     "@types/webpack-env": "^1.15.2",
     "@types/webpack-hot-middleware": "^2.25.0",
     "@types/webpack-merge": "^4.1.5",
@@ -150,6 +153,7 @@
     "postcss-safe-parser": "^4.0.2",
     "prettier": "^2.0.2",
     "prompts": "^2.3.1",
+    "puppeteer": "^3.3.0",
     "ramda": "^0.27.0",
     "raw-loader": "^4.0.0",
     "react": "^16.13.1",
@@ -169,6 +173,7 @@
     "terser-webpack-plugin": "^3.0.1",
     "tmp": "^0.2.1",
     "ts-jest": "^26.0.0",
+    "tsconfig-paths": "^3.9.0",
     "type-fest": "^0.13.1",
     "typescript": "^3.8.3",
     "url-loader": "^4.1.0",
@@ -181,5 +186,9 @@
     "worker-loader": "^2.0.0",
     "yaml-loader": "^0.6.0",
     "yargs": "^15.3.1"
+  },
+  "dependencies": {
+    "abort-controller": "^3.0.0",
+    "webpack-dev-server": "^3.11.0"
   }
 }

@@ -1,55 +1,46 @@
-import { Color, render } from 'ink';
-import React, { useEffect, useState } from 'react';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { start } from '@rocket-scripts/web/start';
+import { exec } from '@ssen/promised';
+import { copyTmpDirectory, createTmpDirectory } from '@ssen/tmp-directory';
+import AbortController from 'abort-controller';
+import path from 'path';
+import puppeteer, { Browser, Page } from 'puppeteer';
 
-const subject: BehaviorSubject<string> = new BehaviorSubject<string>('hello');
+async function task() {
+  const cwd: string = await copyTmpDirectory(path.join(process.cwd(), 'test/fixtures/web/start'));
+  const out: string = await createTmpDirectory();
 
-setTimeout(() => {
-  subject.next('World!');
-}, 5000);
+  await exec(`npm install`, { cwd });
 
-function useCounter() {
-  const [count, setCount] = useState(1);
+  const abort: AbortController = new AbortController();
 
-  useEffect(() => {
-    const intervalId: NodeJS.Timeout = setInterval(() => {
-      setCount((value) => value + 1);
-    }, 1000);
+  const { port } = await start({
+    cwd,
+    staticFileDirectories: ['{cwd}/public'],
+    app: 'app',
+    https: false,
+    outDir: out,
+    signal: abort.signal,
+  });
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+  const browser: Browser = await puppeteer.launch({
+    headless: false,
+    defaultViewport: {
+      width: 1200,
+      height: 900,
+    },
+  });
 
-  return count;
+  const page: Page = await browser.newPage();
+
+  await page.goto(`http://localhost:${port}`);
+  await page.waitFor('#app h1', { timeout: 1000 * 60 });
+
+  const message: string = await page.$eval('#app h1', (e) => e.innerHTML);
+
+  console.assert(message === 'Hello World!');
+
+  await browser.close();
+  abort.abort();
 }
 
-function App() {
-  const [text, setText] = useState(() => subject.getValue());
-
-  useEffect(() => {
-    const subscription: Subscription = subject.subscribe((value) => setText(value));
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-
-  const count: number = useCounter();
-
-  return (
-    <>
-      <Color red bold>
-        {text}
-      </Color>
-      <Color yellow bold>
-        Count = {count}
-      </Color>
-    </>
-  );
-}
-
-console.log(<Color blue>????</Color>);
-console.log('?????');
-
-render(<App />);
+task();

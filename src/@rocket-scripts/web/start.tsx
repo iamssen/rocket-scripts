@@ -9,28 +9,24 @@ import {
   getWebpackStyleLoaders,
   getWebpackYamlLoaders,
 } from '@rocket-scripts/webpack';
-import { MiddlewareHandler } from 'browser-sync';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import fs from 'fs-extra';
 import getPort from 'get-port';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { IncomingMessage, ServerResponse } from 'http';
-import { createProxyMiddleware } from 'http-proxy-middleware';
 import { Color, render } from 'ink';
 import path from 'path';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import resolve from 'resolve';
 import { PackageJson } from 'type-fest';
 import webpack, {
   Compiler,
-  Configuration,
+  Configuration as WebpackConfiguration,
   DefinePlugin,
   HotModuleReplacementPlugin,
   RuleSetRule,
   WatchIgnorePlugin,
 } from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
+import WebpackDevServer, { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 import { eslintConfigExistsSync } from './rules/eslintConfigExistsSync';
 import { fixChunkPath } from './rules/fixChunkPath';
 import { AppEntry } from './rules/getAppEntry';
@@ -90,10 +86,13 @@ export function Start({
       }, {});
   }, [env]);
 
-  const middlewares: MiddlewareHandler[] | null = useMemo(() => {
+  // ---------------------------------------------
+  // webpack
+  // ---------------------------------------------
+  const compiler: Compiler.Watching | Compiler | null = useMemo(() => {
     if (!entry) return null;
 
-    const hotMiddleware: string = path.dirname(require.resolve('webpack-hot-middleware/package.json'));
+    //const hotMiddleware: string = path.dirname(require.resolve('webpack-hot-middleware/package.json'));
 
     const webpackEnv: Record<string, string | number | boolean> = {
       ...reactAppEnv,
@@ -179,7 +178,7 @@ export function Start({
       ],
     };
 
-    const webpackConfig: Configuration = {
+    const webpackConfig: WebpackConfiguration = {
       mode: 'development',
       devtool: 'cheap-module-eval-source-map',
 
@@ -199,10 +198,11 @@ export function Start({
 
       entry: {
         ...entry.reduce((e, { name, index }) => {
-          e[name] = [
-            `${hotMiddleware}/client?path=/__webpack_hmr&timeout=20000&reload=true`,
-            path.join(cwd, 'src', app, index),
-          ];
+          //e[name] = [
+          //  `${hotMiddleware}/client?path=/__webpack_hmr&timeout=20000&reload=true`,
+          //  path.join(cwd, 'src', app, index),
+          //];
+          e[name] = path.join(cwd, 'src', app, index);
           return e;
         }, {}),
       },
@@ -324,14 +324,7 @@ export function Start({
                 checkSyntacticErrors: true,
                 measureCompilationTime: true,
                 tsconfig: path.join(cwd, 'tsconfig.json'),
-                reportFiles: [
-                  '**',
-                  '!**/*.json',
-                  '!**/__*',
-                  '!**/?(*.)(spec|test).*',
-                  '!**/src/setupProxy.*',
-                  '!**/src/setupTests.*',
-                ],
+                reportFiles: ['**', '!**/*.json', '!**/__*', '!**/?(*.)(spec|test).*'],
                 silent: true,
                 //formatter: process.env.NODE_ENV === 'production' ? 'default' : undefined,
               }),
@@ -392,45 +385,93 @@ export function Start({
       },
     };
 
-    const compiler: Compiler.Watching | Compiler = webpack(webpackConfig);
+    return webpack(webpackConfig);
 
-    const webpackDevMiddlewareHandler = webpackDevMiddleware(compiler, {
-      publicPath: publicPath,
-      stats: { colors: true },
+    //const webpackDevMiddlewareHandler = webpackDevMiddleware(compiler, {
+    //  publicPath: publicPath,
+    //  stats: { colors: true },
+    //});
+    //
+    //const middleware: MiddlewareHandler[] = [
+    //  // @ts-ignore as MiddlewareHandler
+    //  webpackDevMiddlewareHandler,
+    //  // @ts-ignore as MiddlewareHandler
+    //  webpackHotMiddleware(compiler),
+    //];
+    //
+    //if (proxyConfig) {
+    //  Object.keys(proxyConfig).forEach((uri) => {
+    //    // @ts-ignore as MiddlewareHandler
+    //    middleware.push(createProxyMiddleware(uri, proxyConfigs[uri]));
+    //  });
+    //}
+    //
+    //const rewriteMiddleware = (req: IncomingMessage, res: ServerResponse, next: () => void) => {
+    //  if (req.url && !/\.[a-zA-Z0-9]+$/.test(req.url)) {
+    //    if (fs.pathExistsSync(path.join(cwd, 'src', app, 'index.html'))) {
+    //      req.url = '/index.html';
+    //    } else if (fs.pathExistsSync(path.join(cwd, 'src', app, '200.html'))) {
+    //      req.url = '/200.html';
+    //    }
+    //    webpackDevMiddlewareHandler(req, res, next);
+    //  } else {
+    //    next();
+    //  }
+    //};
+    //
+    //// @ts-ignore as MiddlewareHandler
+    //middleware.push(rewriteMiddleware);
+    //
+    //return middleware;
+  }, [alias, app, chunkPath, cwd, entry, env, publicPath, reactAppEnv]);
+
+  // ---------------------------------------------
+  // webpack dev server
+  // ---------------------------------------------
+  const devServerConfig: WebpackDevServerConfiguration | null = useMemo(() => {
+    return {
+      hot: true,
+      compress: true,
+      contentBase: staticFileDirectories,
+      //https, TODO
+    };
+  }, [staticFileDirectories]);
+
+  useEffect(() => {
+    if (!compiler || !devServerConfig) return;
+
+    const devServer = new WebpackDevServer(compiler, devServerConfig);
+
+    devServer.listen(port, 'localhost', (err) => {
+      if (err) {
+        return console.log(err);
+      }
+      //if (isInteractive) {
+      //  clearConsole();
+      //}
+
+      console.log('Starting the development server...\n');
     });
 
-    const middleware: MiddlewareHandler[] = [
-      // @ts-ignore as MiddlewareHandler
-      webpackDevMiddlewareHandler,
-      // @ts-ignore as MiddlewareHandler
-      webpackHotMiddleware(compiler),
-    ];
+    const signals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM'];
 
-    if (proxyConfig) {
-      Object.keys(proxyConfig).forEach((uri) => {
-        // @ts-ignore as MiddlewareHandler
-        middleware.push(createProxyMiddleware(uri, proxyConfigs[uri]));
-      });
+    function shutdown() {
+      devServer.close();
+      process.exit();
     }
 
-    const rewriteMiddleware = (req: IncomingMessage, res: ServerResponse, next: () => void) => {
-      if (req.url && !/\.[a-zA-Z0-9]+$/.test(req.url)) {
-        if (fs.pathExistsSync(path.join(cwd, 'src', app, 'index.html'))) {
-          req.url = '/index.html';
-        } else if (fs.pathExistsSync(path.join(cwd, 'src', app, '200.html'))) {
-          req.url = '/200.html';
-        }
-        webpackDevMiddlewareHandler(req, res, next);
-      } else {
-        next();
+    for (const signal of signals) {
+      process.on(signal, shutdown);
+    }
+
+    return () => {
+      devServer.close();
+
+      for (const signal of signals) {
+        process.off(signal, shutdown);
       }
     };
-
-    // @ts-ignore as MiddlewareHandler
-    middleware.push(rewriteMiddleware);
-
-    return middleware;
-  }, [alias, app, chunkPath, cwd, entry, env, proxyConfig, publicPath, reactAppEnv]);
+  }, [compiler, devServerConfig, port]);
 
   return (
     <>
@@ -450,28 +491,32 @@ export async function start({
   port: _port = 'random',
   https = false,
   env = {},
-}: StartPrams) {
+}: StartPrams): Promise<StartProps & { abort: () => void }> {
   const outDir: string = icuFormat(_outDir, { cwd, app });
   const chunkPath: string = fixChunkPath(_chunkPath);
   const port: number =
     typeof _port === 'number' ? _port : await getPort({ port: getPort.makeRange(8000, 9999) });
   const staticFileDirectories: string[] = _staticFileDirectories.map((dir) => icuFormat(dir, { cwd, app }));
-
   const appDir: string = path.join(cwd, 'src', app);
 
-  render(
-    <Start
-      cwd={cwd}
-      app={app}
-      outDir={outDir}
-      publicPath={publicPath}
-      chunkPath={chunkPath}
-      staticFileDirectories={staticFileDirectories}
-      externals={externals}
-      port={port}
-      https={https}
-      appDir={appDir}
-      env={env}
-    />,
-  );
+  const props: StartProps = {
+    cwd,
+    app,
+    outDir,
+    publicPath,
+    chunkPath,
+    staticFileDirectories,
+    externals,
+    port,
+    https,
+    appDir,
+    env,
+  };
+
+  const { unmount } = render(<Start {...props} />);
+
+  return {
+    ...props,
+    abort: unmount,
+  };
 }
