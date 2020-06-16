@@ -8,7 +8,7 @@ export function useWebpackAlias(cwd: string): Record<string, string> {
 
   useEffect(() => {
     const watcher: FSWatcher = watch([`${cwd}/src/*`, `${cwd}/src/@*/*`], {
-      ignored: (fileOrDir: string) => !fs.statSync(fileOrDir).isDirectory(),
+      ignored: (fileOrDir: string) => !fs.existsSync(fileOrDir) || !fs.statSync(fileOrDir).isDirectory(),
     });
 
     function handler() {

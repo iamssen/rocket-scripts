@@ -2,6 +2,7 @@ import { start } from '@rocket-scripts/web/start';
 import { exec } from '@ssen/promised';
 import { copyTmpDirectory, createTmpDirectory } from '@ssen/tmp-directory';
 import fs from 'fs-extra';
+import fetch from 'node-fetch';
 import path from 'path';
 import puppeteer, { Browser, Page } from 'puppeteer';
 
@@ -54,6 +55,40 @@ describe('start()', () => {
     await page.waitFor(1000);
 
     await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hi World!');
+
+    abort();
+  }, 50000);
+
+  test('should get static files with multiple static file directories', async () => {
+    const cwd: string = await copyTmpDirectory(
+      path.join(process.cwd(), 'test/fixtures/web/static-file-directories'),
+    );
+    const out: string = await createTmpDirectory();
+
+    await exec(`npm install`, { cwd });
+
+    const { port, abort } = await start({
+      cwd,
+      staticFileDirectories: ['{cwd}/public', '{cwd}/static'],
+      app: 'app',
+      https: false,
+      outDir: out,
+    });
+
+    await timeout(1000 * 5);
+
+    await page.goto(`http://localhost:${port}`, { timeout: 1000 * 60 });
+    await page.waitFor('#app h1', { timeout: 1000 * 60 });
+
+    await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hello World!');
+
+    const manifest = await fetch(`http://localhost:${port}/manifest.json`);
+
+    expect(manifest.status).toBeLessThan(299);
+
+    const hello = await fetch(`http://localhost:${port}/hello.json`);
+
+    expect(hello.status).toBeLessThan(299);
 
     abort();
   }, 50000);

@@ -385,6 +385,7 @@ export function Start({
       },
     };
 
+    // TODO .webpack.ts (WebpackConfig) => WebpackConfig
     return webpack(webpackConfig);
 
     //const webpackDevMiddlewareHandler = webpackDevMiddleware(compiler, {
@@ -433,7 +434,10 @@ export function Start({
       hot: true,
       compress: true,
       contentBase: staticFileDirectories,
-      //https, TODO
+      // TODO https
+      // TODO proxy
+      // TODO rewrite - fallback history
+      // TODO .devServer.ts (WebpackDevServerConfiguration) => WebpackDevServerConfiguration
     };
   }, [staticFileDirectories]);
 
