@@ -9,14 +9,16 @@ import {
   getWebpackStyleLoaders,
   getWebpackYamlLoaders,
 } from '@rocket-scripts/webpack';
+import { patchConsole } from '@ssen/patch-console';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import fs from 'fs-extra';
 import getPort from 'get-port';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { Color, render } from 'ink';
+import { Color, render, Text } from 'ink';
 import path from 'path';
 import React, { useEffect, useMemo } from 'react';
 import resolve from 'resolve';
+import tmp from 'tmp';
 import { PackageJson } from 'type-fest';
 import webpack, {
   Compiler,
@@ -51,57 +53,45 @@ export interface StartPrams {
   https?: boolean | { key: string; cert: string };
 
   env?: NodeJS.ProcessEnv;
+  tsconfig?: string;
+
+  stdout?: NodeJS.WriteStream;
+  stdin?: NodeJS.ReadStream;
 }
 
-export type StartProps = Required<Omit<StartPrams, 'port'>> & {
+export type StartProps = Required<Omit<StartPrams, 'port' | 'stdout' | 'stdin'>> & {
   appDir: string;
   port: number;
+  logFile: string;
 };
 
-export function Start({
-  cwd,
-  app,
-  outDir,
+export function useWebpackEnv({
   publicPath,
-  chunkPath,
-  staticFileDirectories,
-  externals,
-  port,
-  https,
-  appDir,
   env,
-}: StartProps) {
-  const entry: AppEntry[] | null = useAppEntry({ appDir });
-
-  const proxyConfig: ProxyConfig | undefined = useProxyConfig(cwd);
-
-  const alias: Record<string, string> = useWebpackAlias(cwd);
-
-  const reactAppEnv: NodeJS.ProcessEnv = useMemo(() => {
-    return Object.keys(env)
+}: {
+  publicPath: string;
+  env: NodeJS.ProcessEnv;
+}): Record<string, string | number | boolean> {
+  return useMemo(() => {
+    const reactAppEnv: NodeJS.ProcessEnv = Object.keys(env)
       .filter((key) => /^REACT_APP_/i.test(key))
       .reduce((e, key) => {
         e[key] = env[key];
         return e;
       }, {});
-  }, [env]);
 
-  // ---------------------------------------------
-  // webpack
-  // ---------------------------------------------
-  const compiler: Compiler.Watching | Compiler | null = useMemo(() => {
-    if (!entry) return null;
-
-    //const hotMiddleware: string = path.dirname(require.resolve('webpack-hot-middleware/package.json'));
-
-    const webpackEnv: Record<string, string | number | boolean> = {
+    return {
       ...reactAppEnv,
       PUBLIC_PATH: publicPath,
       PUBLIC_URL: publicPath,
       NODE_ENV: env['NODE_ENV'] || 'development',
     };
+  }, [env, publicPath]);
+}
 
-    const babelLoaderOptions: object = {
+export function useBabelLoaderOptions({ cwd }: { cwd: string }): object {
+  return useMemo(
+    () => ({
       presets: [
         [
           require.resolve('@rocket-scripts/babel-preset'),
@@ -176,9 +166,36 @@ export function Start({
           return pluginImports;
         })(),
       ],
-    };
+    }),
+    [cwd],
+  );
+}
 
-    const webpackConfig: WebpackConfiguration = {
+export function useWebpackConfig({
+  cwd,
+  app,
+  publicPath,
+  chunkPath,
+  entry,
+  alias,
+  babelLoaderOptions,
+  webpackEnv,
+  tsconfig,
+}: {
+  cwd: string;
+  app: string;
+  publicPath: string;
+  chunkPath: string;
+  entry: AppEntry[] | null;
+  alias: Record<string, string>;
+  babelLoaderOptions: object;
+  webpackEnv: Record<string, string | number | boolean>;
+  tsconfig: string;
+}): WebpackConfiguration | null {
+  return useMemo(() => {
+    if (!entry) return null;
+
+    return {
       mode: 'development',
       devtool: 'cheap-module-eval-source-map',
 
@@ -198,10 +215,6 @@ export function Start({
 
       entry: {
         ...entry.reduce((e, { name, index }) => {
-          //e[name] = [
-          //  `${hotMiddleware}/client?path=/__webpack_hmr&timeout=20000&reload=true`,
-          //  path.join(cwd, 'src', app, index),
-          //];
           e[name] = path.join(cwd, 'src', app, index);
           return e;
         }, {}),
@@ -313,9 +326,12 @@ export function Start({
           });
         }),
 
-        ...(fs.existsSync(path.join(cwd, 'tsconfig.json'))
+        ...(fs.existsSync(tsconfig)
           ? [
               new ForkTsCheckerWebpackPlugin({
+                //typescript: {
+                //  configFile: tsconfig,
+                //},
                 typescript: resolve.sync('typescript', {
                   basedir: path.join(cwd, 'node_modules'),
                 }),
@@ -323,7 +339,7 @@ export function Start({
                 useTypescriptIncrementalApi: true,
                 checkSyntacticErrors: true,
                 measureCompilationTime: true,
-                tsconfig: path.join(cwd, 'tsconfig.json'),
+                tsconfig,
                 reportFiles: ['**', '!**/*.json', '!**/__*', '!**/?(*.)(spec|test).*'],
                 silent: true,
                 //formatter: process.env.NODE_ENV === 'production' ? 'default' : undefined,
@@ -384,6 +400,51 @@ export function Start({
         errorDetails: true,
       },
     };
+  }, [alias, app, babelLoaderOptions, chunkPath, cwd, entry, publicPath, tsconfig, webpackEnv]);
+}
+
+export function Start({
+  cwd,
+  app,
+  outDir,
+  publicPath,
+  chunkPath,
+  staticFileDirectories,
+  externals,
+  port,
+  https,
+  appDir,
+  env,
+  tsconfig,
+  logFile,
+}: StartProps) {
+  const entry: AppEntry[] | null = useAppEntry({ appDir });
+
+  const proxyConfig: ProxyConfig | undefined = useProxyConfig(cwd);
+
+  const alias: Record<string, string> = useWebpackAlias(cwd);
+
+  const webpackEnv: Record<string, string | number | boolean> = useWebpackEnv({ publicPath, env });
+
+  const babelLoaderOptions: object = useBabelLoaderOptions({ cwd });
+
+  const webpackConfig: WebpackConfiguration | null = useWebpackConfig({
+    cwd,
+    app,
+    publicPath,
+    chunkPath,
+    entry,
+    alias,
+    webpackEnv,
+    babelLoaderOptions,
+    tsconfig,
+  });
+
+  // ---------------------------------------------
+  // webpack
+  // ---------------------------------------------
+  const compiler: Compiler.Watching | Compiler | null = useMemo(() => {
+    if (!entry || !webpackConfig) return null;
 
     // TODO .webpack.ts (WebpackConfig) => WebpackConfig
     return webpack(webpackConfig);
@@ -424,7 +485,7 @@ export function Start({
     //middleware.push(rewriteMiddleware);
     //
     //return middleware;
-  }, [alias, app, chunkPath, cwd, entry, env, publicPath, reactAppEnv]);
+  }, [entry, webpackConfig]);
 
   // ---------------------------------------------
   // webpack dev server
@@ -434,6 +495,9 @@ export function Start({
       hot: true,
       compress: true,
       contentBase: staticFileDirectories,
+      stats: {
+        colors: false,
+      },
       // TODO https
       // TODO proxy
       // TODO rewrite - fallback history
@@ -479,6 +543,7 @@ export function Start({
 
   return (
     <>
+      <Text>{logFile}</Text>
       <Color>Hello?</Color>
     </>
   );
@@ -495,13 +560,19 @@ export async function start({
   port: _port = 'random',
   https = false,
   env = {},
+  tsconfig: _tsconfig = '{cwd}/tsconfig.json',
+  stdout = process.stdout,
+  stdin = process.stdin,
 }: StartPrams): Promise<StartProps & { abort: () => void }> {
+  const { name: logFile } = tmp.fileSync({ mode: 0o644, postfix: '.log' });
+
   const outDir: string = icuFormat(_outDir, { cwd, app });
   const chunkPath: string = fixChunkPath(_chunkPath);
   const port: number =
     typeof _port === 'number' ? _port : await getPort({ port: getPort.makeRange(8000, 9999) });
   const staticFileDirectories: string[] = _staticFileDirectories.map((dir) => icuFormat(dir, { cwd, app }));
   const appDir: string = path.join(cwd, 'src', app);
+  const tsconfig: string = icuFormat(_tsconfig, { cwd, app });
 
   const props: StartProps = {
     cwd,
@@ -515,12 +586,18 @@ export async function start({
     https,
     appDir,
     env,
+    tsconfig,
+    logFile,
   };
 
-  const { unmount } = render(<Start {...props} />);
+  const restoreConsole = patchConsole({ stdout: fs.createWriteStream(logFile), colorMode: 'auto' });
+  const { unmount } = render(<Start {...props} />, { stdout, stdin });
 
   return {
     ...props,
-    abort: unmount,
+    abort: () => {
+      unmount();
+      restoreConsole();
+    },
   };
 }

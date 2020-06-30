@@ -16,6 +16,7 @@ const HTTPS = 'HTTPS';
 const HTTPS_KEY = 'HTTPS_KEY';
 const HTTPS_CERT = 'HTTPS_CERT';
 const EXTERNALS = 'EXTERNALS';
+const TSCONFIG = 'TSCONFIG';
 
 export function start({ cwd, env, commands: [app] }: CommandParams) {
   const e: NodeJS.ProcessEnv = pipe(
@@ -39,6 +40,7 @@ export function start({ cwd, env, commands: [app] }: CommandParams) {
         HTTPS_KEY,
         HTTPS_CERT,
         EXTERNALS,
+        TSCONFIG,
       )(e),
     ),
   );
@@ -53,5 +55,6 @@ export function start({ cwd, env, commands: [app] }: CommandParams) {
     externals: e[EXTERNALS]?.split(' '),
     port: parseNumber(e[PORT]) || 'random',
     https: e[HTTPS_KEY] && e[HTTPS_CERT] ? { key: e[HTTPS_KEY]!, cert: e[HTTPS_CERT]! } : e[HTTPS] === 'true',
+    tsconfig: e[TSCONFIG],
   });
 }

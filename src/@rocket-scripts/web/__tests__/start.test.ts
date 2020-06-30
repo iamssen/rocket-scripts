@@ -1,4 +1,5 @@
 import { start } from '@rocket-scripts/web/start';
+import { createInkWriteStream } from '@ssen/ink-helpers';
 import { exec } from '@ssen/promised';
 import { copyTmpDirectory, createTmpDirectory } from '@ssen/tmp-directory';
 import fs from 'fs-extra';
@@ -30,6 +31,7 @@ describe('start()', () => {
   test('should read h1 text and the text should change with HMR', async () => {
     const cwd: string = await copyTmpDirectory(path.join(process.cwd(), 'test/fixtures/web/start'));
     const out: string = await createTmpDirectory();
+    const stdout = createInkWriteStream();
 
     await exec(`npm install`, { cwd });
 
@@ -39,6 +41,7 @@ describe('start()', () => {
       app: 'app',
       https: false,
       outDir: out,
+      stdout,
     });
 
     await timeout(1000 * 5);
@@ -57,6 +60,8 @@ describe('start()', () => {
     await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hi World!');
 
     abort();
+
+    console.log(stdout.lastFrame());
   }, 50000);
 
   test('should get static files with multiple static file directories', async () => {
@@ -64,6 +69,7 @@ describe('start()', () => {
       path.join(process.cwd(), 'test/fixtures/web/static-file-directories'),
     );
     const out: string = await createTmpDirectory();
+    const stdout = createInkWriteStream();
 
     await exec(`npm install`, { cwd });
 
@@ -73,6 +79,7 @@ describe('start()', () => {
       app: 'app',
       https: false,
       outDir: out,
+      stdout,
     });
 
     await timeout(1000 * 5);
@@ -91,5 +98,7 @@ describe('start()', () => {
     expect(hello.status).toBeLessThan(299);
 
     abort();
+
+    console.log(stdout.lastFrame());
   }, 50000);
 });

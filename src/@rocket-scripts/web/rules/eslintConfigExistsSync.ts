@@ -23,7 +23,7 @@ export function eslintConfigExistsSync(cwd: string): boolean {
   }
 
   for (const filename of configFilenames) {
-    if (fs.pathExistsSync(filename)) {
+    if (fs.existsSync(filename)) {
       return true;
     }
   }
