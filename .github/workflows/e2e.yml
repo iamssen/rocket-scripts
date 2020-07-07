@@ -31,4 +31,4 @@ jobs:
         run: npm install
 
       - name: E2E Test
-        run: npm run e2e
+        run: npm run build && bash ./test/e2e.sh
