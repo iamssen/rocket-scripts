@@ -406,12 +406,15 @@ export function useWebpackConfig({
 export function Start({
   cwd,
   app,
+  // TODO is this using?
   outDir,
   publicPath,
   chunkPath,
   staticFileDirectories,
+  // TODO
   externals,
   port,
+  // TODO
   https,
   appDir,
   env,
@@ -508,9 +511,11 @@ export function Start({
   useEffect(() => {
     if (!compiler || !devServerConfig) return;
 
+    console.log('start.tsx..() devServerConfig...', devServerConfig);
+
     const devServer = new WebpackDevServer(compiler, devServerConfig);
 
-    devServer.listen(port, 'localhost', (err) => {
+    const instance = devServer.listen(port, 'localhost', (err) => {
       if (err) {
         return console.log(err);
       }
@@ -524,7 +529,12 @@ export function Start({
     const signals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM'];
 
     function shutdown() {
-      devServer.close();
+      instance.close();
+      try {
+        devServer.close();
+      } catch (error) {
+        console.log(error);
+      }
       process.exit();
     }
 
@@ -533,7 +543,15 @@ export function Start({
     }
 
     return () => {
-      devServer.close();
+      console.log('start.tsx..() ??? unmount!!!');
+
+      instance.close();
+      try {
+        devServer.close();
+      } catch (error) {
+        console.log(error);
+        process.exit();
+      }
 
       for (const signal of signals) {
         process.off(signal, shutdown);
@@ -544,6 +562,8 @@ export function Start({
   return (
     <>
       <Text>{logFile}</Text>
+      <Text>{port}</Text>
+      <Text>{JSON.stringify(entry)}</Text>
       <Color>Hello?</Color>
     </>
   );
@@ -590,14 +610,20 @@ export async function start({
     logFile,
   };
 
+  console.log(JSON.stringify(props, null, 2));
+
   const restoreConsole = patchConsole({ stdout: fs.createWriteStream(logFile), colorMode: 'auto' });
   const { unmount } = render(<Start {...props} />, { stdout, stdin });
+
+  let aborted: boolean = false;
 
   return {
     ...props,
     abort: () => {
+      if (aborted) return;
       unmount();
       restoreConsole();
+      aborted = true;
     },
   };
 }

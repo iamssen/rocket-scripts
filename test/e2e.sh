@@ -5,6 +5,7 @@
 ROOT=$(pwd);
 VERDACCIO_PORT=4873;
 LOCAL_REGISTRY_URL="http://localhost:$VERDACCIO_PORT/";
+TEST_SERVER_PORT=19999;
 
 echo "ROOT=$ROOT";
 echo "LOCAL_REGISTRY_URL=$LOCAL_REGISTRY_URL";
@@ -12,13 +13,24 @@ echo "LOCAL_REGISTRY_URL=$LOCAL_REGISTRY_URL";
 
 # SETUP LOCAL REGISTRY
 # ==================================================----------------------------------
+function stopTestServer() {
+  PID=$(lsof -t -i:$TEST_SERVER_PORT); # kill test server
+  if [[ $PID =~ ^[0-9]+$ ]] ; then
+    kill -9 $PID;
+  fi
+}
+
 function stopLocalRegistry {
-  kill -9 $(lsof -t -i:$VERDACCIO_PORT); # kill verdaccio
+  PID=$(lsof -t -i:$VERDACCIO_PORT); # kill verdaccio
+  if [[ $PID =~ ^[0-9]+$ ]] ; then
+    kill -9 $PID;
+  fi
   rm -rf "$ROOT/test/storage"; # clean verdaccio storage
 }
 
 function cleanup {
   stopLocalRegistry;
+  stopTestServer;
 }
 
 function handleError {
@@ -56,28 +68,53 @@ npx rocket-punch publish --skip-selection --tag e2e --registry "$LOCAL_REGISTRY_
 
 # TEST
 # ==================================================----------------------------------
-fileExists() {
+function fileExists() {
   if ! ls "$1" 1> /dev/null 2>&1; then
     echo "ERROR: Undefined the file $1";
-    exit 1;
+    handleError;
   fi
 }
 
-createTmpFixture() {
+function is200() {
+  STATUS=$(curl -o /dev/null -w "%{http_code}" "$1");
+
+  if [[ $STATUS -ne 200 ]]; then
+    echo "ERROR: the http status of $1 is not the 200 $STATUS";
+    handleError;
+  fi
+}
+
+function createTmpFixture() {
   TEMP=$(mktemp -d);
   cp -rv "$ROOT/test/fixtures/$1"/* "$TEMP";
   cp -rv "$ROOT/test/fixtures/$1"/.[^.]* "$TEMP";
   cd "$TEMP" || exit 1;
   echo "TEMP=$TEMP";
   echo "PWD=$(pwd)";
-  npm install @rocket-scripts/cli@e2e --save-dev --registry "$LOCAL_REGISTRY_URL";
   npm install;
+  npm install rocket-scripts@e2e --save-dev --registry "$LOCAL_REGISTRY_URL";
 }
 
-# should build packages normally
-#createTmpFixture packages/basic;
-#npm run package:build;
-#
+createTmpFixture web/start;
+open $PWD;
+(PORT=$TEST_SERVER_PORT npx rocket-scripts web start app &> log.txt &);
+sleep 15s;
+is200 "http://localhost:$TEST_SERVER_PORT";
+is200 "http://localhost:$TEST_SERVER_PORT/manifest.json";
+is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
+stopTestServer;
+
+createTmpFixture web/static-file-directories;
+open $PWD;
+(PORT=$TEST_SERVER_PORT STATIC_FILE_DIRECTORIES="{cwd}/static {cwd}/public" npx rocket-scripts web start app &> log.txt &);
+sleep 15s;
+is200 "http://localhost:$TEST_SERVER_PORT";
+is200 "http://localhost:$TEST_SERVER_PORT/manifest.json";
+is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
+is200 "http://localhost:$TEST_SERVER_PORT/hello.json";
+stopTestServer;
+
+
 #fileExists "$TEMP/dist/packages/a/README.md";
 #fileExists "$TEMP/dist/packages/a/index.js";
 #fileExists "$TEMP/dist/packages/a/index.d.ts";

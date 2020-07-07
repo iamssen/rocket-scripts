@@ -2,7 +2,7 @@ import { PackageJsonTransformFunction } from 'rocket-punch';
 import { PackageJson } from 'type-fest';
 import rootPackageJson from '../../../package.json';
 
-export default ((computedPackageJson) => {
+export const transformPackageJson: PackageJsonTransformFunction = (computedPackageJson) => {
   const dependencies: PackageJson.Dependency = computedPackageJson.dependencies || {};
 
   const rootDependencies: PackageJson.Dependency = {
@@ -37,4 +37,4 @@ export default ((computedPackageJson) => {
     dependencies,
     optionalDependencies,
   };
-}) as PackageJsonTransformFunction;
+};

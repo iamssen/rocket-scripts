@@ -28,11 +28,11 @@ packages:
     access: $anonymous
     publish: $anonymous
 
-  '@ssen/ink-to-string':
+  '@ssen/ink-helpers':
     access: $anonymous
     publish: $anonymous
 
-  '@ssen/mirror-files':
+  '@ssen/patch-console':
     access: $anonymous
     publish: $anonymous
 
@@ -40,10 +40,13 @@ packages:
     access: $anonymous
     publish: $anonymous
 
-  '@*/*':
+  '@ssen/use-json-config':
     access: $anonymous
     publish: $anonymous
-    proxy: npmjs
+
+  '@ssen/use-mirror-files':
+    access: $anonymous
+    publish: $anonymous
 
   '**':
     access: $anonymous

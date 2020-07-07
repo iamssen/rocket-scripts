@@ -23,6 +23,7 @@ export function start({ cwd, env, commands: [app] }: CommandParams) {
     mapEnv(path.join(cwd, '.env.js')),
     mapEnv(path.join(cwd, 'src', app, '.env.js')),
     (env) => ({
+      ...env,
       [OUT_DIR]: env[OUT_DIR] || '{cwd}/dist/{app}',
     }),
   )(env);
@@ -31,14 +32,17 @@ export function start({ cwd, env, commands: [app] }: CommandParams) {
     JSON.stringify(
       pickEnv(
         PORT,
+        // TODO is this using?
         OUT_DIR,
         STATIC_FILE_DIRECTORIES,
         PUBLIC_PATH,
         CHUNK_PATH,
+        // TODO is this using?
         SOURCE_MAP,
         HTTPS,
         HTTPS_KEY,
         HTTPS_CERT,
+        // TODO it looks not available because webpack externals config needs like this { react: 'React' }
         EXTERNALS,
         TSCONFIG,
       )(e),

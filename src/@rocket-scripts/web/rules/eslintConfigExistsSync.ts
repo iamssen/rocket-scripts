@@ -4,6 +4,7 @@ import path from 'path';
 // https://github.com/eslint/eslint/blob/master/lib/cli-engine/config-array-factory.js#L52
 const configFilenames: string[] = [
   '.eslintrc.js',
+  '.eslintrc.cjs',
   '.eslintrc.yaml',
   '.eslintrc.yml',
   '.eslintrc.json',
@@ -28,7 +29,11 @@ export function eslintConfigExistsSync(cwd: string): boolean {
     }
   }
 
-  const { eslintConfig } = fs.readJsonSync(path.join(cwd, 'package.json'));
+  const packageJson: string = path.join(cwd, 'package.json');
+
+  if (!fs.existsSync(packageJson)) return false;
+
+  const { eslintConfig } = fs.readJsonSync(packageJson);
 
   return typeof eslintConfig === 'object';
 }

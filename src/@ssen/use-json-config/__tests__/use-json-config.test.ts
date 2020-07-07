@@ -21,7 +21,7 @@ describe('useJsonConfig()', () => {
     expect(result.current?.a).toBe(2);
 
     unmount();
-  });
+  }, 10000);
 
   //test('should get undefined if the file is not exist', async () => {
   //  const cwd: string = await createTmpDirectory();

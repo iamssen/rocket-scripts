@@ -9,7 +9,7 @@ import puppeteer, { Browser, Page } from 'puppeteer';
 
 const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
 
-describe('start()', () => {
+describe.skip('start()', () => {
   let browser: Browser;
   let page: Page;
 
@@ -62,7 +62,7 @@ describe('start()', () => {
     abort();
 
     console.log(stdout.lastFrame());
-  }, 50000);
+  }, 20000);
 
   test('should get static files with multiple static file directories', async () => {
     const cwd: string = await copyTmpDirectory(
@@ -100,5 +100,5 @@ describe('start()', () => {
     abort();
 
     console.log(stdout.lastFrame());
-  }, 50000);
+  }, 20000);
 });
