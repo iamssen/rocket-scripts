@@ -95,6 +95,11 @@ function createTmpFixture() {
   npm install rocket-scripts@e2e --save-dev --registry "$LOCAL_REGISTRY_URL";
 }
 
+# web build
+
+
+# web start
+
 createTmpFixture web/start;
 (PORT=$TEST_SERVER_PORT npx rocket-scripts web start app &> log.txt &);
 sleep 15s;
@@ -112,28 +117,7 @@ is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
 is200 "http://localhost:$TEST_SERVER_PORT/hello.json";
 stopTestServer;
 
-
-#fileExists "$TEMP/dist/packages/a/README.md";
-#fileExists "$TEMP/dist/packages/a/index.js";
-#fileExists "$TEMP/dist/packages/a/index.d.ts";
-#fileExists "$TEMP/dist/packages/a/package.json";
 #
-#fileExists "$TEMP/dist/packages/b/README.md";
-#fileExists "$TEMP/dist/packages/b/index.js";
-#fileExists "$TEMP/dist/packages/b/index.d.ts";
-#fileExists "$TEMP/dist/packages/b/package.json";
-#
-#fileExists "$TEMP/dist/packages/c/README.md";
-#fileExists "$TEMP/dist/packages/a/index.js";
-#fileExists "$TEMP/dist/packages/c/index.d.ts";
-#fileExists "$TEMP/dist/packages/c/package.json";
-#fileExists "$TEMP/dist/packages/c/public/test.txt";
-
-# TODO should build packages with a .env.ts config file
-# TODO should build packages with a .package.json.ts config file
-# TODO should build packages with a .build.ts config file
-
-
 
 
 

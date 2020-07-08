@@ -1,12 +1,10 @@
 storage: ./storage
-
 auth:
   htpasswd:
     file: ./htpasswd
-
 uplinks:
   npmjs:
-    url: https://registry.npmjs.org/
+    url: 'https://registry.npmjs.org/'
     max_fails: 40
     maxage: 30m
     timeout: 60s
@@ -14,47 +12,38 @@ uplinks:
       keepAlive: true
       maxSockets: 40
       maxFreeSockets: 10
-
 packages:
-  'rocket-scripts':
+  rocket-scripts:
     access: $anonymous
     publish: $anonymous
-
   '@rocket-scripts/*':
     access: $anonymous
     publish: $anonymous
-
   '@ssen/env':
     access: $anonymous
     publish: $anonymous
-
   '@ssen/ink-helpers':
     access: $anonymous
     publish: $anonymous
-
   '@ssen/patch-console':
     access: $anonymous
     publish: $anonymous
-
   '@ssen/tsconfig':
     access: $anonymous
     publish: $anonymous
-
   '@ssen/use-json-config':
     access: $anonymous
     publish: $anonymous
-
   '@ssen/use-mirror-files':
     access: $anonymous
     publish: $anonymous
-
   '**':
     access: $anonymous
     publish: $anonymous
     proxy: npmjs
-
 logs:
-  - { type: stdout, format: pretty, level: warn }
-
+  - type: stdout
+    format: pretty
+    level: warn
 server:
   keepAliveTimeout: 0

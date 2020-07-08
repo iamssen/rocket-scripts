@@ -31,4 +31,4 @@ jobs:
         run: npm install
 
       - name: E2E Test
-        run: npm run build && bash ./test/e2e.sh
+        run: npm run build && node ./test/updateVerdaccioYaml.js && bash ./test/e2e.sh
