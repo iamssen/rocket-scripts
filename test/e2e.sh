@@ -117,6 +117,15 @@ is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
 is200 "http://localhost:$TEST_SERVER_PORT/hello.json";
 stopTestServer;
 
+createTmpFixture web/github-proxy;
+(PORT=$TEST_SERVER_PORT npx rocket-scripts web start app &> log.txt &);
+sleep 15s;
+is200 "http://localhost:$TEST_SERVER_PORT";
+is200 "http://localhost:$TEST_SERVER_PORT/manifest.json";
+is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
+is200 "http://localhost:$TEST_SERVER_PORT/api/users/iamssen/repos";
+stopTestServer;
+
 #
 
 

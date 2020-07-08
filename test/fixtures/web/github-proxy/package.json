@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "scripts": {
+    "app:build": "rocket-scripts web build app",
+    "app:start": "rocket-scripts web start app",
+    "build": "npm run app:build",
+    "start": "npm run app:start"
+  },
+  "proxy": {
+    "/api": {
+      "target": "https://api.github.com",
+      "changeOrigin": true,
+      "logLevel": "debug",
+      "pathRewrite": {
+        "^/api": ""
+      }
+    }
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "@types/webpack-env": "^1.15.1",
+    "typescript": "^3.9.5"
+  }
+}

@@ -9,6 +9,7 @@ import puppeteer, { Browser, Page } from 'puppeteer';
 
 const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
 
+// FIXME unavoidable critical error on webpack-dev-server close()
 describe.skip('start()', () => {
   let browser: Browser;
   let page: Page;
@@ -35,7 +36,7 @@ describe.skip('start()', () => {
 
     await exec(`npm install`, { cwd });
 
-    const { port, abort } = await start({
+    const { port, close } = await start({
       cwd,
       staticFileDirectories: ['{cwd}/public'],
       app: 'app',
@@ -59,7 +60,7 @@ describe.skip('start()', () => {
 
     await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hi World!');
 
-    abort();
+    close();
 
     console.log(stdout.lastFrame());
   }, 20000);
@@ -73,7 +74,7 @@ describe.skip('start()', () => {
 
     await exec(`npm install`, { cwd });
 
-    const { port, abort } = await start({
+    const { port, close } = await start({
       cwd,
       staticFileDirectories: ['{cwd}/public', '{cwd}/static'],
       app: 'app',
@@ -97,7 +98,7 @@ describe.skip('start()', () => {
 
     expect(hello.status).toBeLessThan(299);
 
-    abort();
+    close();
 
     console.log(stdout.lastFrame());
   }, 20000);

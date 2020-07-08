@@ -37,6 +37,9 @@ packages:
   '@ssen/use-mirror-files':
     access: $anonymous
     publish: $anonymous
+  '@ssen/use-webpack-dev-server':
+    access: $anonymous
+    publish: $anonymous
   '**':
     access: $anonymous
     publish: $anonymous

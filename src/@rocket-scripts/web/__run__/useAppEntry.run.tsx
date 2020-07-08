@@ -1,6 +1,6 @@
 import { copyTmpDirectory } from '@ssen/tmp-directory';
 import { exec } from 'child_process';
-import { Color, render } from 'ink';
+import { render, Text } from 'ink';
 import path from 'path';
 import React from 'react';
 import { AppEntry } from '../rules/getAppEntry';
@@ -12,7 +12,7 @@ function Test({ appDir }: { appDir: string }) {
   return (
     <>
       {entry?.map(({ name }) => (
-        <Color blue>{name}</Color>
+        <Text>{name}</Text>
       ))}
     </>
   );
