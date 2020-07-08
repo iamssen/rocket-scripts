@@ -4,7 +4,7 @@
     "build": "rocket-punch build",
     "publish": "npm test && rocket-punch build && rocket-punch publish",
     "test": "jest --runInBand --colors",
-    "coverage": "jest --detectOpenHandles --forceExit --coverage --colors",
+    "coverage": "jest --runInBand --coverage --colors",
     "e2e": "npm run build && node test/updateVerdaccioYaml.js && bash test/e2e.sh",
     "format": "prettier --write \"src/{**/*,*}/*.{ts,tsx}\"",
     "lint": "eslint \"src/{**/*,*}/*.{ts,tsx}\""
