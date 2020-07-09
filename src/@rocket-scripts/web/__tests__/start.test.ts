@@ -9,8 +9,7 @@ import puppeteer, { Browser, Page } from 'puppeteer';
 
 const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
 
-// FIXME unavoidable critical error on webpack-dev-server close()
-describe.skip('start()', () => {
+describe('start()', () => {
   let browser: Browser;
   let page: Page;
 
@@ -63,6 +62,8 @@ describe.skip('start()', () => {
     close();
 
     console.log(stdout.lastFrame());
+
+    await timeout(1000 * 5);
   }, 20000);
 
   test('should get static files with multiple static file directories', async () => {
@@ -101,5 +102,7 @@ describe.skip('start()', () => {
     close();
 
     console.log(stdout.lastFrame());
+
+    await timeout(1000 * 5);
   }, 20000);
 });
