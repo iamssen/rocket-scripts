@@ -1,4 +1,4 @@
-name: TEST
+name: OS
 
 on:
   push:
@@ -11,15 +11,15 @@ on:
 
 jobs:
   test:
-    name: Node ${{ matrix.node }}
+    name: Node ${{ matrix.node }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
 
     strategy:
       fail-fast: false
       matrix:
-        node: [10, 12, 14]
-        os: [ubuntu-latest]
+        node: [14]
+        os: [windows-latest, macos-latest]
 
     steps:
       - name: Clone Repository
@@ -61,22 +61,3 @@ jobs:
 
       - name: Coverage Test
         run: npm run coverage
-
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: ${{matrix.os}}-node-${{ matrix.node }}
-          parallel: true
-
-  finish:
-    needs: test
-    name: Finish
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Coveralls Finished
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true
