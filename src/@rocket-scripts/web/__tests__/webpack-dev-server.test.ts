@@ -79,7 +79,8 @@ describe('webpack-dev-server', () => {
 
     await new Promise((resolve) => {
       devServer.close();
-      resolve();
+
+      setTimeout(resolve, 1000 * 5);
     });
-  }, 20000);
+  });
 });

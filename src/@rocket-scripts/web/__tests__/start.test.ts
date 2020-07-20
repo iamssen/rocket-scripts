@@ -63,7 +63,7 @@ describe('start()', () => {
     console.log(stdout.lastFrame());
 
     await timeout(1000 * 5);
-  }, 20000);
+  });
 
   test('should get static files with multiple static file directories', async () => {
     const cwd: string = await copyTmpDirectory(
@@ -103,5 +103,5 @@ describe('start()', () => {
     console.log(stdout.lastFrame());
 
     await timeout(1000 * 5);
-  }, 20000);
+  });
 });

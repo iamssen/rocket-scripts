@@ -69,5 +69,5 @@ describe('useMirrorFiles()', () => {
     await expect(waitExists(path.join(outDir, 'public/e.pdf'))).resolves.toBeTruthy();
 
     unmount();
-  }, 10000);
+  });
 });
