@@ -3,7 +3,6 @@ import { getBabelLoaderOptions, getWebpackConfig } from '@rocket-scripts/web/sta
 import { exec } from '@ssen/promised';
 import { copyTmpDirectory } from '@ssen/tmp-directory';
 import getPort from 'get-port';
-import fetch from 'node-fetch';
 import path from 'path';
 import webpack, { Configuration as WebpackConfiguration } from 'webpack';
 import WebpackDevServer, { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';

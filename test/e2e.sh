@@ -126,50 +126,9 @@ is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
 is200 "http://localhost:$TEST_SERVER_PORT/api/users/iamssen/repos";
 stopTestServer;
 
-#
-
-
 
 # OLD TEST
 # ==================================================----------------------------------
-
-# zeroconfig-package-scripts build
-# createTmpFixture simple-packages;
-# npm run package:build;
-# fileExists "$TEMP"/dist/packages/iamssen-test-component/index.js;
-# fileExists "$TEMP"/dist/packages/iamssen-test-component/index.d.ts;
-# fileExists "$TEMP"/dist/packages/iamssen-test-component/package.json;
-# fileExists "$TEMP"/dist/packages/iamssen-test-component/readme.md;
-
-# createTmpFixture packages;
-# npm run package:build;
-# fileExists "$TEMP"/dist/packages/a/index.js;
-# fileExists "$TEMP"/dist/packages/a/package.json;
-# fileExists "$TEMP"/dist/packages/a/readme.md;
-# fileExists "$TEMP"/dist/packages/b/index.js;
-# fileExists "$TEMP"/dist/packages/b/index.d.ts;
-# fileExists "$TEMP"/dist/packages/b/package.json;
-# fileExists "$TEMP"/dist/packages/b/readme.md;
-# fileExists "$TEMP"/dist/packages/c/index.js;
-# fileExists "$TEMP"/dist/packages/c/index.d.ts;
-# fileExists "$TEMP"/dist/packages/c/package.json;
-# fileExists "$TEMP"/dist/packages/c/readme.md;
-# fileExists "$TEMP"/dist/packages/c/public/test.txt;
-
-# createTmpFixture packages-group;
-# npm run package:build;
-# fileExists "$TEMP"/dist/packages/a/index.js;
-# fileExists "$TEMP"/dist/packages/a/package.json;
-# fileExists "$TEMP"/dist/packages/a/readme.md;
-# fileExists "$TEMP"/dist/packages/@group/b/index.js;
-# fileExists "$TEMP"/dist/packages/@group/b/index.d.ts;
-# fileExists "$TEMP"/dist/packages/@group/b/package.json;
-# fileExists "$TEMP"/dist/packages/@group/b/readme.md;
-# fileExists "$TEMP"/dist/packages/@group/c/index.js;
-# fileExists "$TEMP"/dist/packages/@group/c/index.d.ts;
-# fileExists "$TEMP"/dist/packages/@group/c/package.json;
-# fileExists "$TEMP"/dist/packages/@group/c/readme.md;
-# fileExists "$TEMP"/dist/packages/@group/c/public/test.txt;
 
 # # zeroconfig-webapp-scripts build app
 # createTmpFixture simple-csr-js;

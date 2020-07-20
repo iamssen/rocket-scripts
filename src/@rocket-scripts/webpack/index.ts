@@ -1,5 +1,3 @@
-export * from './runners/runWebpack';
-
 export * from './loaders/getWebpackDataURILoaders';
 export * from './loaders/getWebpackScriptLoaders';
 export * from './loaders/getWebpackMDXLoaders';

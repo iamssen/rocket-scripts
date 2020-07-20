@@ -3,7 +3,6 @@ import { createInkWriteStream } from '@ssen/ink-helpers';
 import { exec } from '@ssen/promised';
 import { copyTmpDirectory, createTmpDirectory } from '@ssen/tmp-directory';
 import fs from 'fs-extra';
-import fetch from 'node-fetch';
 import path from 'path';
 import puppeteer, { Browser, Page } from 'puppeteer';
 
