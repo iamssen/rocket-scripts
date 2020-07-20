@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - feature/v4 # TODO remove
   pull_request:
     branches:
       - master
