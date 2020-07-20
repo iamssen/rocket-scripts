@@ -4,8 +4,6 @@ import fs from 'fs-extra';
 import path from 'path';
 import { useAppEntry } from '../rules/useAppEntry';
 
-const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
-
 describe('useAppEntry()', () => {
   test('should update the entry list with the files add and delete', async () => {
     const cwd: string = await copyTmpDirectory(process.cwd(), 'test/fixtures/web/useAppEntry');

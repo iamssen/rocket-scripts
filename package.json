@@ -7,7 +7,7 @@
     "view": "rocket-punch view",
     "doctor": "rocket-punch doctor",
     "test": "jest --runInBand --colors",
-    "coverage": "jest --clearCache && jest --runInBand --coverage --colors",
+    "coverage": "jest --runInBand --forceExit --coverage --colors",
     "e2e": "npm run build && node test/updateVerdaccioYaml.js && bash test/e2e.sh",
     "format": "prettier --write \"src/{**/*,*}/*.{ts,tsx}\"",
     "lint": "eslint \"src/{**/*,*}/*.{ts,tsx}\"",
