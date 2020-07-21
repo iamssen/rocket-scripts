@@ -17,7 +17,8 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "declaration": true,
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "outDir": "foo"
   },
   "include": [
     "src"

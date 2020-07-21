@@ -1,5 +1,6 @@
 import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import { icuFormat } from '@rocket-scripts/rule';
+import { useWebpackAlias } from '@rocket-scripts/use-webpack-alias';
 import {
   getWebpackDataURILoaders,
   getWebpackFileLoaders,
@@ -37,7 +38,6 @@ import { AppEntry } from './rules/getAppEntry';
 import { InterpolateHtmlPlugin } from './rules/InterpolateHtmlPlugin';
 import { useAppEntry } from './rules/useAppEntry';
 import { ProxyConfig } from './rules/useProxyConfig';
-import { useWebpackAlias } from './rules/useWebpackAlias';
 
 export interface StartPrams {
   cwd: string;

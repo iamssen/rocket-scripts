@@ -1,7 +1,7 @@
-import { getWebpackAlias } from '@rocket-scripts/web/rules/getWebpackAlias';
 import { watch } from 'chokidar';
 import fs, { FSWatcher } from 'fs-extra';
 import { useEffect, useState } from 'react';
+import { getWebpackAlias } from './getWebpackAlias';
 
 export function useWebpackAlias(cwd: string): Record<string, string> {
   const [alias, setAlias] = useState<Record<string, string>>(() => getWebpackAlias(cwd));

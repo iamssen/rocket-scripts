@@ -1,13 +1,13 @@
 '@ssen/*':
-  version: 0.3.6-alpha.1
+  version: 0.3.6
   tag: canary
   module: commonjs
 '@rocket-scripts/*':
-  version: 0.3.6-alpha.1
+  version: 0.3.6
   tag: canary
   module: commonjs
 rocket-scripts:
-  version: 0.3.6-alpha.1
+  version: 0.3.6
   tag: canary
   module: commonjs
   packageJson:
