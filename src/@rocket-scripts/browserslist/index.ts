@@ -1,6 +1,5 @@
 import { loadConfig } from 'browserslist/node';
 
-//eslint-disable-next-line @typescript-eslint/typedef
 export const defaultQuery = {
   production: ['chrome > 60', 'firefox > 60', 'safari > 12'],
   development: ['last 1 chrome version', 'last 1 firefox version', 'last 1 safari version'],

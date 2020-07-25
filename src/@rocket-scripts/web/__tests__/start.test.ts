@@ -58,7 +58,7 @@ describe('start()', () => {
 
     await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hi World!');
 
-    close();
+    await close();
 
     console.log(stdout.lastFrame());
 
@@ -98,7 +98,7 @@ describe('start()', () => {
 
     expect(hello.status).toBeLessThan(299);
 
-    close();
+    await close();
 
     console.log(stdout.lastFrame());
 

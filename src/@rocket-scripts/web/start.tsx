@@ -13,13 +13,14 @@ import {
 import { patchConsole } from '@ssen/patch-console';
 import { useJsonConfig } from '@ssen/use-json-config';
 import { useWebpackDevServer } from '@ssen/use-webpack-dev-server';
+import { EventEmitter } from 'events';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import fs from 'fs-extra';
 import getPort from 'get-port';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { Color, render, Text } from 'ink';
 import path from 'path';
-import React, { useMemo } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useMemo, useState } from 'react';
 import resolve from 'resolve';
 import tmp from 'tmp';
 import { PackageJson } from 'type-fest';
@@ -491,6 +492,25 @@ export function Start({
   );
 }
 
+function Mounter({ children, signal }: { children: JSX.Element; signal: EventEmitter }) {
+  const [unmount, setUnmount] = useState<boolean>(false);
+
+  useEffect(() => {
+    function handler() {
+      signal.off('unmount', handler);
+      setUnmount(false);
+    }
+
+    signal.on('unmount', handler);
+
+    return () => {
+      signal.off('unmount', handler);
+    };
+  }, [signal]);
+
+  return !unmount ? children : null;
+}
+
 export async function start({
   cwd,
   app,
@@ -537,14 +557,24 @@ export async function start({
   console.log(JSON.stringify(props, null, 2));
 
   const restoreConsole = patchConsole({ stdout: fs.createWriteStream(logFile), colorMode: 'auto' });
-  const { unmount } = render(<Start {...props} />, { stdout, stdin });
+
+  const unmountSignal: EventEmitter = new EventEmitter();
+
+  const { unmount } = render(
+    <Mounter signal={unmountSignal}>
+      <Start {...props} />
+    </Mounter>,
+    { stdout, stdin },
+  );
 
   let closed: boolean = false;
 
   return {
     ...props,
-    close: () => {
+    close: async () => {
       if (closed) return;
+      unmountSignal.emit('unmount');
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       unmount();
       restoreConsole();
       closed = true;
