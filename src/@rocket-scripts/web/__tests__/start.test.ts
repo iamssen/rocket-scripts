@@ -67,7 +67,10 @@ describe('start()', () => {
       if (text === 'Hi World!') {
         break;
       } else if (count === 0) {
-        throw new Error(`HMR did not work`);
+        console.warn(`HMR did not work`);
+        await page.reload({ waitUntil: 'load' });
+        await timeout(1000 * 2);
+        await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hi World!');
       }
       await timeout(1000);
       count -= 1;
