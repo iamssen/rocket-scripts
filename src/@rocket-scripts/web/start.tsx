@@ -492,24 +492,24 @@ export function Start({
   );
 }
 
-function Mounter({ children, signal }: { children: JSX.Element; signal: EventEmitter }) {
-  const [unmount, setUnmount] = useState<boolean>(false);
-
-  useEffect(() => {
-    function handler() {
-      signal.off('unmount', handler);
-      setUnmount(false);
-    }
-
-    signal.on('unmount', handler);
-
-    return () => {
-      signal.off('unmount', handler);
-    };
-  }, [signal]);
-
-  return !unmount ? children : null;
-}
+//function Mounter({ children, signal }: { children: JSX.Element; signal: EventEmitter }) {
+//  const [unmount, setUnmount] = useState<boolean>(false);
+//
+//  useEffect(() => {
+//    function handler() {
+//      signal.off('unmount', handler);
+//      setUnmount(false);
+//    }
+//
+//    signal.on('unmount', handler);
+//
+//    return () => {
+//      signal.off('unmount', handler);
+//    };
+//  }, [signal]);
+//
+//  return !unmount ? children : null;
+//}
 
 export async function start({
   cwd,
@@ -558,14 +558,16 @@ export async function start({
 
   const restoreConsole = patchConsole({ stdout: fs.createWriteStream(logFile), colorMode: 'auto' });
 
-  const unmountSignal: EventEmitter = new EventEmitter();
+  //const unmountSignal: EventEmitter = new EventEmitter();
+  //
+  //const { unmount } = render(
+  //  <Mounter signal={unmountSignal}>
+  //    <Start {...props} />
+  //  </Mounter>,
+  //  { stdout, stdin },
+  //);
 
-  const { unmount } = render(
-    <Mounter signal={unmountSignal}>
-      <Start {...props} />
-    </Mounter>,
-    { stdout, stdin },
-  );
+  const { unmount } = render(<Start {...props} />, { stdout, stdin });
 
   let closed: boolean = false;
 
@@ -573,7 +575,7 @@ export async function start({
     ...props,
     close: async () => {
       if (closed) return;
-      unmountSignal.emit('unmount');
+      //unmountSignal.emit('unmount');
       await new Promise((resolve) => setTimeout(resolve, 2000));
       unmount();
       restoreConsole();

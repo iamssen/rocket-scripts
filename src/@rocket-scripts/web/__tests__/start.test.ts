@@ -50,6 +50,9 @@ describe('start()', () => {
 
     await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hello World!');
 
+    await page.reload({ waitUntil: 'load' });
+    await timeout(1000 * 2);
+
     const file: string = path.join(cwd, 'src/app/index.tsx');
     const source: string = await fs.readFile(file, 'utf8');
     await fs.writeFile(file, source.replace(/(Hello)/g, 'Hi'), { encoding: 'utf8' });
