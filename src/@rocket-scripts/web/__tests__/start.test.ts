@@ -54,9 +54,17 @@ describe('start()', () => {
     const source: string = await fs.readFile(file, 'utf8');
     await fs.writeFile(file, source.replace(/(Hello)/g, 'Hi'), { encoding: 'utf8' });
 
-    await page.waitFor(1000 * 10);
-
-    await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hi World!');
+    let count: number = 20;
+    while (count >= 0) {
+      const text: string = await page.$eval('#app h1', (e) => e.innerHTML);
+      if (text === 'Hi World!') {
+        break;
+      } else if (count === 0) {
+        throw new Error(`HMR did not work`);
+      }
+      await timeout(1000);
+      count -= 1;
+    }
 
     await close();
 
