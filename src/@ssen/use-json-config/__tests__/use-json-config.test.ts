@@ -5,7 +5,7 @@ import fs from 'fs-extra';
 import path from 'path';
 
 describe('useJsonConfig()', () => {
-  if (!process.env.GITHUB_ACTIONS)
+  if (!process.env.GITHUB_ACTIONS) {
     test('should read json config', async () => {
       const cwd: string = await copyTmpDirectory(process.cwd(), 'test/fixtures/use-json-config/basic');
       const file: string = path.join(cwd, 'test.json');
@@ -23,6 +23,9 @@ describe('useJsonConfig()', () => {
 
       unmount();
     });
+  } else {
+    test('dummy test', () => {});
+  }
 
   //test('should get undefined if the file is not exist', async () => {
   //  const cwd: string = await createTmpDirectory();
