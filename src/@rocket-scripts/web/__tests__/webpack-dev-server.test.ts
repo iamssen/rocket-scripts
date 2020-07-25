@@ -40,6 +40,8 @@ describe('webpack-dev-server', () => {
 
     let devServer = new WebpackDevServer(webpack(webpackConfig), devServerConfig);
 
+    console.log('before listen 1');
+
     await new Promise((resolve) => {
       devServer.listen(port, 'localhost', (err) => {
         expect(err).toBeUndefined();
@@ -50,6 +52,8 @@ describe('webpack-dev-server', () => {
         });
       });
     });
+
+    console.log('before close 1');
 
     await new Promise((resolve) => {
       devServer.close(() => {
@@ -66,6 +70,8 @@ describe('webpack-dev-server', () => {
 
     devServer = new WebpackDevServer(webpack(webpackConfig), devServerConfig);
 
+    console.log('before listen 2');
+
     await new Promise((resolve) => {
       devServer.listen(port, 'localhost', (err) => {
         expect(err).toBeUndefined();
@@ -76,6 +82,8 @@ describe('webpack-dev-server', () => {
         });
       });
     });
+
+    console.log('before close 2');
 
     await new Promise((resolve) => {
       devServer.close();
