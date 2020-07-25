@@ -54,7 +54,7 @@ describe('start()', () => {
     const source: string = await fs.readFile(file, 'utf8');
     await fs.writeFile(file, source.replace(/(Hello)/g, 'Hi'), { encoding: 'utf8' });
 
-    await page.waitFor(1000);
+    await page.waitFor(1000 * 10);
 
     await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hi World!');
 
