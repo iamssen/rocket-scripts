@@ -13,14 +13,13 @@ import {
 import { patchConsole } from '@ssen/patch-console';
 import { useJsonConfig } from '@ssen/use-json-config';
 import { useWebpackDevServer } from '@ssen/use-webpack-dev-server';
-import { EventEmitter } from 'events';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import fs from 'fs-extra';
 import getPort from 'get-port';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { Color, render, Text } from 'ink';
 import path from 'path';
-import React, { ReactElement, ReactNode, useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import resolve from 'resolve';
 import tmp from 'tmp';
 import { PackageJson } from 'type-fest';
