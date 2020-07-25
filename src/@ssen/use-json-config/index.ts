@@ -8,9 +8,13 @@ export function useJsonConfig<T>(file: string, selector: (object: any) => T | un
   const [config, setConfig] = useState<T | undefined>(undefined);
 
   useEffect(() => {
+    let closed: boolean = false;
+
     const watcher: FSWatcher = watch(file);
 
     async function handler(file: string) {
+      if (closed) return;
+
       if (fs.existsSync(file)) {
         const object: object = await fs.readJson(file);
         const next: T | undefined = selector(object);
@@ -25,6 +29,7 @@ export function useJsonConfig<T>(file: string, selector: (object: any) => T | un
     watcher.on('add', handler).on('change', handler).on('unlink', handler);
 
     return () => {
+      closed = true;
       watcher.close();
     };
   }, [file, selector]);
