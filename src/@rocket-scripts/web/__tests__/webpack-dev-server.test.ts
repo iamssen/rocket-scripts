@@ -33,7 +33,7 @@ describe('webpack-dev-server', () => {
       compress: true,
       contentBase: [path.join(cwd, 'public')],
       quiet: true,
-      clientLogLevel: 'silent',
+      clientLogLevel: 'error',
       stats: {
         colors: false,
       },

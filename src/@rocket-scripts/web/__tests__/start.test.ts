@@ -49,12 +49,11 @@ describe('start()', () => {
 
     if (page.url() === url) {
       await page.reload({ waitUntil: 'load' });
-      await timeout(1000 * 2);
     } else {
       await page.goto(url, { timeout: 1000 * 60 });
-      await page.waitFor('#app h1', { timeout: 1000 * 60 });
     }
 
+    await page.waitFor('#app h1', { timeout: 1000 * 60 });
     await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hello World!');
 
     const file: string = path.join(cwd, 'src/app/index.tsx');
@@ -107,12 +106,11 @@ describe('start()', () => {
 
     if (page.url() === url) {
       await page.reload({ waitUntil: 'load' });
-      await timeout(1000 * 2);
     } else {
       await page.goto(url, { timeout: 1000 * 60 });
-      await page.waitFor('#app h1', { timeout: 1000 * 60 });
     }
 
+    await page.waitFor('#app h1', { timeout: 1000 * 60 });
     await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hello World!');
 
     const manifest = await fetch(`http://localhost:${port}/manifest.json`);

@@ -35,6 +35,6 @@ describe('useAppEntry()', () => {
       unmount();
     });
   } else {
-    test('[skiped test with github actions] should update the entry list with the files add and delete', () => {});
+    test.todo('[skipped test in github actions] should update the entry list with the files add and delete');
   }
 });

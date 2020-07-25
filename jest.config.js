@@ -9,5 +9,6 @@ module.exports = {
     ...jestPreset.collectCoverageFrom,
     '!src/@rocket-scripts/*/commands.ts',
     '!src/@rocket-scripts/cli/**',
+    '!src/@rocket-scripts/jest-transform/**',
   ],
 };

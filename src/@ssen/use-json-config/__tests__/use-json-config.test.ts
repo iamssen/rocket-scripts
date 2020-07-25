@@ -24,7 +24,7 @@ describe('useJsonConfig()', () => {
       unmount();
     });
   } else {
-    test('[skiped test with github actions] should read json config', () => {});
+    test.todo('[skipped test in github actions] should read json config');
   }
 
   //test('should get undefined if the file is not exist', async () => {
