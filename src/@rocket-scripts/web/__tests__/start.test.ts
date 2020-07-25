@@ -45,13 +45,17 @@ describe('start()', () => {
 
     await timeout(1000 * 5);
 
-    await page.goto(`http://localhost:${port}`, { timeout: 1000 * 60 });
-    await page.waitFor('#app h1', { timeout: 1000 * 60 });
+    const url: string = `http://localhost:${port}`;
+
+    if (page.url() === url) {
+      await page.reload({ waitUntil: 'load' });
+      await timeout(1000 * 2);
+    } else {
+      await page.goto(url, { timeout: 1000 * 60 });
+      await page.waitFor('#app h1', { timeout: 1000 * 60 });
+    }
 
     await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hello World!');
-
-    await page.reload({ waitUntil: 'load' });
-    await timeout(1000 * 2);
 
     const file: string = path.join(cwd, 'src/app/index.tsx');
     const source: string = await fs.readFile(file, 'utf8');
@@ -96,8 +100,15 @@ describe('start()', () => {
 
     await timeout(1000 * 5);
 
-    await page.goto(`http://localhost:${port}`, { timeout: 1000 * 60 });
-    await page.waitFor('#app h1', { timeout: 1000 * 60 });
+    const url: string = `http://localhost:${port}`;
+
+    if (page.url() === url) {
+      await page.reload({ waitUntil: 'load' });
+      await timeout(1000 * 2);
+    } else {
+      await page.goto(url, { timeout: 1000 * 60 });
+      await page.waitFor('#app h1', { timeout: 1000 * 60 });
+    }
 
     await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hello World!');
 
