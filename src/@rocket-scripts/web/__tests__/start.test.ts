@@ -75,11 +75,9 @@ describe('start()', () => {
       count -= 1;
     }
 
-    await close();
-
     console.log(stdout.lastFrame());
 
-    await timeout(1000 * 5);
+    await close();
   });
 
   test('should get static files with multiple static file directories', async () => {
@@ -121,10 +119,8 @@ describe('start()', () => {
 
     expect(hello.status).toBeLessThan(299);
 
-    await close();
-
     console.log(stdout.lastFrame());
 
-    await timeout(1000 * 5);
+    await close();
   });
 });
