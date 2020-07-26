@@ -418,13 +418,16 @@ export function Start({
   tsconfig,
   logFile,
 }: StartProps) {
+  // TODO remove reason from cause server restart -> watch changes
   const entry: AppEntry[] | null = useAppEntry({ appDir });
 
+  // TODO remove reason from cause server restart -> watch changes
   const proxyConfig: ProxyConfig | undefined = useJsonConfig<ProxyConfig>(
     path.join(cwd, 'package.json'),
     proxySelector,
   );
 
+  // TODO remove reason from cause server restart -> watch changes
   const alias: Record<string, string> = useWebpackAlias(cwd);
 
   const webpackEnv: Record<string, string | number | boolean> = useMemo(
