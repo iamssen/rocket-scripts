@@ -425,7 +425,6 @@ export function Start({
   const proxyConfig: ProxyConfig | undefined = useJsonConfig<ProxyConfig>({
     file: path.join(cwd, 'package.json'),
     selector: proxySelector,
-    useDebounce: true,
   });
 
   // TODO remove reason from cause server restart -> watch changes

@@ -8,10 +8,9 @@ import { useEffect, useState } from 'react';
 interface Params<T> {
   file: string;
   selector: (object: any) => T | undefined;
-  useDebounce?: boolean;
 }
 
-export function useJsonConfig<T>({ file, selector, useDebounce = false }: Params<T>): T | undefined {
+export function useJsonConfig<T>({ file, selector }: Params<T>): T | undefined {
   const [config, setConfig] = useState<T | undefined>(() => {
     const object: object = fs.readJsonSync(file);
     return selector(object);
@@ -33,14 +32,15 @@ export function useJsonConfig<T>({ file, selector, useDebounce = false }: Params
       }
     }
 
-    const update = useDebounce ? debounce(updateHandler) : updateHandler;
+    const update = debounce(updateHandler);
 
     watcher.on('add', update).on('change', update).on('unlink', update);
 
     return () => {
+      update.cancel();
       watcher.close();
     };
-  }, [file, selector, useDebounce]);
+  }, [file, selector]);
 
   return config;
 }
