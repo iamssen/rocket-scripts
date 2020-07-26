@@ -419,13 +419,14 @@ export function Start({
   logFile,
 }: StartProps) {
   // TODO remove reason from cause server restart -> watch changes
-  const entry: AppEntry[] | null = useAppEntry({ appDir });
+  const entry: AppEntry[] = useAppEntry({ appDir });
 
   // TODO remove reason from cause server restart -> watch changes
-  const proxyConfig: ProxyConfig | undefined = useJsonConfig<ProxyConfig>(
-    path.join(cwd, 'package.json'),
-    proxySelector,
-  );
+  const proxyConfig: ProxyConfig | undefined = useJsonConfig<ProxyConfig>({
+    file: path.join(cwd, 'package.json'),
+    selector: proxySelector,
+    useDebounce: true,
+  });
 
   // TODO remove reason from cause server restart -> watch changes
   const alias: Record<string, string> = useWebpackAlias(cwd);

@@ -14,7 +14,7 @@ describe('webpack-dev-server', () => {
 
     await exec(`npm install`, { cwd });
 
-    const entry: AppEntry[] = await getAppEntry({ appDir: path.join(cwd, 'src/app') });
+    const entry: AppEntry[] = getAppEntry({ appDir: path.join(cwd, 'src/app') });
     const babelLoaderOptions: object = getBabelLoaderOptions({ cwd });
     const webpackConfig: WebpackConfiguration = getWebpackConfig({
       cwd,

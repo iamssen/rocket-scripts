@@ -1,22 +1,29 @@
 import { watch } from 'chokidar';
 import fs, { FSWatcher } from 'fs-extra';
+import debounce from 'lodash.debounce';
 import { useEffect, useState } from 'react';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export function useJsonConfig<T>(file: string, selector: (object: any) => T | undefined): T | undefined {
-  const [config, setConfig] = useState<T | undefined>(undefined);
+interface Params<T> {
+  file: string;
+  selector: (object: any) => T | undefined;
+  useDebounce?: boolean;
+}
+
+export function useJsonConfig<T>({ file, selector, useDebounce = false }: Params<T>): T | undefined {
+  const [config, setConfig] = useState<T | undefined>(() => {
+    const object: object = fs.readJsonSync(file);
+    return selector(object);
+  });
 
   useEffect(() => {
-    let closed: boolean = false;
-
     const watcher: FSWatcher = watch(file);
 
-    async function handler(file: string) {
-      if (closed) return;
-
+    function updateHandler() {
       if (fs.existsSync(file)) {
-        const object: object = await fs.readJson(file);
+        // WARNING do not write tests with asynchronous fs write
+        const object: object = fs.readJsonSync(file);
         const next: T | undefined = selector(object);
         setConfig((prev) => {
           return !next ? undefined : JSON.stringify(prev) !== JSON.stringify(next) ? next : prev;
@@ -26,13 +33,14 @@ export function useJsonConfig<T>(file: string, selector: (object: any) => T | un
       }
     }
 
-    watcher.on('add', handler).on('change', handler).on('unlink', handler);
+    const update = useDebounce ? debounce(updateHandler) : updateHandler;
+
+    watcher.on('add', update).on('change', update).on('unlink', update);
 
     return () => {
-      closed = true;
       watcher.close();
     };
-  }, [file, selector]);
+  }, [file, selector, useDebounce]);
 
   return config;
 }

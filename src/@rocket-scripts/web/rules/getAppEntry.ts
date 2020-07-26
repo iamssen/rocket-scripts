@@ -11,8 +11,8 @@ export interface AppEntry {
   index: string;
 }
 
-export async function getAppEntry({ appDir }: Params): Promise<AppEntry[]> {
-  const list: string[] = await fs.readdir(appDir);
+export function getAppEntry({ appDir }: Params): AppEntry[] {
+  const list: string[] = fs.readdirSync(appDir);
   const set: Set<string> = new Set<string>(list);
 
   return list

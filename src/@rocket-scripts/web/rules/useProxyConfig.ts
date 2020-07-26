@@ -9,5 +9,5 @@ export type ProxyConfig = { [uri: string]: HttpProxyMiddlewareOptions };
 
 export function useProxyConfig(cwd: string): ProxyConfig | undefined {
   const file = useMemo(() => path.join(cwd, 'package.json'), [cwd]);
-  return useJsonConfig<ProxyConfig>(file, selector);
+  return useJsonConfig<ProxyConfig>({ file: file, selector: selector, useDebounce: true });
 }
