@@ -31,13 +31,7 @@ packages:
   '@ssen/tsconfig':
     access: $anonymous
     publish: $anonymous
-  '@ssen/use-json-config':
-    access: $anonymous
-    publish: $anonymous
   '@ssen/use-mirror-files':
-    access: $anonymous
-    publish: $anonymous
-  '@ssen/use-webpack-dev-server':
     access: $anonymous
     publish: $anonymous
   '**':

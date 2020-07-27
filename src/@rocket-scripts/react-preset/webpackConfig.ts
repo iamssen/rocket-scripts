@@ -1,9 +1,9 @@
+import { eslintConfigExistsSync } from '@rocket-scripts/utils/eslintConfigExistsSync';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
 import resolve from 'resolve';
 import { Configuration, HotModuleReplacementPlugin, RuleSetRule, WatchIgnorePlugin } from 'webpack';
-import { eslintConfigExistsSync } from '../web/rules/eslintConfigExistsSync';
 import { getWebpackDataURILoaders } from './webpackLoaders/getWebpackDataURILoaders';
 import { getWebpackFileLoaders } from './webpackLoaders/getWebpackFileLoaders';
 import { getWebpackMDXLoaders } from './webpackLoaders/getWebpackMDXLoaders';
