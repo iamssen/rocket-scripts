@@ -1,4 +1,4 @@
-import { icuFormat, parseNumber } from '@rocket-scripts/rule';
+import { icuFormat, parseNumber } from '@rocket-scripts/utils';
 
 describe('parseNumber()', () => {
   test('should get numbers from correctly sources', () => {

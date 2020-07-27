@@ -53,6 +53,17 @@ export default function (api: unknown, { modules, targets }: Options) {
       //require.resolve('@babel/plugin-syntax-dynamic-import'),
       require.resolve('@babel/plugin-proposal-optional-chaining'),
       require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
+
+      [
+        require.resolve('babel-plugin-named-asset-import'),
+        {
+          loaderMap: {
+            svg: {
+              ReactComponent: '@svgr/webpack?-svgo,+titleProp,+ref![path]',
+            },
+          },
+        },
+      ],
     ],
     //overrides: [
     //  {

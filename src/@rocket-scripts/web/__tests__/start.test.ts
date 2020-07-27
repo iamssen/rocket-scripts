@@ -45,7 +45,6 @@ describe('start()', () => {
       staticFileDirectories,
       app,
       https: false,
-      outDir: out,
       stdout,
     });
 
@@ -101,7 +100,6 @@ describe('start()', () => {
     const cwd: string = await copyTmpDirectory(
       path.join(process.cwd(), 'test/fixtures/web/static-file-directories'),
     );
-    const out: string = await createTmpDirectory();
     const staticFileDirectories: string[] = ['{cwd}/public', '{cwd}/static'];
     const app: string = 'app';
 
@@ -116,7 +114,6 @@ describe('start()', () => {
       staticFileDirectories,
       app,
       https: false,
-      outDir: out,
       stdout,
     });
 
