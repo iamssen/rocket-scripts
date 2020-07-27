@@ -62,10 +62,23 @@ export interface StartPrams {
   stdin?: NodeJS.ReadStream;
 }
 
+// TODO message types
+export type StartMessage =
+  | {
+      type: 'start';
+    }
+  | {
+      type: 'restart';
+    }
+  | {
+      type: 'error';
+    };
+
 export type StartProps = Required<Omit<StartPrams, 'port' | 'stdout' | 'stdin'>> & {
   appDir: string;
   port: number;
   logFile: string;
+  onMessage: (message: StartMessage) => void;
 };
 
 export function getWebpackEnv({
@@ -418,16 +431,13 @@ export function Start({
   tsconfig,
   logFile,
 }: StartProps) {
-  // TODO remove reason from cause server restart -> watch changes
   const entry: AppEntry[] = useAppEntry({ appDir });
 
-  // TODO remove reason from cause server restart -> watch changes
   const proxyConfig: ProxyConfig | undefined = useJsonConfig<ProxyConfig>({
     file: path.join(cwd, 'package.json'),
     selector: proxySelector,
   });
 
-  // TODO remove reason from cause server restart -> watch changes
   const alias: Record<string, string> = useWebpackAlias(cwd);
 
   const webpackEnv: Record<string, string | number | boolean> = useMemo(
@@ -509,7 +519,7 @@ export async function start({
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
   stdout = process.stdout,
   stdin = process.stdin,
-}: StartPrams): Promise<StartProps & { close: () => void }> {
+}: StartPrams): Promise<StartProps & { waitServerStart: () => Promise<void>; close: () => void }> {
   const { name: logFile } = tmp.fileSync({ mode: 0o644, postfix: '.log' });
 
   const outDir: string = icuFormat(_outDir, { cwd, app });
@@ -535,6 +545,10 @@ export async function start({
     env,
     tsconfig,
     logFile,
+    // TODO
+    onMessage: (message) => {
+      console.log('start.tsx..onMessage()', message);
+    },
   };
 
   console.log(JSON.stringify(props, null, 2));
@@ -547,6 +561,11 @@ export async function start({
 
   return {
     ...props,
+    waitServerStart: () =>
+      new Promise<void>((resolve) => {
+        // TODO
+        setTimeout(resolve, 5000);
+      }),
     close: () =>
       new Promise((resolve) => {
         if (closed) return;

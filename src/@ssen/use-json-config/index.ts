@@ -1,6 +1,5 @@
 import { watch } from 'chokidar';
 import fs, { FSWatcher } from 'fs-extra';
-import debounce from 'lodash.debounce';
 import { useEffect, useState } from 'react';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -19,7 +18,7 @@ export function useJsonConfig<T>({ file, selector }: Params<T>): T | undefined {
   useEffect(() => {
     const watcher: FSWatcher = watch(file);
 
-    function updateHandler() {
+    function update() {
       if (fs.existsSync(file)) {
         // WARNING do not write tests with asynchronous fs write
         const object: object = fs.readJsonSync(file);
@@ -32,12 +31,9 @@ export function useJsonConfig<T>({ file, selector }: Params<T>): T | undefined {
       }
     }
 
-    const update = debounce(updateHandler);
-
     watcher.on('add', update).on('change', update).on('unlink', update);
 
     return () => {
-      update.cancel();
       watcher.close();
     };
   }, [file, selector]);

@@ -1,6 +1,5 @@
 import { watch } from 'chokidar';
 import { FSWatcher } from 'fs';
-import debounce from 'lodash.debounce';
 import { useEffect, useState } from 'react';
 import { AppEntry, getAppEntry } from './getAppEntry';
 
@@ -12,7 +11,7 @@ export function useAppEntry({ appDir }: Params): AppEntry[] {
   const [entry, setEntry] = useState<AppEntry[]>(getAppEntry({ appDir }));
 
   useEffect(() => {
-    function updateHandler() {
+    function update() {
       const nextEntry: AppEntry[] = getAppEntry({ appDir });
 
       setEntry((prevEntry) => {
@@ -23,14 +22,11 @@ export function useAppEntry({ appDir }: Params): AppEntry[] {
       });
     }
 
-    const update = debounce(updateHandler);
-
     const watcher: FSWatcher = watch([`${appDir}/*.{js,jsx,ts,tsx}`, `${appDir}/*.html`])
       .on('add', update)
       .on('unlink', update);
 
     return () => {
-      update.cancel();
       watcher.close();
     };
   }, [appDir]);

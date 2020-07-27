@@ -97,18 +97,24 @@ describe('start()', () => {
   });
 
   test('should get static files with multiple static file directories', async () => {
+    // Arrange : project directories
     const cwd: string = await copyTmpDirectory(
       path.join(process.cwd(), 'test/fixtures/web/static-file-directories'),
     );
     const out: string = await createTmpDirectory();
-    const stdout = createInkWriteStream();
+    const staticFileDirectories: string[] = ['{cwd}/public', '{cwd}/static'];
+    const app: string = 'app';
 
     await exec(`npm install`, { cwd });
 
+    // Arrange : stdout
+    const stdout = createInkWriteStream();
+
+    // Act : server start
     const { port, close } = await start({
       cwd,
-      staticFileDirectories: ['{cwd}/public', '{cwd}/static'],
-      app: 'app',
+      staticFileDirectories,
+      app,
       https: false,
       outDir: out,
       stdout,
@@ -116,6 +122,7 @@ describe('start()', () => {
 
     await timeout(1000 * 5);
 
+    // Arrange : wait server start
     const url: string = `http://localhost:${port}`;
 
     if (page.url() === url) {
@@ -125,18 +132,20 @@ describe('start()', () => {
     }
 
     await page.waitFor('#app h1', { timeout: 1000 * 60 });
+
+    // Assert
     await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hello World!');
 
     const manifest = await fetch(`http://localhost:${port}/manifest.json`);
-
     expect(manifest.status).toBeLessThan(299);
 
     const hello = await fetch(`http://localhost:${port}/hello.json`);
-
     expect(hello.status).toBeLessThan(299);
 
+    // Assert : print stdout
     console.log(stdout.lastFrame());
 
+    // Arrange : server close
     await close();
   });
 });
