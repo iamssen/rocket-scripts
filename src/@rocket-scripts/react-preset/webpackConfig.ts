@@ -161,20 +161,14 @@ export default function ({
       ...(fs.existsSync(tsconfig)
         ? [
             new ForkTsCheckerWebpackPlugin({
-              //typescript: {
-              //  configFile: tsconfig,
-              //},
-              typescript: resolve.sync('typescript', {
-                basedir: path.join(cwd, 'node_modules'),
-              }),
               async: false,
-              useTypescriptIncrementalApi: true,
-              checkSyntacticErrors: true,
-              measureCompilationTime: true,
-              tsconfig,
-              reportFiles: ['**', '!**/*.json', '!**/__*', '!**/?(*.)(spec|test).*'],
-              silent: true,
-              //formatter: process.env.NODE_ENV === 'production' ? 'default' : undefined,
+              typescript: {
+                configFile: tsconfig,
+                diagnosticOptions: {
+                  semantic: true,
+                  syntactic: true,
+                },
+              },
             }),
           ]
         : []),
