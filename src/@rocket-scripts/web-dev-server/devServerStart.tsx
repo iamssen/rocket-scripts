@@ -1,8 +1,9 @@
 import { patchConsole } from '@ssen/patch-console';
-import fs from 'fs-extra';
+import fs from 'fs';
 import { render } from 'ink';
 import React from 'react';
 import tmp from 'tmp';
+import { merge } from 'webpack-merge';
 import { DevServer, DevServerParams } from './DevServer';
 import { DevServerUI } from './DevServerUI';
 
@@ -21,22 +22,27 @@ export async function devServerStart({
   webpackConfig,
   devServerConfig,
 }: DevServerStartParams): Promise<() => Promise<void>> {
-  const restoreConsole = patchConsole({ stdout: fs.createWriteStream(logfile), colorMode: 'auto' });
+  console.clear();
+  const stream: NodeJS.WritableStream = fs.createWriteStream(logfile);
+  const restoreConsole = patchConsole({ stdout: stream, stderr: stream, colorMode: false });
 
   const server: DevServer = new DevServer({
     port,
     hostname,
-    webpackConfig: {
-      ...webpackConfig,
+    webpackConfig: merge(webpackConfig, {
       // TODO
-    },
+    }),
     devServerConfig: {
       ...devServerConfig,
       // TODO
     },
   });
 
-  const { unmount } = render(<DevServerUI devServer={server} logfile={logfile} />, { stdout, stdin });
+  const { unmount } = render(<DevServerUI devServer={server} logfile={logfile} />, {
+    stdout,
+    stdin,
+    patchConsole: false,
+  });
 
   await server.waitUntilStart();
 

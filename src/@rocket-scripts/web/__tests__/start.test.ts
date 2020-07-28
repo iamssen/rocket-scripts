@@ -88,11 +88,11 @@ describe('start()', () => {
       count -= 1;
     }
 
-    // Assert : print stdout
-    console.log(stdout.lastFrame());
-
     // Arrange : server close
     await close();
+
+    // Assert : print stdout
+    console.log(stdout.lastFrame());
   });
 
   test('should get static files with multiple static file directories', async () => {
@@ -139,10 +139,10 @@ describe('start()', () => {
     const hello = await fetch(`http://localhost:${port}/hello.json`);
     expect(hello.status).toBeLessThan(299);
 
-    // Assert : print stdout
-    console.log(stdout.lastFrame());
-
     // Arrange : server close
     await close();
+
+    // Assert : print stdout
+    console.log(stdout.lastFrame());
   });
 });

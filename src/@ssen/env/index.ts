@@ -11,7 +11,9 @@ export type TransformEnvFunction = (env: NodeJS.ProcessEnv) => NodeJS.ProcessEnv
  * )(process.env)
  * ```
  */
-export const mapEnv: (envFile: string) => (env: NodeJS.ProcessEnv) => NodeJS.ProcessEnv = (envFile) => (env) => {
+export const mapEnv: (envFile: string) => (env: NodeJS.ProcessEnv) => NodeJS.ProcessEnv = (envFile) => (
+  env,
+) => {
   try {
     return requireTypescript<{ default: TransformEnvFunction }>(
       path.isAbsolute(envFile) ? path.join(envFile) : path.join(process.cwd(), envFile),
@@ -21,7 +23,9 @@ export const mapEnv: (envFile: string) => (env: NodeJS.ProcessEnv) => NodeJS.Pro
   }
 };
 
-export const patchEnv: (origin?: NodeJS.ProcessEnv) => (env: NodeJS.ProcessEnv) => void = (origin = {}) => (env) => {
+export const patchEnv: (origin?: NodeJS.ProcessEnv) => (env: NodeJS.ProcessEnv) => void = (origin = {}) => (
+  env,
+) => {
   Object.keys(env).forEach((key) => {
     if (env[key] && env[key] !== origin[key]) {
       process.env[key] = env[key];
@@ -34,7 +38,9 @@ export const patchEnv: (origin?: NodeJS.ProcessEnv) => (env: NodeJS.ProcessEnv) 
  * pickEnv('NODE_ENV', 'OUT_DIR')(process.env)
  * ```
  */
-export const pickEnv: (...keys: string[]) => (env: NodeJS.ProcessEnv) => NodeJS.ProcessEnv = (...keys) => (env) => {
+export const pickEnv: (...keys: string[]) => (env: NodeJS.ProcessEnv) => NodeJS.ProcessEnv = (...keys) => (
+  env,
+) => {
   return Object.keys(env)
     .filter((key) => keys.indexOf(key) > -1)
     .reduce((picked, key) => {

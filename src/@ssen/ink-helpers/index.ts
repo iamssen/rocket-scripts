@@ -27,7 +27,7 @@ export function createInkWriteStream(): InkWritableStream & NodeJS.WriteStream {
 export function inkToString(element: ReactElement): string {
   const stdout = createInkWriteStream();
 
-  const { unmount } = render(element, { stdout });
+  const { unmount } = render(element, { stdout, patchConsole: false });
 
   unmount();
 

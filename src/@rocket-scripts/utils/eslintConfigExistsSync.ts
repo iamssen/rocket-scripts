@@ -1,3 +1,4 @@
+import { exec } from 'child_process';
 import fs from 'fs-extra';
 import path from 'path';
 
@@ -24,7 +25,7 @@ export function eslintConfigExistsSync(cwd: string): boolean {
   }
 
   for (const filename of configFilenames) {
-    if (fs.existsSync(filename)) {
+    if (fs.existsSync(path.join(cwd, filename))) {
       return true;
     }
   }

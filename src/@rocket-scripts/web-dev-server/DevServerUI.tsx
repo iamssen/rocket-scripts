@@ -1,4 +1,4 @@
-import { Color, Text } from 'ink';
+import { Text } from 'ink';
 import React, { useEffect, useMemo, useState } from 'react';
 import { DevServer } from './DevServer';
 import { DevServerStatus, WebpackStats } from './types';
@@ -36,34 +36,36 @@ export function DevServerUI({ devServer, logfile }: DevServerUIProps) {
 
   return (
     <>
-      <Text>Log : {logfile}</Text>
+      <Text bold color="blueBright">
+        Log : {logfile}
+      </Text>
       <Text>Status : {status}</Text>
       {webpackStats.status === 'waiting' && (
-        <Color bold blueBright>
+        <Text bold color="" backgroundColor="">
           Compiling...
-        </Color>
+        </Text>
       )}
       {webpackStats.status === 'done' && webpackStatsJson && webpackStatsJson.errors.length > 0 && (
         <>
-          <Color bold redBright>
+          <Text bold color="redBright">
             Errors...
-          </Color>
+          </Text>
           {webpackStatsJson.errors.map((text) => (
-            <Color key={text} red>
+            <Text key={text} color="red">
               {text}
-            </Color>
+            </Text>
           ))}
         </>
       )}
       {webpackStats.status === 'done' && webpackStatsJson && webpackStatsJson.warnings.length > 0 && (
         <>
-          <Color bold yellowBright>
+          <Text bold color="yellowBright">
             Warnings...
-          </Color>
+          </Text>
           {webpackStatsJson.warnings.map((text) => (
-            <Color key={text} yellow>
+            <Text key={text} color="yellow">
               {text}
-            </Color>
+            </Text>
           ))}
         </>
       )}

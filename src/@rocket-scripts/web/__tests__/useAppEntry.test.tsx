@@ -5,7 +5,6 @@ import path from 'path';
 import { useAppEntry } from '../rules/useAppEntry';
 
 describe('useAppEntry()', () => {
-  //if (!process.env.GITHUB_ACTIONS) {
   test('should update the entry list with the files add and delete', async () => {
     const cwd: string = await copyTmpDirectory(process.cwd(), 'test/fixtures/web/useAppEntry');
 
@@ -32,7 +31,4 @@ describe('useAppEntry()', () => {
 
     unmount();
   });
-  //} else {
-  //  test.todo('[skipped test in github actions] should update the entry list with the files add and delete');
-  //}
 });

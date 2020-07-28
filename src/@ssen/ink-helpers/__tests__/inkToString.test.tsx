@@ -1,6 +1,6 @@
 import { inkToString } from '@ssen/ink-helpers';
 import chalk from 'chalk';
-import { Color, Text } from 'ink';
+import { Text } from 'ink';
 import React from 'react';
 
 describe('inkToString()', () => {
@@ -18,8 +18,8 @@ describe('inkToString()', () => {
     expect(
       inkToString(
         <>
-          <Color bold>Hello</Color>
-          <Color blue>World</Color>
+          <Text bold>Hello</Text>
+          <Text color="blue">World</Text>
         </>,
       ),
     ).toBe(`${chalk.bold('Hello')}\n${chalk.blue('World')}\n`);
