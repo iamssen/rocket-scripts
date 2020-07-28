@@ -1,7 +1,7 @@
 import { start } from '@rocket-scripts/web/start';
 import { createInkWriteStream } from '@ssen/ink-helpers';
 import { exec } from '@ssen/promised';
-import { copyTmpDirectory, createTmpDirectory } from '@ssen/tmp-directory';
+import { copyTmpDirectory } from '@ssen/tmp-directory';
 import fs from 'fs-extra';
 import path from 'path';
 import puppeteer, { Browser, Page } from 'puppeteer';
@@ -30,7 +30,6 @@ describe('start()', () => {
   test('should read h1 text and the text should change with HMR', async () => {
     // Arrange : project directories
     const cwd: string = await copyTmpDirectory(path.join(process.cwd(), 'test/fixtures/web/start'));
-    const out: string = await createTmpDirectory();
     const staticFileDirectories: string[] = ['{cwd}/public'];
     const app: string = 'app';
 
