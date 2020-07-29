@@ -11,7 +11,8 @@
     "e2e": "npm run build && node test/updateVerdaccioYaml.js && bash test/e2e.sh",
     "format": "prettier --write \"src/{**/*,*}/*.{ts,tsx}\"",
     "lint": "eslint \"src/{**/*,*}/*.{ts,tsx}\"",
-    "test-run:start": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.run.tsx"
+    "test-run:start": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.run.ts",
+    "test-run:build": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/build.run.ts"
   },
   "husky": {
     "hooks": {
