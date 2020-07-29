@@ -167,6 +167,17 @@ export default function ({
                   semantic: true,
                   syntactic: true,
                 },
+                configOverwrite: {
+                  compilerOptions: {
+                    incremental: true,
+                  },
+                },
+              },
+              formatter: {
+                type: 'codeframe',
+                options: {
+                  highlightCode: false,
+                },
               },
             }),
           ]

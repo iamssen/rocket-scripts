@@ -7,7 +7,7 @@ import path from 'path';
   const cwd: string = await copyTmpDirectory(path.join(process.cwd(), 'test/fixtures/web/start'));
 
   await exec(`npm install`, { cwd });
-  await exec(`code ${cwd}`);
+  //await exec(`code ${cwd}`);
 
   await start({
     cwd,
