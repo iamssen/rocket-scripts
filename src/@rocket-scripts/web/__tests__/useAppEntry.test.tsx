@@ -5,7 +5,7 @@ import path from 'path';
 import { useAppEntry } from '../rules/useAppEntry';
 
 describe('useAppEntry()', () => {
-  test('should update the entry list with the files add and delete', async () => {
+  test.skip('should update the entry list with the files add and delete', async () => {
     const cwd: string = await copyTmpDirectory(process.cwd(), 'test/fixtures/web/useAppEntry');
 
     const { result, waitForValueToChange, unmount } = renderHook(() => useAppEntry({ appDir: cwd }));

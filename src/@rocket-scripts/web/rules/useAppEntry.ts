@@ -1,7 +1,7 @@
 import { watch } from 'chokidar';
 import { FSWatcher } from 'fs';
 import { useEffect, useState } from 'react';
-import { AppEntry, getAppEntry } from './getAppEntry';
+import { AppEntry, getAppEntry } from '../utils/getAppEntry';
 
 interface Params {
   appDir: string;

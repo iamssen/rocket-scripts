@@ -1,6 +1,6 @@
 import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import { webpackConfig as webpackReactConfig } from '@rocket-scripts/react-preset';
-import { getWebpackAlias, icuFormat } from '@rocket-scripts/utils';
+import { getWebpackAlias, icuFormat, rocketTitle } from '@rocket-scripts/utils';
 import { devServerStart, DevServerStartParams } from '@rocket-scripts/web-dev-server';
 import getPort from 'get-port';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -9,9 +9,8 @@ import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { Configuration as WebpackConfiguration, DefinePlugin } from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 import { merge as webpackMerge } from 'webpack-merge';
-import { rocketTitle } from './components/rocketTitle';
-import { getAppEntry } from './rules/getAppEntry';
-import { getProxyConfig } from './rules/getProxyConfig';
+import { getAppEntry } from './utils/getAppEntry';
+import { getProxyConfig } from './utils/getProxyConfig';
 
 export interface StartPrams
   extends Omit<DevServerStartParams, 'port' | 'hostname' | 'devServerConfig' | 'webpackConfig'> {

@@ -18,7 +18,7 @@ import webpack, {
 } from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { merge as webpackMerge } from 'webpack-merge';
-import { getAppEntry } from './rules/getAppEntry';
+import { getAppEntry } from './utils/getAppEntry';
 
 export interface BuildParams {
   // cli
