@@ -1,6 +1,7 @@
 import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import { webpackConfig as webpackReactConfig } from '@rocket-scripts/react-preset';
 import { getWebpackAlias, icuFormat, rocketTitle } from '@rocket-scripts/utils';
+import { observeAliasChange } from '@rocket-scripts/web/utils/observeAliasChange';
 import { devServerStart, DevServerStartParams } from '@rocket-scripts/webpack-dev-server';
 import getPort from 'get-port';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -154,6 +155,7 @@ export async function start({
 
   const restartAlarm: Observable<string[]> = combineLatest([
     observeAppEntryChange({ appDir, current: entry }),
+    observeAliasChange({ cwd, current: alias }),
     observeProxyConfigChange({ cwd, current: proxyConfig }),
   ]).pipe(
     map<(string | null)[], string[]>((changes) => changes.filter((change): change is string => !!change)),
