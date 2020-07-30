@@ -1,7 +1,7 @@
 import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import { webpackConfig as webpackReactConfig } from '@rocket-scripts/react-preset';
 import { getWebpackAlias, icuFormat, rocketTitle } from '@rocket-scripts/utils';
-import { devServerStart, DevServerStartParams } from '@rocket-scripts/web-dev-server';
+import { devServerStart, DevServerStartParams } from '@rocket-scripts/webpack-dev-server';
 import getPort from 'get-port';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';

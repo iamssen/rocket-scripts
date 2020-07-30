@@ -1,7 +1,4 @@
-import { TimeMessage } from '@rocket-scripts/web-dev-server/types';
-import { patchProxyLogger } from '@rocket-scripts/web-dev-server/utils/patchProxyLogger';
 import { patchConsole } from '@ssen/patch-console';
-import { exec } from 'child_process';
 import fs from 'fs';
 import { render } from 'ink';
 import React from 'react';
@@ -11,6 +8,8 @@ import { ProxyConfigArray, ProxyConfigMap } from 'webpack-dev-server';
 import { merge } from 'webpack-merge';
 import { DevServer, DevServerParams } from './DevServer';
 import { DevServerUI } from './DevServerUI';
+import { TimeMessage } from './types';
+import { patchProxyLogger } from './utils/patchProxyLogger';
 
 export interface DevServerStartParams extends DevServerParams {
   stdout?: NodeJS.WriteStream;
