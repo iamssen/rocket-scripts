@@ -13,6 +13,7 @@ export interface DevServerParams {
 export class DevServer {
   readonly compiler: Compiler;
   readonly devServer: WebpackDevServer;
+  readonly url: string;
 
   private readonly statusSubject: BehaviorSubject<DevServerStatus>;
   private readonly webpackStatsSubject: BehaviorSubject<WebpackStats>;
@@ -20,6 +21,8 @@ export class DevServer {
   private readonly closeResolvers: Set<() => void> = new Set();
 
   constructor({ port, hostname, webpackConfig, devServerConfig }: DevServerParams) {
+    this.url = (devServerConfig.https ? 'https://' : 'http://') + hostname + ':' + port;
+
     this.compiler = webpack(webpackConfig);
 
     this.statusSubject = new BehaviorSubject<DevServerStatus>(DevServerStatus.STARTING);

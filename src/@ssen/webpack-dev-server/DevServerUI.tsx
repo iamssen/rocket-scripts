@@ -7,6 +7,7 @@ import { Divider } from './components/Divider';
 import { PadText } from './components/PadText';
 import { DevServer } from './DevServer';
 import { DevServerStatus, TimeMessage, WebpackStats } from './types';
+import os from 'os';
 
 export interface DevServerUIProps {
   header?: string;
@@ -86,6 +87,13 @@ export function DevServerUI({
   useInput(
     (input) => {
       switch (input) {
+        case 'b':
+          if (os.platform() === 'win32') {
+            exec(`start ${devServer.url}`);
+          } else {
+            exec(`open ${devServer.url}`);
+          }
+          break;
         case 'l':
           exec(`code ${logfile}`);
           break;
@@ -109,9 +117,11 @@ export function DevServerUI({
       </PadText>
 
       {isRawModeSupported === true && (
-        <PadText title="Keys" color="blueBright">
-          (l) Open log with `code` (p) Open project with `code` (q) Quit
-        </PadText>
+        <PadText
+          title="Keys"
+          color="blueBright"
+          children={`(b) Open ${devServer.url} (l) Open log with \`code\` (p) Open project with \`code\` (q) Quit`}
+        />
       )}
 
       <PadText title="Server" color="blueBright">
