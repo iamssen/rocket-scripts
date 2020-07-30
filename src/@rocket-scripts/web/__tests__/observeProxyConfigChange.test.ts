@@ -33,7 +33,7 @@ describe('observeProxyConfigChange', () => {
     fs.writeJsonSync(file, packageJson, { encoding: 'utf8' });
 
     // Assert
-    await waitFor(() => expect(change).toContain('proxy config changed:'), { timeout: 2000 });
+    await waitFor(() => expect(change).toContain('proxy config changed'), { timeout: 2000 });
 
     // Act
     fs.writeJsonSync(file, { proxy, ...packageJson }, { encoding: 'utf8' });

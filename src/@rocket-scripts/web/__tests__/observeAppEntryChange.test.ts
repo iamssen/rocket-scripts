@@ -34,7 +34,7 @@ describe('observeAppEntrChange()', () => {
     fs.copyFileSync(path.join(cwd, 'test1.tsx'), path.join(cwd, 'test3.tsx'));
 
     // Assert
-    await waitFor(() => expect(change).toContain('entry changed:'), { timeout: 2000 });
+    await waitFor(() => expect(change).toContain('entry changed'), { timeout: 2000 });
 
     // Act
     fs.unlinkSync(path.join(cwd, 'test3.html'));

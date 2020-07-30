@@ -18,11 +18,12 @@ export function observeAppEntryChange({ appDir, current }: Params): Observable<s
         current.map(({ name }) => name).join('') !== next.map(({ name }) => name).join('')
       ) {
         const message: string[] = [
-          `entry changed:`,
-          `  current: ${current.map(({ name }) => name).join(', ')}`,
-          `  changed: ${next.map(({ name }) => name).join(', ')}`,
+          `entry changed : `,
+          current.map(({ name }) => name).join(', '),
+          ` > `,
+          next.map(({ name }) => name).join(', '),
         ];
-        subscriber.next(message.join('\n'));
+        subscriber.next(message.join(''));
       } else {
         subscriber.next(null);
       }

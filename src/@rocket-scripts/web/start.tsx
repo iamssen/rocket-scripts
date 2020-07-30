@@ -6,11 +6,15 @@ import getPort from 'get-port';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Configuration as WebpackConfiguration, DefinePlugin } from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 import { merge as webpackMerge } from 'webpack-merge';
 import { getAppEntry } from './utils/getAppEntry';
 import { getProxyConfig } from './utils/getProxyConfig';
+import { observeAppEntryChange } from './utils/observeAppEntryChange';
+import { observeProxyConfigChange } from './utils/observeProxyConfigChange';
 
 export interface StartPrams
   extends Omit<DevServerStartParams, 'port' | 'hostname' | 'devServerConfig' | 'webpackConfig'> {
@@ -148,6 +152,13 @@ export async function start({
     proxy: proxyConfig,
   };
 
+  const restartAlarm: Observable<string[]> = combineLatest([
+    observeAppEntryChange({ appDir, current: entry }),
+    observeProxyConfigChange({ cwd, current: proxyConfig }),
+  ]).pipe(
+    map<(string | null)[], string[]>((changes) => changes.filter((change): change is string => !!change)),
+  );
+
   const startParams: DevServerStartParams = {
     header: rocketTitle,
     hostname,
@@ -158,6 +169,7 @@ export async function start({
     logfile,
     stdout,
     stdin,
+    restartAlarm,
   };
 
   const close = await devServerStart(startParams);

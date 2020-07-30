@@ -14,7 +14,7 @@ export interface DevServerUIProps {
   cwd: string;
   logfile: string;
   proxyMessage?: Observable<TimeMessage[]>;
-  restartAlram?: Observable<string[]>;
+  restartAlarm?: Observable<string[]>;
 }
 
 export function DevServerUI({
@@ -23,7 +23,7 @@ export function DevServerUI({
   cwd,
   logfile,
   proxyMessage,
-  restartAlram,
+  restartAlarm,
 }: DevServerUIProps) {
   const [status, setStatus] = useState<DevServerStatus>(DevServerStatus.STARTING);
   const [webpackStats, setWebpackStats] = useState<WebpackStats>({ status: 'waiting' });
@@ -41,8 +41,8 @@ export function DevServerUI({
   }, [devServer]);
 
   useEffect(() => {
-    if (restartAlram) {
-      const subscription = restartAlram.subscribe((next) => {
+    if (restartAlarm) {
+      const subscription = restartAlarm.subscribe((next) => {
         if (next.some((message) => !!message)) {
           setRestartMessages(next.filter((message) => !!message));
         } else {
@@ -56,7 +56,7 @@ export function DevServerUI({
     } else {
       setRestartMessages(null);
     }
-  }, [restartAlram]);
+  }, [restartAlarm]);
 
   useEffect(() => {
     if (proxyMessage) {
@@ -129,11 +129,11 @@ export function DevServerUI({
 
       {restartMessages && restartMessages.length > 0 && (
         <>
-          <Divider bold color="magenta">
+          <Divider bold color="green">
             Restart server!
           </Divider>
           {restartMessages.map((message) => (
-            <Text key={message} color="magenta">
+            <Text key={message} color="green">
               {message}
             </Text>
           ))}

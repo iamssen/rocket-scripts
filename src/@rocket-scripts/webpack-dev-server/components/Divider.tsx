@@ -25,7 +25,6 @@ export function Divider({
         {'\n'}
         {delimiter.repeat(indent)}
         {(' ' + children + ' ').padEnd(width, delimiter)}
-        {'\n'}
       </Text>
     </>
   );

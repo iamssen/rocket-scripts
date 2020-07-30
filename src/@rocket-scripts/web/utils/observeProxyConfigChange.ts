@@ -20,12 +20,7 @@ export function observeProxyConfigChange({ cwd, current }: Params): Observable<s
       const nextString: string = JSON.stringify(next);
 
       if (currentString !== nextString) {
-        const message: string[] = [
-          `proxy config changed:`,
-          `  current: ${currentString}`,
-          `  changed: ${nextString}`,
-        ];
-        subscriber.next(message.join('`\n'));
+        subscriber.next(`proxy config changed`);
       } else {
         subscriber.next(null);
       }

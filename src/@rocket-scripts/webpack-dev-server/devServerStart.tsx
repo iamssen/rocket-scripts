@@ -2,7 +2,7 @@ import { patchConsole } from '@ssen/patch-console';
 import fs from 'fs';
 import { render } from 'ink';
 import React from 'react';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import tmp from 'tmp';
 import { ProxyConfigArray, ProxyConfigMap } from 'webpack-dev-server';
 import { merge } from 'webpack-merge';
@@ -17,6 +17,7 @@ export interface DevServerStartParams extends DevServerParams {
   header?: string;
   cwd?: string;
   logfile?: string;
+  restartAlarm?: Observable<string[]>;
 }
 
 export async function devServerStart({
@@ -29,6 +30,7 @@ export async function devServerStart({
   hostname,
   webpackConfig,
   devServerConfig,
+  restartAlarm,
 }: DevServerStartParams): Promise<() => Promise<void>> {
   console.clear();
   const stream: NodeJS.WritableStream = fs.createWriteStream(logfile);
@@ -61,6 +63,7 @@ export async function devServerStart({
       cwd={cwd}
       proxyMessage={proxySubject}
       logfile={logfile}
+      restartAlarm={restartAlarm}
     />,
     {
       stdout,
