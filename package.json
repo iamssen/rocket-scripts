@@ -12,6 +12,7 @@
     "format": "prettier --write \"src/{**/*,*}/*.{ts,tsx}\"",
     "lint": "eslint \"src/{**/*,*}/*.{ts,tsx}\"",
     "test-run:start": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.run.ts",
+    "test-run:proxy:start": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.proxy.run.ts",
     "test-run:build": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/build.run.ts"
   },
   "husky": {
@@ -50,6 +51,7 @@
     "@ssen/require-typescript": "^1.3.4",
     "@ssen/tmp-directory": "^1.3.4",
     "@svgr/webpack": "^5.2.0",
+    "@testing-library/dom": "^7.21.6",
     "@testing-library/react-hooks": "^3.4.1",
     "@types/anymatch": "^1.3.1",
     "@types/babel__core": "^7.1.9",
@@ -107,6 +109,7 @@
     "chalk": "^4.1.0",
     "chokidar": "^3.4.1",
     "css-loader": "^4.0.0",
+    "date-fns": "^2.15.0",
     "escape-string-regexp": "^4.0.0",
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.10.1",
@@ -117,7 +120,7 @@
     "get-port": "^5.1.1",
     "glob": "^7.1.6",
     "html-webpack-plugin": "^4.0.2",
-    "http-proxy-middleware": "^1.0.5",
+    "http-proxy-middleware": "^0.19.1",
     "husky": "^4.2.3",
     "ink": "^3.0.0",
     "ink-testing-library": "^2.0.1",

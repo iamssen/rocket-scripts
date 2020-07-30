@@ -2,24 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 
 function App() {
-  const [repositories, setRepositories] = useState<{ full_name: string }[] | null>(null);
+  const [result, setResult] = useState<object | null>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     fetch(`/api/users/iamssen/repos`)
       .then((res) => res.json())
-      .then(setRepositories);
+      .then(setResult)
+      .catch((error) => setError(error));
   }, []);
 
   return (
-    <pre>
-      <code>
-        {JSON.stringify(
-          repositories?.map(({ full_name }) => full_name),
-          null,
-          2,
-        )}
-      </code>
-    </pre>
+    <>
+      {result && (
+        <pre>
+          <code>{JSON.stringify(result, null, 2)}</code>
+        </pre>
+      )}
+      {error && <div>{error.toString()}</div>}
+    </>
   );
 }
 

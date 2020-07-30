@@ -1,12 +1,10 @@
 import fs from 'fs-extra';
-import { Options as HttpProxyMiddlewareOptions } from 'http-proxy-middleware';
 import path from 'path';
+import { ProxyConfigArray, ProxyConfigMap } from 'webpack-dev-server';
 
-const selector = (object) => object?.proxy;
+export const selector = (object) => object?.proxy;
 
-export type ProxyConfig = { [uri: string]: HttpProxyMiddlewareOptions };
-
-export function getProxyConfig(cwd: string): ProxyConfig | undefined {
+export function getProxyConfig(cwd: string): ProxyConfigMap | ProxyConfigArray | undefined {
   try {
     const object = fs.readJsonSync(path.join(cwd, 'package.json'));
     return selector(object);

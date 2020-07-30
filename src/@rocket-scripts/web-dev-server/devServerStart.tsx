@@ -1,8 +1,13 @@
+import { TimeMessage } from '@rocket-scripts/web-dev-server/types';
+import { patchProxyLogger } from '@rocket-scripts/web-dev-server/utils/patchProxyLogger';
 import { patchConsole } from '@ssen/patch-console';
+import { exec } from 'child_process';
 import fs from 'fs';
 import { render } from 'ink';
 import React from 'react';
+import { BehaviorSubject, Subject } from 'rxjs';
 import tmp from 'tmp';
+import { ProxyConfigArray, ProxyConfigMap } from 'webpack-dev-server';
 import { merge } from 'webpack-merge';
 import { DevServer, DevServerParams } from './DevServer';
 import { DevServerUI } from './DevServerUI';
@@ -30,6 +35,13 @@ export async function devServerStart({
   const stream: NodeJS.WritableStream = fs.createWriteStream(logfile);
   const restoreConsole = patchConsole({ stdout: stream, stderr: stream, colorMode: false });
 
+  let proxyConfig: ProxyConfigMap | ProxyConfigArray | undefined = undefined;
+  let proxySubject: Subject<TimeMessage[]> | undefined = undefined;
+  if (devServerConfig.proxy) {
+    proxySubject = new BehaviorSubject<TimeMessage[]>([]);
+    proxyConfig = patchProxyLogger({ proxyConfig: devServerConfig.proxy, subject: proxySubject });
+  }
+
   const server: DevServer = new DevServer({
     port,
     hostname,
@@ -39,14 +51,24 @@ export async function devServerStart({
     devServerConfig: {
       ...devServerConfig,
       // TODO
+      proxy: proxyConfig,
     },
   });
 
-  const { unmount } = render(<DevServerUI header={header} devServer={server} cwd={cwd} logfile={logfile} />, {
-    stdout,
-    stdin,
-    patchConsole: false,
-  });
+  const { unmount } = render(
+    <DevServerUI
+      header={header}
+      devServer={server}
+      cwd={cwd}
+      proxyMessage={proxySubject}
+      logfile={logfile}
+    />,
+    {
+      stdout,
+      stdin,
+      patchConsole: false,
+    },
+  );
 
   await server.waitUntilStart();
 
@@ -54,6 +76,7 @@ export async function devServerStart({
     server.close();
     await server.waitUntilClose();
     unmount();
+    if (proxySubject) proxySubject.unsubscribe();
     restoreConsole();
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };

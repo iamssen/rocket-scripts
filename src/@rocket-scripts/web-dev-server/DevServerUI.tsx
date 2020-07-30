@@ -1,22 +1,34 @@
-import { Divider } from '@rocket-scripts/web-dev-server/components/Divider';
 import { exec } from 'child_process';
+import { format } from 'date-fns';
 import { Text, useInput } from 'ink';
 import React, { useEffect, useMemo, useState } from 'react';
+import { Observable } from 'rxjs';
+import { Divider } from './components/Divider';
 import { PadText } from './components/PadText';
 import { DevServer } from './DevServer';
-import { DevServerStatus, WebpackStats } from './types';
+import { DevServerStatus, TimeMessage, WebpackStats } from './types';
 
 export interface DevServerUIProps {
   header?: string;
   devServer: DevServer;
   cwd: string;
   logfile: string;
+  proxyMessage?: Observable<TimeMessage[]>;
+  restartAlram?: Observable<string[]>;
 }
 
-export function DevServerUI({ header, devServer, cwd, logfile }: DevServerUIProps) {
+export function DevServerUI({
+  header,
+  devServer,
+  cwd,
+  logfile,
+  proxyMessage,
+  restartAlram,
+}: DevServerUIProps) {
   const [status, setStatus] = useState<DevServerStatus>(DevServerStatus.STARTING);
   const [webpackStats, setWebpackStats] = useState<WebpackStats>({ status: 'waiting' });
-  const [showDetails, setShowDetails] = useState<boolean>(true);
+  const [restartMessages, setRestartMessages] = useState<string[] | null>(null);
+  const [proxyMessages, setProxyMessages] = useState<TimeMessage[]>([]);
 
   useEffect(() => {
     const statusSubscription = devServer.status().subscribe(setStatus);
@@ -27,6 +39,36 @@ export function DevServerUI({ header, devServer, cwd, logfile }: DevServerUIProp
       webpackStatsSubscription.unsubscribe();
     };
   }, [devServer]);
+
+  useEffect(() => {
+    if (restartAlram) {
+      const subscription = restartAlram.subscribe((next) => {
+        if (next.some((message) => !!message)) {
+          setRestartMessages(next.filter((message) => !!message));
+        } else {
+          setRestartMessages(null);
+        }
+      });
+
+      return () => {
+        subscription.unsubscribe();
+      };
+    } else {
+      setRestartMessages(null);
+    }
+  }, [restartAlram]);
+
+  useEffect(() => {
+    if (proxyMessage) {
+      const subscription = proxyMessage.subscribe((messages) => {
+        setProxyMessages(messages);
+      });
+
+      return () => {
+        subscription.unsubscribe();
+      };
+    }
+  }, [proxyMessage]);
 
   const webpackStatsJson = useMemo(() => {
     return webpackStats.status === 'done'
@@ -39,11 +81,8 @@ export function DevServerUI({ header, devServer, cwd, logfile }: DevServerUIProp
       : null;
   }, [webpackStats]);
 
-  useInput((input, key) => {
+  useInput((input) => {
     switch (input) {
-      case 'd':
-        setShowDetails((prev) => !prev);
-        break;
       case 'l':
         exec(`code ${logfile}`);
         break;
@@ -65,7 +104,7 @@ export function DevServerUI({ header, devServer, cwd, logfile }: DevServerUIProp
       </PadText>
 
       <PadText title="Keys" color="blueBright">
-        (d) Toggle Details (l) Open log with `code` (p) Open project with `code` (q) Quit
+        (l) Open log with `code` (p) Open project with `code` (q) Quit
       </PadText>
 
       <PadText title="Server" color="blueBright">
@@ -78,15 +117,28 @@ export function DevServerUI({ header, devServer, cwd, logfile }: DevServerUIProp
           : 'DevServer Closed.'}
       </PadText>
 
-      <Divider>
+      <Divider delimiter="=">
         {webpackStats.status === 'waiting'
-          ? 'Server Stating'
+          ? 'Server Stating...'
           : webpackStats.status === 'invalid'
-          ? 'Compiling'
+          ? 'Compiling...'
           : webpackStatsJson
           ? `Compiled (${webpackStatsJson.time}ms)`
-          : '?'}
+          : '?? Unknown Webpack Status ??'}
       </Divider>
+
+      {restartMessages && restartMessages.length > 0 && (
+        <>
+          <Divider bold color="magenta">
+            Restart server!
+          </Divider>
+          {restartMessages.map((message) => (
+            <Text key={message} color="magenta">
+              {message}
+            </Text>
+          ))}
+        </>
+      )}
 
       {webpackStatsJson && webpackStatsJson.errors.length > 0 && (
         <>
@@ -111,6 +163,24 @@ export function DevServerUI({ header, devServer, cwd, logfile }: DevServerUIProp
               {text}
             </Text>
           ))}
+        </>
+      )}
+
+      {proxyMessages.length > 0 && (
+        <>
+          <Divider bold>Proxy</Divider>
+          {proxyMessages
+            .slice()
+            .reverse()
+            .map(({ message, level, time }, i) => (
+              <Text
+                key={message + time}
+                color={level === 'error' ? 'red' : level === 'warn' ? 'yellow' : undefined}
+                dimColor={i > 3}
+              >
+                [{format(new Date(time), 'hh:mm:ss')}] {message}
+              </Text>
+            ))}
         </>
       )}
     </>

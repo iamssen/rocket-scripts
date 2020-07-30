@@ -8,17 +8,25 @@ export interface DividerProps extends Omit<TextProps, 'children' | 'color' | 'ba
   width?: number;
   color?: typeof ForegroundColor;
   backgroundColor?: typeof BackgroundColor;
+  delimiter?: string;
 }
 
 export function Divider({
   indent = 1,
   children,
   width = process.stdout.columns - 9,
+  delimiter = '-',
   ...textProps
 }: DividerProps) {
   return (
     <>
-      <Text {...textProps}> {`\n${'='.repeat(indent)}${(' ' + children + ' ').padEnd(width, '=')}\n`}</Text>
+      <Text {...textProps}>
+        {' '}
+        {'\n'}
+        {delimiter.repeat(indent)}
+        {(' ' + children + ' ').padEnd(width, delimiter)}
+        {'\n'}
+      </Text>
     </>
   );
 }

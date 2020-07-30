@@ -15,3 +15,9 @@ export type WebpackStats =
       status: 'done';
       statsData: Stats;
     };
+
+export type TimeMessage = {
+  time: number;
+  level: 'log' | 'info' | 'warn' | 'debug' | 'error';
+  message: string;
+};
