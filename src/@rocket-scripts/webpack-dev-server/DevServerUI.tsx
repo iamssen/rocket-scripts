@@ -108,9 +108,11 @@ export function DevServerUI({
         {logfile}
       </PadText>
 
-      <PadText title="Keys" color="blueBright">
-        (l) Open log with `code` (p) Open project with `code` (q) Quit
-      </PadText>
+      {isRawModeSupported === true && (
+        <PadText title="Keys" color="blueBright">
+          (l) Open log with `code` (p) Open project with `code` (q) Quit
+        </PadText>
+      )}
 
       <PadText title="Server" color="blueBright">
         {status === DevServerStatus.STARTING

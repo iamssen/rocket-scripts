@@ -16,14 +16,14 @@ echo "LOCAL_REGISTRY_URL=$LOCAL_REGISTRY_URL";
 function stopTestServer() {
   PID=$(lsof -t -i:$TEST_SERVER_PORT); # kill test server
   if [[ $PID =~ ^[0-9]+$ ]] ; then
-    kill -9 $PID;
+    kill -9 "$PID";
   fi
 }
 
 function stopLocalRegistry {
   PID=$(lsof -t -i:$VERDACCIO_PORT); # kill verdaccio
   if [[ $PID =~ ^[0-9]+$ ]] ; then
-    kill -9 $PID;
+    kill -9 "$PID";
   fi
   rm -rf "$ROOT/test/storage"; # clean verdaccio storage
 }
@@ -123,7 +123,7 @@ sleep 15s;
 is200 "http://localhost:$TEST_SERVER_PORT";
 is200 "http://localhost:$TEST_SERVER_PORT/manifest.json";
 is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
-is200 "http://localhost:$TEST_SERVER_PORT/api/users/iamssen/repos";
+is200 "http://localhost:$TEST_SERVER_PORT/api/frontend-fixtures/package.json";
 stopTestServer;
 
 

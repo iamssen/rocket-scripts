@@ -3,13 +3,11 @@ import { render } from 'react-dom';
 
 function App() {
   const [result, setResult] = useState<object | null>(null);
-  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    fetch(`/api/users/iamssen/repos`)
+    fetch(`/api/frontend-fixtures/package.json`)
       .then((res) => res.json())
-      .then(setResult)
-      .catch((error) => setError(error));
+      .then(setResult);
   }, []);
 
   return (
@@ -19,7 +17,6 @@ function App() {
           <code>{JSON.stringify(result, null, 2)}</code>
         </pre>
       )}
-      {error && <div>{error.toString()}</div>}
     </>
   );
 }

@@ -168,7 +168,7 @@ describe('start()', () => {
     await timeout(1000 * 5);
 
     // Assert
-    const api = await fetch(`http://localhost:${port}/api/users/iamssen/repos`);
+    const api = await fetch(`http://localhost:${port}/api/frontend-fixtures/package.json`);
     expect(api.status).toBeLessThan(299);
 
     // Arrange : server close
