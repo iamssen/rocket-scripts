@@ -1,6 +1,6 @@
 import { exec } from 'child_process';
 import { format } from 'date-fns';
-import { Text, useInput } from 'ink';
+import { Text, useInput, useStdin } from 'ink';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Observable } from 'rxjs';
 import { Divider } from './components/Divider';
@@ -81,19 +81,24 @@ export function DevServerUI({
       : null;
   }, [webpackStats]);
 
-  useInput((input) => {
-    switch (input) {
-      case 'l':
-        exec(`code ${logfile}`);
-        break;
-      case 'p':
-        exec(`code ${cwd}`);
-        break;
-      case 'q':
-        process.exit();
-        break;
-    }
-  });
+  const { isRawModeSupported } = useStdin();
+
+  useInput(
+    (input) => {
+      switch (input) {
+        case 'l':
+          exec(`code ${logfile}`);
+          break;
+        case 'p':
+          exec(`code ${cwd}`);
+          break;
+        case 'q':
+          process.exit();
+          break;
+      }
+    },
+    { isActive: isRawModeSupported === true },
+  );
 
   return (
     <>
