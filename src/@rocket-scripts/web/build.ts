@@ -152,6 +152,9 @@ export async function build({
                 annotation: true,
               },
             },
+            cssProcessorPluginOptions: {
+              preset: ['default', { minifyFontValues: { removeQuotes: false } }],
+            },
           }),
         ],
 
@@ -215,19 +218,22 @@ export async function build({
 
   const compiler: Compiler = webpack(webpackConfig);
 
-  compiler.run((error: Error, stats: Stats) => {
-    if (error) {
-      console.error(error);
-    } else {
-      console.log(
-        stats.toString(
-          typeof webpackConfig.stats === 'object'
-            ? {
-                colors: true,
-              }
-            : webpackConfig.stats ?? { colors: true },
-        ),
-      );
-    }
+  await new Promise((resolve, reject) => {
+    compiler.run((error: Error, stats: Stats) => {
+      if (error) {
+        reject(error);
+      } else {
+        console.log(
+          stats.toString(
+            typeof webpackConfig.stats === 'object'
+              ? {
+                  colors: true,
+                }
+              : webpackConfig.stats ?? { colors: true },
+          ),
+        );
+        resolve();
+      }
+    });
   });
 }
