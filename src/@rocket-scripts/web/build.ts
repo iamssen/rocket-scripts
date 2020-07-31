@@ -26,11 +26,11 @@ export interface BuildParams {
   outDir?: string;
   tsconfig?: string;
   staticFileDirectories?: string[];
+  webpackConfig?: string | WebpackConfiguration;
 
   // api
   cwd: string;
   devtool?: WebpackOptions.Devtool;
-  externals?: string[];
   env?: NodeJS.ProcessEnv;
 }
 
@@ -40,9 +40,9 @@ export async function build({
   devtool = 'source-map',
   outDir: _outDir = '{cwd}/out/{app}',
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
-  externals = [],
   env = {},
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
+  webpackConfig: _webpackConfig,
 }: BuildParams) {
   const outDir: string = icuFormat(_outDir, { cwd, app });
   const staticFileDirectories: string[] = _staticFileDirectories.map((dir) => icuFormat(dir, { cwd, app }));
@@ -52,6 +52,12 @@ export async function build({
   const entry = getAppEntry({ appDir });
   const publicPath: string = '';
   const chunkPath: string = '';
+
+  const userWebpackConfig: WebpackConfiguration | {} =
+    typeof _webpackConfig === 'string'
+      ? require(icuFormat(_webpackConfig, { cwd, app }))
+      : _webpackConfig ?? {};
+
   const reactAppEnv: NodeJS.ProcessEnv = Object.keys(env)
     .filter((key) => /^REACT_APP_/i.test(key))
     .reduce((e, key) => {
@@ -79,6 +85,7 @@ export async function build({
   };
 
   const webpackConfig: WebpackConfiguration = webpackMerge(
+    userWebpackConfig,
     webpackReactConfig({
       chunkPath,
       publicPath,

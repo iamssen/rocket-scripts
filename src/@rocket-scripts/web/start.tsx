@@ -5,6 +5,7 @@ import { observeAliasChange } from '@rocket-scripts/web/utils/observeAliasChange
 import { devServerStart, DevServerStartParams } from '@ssen/webpack-dev-server';
 import getPort from 'get-port';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import https from 'https';
 import path from 'path';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { combineLatest, Observable } from 'rxjs';
@@ -23,13 +24,13 @@ export interface StartParams
   app: string;
   port?: 'random' | number;
   hostname?: string;
-  https?: boolean | { key: string; cert: string };
+  https?: boolean | https.ServerOptions;
   tsconfig?: string;
   staticFileDirectories?: string[];
+  webpackConfig?: string | WebpackConfiguration;
 
   // api
   cwd: string;
-  externals?: string[];
   env?: NodeJS.ProcessEnv;
   stdout?: NodeJS.WriteStream;
   stdin?: NodeJS.ReadStream;
@@ -45,13 +46,13 @@ export async function start({
   port: _port = 'random',
   hostname = 'localhost',
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
-  externals = [],
-  https = false,
+  https,
   env = {},
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
   stdout = process.stdout,
   stdin = process.stdin,
   logfile,
+  webpackConfig: _webpackConfig,
 }: StartParams): Promise<Start> {
   console.log('Start Server...');
   const port: number =
@@ -63,6 +64,12 @@ export async function start({
   const entry = getAppEntry({ appDir });
   const publicPath: string = '';
   const chunkPath: string = '';
+
+  const userWebpackConfig: WebpackConfiguration | {} =
+    typeof _webpackConfig === 'string'
+      ? require(icuFormat(_webpackConfig, { cwd, app }))
+      : _webpackConfig ?? {};
+
   const reactAppEnv: NodeJS.ProcessEnv = Object.keys(env)
     .filter((key) => /^REACT_APP_/i.test(key))
     .reduce((e, key) => {
@@ -90,6 +97,7 @@ export async function start({
   };
 
   const webpackConfig: WebpackConfiguration = webpackMerge(
+    userWebpackConfig,
     webpackReactConfig({
       chunkPath,
       publicPath,
@@ -151,6 +159,7 @@ export async function start({
       colors: false,
     },
     proxy: proxyConfig,
+    https,
   };
 
   const restartAlarm: Observable<string[]> = combineLatest([

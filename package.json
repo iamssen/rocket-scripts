@@ -13,7 +13,10 @@
     "lint": "eslint \"src/{**/*,*}/*.{ts,tsx}\"",
     "test-run:start": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.run.ts",
     "test-run:proxy:start": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.proxy.run.ts",
-    "test-run:build": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/build.run.ts"
+    "test-run:https:start": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.https.run.ts",
+    "test-run:webpack:start": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.webpack.run.ts",
+    "test-run:build": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/build.run.ts",
+    "test-run:webpack:build": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/build.webpack.run.ts"
   },
   "husky": {
     "hooks": {

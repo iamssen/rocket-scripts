@@ -21,6 +21,7 @@ type WebCommonArgs = {
   staticFileDirectories?: string;
   tsconfig?: string;
   app?: string;
+  webpackConfig?: string;
 };
 
 const webCommonApp: [string, PositionalOptions] = [
@@ -42,6 +43,11 @@ const webCommonOptions: Options = {
     type: 'string',
     alias: 't',
     describe: 'tsconfig file name (e.g. --tsconfig "tsconfig.dev.json")',
+  },
+  'webpack-config': {
+    type: 'string',
+    alias: 'w',
+    describe: 'base webpack config (e.g. --webpack-config "{cwd}/webpack.config.js")',
   },
 };
 
@@ -110,6 +116,7 @@ export function run() {
         https,
         httpsCert,
         httpsKey,
+        webpackConfig,
       }: Arguments<CommonArgs & WebCommonArgs & WebStartArgs>) => {
         if (!app) {
           console.error('<app> is required');
@@ -124,6 +131,7 @@ export function run() {
             httpsCert && httpsKey ? { cert: httpsCert, key: httpsKey } : https === true ? true : undefined,
           tsconfig,
           staticFileDirectories: staticFileDirectories?.split(' '),
+          webpackConfig,
           cwd,
         };
         if (emit) {
@@ -148,6 +156,7 @@ export function run() {
         tsconfig,
         staticFileDirectories,
         outDir,
+        webpackConfig,
       }: Arguments<CommonArgs & WebCommonArgs & WebBuildArgs>) => {
         if (!app) {
           console.error('<app> is required');
@@ -159,6 +168,7 @@ export function run() {
           outDir,
           tsconfig,
           staticFileDirectories: staticFileDirectories?.split(' '),
+          webpackConfig,
           cwd,
         };
         if (emit) {

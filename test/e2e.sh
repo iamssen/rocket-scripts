@@ -108,6 +108,15 @@ is200 "http://localhost:$TEST_SERVER_PORT/manifest.json";
 is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
 stopTestServer;
 
+
+createTmpFixture web/webpack-config;
+(npx rocket-scripts web/start app --port --webpack-config "{cwd}/webpack.config.js" $TEST_SERVER_PORT &> log.txt &);
+sleep 15s;
+is200 "http://localhost:$TEST_SERVER_PORT";
+is200 "http://localhost:$TEST_SERVER_PORT/manifest.json";
+is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
+stopTestServer;
+
 createTmpFixture web/static-file-directories;
 (npx rocket-scripts web/start app --port $TEST_SERVER_PORT --static-file-directories "{cwd}/static {cwd}/public" &> log.txt &);
 sleep 15s;
