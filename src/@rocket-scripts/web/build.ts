@@ -24,14 +24,14 @@ export interface BuildParams {
   // cli
   app: string;
   outDir?: string;
+  tsconfig?: string;
+  staticFileDirectories?: string[];
 
   // api
   cwd: string;
   devtool?: WebpackOptions.Devtool;
-  staticFileDirectories?: string[];
   externals?: string[];
   env?: NodeJS.ProcessEnv;
-  tsconfig?: string;
 }
 
 export async function build({

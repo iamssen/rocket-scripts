@@ -1,82 +1,181 @@
-import { start as webStart } from '@rocket-scripts/web/commands';
-import fs from 'fs';
-import path from 'path';
-import yargs from 'yargs';
+import { build, BuildParams, start, StartParams } from '@rocket-scripts/web';
+import yargs, { Arguments, Argv, PositionalOptions } from 'yargs';
 
 const cwd: string = process.cwd();
 
-// TODO env -> args 로 변경
+type Options = Parameters<Argv['options']>[0];
+
+type CommonArgs = {
+  emit?: boolean;
+};
+
+const commonOptions: Options = {
+  emit: {
+    type: 'boolean',
+    default: true,
+    describe: 'if you set this false it will only print options without run (e.g. --no-emit or --emit false)',
+  },
+};
+
+type WebCommonArgs = {
+  staticFileDirectories?: string;
+  tsconfig?: string;
+  app?: string;
+};
+
+const webCommonApp: [string, PositionalOptions] = [
+  'app',
+  {
+    type: 'string',
+    describe:
+      'target directory name (e.g. "rocket-scripts web/start app" if you want run "/src/app" directory)',
+  },
+];
+
+const webCommonOptions: Options = {
+  'static-file-directories': {
+    type: 'string',
+    alias: 'f',
+    describe: 'static files (e.g. --static-file-directories "{cwd}/public {cwd}/static")',
+  },
+  tsconfig: {
+    type: 'string',
+    alias: 't',
+    describe: 'tsconfig file name (e.g. --tsconfig "tsconfig.dev.json")',
+  },
+};
+
+type WebStartArgs = {
+  port?: number | 'random';
+  hostname?: string;
+  https?: boolean;
+  httpsCert?: string;
+  httpsKey?: string;
+};
+
+const webStartOptions: Options = {
+  port: {
+    type: 'number',
+    alias: 'p',
+    describe: 'server port (e.g. --port 8000)',
+  },
+  hostname: {
+    type: 'string',
+    describe: 'server hostname (e.g. --hostname localhost)',
+  },
+  https: {
+    type: 'boolean',
+    describe: 'if true the web server will start with https (e.g. --https)',
+  },
+  'https-cert': {
+    type: 'string',
+    describe: 'certification file location (e.g. --https-cert /path/to/cert.pem)',
+  },
+  'https-key': {
+    type: 'string',
+    describe: 'key file location (e.g. --https-key /path/to/key.pem)',
+  },
+};
+
+type WebBuildArgs = {
+  outDir?: string;
+};
+
+const webBuildOptions: Options = {
+  'out-dir': {
+    type: 'string',
+    alias: 'o',
+    describe: 'output directory (e.g. --out-dir "{cwd}/out")',
+  },
+};
+
 export function run() {
-  return (
-    yargs
-      .command('web <build|start> [app]', 'Webapp', (yargs) => {
-        const [, command, app] = yargs.argv._;
-
-        let error: string | null = null;
-
-        if (!command) {
-          error = `⚠️ <build|start> is required`;
-        } else if (command !== 'build' && command !== 'start') {
-          error = `⚠️ <build|start> must be "build" or "start"`;
-        } else if (!app) {
-          error = `⚠️ [app] is required`;
-        } else if (!fs.existsSync(path.join(cwd, 'src', app)) || !fs.statSync(path.join(cwd, 'src', app))) {
-          error = `⚠️ "${path.join(cwd, 'src', app)}" is undefined`;
+  return yargs
+    .command({
+      command: 'web/start <app>',
+      describe: 'start development server',
+      builder: (yargs) =>
+        yargs.positional(...webCommonApp).options({
+          ...webStartOptions,
+          ...webCommonOptions,
+          ...commonOptions,
+        }),
+      handler: ({
+        app,
+        emit,
+        tsconfig,
+        staticFileDirectories,
+        port,
+        hostname,
+        https,
+        httpsCert,
+        httpsKey,
+      }: Arguments<CommonArgs & WebCommonArgs & WebStartArgs>) => {
+        if (!app) {
+          console.error('<app> is required');
+          yargs.showHelp('error');
+          return;
         }
-
-        yargs.positional('app', {
-          describe: 'Directory name of src/[app]',
-          type: 'string',
-        });
-
-        yargs.command('build [app]', 'Build webapp', (yargs) => {
-          if (!error) {
-            console.log('index.ts..() build app', yargs.argv, process.env);
-          }
-        });
-
-        yargs.command('start [app]', 'Build webapp', () => {
-          if (!error) {
-            webStart({
-              cwd: process.cwd(),
-              commands: [app],
-              env: process.env,
-            });
-          }
-        });
-
-        if (error) {
-          yargs.showHelp();
-          console.log('');
-          console.error(error);
+        const params: StartParams = {
+          app: 'app',
+          port,
+          hostname,
+          https:
+            httpsCert && httpsKey ? { cert: httpsCert, key: httpsKey } : https === true ? true : undefined,
+          tsconfig,
+          staticFileDirectories: staticFileDirectories?.split(' '),
+          cwd,
+        };
+        if (emit) {
+          start(params);
+        } else {
+          console.log(params);
         }
-      })
-      .demandCommand()
-      .example('PORT=<auto|number> $0 web start [app]', 'Set dev server port (default=auto)')
-      .example(
-        'STATIC_FILE_DIRECTORIES="{cwd}/public {cwd}/static" $0 web <build|start> [app]',
-        'Set static file directories (default="{cwd}/public")',
-      )
-      // TODO remove
-      .example('PUBLIC_PATH="" $0 web <build|start> [app]', 'Set webpack publicPath (default="")')
-      // TODO remove
-      .example('CHUNK_PATH="" $0 web <build|start> [app]', 'Set webpack chunkPath (default="")')
-      // TODO remove
-      .example('SOURCE_MAP="" $0 web <build|start> [app]', 'Set webpack publicPath (default="")')
-      .example('HTTPS=true $0 web start [app]', 'Run dev server to SSL (default=false)')
-      .example(
-        'HTTPS_KEY=/path/private.pem HTTPS_CERT=/path/key.pem $0 web start [app]',
-        'Run dev server to SSL with specific certifications',
-      )
-      // TODO remove
-      .example(
-        'TSCONFIG="{cwd}/tsconfig.build.json" $0 web <build|start> [app]',
-        'Using another tsconfig (default="{cwd}/tsconfig.json")',
-      )
-      .example('OUT_DIR=/directory $0 web build [app]', 'Build a webapp to specific directory')
-      .wrap(yargs.terminalWidth())
-      .help('h')
-      .alias('h', 'help')
-      .epilog('🚀 Rocket Scripts!').argv
-  );
+      },
+    })
+    .command({
+      command: 'web/build <app>',
+      describe: 'build production',
+      builder: (yargs) =>
+        yargs.positional(...webCommonApp).options({
+          ...webBuildOptions,
+          ...webCommonOptions,
+          ...commonOptions,
+        }),
+      handler: ({
+        app,
+        emit,
+        tsconfig,
+        staticFileDirectories,
+        outDir,
+      }: Arguments<CommonArgs & WebCommonArgs & WebBuildArgs>) => {
+        if (!app) {
+          console.error('<app> is required');
+          yargs.showHelp('error');
+          return;
+        }
+        const params: BuildParams = {
+          app,
+          outDir,
+          tsconfig,
+          staticFileDirectories: staticFileDirectories?.split(' '),
+          cwd,
+        };
+        if (emit) {
+          build(params);
+        } else {
+          console.log(params);
+        }
+      },
+    })
+    .wrap(null)
+    .help('h')
+    .alias('h', 'help')
+    .showHelpOnFail(true)
+    .demandCommand()
+    .recommendCommands()
+    .strict()
+    .epilog('🚀 Rocket Scripts!').argv;
 }
+
+run();

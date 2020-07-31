@@ -17,20 +17,20 @@ import { getProxyConfig } from './utils/getProxyConfig';
 import { observeAppEntryChange } from './utils/observeAppEntryChange';
 import { observeProxyConfigChange } from './utils/observeProxyConfigChange';
 
-export interface StartPrams
+export interface StartParams
   extends Omit<DevServerStartParams, 'port' | 'hostname' | 'devServerConfig' | 'webpackConfig'> {
   // cli
   app: string;
   port?: 'random' | number;
+  hostname?: string;
   https?: boolean | { key: string; cert: string };
+  tsconfig?: string;
+  staticFileDirectories?: string[];
 
   // api
-  hostname?: string;
   cwd: string;
-  staticFileDirectories?: string[];
   externals?: string[];
   env?: NodeJS.ProcessEnv;
-  tsconfig?: string;
   stdout?: NodeJS.WriteStream;
   stdin?: NodeJS.ReadStream;
 }
@@ -52,7 +52,7 @@ export async function start({
   stdout = process.stdout,
   stdin = process.stdin,
   logfile,
-}: StartPrams): Promise<Start> {
+}: StartParams): Promise<Start> {
   console.log('Start Server...');
   const port: number =
     typeof _port === 'number' ? _port : await getPort({ port: getPort.makeRange(8000, 9999) });
