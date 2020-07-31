@@ -1,4 +1,4 @@
-import { start } from '@rocket-scripts/web/start';
+import { start } from '@rocket-scripts/web';
 import { createInkWriteStream } from '@ssen/ink-helpers';
 import { exec } from '@ssen/promised';
 import { copyTmpDirectory } from '@ssen/tmp-directory';
@@ -8,7 +8,7 @@ import puppeteer, { Browser, Page } from 'puppeteer';
 
 const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
 
-describe('start()', () => {
+describe('web/start', () => {
   let browser: Browser;
   let page: Page;
 
@@ -47,6 +47,7 @@ describe('start()', () => {
         app,
         https: false,
         stdout,
+        webpackConfig: dir === 'webpack-config' ? '{cwd}/webpack.config.js' : undefined,
       });
 
       await timeout(1000 * 5);
