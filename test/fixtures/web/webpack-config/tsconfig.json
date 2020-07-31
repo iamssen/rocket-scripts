@@ -5,6 +5,7 @@
     "esModuleInterop": true,
     "alwaysStrict": true,
     "jsx": "react",
+    "allowJs": true,
     "strictNullChecks": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
