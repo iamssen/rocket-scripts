@@ -1,9 +1,0 @@
-'@react-zeroconfig/babel-preset':
-  version: 3.28.0
-  tag: latest
-filesize-test:
-  version: 0.1.4
-  tag: latest
-react-zeroconfig:
-  version: 3.31.3
-  tag: latest

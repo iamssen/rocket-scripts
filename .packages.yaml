@@ -1,0 +1,15 @@
+'@ssen/*':
+  version: 1.0.0-alpha.1
+  tag: canary
+  module: commonjs
+'@rocket-scripts/*':
+  version: 1.0.0-alpha.1
+  tag: canary
+  module: commonjs
+rocket-scripts:
+  version: 1.0.0-alpha.1
+  tag: canary
+  module: commonjs
+  packageJson:
+    bin:
+      'rocket-scripts': ./bin/rocket-scripts.js

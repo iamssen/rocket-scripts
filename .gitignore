@@ -1,7 +1,8 @@
-.idea/
-.vscode/
-node_modules/
-build
+/.idea
+/.vscode
+/node_modules
+/dist
+
 .DS_Store
 *.tgz
 lerna-debug.log
@@ -9,6 +10,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 /.changelog
-.npm/
-coverage/
-package-lock.json
+/.npm
+/coverage
+/.history
+/test/storage

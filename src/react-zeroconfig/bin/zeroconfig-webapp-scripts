@@ -1,3 +1,0 @@
-#!/usr/bin/env node
-const {webappScripts} = require('../');
-webappScripts(process.argv.slice(2));

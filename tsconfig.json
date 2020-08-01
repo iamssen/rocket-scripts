@@ -4,22 +4,23 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "alwaysStrict": true,
+    "jsx": "react",
+    "allowJs": true,
     "strictNullChecks": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
     "resolveJsonModule": true,
     "module": "commonjs",
-    "target": "esnext",
+    "target": "ES2018",
     "moduleResolution": "node",
     "skipLibCheck": true,
     "sourceMap": true,
     "declaration": true,
     "baseUrl": "src",
-    "paths": {
-      "*": [
-        "*"
-      ]
-    }
-  }
+    "outDir": "foo"
+  },
+  "include": [
+    "src"
+  ]
 }

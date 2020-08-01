@@ -1,0 +1,41 @@
+name: E2E
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  e2e:
+    name: E2E ${{ matrix.node }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [10, 12, 14]
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v2
+
+      - name: Set Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Version
+        run: |
+          node --version
+          npm --version
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: E2E Test
+        run: npm run build && node ./test/updateVerdaccioYaml.js && bash ./test/e2e.sh

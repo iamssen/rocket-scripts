@@ -1,38 +1,82 @@
-name: CI
+name: TEST
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
-  build:
+  test:
+    name: Node ${{ matrix.node }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [10, 12, 14]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v2
+
+      - name: Set Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install Global Dependencies
+        run: npm install -g npm@latest
+
+      - name: Get NPM Cache Directory
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Version
+        run: |
+          node --version
+          npm --version
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Coverage Test
+        run: npm run coverage
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel: true
+        env:
+          COVERALLS_FLAG_NAME: ${{matrix.os}}-node-${{ matrix.node }}
+
+  finish:
+    needs: test
+    name: Finish
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Node Version
-      run: node --version
-
-    - name: NPM Version
-      run: npm --version
-    
-    - name: Git submodule update
-      run: git submodule sync && git submodule update --init # get fixtures
-
-    - name: Install
-      run: npm install
-
-    - name: Build
-      run: npm run build
-    
-    - name: Lint
-      run: npm run lint
-      
-    - name: Coverage
-      run: npm run coverage
-
-    - name: E2E
-      run: npm run e2e
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
