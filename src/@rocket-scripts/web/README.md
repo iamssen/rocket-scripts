@@ -2,7 +2,7 @@
 
 Web App Scripts
 
-<img src="https://github.com/rocket-hangar/rocket-scripts/blob/master/docs/screenshot.png" alt="Screenshot" style="max-width: 80%" />
+<img src="https://raw.githubusercontent.com/rocket-hangar/rocket-scripts/master/docs/screenshot.png" alt="Screenshot" style="max-width: 80%" />
 
 # Usage
 
