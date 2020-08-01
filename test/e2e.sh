@@ -89,6 +89,7 @@ function createTmpFixture() {
   cp -rv "$ROOT/test/fixtures/$1"/* "$TEMP" > /dev/null;
   cp -rv "$ROOT/test/fixtures/$1"/.[^.]* "$TEMP" > /dev/null;
   cd "$TEMP" || exit 1;
+  echo "FIXTURE: $1"
   echo "TEMP: $TEMP";
   echo "PWD: $(pwd)";
   npm install > /dev/null;
@@ -115,13 +116,13 @@ is200 "http://localhost:$TEST_SERVER_PORT/manifest.json";
 is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
 stopTestServer;
 
-npx rocket-scripts web/build app > /dev/null;
-fileExists "$TEMP"/out/manifest.json;
-fileExists "$TEMP"/out/size-report.html;
-fileExists "$TEMP"/out/favicon.ico;
-fileExists "$TEMP"/out/index.html;
-fileExists "$TEMP"/out/index.*.js;
-fileExists "$TEMP"/out/vendor.*.js;
+npx rocket-scripts web/build app;
+fileExists "$TEMP"/out/app/manifest.json;
+fileExists "$TEMP"/out/app/size-report.html;
+fileExists "$TEMP"/out/app/favicon.ico;
+fileExists "$TEMP"/out/app/index.html;
+fileExists "$TEMP"/out/app/index.*.js;
+fileExists "$TEMP"/out/app/vendor.*.js;
 
 
 createTmpFixture web/webpack-config;
@@ -134,12 +135,12 @@ is200 "http://localhost:$TEST_SERVER_PORT/manifest.json";
 is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
 stopTestServer;
 
-npx rocket-scripts web/build app --webpack-config "{cwd}/webpack.config.js" > /dev/null;
-fileExists "$TEMP"/out/manifest.json;
-fileExists "$TEMP"/out/size-report.html;
-fileExists "$TEMP"/out/favicon.ico;
-fileExists "$TEMP"/out/index.*.js;
-fileExists "$TEMP"/out/index.html;
+npx rocket-scripts web/build app --webpack-config "{cwd}/webpack.config.js";
+fileExists "$TEMP"/out/app/manifest.json;
+fileExists "$TEMP"/out/app/size-report.html;
+fileExists "$TEMP"/out/app/favicon.ico;
+fileExists "$TEMP"/out/app/index.*.js;
+fileExists "$TEMP"/out/app/index.html;
 
 
 createTmpFixture web/static-file-directories;
@@ -153,17 +154,18 @@ is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
 is200 "http://localhost:$TEST_SERVER_PORT/hello.json";
 stopTestServer;
 
-npx rocket-scripts web/build app --static-file-directories "{cwd}/static {cwd}/public" > /dev/null;
-fileExists "$TEMP"/out/manifest.json;
-fileExists "$TEMP"/out/size-report.html;
-fileExists "$TEMP"/out/favicon.ico;
-fileExists "$TEMP"/out/index.*.js;
-fileExists "$TEMP"/out/index.html;
-fileExists "$TEMP"/out/hello.json;
+npx rocket-scripts web/build app --static-file-directories "{cwd}/static {cwd}/public";
+fileExists "$TEMP"/out/app/manifest.json;
+fileExists "$TEMP"/out/app/size-report.html;
+fileExists "$TEMP"/out/app/favicon.ico;
+fileExists "$TEMP"/out/app/index.*.js;
+fileExists "$TEMP"/out/app/index.html;
+fileExists "$TEMP"/out/app/hello.json;
 
 
 createTmpFixture web/github-proxy;
 npm install rocket-scripts@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
+
 (npx rocket-scripts web/start app --port $TEST_SERVER_PORT &> log.txt &);
 sleep 15s;
 is200 "http://localhost:$TEST_SERVER_PORT";

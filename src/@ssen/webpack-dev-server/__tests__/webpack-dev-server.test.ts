@@ -2,6 +2,7 @@ import { createInkWriteStream } from '@ssen/ink-helpers';
 import { exec } from '@ssen/promised';
 import { copyTmpDirectory } from '@ssen/tmp-directory';
 import { devServerStart } from '@ssen/webpack-dev-server';
+import { format } from 'date-fns';
 import getPort, { makeRange } from 'get-port';
 import path from 'path';
 import puppeteer, { Browser, Page } from 'puppeteer';
@@ -67,7 +68,8 @@ describe('webpack-dev-server', () => {
     await page.waitFor('#app', { timeout: 1000 * 60 });
 
     // Assert
-    await expect(page.$eval('#app', (e) => e.innerHTML)).resolves.toBe('Hello Webpack! 2020-08-01 02:03:01');
+    const time: string = format(1596258181790, 'yyyy-MM-dd hh:mm:ss');
+    await expect(page.$eval('#app', (e) => e.innerHTML)).resolves.toBe(`Hello Webpack! ${time}`);
 
     // Exit
     await close();
