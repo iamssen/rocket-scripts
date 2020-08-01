@@ -2,7 +2,7 @@
 
 Interactive UI for `webpack-dev-server`
 
-<img src="https://github.com/rocket-hangar/rocket-scripts/blob/master/src/@ssen/webpack-dev-server/__readme__/screenshot.png" alt="Screenshot" style="max-width: 80%" />
+<img src="https://github.com/rocket-hangar/rocket-scripts/blob/master/docs/screenshot.png" alt="Screenshot" style="max-width: 80%" />
 
 # Usage
 
