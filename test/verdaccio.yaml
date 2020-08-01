@@ -19,16 +19,13 @@ packages:
   '@rocket-scripts/*':
     access: $anonymous
     publish: $anonymous
-  '@ssen/env':
+  '@ssen/electron-dev-server':
     access: $anonymous
     publish: $anonymous
   '@ssen/ink-helpers':
     access: $anonymous
     publish: $anonymous
   '@ssen/patch-console':
-    access: $anonymous
-    publish: $anonymous
-  '@ssen/tsconfig':
     access: $anonymous
     publish: $anonymous
   '@ssen/use-mirror-files':

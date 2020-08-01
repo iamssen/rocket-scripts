@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "dependencies": {
+    "date-fns": "^2.15.0"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^4.3.0",
+    "webpack": "^4.44.1"
+  }
+}

@@ -10,7 +10,7 @@ import path from 'path';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Configuration as WebpackConfiguration, DefinePlugin } from 'webpack';
+import { Configuration as WebpackConfiguration, DefinePlugin, HotModuleReplacementPlugin } from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 import { merge as webpackMerge } from 'webpack-merge';
 import { getAppEntry } from './utils/getAppEntry';
@@ -128,6 +128,8 @@ export async function start({
       }, {}),
 
       plugins: [
+        new HotModuleReplacementPlugin(),
+
         //create html files
         ...entry.map(
           ({ html }) =>

@@ -86,21 +86,28 @@ function is200() {
 
 function createTmpFixture() {
   TEMP=$(mktemp -d);
-  cp -rv "$ROOT/test/fixtures/$1"/* "$TEMP";
-  cp -rv "$ROOT/test/fixtures/$1"/.[^.]* "$TEMP";
+  cp -rv "$ROOT/test/fixtures/$1"/* "$TEMP" > /dev/null;
+  cp -rv "$ROOT/test/fixtures/$1"/.[^.]* "$TEMP" > /dev/null;
   cd "$TEMP" || exit 1;
   echo "TEMP: $TEMP";
   echo "PWD: $(pwd)";
-  npm install;
-  npm install rocket-scripts@e2e --save-dev --registry "$LOCAL_REGISTRY_URL";
+  npm install > /dev/null;
 }
 
-# web build
+# webpack-dev-server
 
+createTmpFixture webpack-dev-server/basic;
+npm install @ssen/webpack-dev-server@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
+(PORT=$TEST_SERVER_PORT node devServer.js &> log.txt &);
+sleep 15s;
+is200 "http://localhost:$TEST_SERVER_PORT";
+stopTestServer;
 
-# web start
+# web
 
 createTmpFixture web/start;
+npm install rocket-scripts@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
+
 (npx rocket-scripts web/start app --port $TEST_SERVER_PORT &> log.txt &);
 sleep 15s;
 is200 "http://localhost:$TEST_SERVER_PORT";
@@ -108,8 +115,18 @@ is200 "http://localhost:$TEST_SERVER_PORT/manifest.json";
 is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
 stopTestServer;
 
+npx rocket-scripts web/build app > /dev/null;
+fileExists "$TEMP"/out/manifest.json;
+fileExists "$TEMP"/out/size-report.html;
+fileExists "$TEMP"/out/favicon.ico;
+fileExists "$TEMP"/out/index.html;
+fileExists "$TEMP"/out/index.*.js;
+fileExists "$TEMP"/out/vendor.*.js;
+
 
 createTmpFixture web/webpack-config;
+npm install rocket-scripts@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
+
 (npx rocket-scripts web/start app --port $TEST_SERVER_PORT --webpack-config "{cwd}/webpack.config.js" &> log.txt &);
 sleep 15s;
 is200 "http://localhost:$TEST_SERVER_PORT";
@@ -117,7 +134,17 @@ is200 "http://localhost:$TEST_SERVER_PORT/manifest.json";
 is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
 stopTestServer;
 
+npx rocket-scripts web/build app --webpack-config "{cwd}/webpack.config.js" > /dev/null;
+fileExists "$TEMP"/out/manifest.json;
+fileExists "$TEMP"/out/size-report.html;
+fileExists "$TEMP"/out/favicon.ico;
+fileExists "$TEMP"/out/index.*.js;
+fileExists "$TEMP"/out/index.html;
+
+
 createTmpFixture web/static-file-directories;
+npm install rocket-scripts@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
+
 (npx rocket-scripts web/start app --port $TEST_SERVER_PORT --static-file-directories "{cwd}/static {cwd}/public" &> log.txt &);
 sleep 15s;
 is200 "http://localhost:$TEST_SERVER_PORT";
@@ -126,7 +153,17 @@ is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
 is200 "http://localhost:$TEST_SERVER_PORT/hello.json";
 stopTestServer;
 
+npx rocket-scripts web/build app --static-file-directories "{cwd}/static {cwd}/public" > /dev/null;
+fileExists "$TEMP"/out/manifest.json;
+fileExists "$TEMP"/out/size-report.html;
+fileExists "$TEMP"/out/favicon.ico;
+fileExists "$TEMP"/out/index.*.js;
+fileExists "$TEMP"/out/index.html;
+fileExists "$TEMP"/out/hello.json;
+
+
 createTmpFixture web/github-proxy;
+npm install rocket-scripts@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
 (npx rocket-scripts web/start app --port $TEST_SERVER_PORT &> log.txt &);
 sleep 15s;
 is200 "http://localhost:$TEST_SERVER_PORT";

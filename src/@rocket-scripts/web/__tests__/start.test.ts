@@ -20,11 +20,16 @@ describe('web/start', () => {
         height: 900,
       },
     });
-    page = await browser.newPage();
   });
 
   afterAll(async () => {
     await browser.close();
+  });
+
+  afterEach(async () => {
+    if (page && !page.isClosed()) {
+      await page.close();
+    }
   });
 
   test.each(['start', 'webpack-config'])(
@@ -55,11 +60,9 @@ describe('web/start', () => {
       // Arrange : wait server start
       const url: string = `http://localhost:${port}`;
 
-      if (page.url() === url) {
-        await page.reload({ waitUntil: 'load' });
-      } else {
-        await page.goto(url, { timeout: 1000 * 60 });
-      }
+      page = await browser.newPage();
+
+      await page.goto(url, { timeout: 1000 * 60 });
 
       await page.waitFor('#app h1', { timeout: 1000 * 60 });
 
@@ -90,10 +93,9 @@ describe('web/start', () => {
         count -= 1;
       }
 
-      // Arrange : server close
+      // Exit
       await close();
 
-      // Assert : print stdout
       console.log(stdout.lastFrame());
     },
   );
@@ -125,11 +127,9 @@ describe('web/start', () => {
     // Arrange : wait server start
     const url: string = `http://localhost:${port}`;
 
-    if (page.url() === url) {
-      await page.reload({ waitUntil: 'load' });
-    } else {
-      await page.goto(url, { timeout: 1000 * 60 });
-    }
+    page = await browser.newPage();
+
+    await page.goto(url, { timeout: 1000 * 60 });
 
     await page.waitFor('#app h1', { timeout: 1000 * 60 });
 
@@ -175,10 +175,9 @@ describe('web/start', () => {
     const api = await fetch(`http://localhost:${port}/api/frontend-fixtures/package.json`);
     expect(api.status).toBeLessThan(299);
 
-    // Arrange : server close
+    // Exit
     await close();
 
-    // Assert : print stdout
     console.log(stdout.lastFrame());
   });
 });

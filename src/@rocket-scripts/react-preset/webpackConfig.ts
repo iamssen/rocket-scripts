@@ -2,7 +2,7 @@ import { eslintConfigExistsSync } from '@rocket-scripts/utils/eslintConfigExists
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
-import { Configuration, HotModuleReplacementPlugin, RuleSetRule, WatchIgnorePlugin } from 'webpack';
+import { Configuration, RuleSetRule, WatchIgnorePlugin } from 'webpack';
 import { getWebpackDataURILoaders } from './webpackLoaders/getWebpackDataURILoaders';
 import { getWebpackFileLoaders } from './webpackLoaders/getWebpackFileLoaders';
 import { getWebpackMDXLoaders } from './webpackLoaders/getWebpackMDXLoaders';
@@ -145,8 +145,6 @@ export default function ({
     },
 
     plugins: [
-      new HotModuleReplacementPlugin(),
-
       new WatchIgnorePlugin([path.join(cwd, 'node_modules')]),
 
       // create html files
