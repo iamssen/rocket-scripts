@@ -163,7 +163,7 @@ fileExists "$TEMP"/out/app/index.html;
 fileExists "$TEMP"/out/app/hello.json;
 
 
-createTmpFixture web/github-proxy;
+createTmpFixture web/proxy;
 npm install rocket-scripts@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
 
 (npx rocket-scripts web/start app --port $TEST_SERVER_PORT &> log.txt &);
@@ -174,103 +174,7 @@ is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
 is200 "http://localhost:$TEST_SERVER_PORT/api/assets/book-opened.svg";
 stopTestServer;
 
-
-# OLD TEST
-# ==================================================----------------------------------
-
-# # zeroconfig-webapp-scripts build app
-# createTmpFixture simple-csr-js;
-# npm run build;
-# fileExists "$TEMP"/dist/app/size-report.html;
-# fileExists "$TEMP"/dist/app/browser/favicon.ico;
-# fileExists "$TEMP"/dist/app/browser/index.html;
-# fileExists "$TEMP"/dist/app/browser/manifest.json;
-# fileExists "$TEMP"/dist/app/browser/app.*.js;
-# fileExists "$TEMP"/dist/app/browser/vendor.*.js;
-
-# createTmpFixture simple-csr-ts;
-# npm run build;
-# fileExists "$TEMP"/dist/app/size-report.html;
-# fileExists "$TEMP"/dist/app/browser/favicon.ico;
-# fileExists "$TEMP"/dist/app/browser/index.html;
-# fileExists "$TEMP"/dist/app/browser/manifest.json;
-# fileExists "$TEMP"/dist/app/browser/app.*.js;
-# fileExists "$TEMP"/dist/app/browser/vendor.*.js;
-
-# createTmpFixture simple-ssr-js;
-# npm run build;
-# fileExists "$TEMP"/dist/app/size-report.html;
-# fileExists "$TEMP"/dist/app/loadable-stats.json;
-# fileExists "$TEMP"/dist/app/browser/favicon.ico;
-# fileExists "$TEMP"/dist/app/browser/manifest.json;
-# fileExists "$TEMP"/dist/app/browser/app.*.js;
-# fileExists "$TEMP"/dist/app/browser/vendor.*.js;
-# fileExists "$TEMP"/dist/app/server/index.js;
-# fileExists "$TEMP"/dist/app/server/package.json;
-
-# createTmpFixture simple-ssr-ts;
-# npm run build;
-# fileExists "$TEMP"/dist/app/size-report.html;
-# fileExists "$TEMP"/dist/app/loadable-stats.json;
-# fileExists "$TEMP"/dist/app/browser/favicon.ico;
-# fileExists "$TEMP"/dist/app/browser/manifest.json;
-# fileExists "$TEMP"/dist/app/browser/app.*.js;
-# fileExists "$TEMP"/dist/app/browser/vendor.*.js;
-# fileExists "$TEMP"/dist/app/server/index.js;
-# fileExists "$TEMP"/dist/app/server/package.json;
-
-# createTmpFixture custom;
-# npm run build;
-# fileExists "$TEMP"/dist/app/size-report.html;
-# fileExists "$TEMP"/dist/app/loadable-stats.json;
-# fileExists "$TEMP"/dist/app/browser/favicon.ico;
-# fileExists "$TEMP"/dist/app/browser/manifest.json;
-# fileExists "$TEMP"/dist/app/browser/app.*.js;
-# fileExists "$TEMP"/dist/app/browser/vendor.*.js;
-# fileExists "$TEMP"/dist/app/server/index.js;
-# fileExists "$TEMP"/dist/app/server/package.json;
-
-# # zeroconfig-webapp-scripts build app ---
-# createTmpFixture simple-csr-ts;
-# npm run app:build --- --mode development;
-# fileExists "$TEMP"/.dev/app/size-report.html;
-# fileExists "$TEMP"/.dev/app/browser/favicon.ico;
-# fileExists "$TEMP"/.dev/app/browser/index.html;
-# fileExists "$TEMP"/.dev/app/browser/manifest.json;
-# fileExists "$TEMP"/.dev/app/browser/app.*.js;
-# fileExists "$TEMP"/.dev/app/browser/vendor.*.js;
-
-# output=$(mktemp -d);
-# createTmpFixture simple-csr-ts;
-# npm run app:build --- --output "$output";
-# fileExists "$output"/size-report.html;
-# fileExists "$output"/browser/favicon.ico;
-# fileExists "$output"/browser/index.html;
-# fileExists "$output"/browser/manifest.json;
-# fileExists "$output"/browser/app.*.js;
-# fileExists "$output"/browser/vendor.*.js;
-
-# createTmpFixture simple-csr-ts;
-# npm run app:build --- --app-file-name myapp --vendor-file-name common;
-# fileExists "$TEMP"/dist/app/size-report.html;
-# fileExists "$TEMP"/dist/app/browser/favicon.ico;
-# fileExists "$TEMP"/dist/app/browser/index.html;
-# fileExists "$TEMP"/dist/app/browser/manifest.json;
-# fileExists "$TEMP"/dist/app/browser/myapp.*.js;
-# fileExists "$TEMP"/dist/app/browser/common.*.js;
-
-# createTmpFixture simple-csr-ts;
-# npm run app:build --- --chunk-path chunks/path;
-# fileExists "$TEMP"/dist/app/size-report.html;
-# fileExists "$TEMP"/dist/app/browser/favicon.ico;
-# fileExists "$TEMP"/dist/app/browser/index.html;
-# fileExists "$TEMP"/dist/app/browser/manifest.json;
-# fileExists "$TEMP"/dist/app/browser/chunks/path/app.*.js;
-# fileExists "$TEMP"/dist/app/browser/chunks/path/vendor.*.js;
-
-# TODO *.worker test
-# TODO loadable-components code split test
-
+# TODO out-dir
 
 # EXIT
 # ==================================================----------------------------------
