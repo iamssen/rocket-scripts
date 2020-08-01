@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "app:build": "rocket-scripts web build app",
-    "app:start": "rocket-scripts web start app",
+    "app:build": "rocket-scripts web/build app",
+    "app:start": "rocket-scripts web/start app",
     "build": "npm run app:build",
     "start": "npm run app:start"
   },

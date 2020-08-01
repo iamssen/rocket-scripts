@@ -100,6 +100,49 @@ describe('web/start', () => {
     },
   );
 
+  test.each(['alias', 'alias-group'])(
+    'should make abc text from alias directories (%s)',
+    async (dir: string) => {
+      // Arrange : project directories
+      const cwd: string = await copyTmpDirectory(path.join(process.cwd(), `test/fixtures/web/${dir}`));
+      const staticFileDirectories: string[] = ['{cwd}/public'];
+      const app: string = 'app';
+
+      await exec(`npm install`, { cwd });
+
+      // Arrange : stdout
+      const stdout = createInkWriteStream();
+
+      // Act : server start
+      const { port, close } = await start({
+        cwd,
+        staticFileDirectories,
+        app,
+        https: false,
+        stdout,
+      });
+
+      await timeout(1000 * 5);
+
+      // Arrange : wait server start
+      const url: string = `http://localhost:${port}`;
+
+      page = await browser.newPage();
+
+      await page.goto(url, { timeout: 1000 * 60 });
+
+      await page.waitFor('#app h1', { timeout: 1000 * 60 });
+
+      // Assert
+      await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('abc');
+
+      // Exit
+      await close();
+
+      console.log(stdout.lastFrame());
+    },
+  );
+
   test('should get static files with multiple static file directories', async () => {
     // Arrange : project directories
     const cwd: string = await copyTmpDirectory(

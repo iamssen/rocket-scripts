@@ -1,1 +1,1 @@
-/// <reference types="react-zeroconfig"/>
+/// <reference types="rocket-scripts/typings"/>
