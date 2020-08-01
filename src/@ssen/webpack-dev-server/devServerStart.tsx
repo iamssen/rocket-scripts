@@ -1,7 +1,7 @@
 import { patchConsole } from '@ssen/patch-console';
 import fs from 'fs';
 import { render } from 'ink';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import tmp from 'tmp';
 import { ProxyConfigArray, ProxyConfigMap } from 'webpack-dev-server';
@@ -14,7 +14,7 @@ import { patchProxyLogger } from './utils/patchProxyLogger';
 export interface DevServerStartParams extends DevServerParams {
   stdout?: NodeJS.WriteStream;
   stdin?: NodeJS.ReadStream;
-  header?: string;
+  header?: ReactNode;
   cwd?: string;
   logfile?: string;
   restartAlarm?: Observable<string[]>;

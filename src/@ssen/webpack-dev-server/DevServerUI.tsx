@@ -1,16 +1,16 @@
 import { exec } from 'child_process';
 import { format } from 'date-fns';
 import { Text, useInput, useStdin } from 'ink';
-import React, { useEffect, useMemo, useState } from 'react';
+import os from 'os';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { Observable } from 'rxjs';
 import { Divider } from './components/Divider';
 import { PadText } from './components/PadText';
 import { DevServer } from './DevServer';
 import { DevServerStatus, TimeMessage, WebpackStats } from './types';
-import os from 'os';
 
 export interface DevServerUIProps {
-  header?: string;
+  header?: ReactNode;
   devServer: DevServer;
   cwd: string;
   logfile: string;
@@ -110,7 +110,7 @@ export function DevServerUI({
 
   return (
     <>
-      {typeof header === 'string' && <Text color="gray">{header}</Text>}
+      {typeof header === 'string' ? <Text>{header}</Text> : header}
 
       <PadText title="Log" color="blueBright">
         {logfile}

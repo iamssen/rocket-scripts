@@ -170,8 +170,14 @@ export async function start({
     map<(string | null)[], string[]>((changes) => changes.filter((change): change is string => !!change)),
   );
 
+  let version: string = '';
+
+  try {
+    version = '\n ' + require('@rocket-scripts/web/package.json').version;
+  } catch {}
+
   const startParams: DevServerStartParams = {
-    header: rocketTitle,
+    header: rocketTitle + version,
     hostname,
     webpackConfig,
     devServerConfig,
