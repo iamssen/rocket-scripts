@@ -8,7 +8,7 @@
   },
   "proxy": {
     "/api": {
-      "target": "https://lunit-io.github.io",
+      "target": "http://labs.ssen.name",
       "changeOrigin": true,
       "logLevel": "debug",
       "pathRewrite": {

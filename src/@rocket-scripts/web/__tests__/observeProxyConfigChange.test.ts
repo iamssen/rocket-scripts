@@ -10,7 +10,7 @@ import { ProxyConfigArray, ProxyConfigMap } from 'webpack-dev-server';
 describe('observeProxyConfigChange', () => {
   test('should catch proxy config change', async () => {
     // Arrange
-    const cwd: string = await copyTmpDirectory(process.cwd(), 'test/fixtures/web/github-proxy');
+    const cwd: string = await copyTmpDirectory(process.cwd(), 'test/fixtures/web/proxy');
     const file: string = path.join(cwd, 'package.json');
     const { proxy, ...packageJson }: PackageJson = fs.readJsonSync(file);
 

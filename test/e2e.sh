@@ -171,7 +171,7 @@ sleep 15s;
 is200 "http://localhost:$TEST_SERVER_PORT";
 is200 "http://localhost:$TEST_SERVER_PORT/manifest.json";
 is200 "http://localhost:$TEST_SERVER_PORT/favicon.ico";
-is200 "http://localhost:$TEST_SERVER_PORT/api/frontend-fixtures/package.json";
+is200 "http://localhost:$TEST_SERVER_PORT/api/assets/book-opened.svg";
 stopTestServer;
 
 

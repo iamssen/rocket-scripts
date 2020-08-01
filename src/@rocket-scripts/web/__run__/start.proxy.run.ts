@@ -4,7 +4,7 @@ import { copyTmpDirectory } from '@ssen/tmp-directory';
 import path from 'path';
 
 (async () => {
-  const cwd: string = await copyTmpDirectory(path.join(process.cwd(), 'test/fixtures/web/github-proxy'));
+  const cwd: string = await copyTmpDirectory(path.join(process.cwd(), 'test/fixtures/web/proxy'));
 
   await exec(`npm install`, { cwd });
   //await exec(`open ${cwd}`);

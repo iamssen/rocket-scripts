@@ -194,7 +194,7 @@ describe('web/start', () => {
 
   test('should use proxy api', async () => {
     // Arrange : project directories
-    const cwd: string = await copyTmpDirectory(path.join(process.cwd(), 'test/fixtures/web/github-proxy'));
+    const cwd: string = await copyTmpDirectory(path.join(process.cwd(), 'test/fixtures/web/proxy'));
     const staticFileDirectories: string[] = ['{cwd}/public'];
     const app: string = 'app';
 
@@ -215,7 +215,7 @@ describe('web/start', () => {
     await timeout(1000 * 5);
 
     // Assert
-    const api = await fetch(`http://localhost:${port}/api/frontend-fixtures/package.json`);
+    const api = await fetch(`http://localhost:${port}/api/assets/book-opened.svg`);
     expect(api.status).toBeLessThan(299);
 
     // Exit
