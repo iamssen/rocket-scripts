@@ -28,3 +28,7 @@ const { devServer: devServerConfig, ...webpackConfig } = require('./webpack.conf
 ```sh
 node devServer.js
 ```
+
+# Examples
+
+- [react-redux-typescript-boilerplate](https://github.com/iamssen/react-redux-typescript-boilerplate/compare/09d1c336436662fd978cb081db616ff26d2cda8c...33d5b2fa493d96b524b2880cbf3ab7371d75c6c3)

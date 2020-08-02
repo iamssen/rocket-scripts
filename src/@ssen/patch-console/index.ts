@@ -4,7 +4,8 @@ import { Console } from 'console';
 type ConsoleMethodName = keyof Console;
 
 const methodNames: ConsoleMethodName[] = Object.keys(console).filter(
-  (method): method is keyof Console => typeof console[method] === 'function',
+  (method): method is keyof Console =>
+    method !== 'Console' && method !== 'context' && typeof console[method] === 'function',
 );
 const originMethods: Map<ConsoleMethodName, any> = methodNames.reduce((methods, name) => {
   methods.set(name, console[name]);

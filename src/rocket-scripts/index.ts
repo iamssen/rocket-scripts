@@ -187,5 +187,3 @@ export function run() {
     .strict()
     .epilog('🚀 Rocket Scripts!').argv;
 }
-
-run();

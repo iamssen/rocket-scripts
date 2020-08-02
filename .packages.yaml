@@ -1,13 +1,13 @@
 '@ssen/*':
-  version: 1.0.0-alpha.1
+  version: 1.0.0-alpha.3
   tag: latest
   module: commonjs
 '@rocket-scripts/*':
-  version: 1.0.0-alpha.1
+  version: 1.0.0-alpha.3
   tag: latest
   module: commonjs
 rocket-scripts:
-  version: 1.0.0-alpha.1
+  version: 1.0.0-alpha.3
   tag: latest
   module: commonjs
   packageJson:
