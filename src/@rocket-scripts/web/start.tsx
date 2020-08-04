@@ -148,6 +148,19 @@ export async function start({
           }, {}),
         }),
       ],
+
+      performance: {
+        hints: false,
+      },
+
+      optimization: {
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+
+        moduleIds: 'named',
+        noEmitOnErrors: true,
+      },
     },
   );
 

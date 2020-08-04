@@ -37,7 +37,7 @@ export function getWebpackScriptLoaders(params: Params): RuleSetRule[] {
           {
             loader: require.resolve('worker-loader'),
             options: {
-              name: `${chunkPath}[hash].worker.js`,
+              filename: `${chunkPath}[hash].worker.js`,
               publicPath,
             },
           },

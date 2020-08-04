@@ -11,7 +11,7 @@ import { getWebpackScriptLoaders } from './webpackLoaders/getWebpackScriptLoader
 import { getWebpackStyleLoaders } from './webpackLoaders/getWebpackStyleLoaders';
 import { getWebpackYamlLoaders } from './webpackLoaders/getWebpackYamlLoaders';
 
-interface Options {
+export interface WebpackConfigOptions {
   cwd: string;
   chunkPath: string;
   publicPath: string;
@@ -25,31 +25,11 @@ export default function ({
   publicPath,
   babelLoaderOptions,
   tsconfig,
-}: Options): Configuration {
+}: WebpackConfigOptions): Configuration {
   return {
-    //mode: 'development',
-    //devtool: 'cheap-module-eval-source-map',
-
-    //output: {
-    //path: cwd,
-    //publicPath,
-    //filename: `${chunkPath}[name].js`,
-    //chunkFilename: `${chunkPath}[name].js`,
-    //  pathinfo: false,
-    //},
-
     resolve: {
       extensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx', '.json', '.mdx'],
-      //symlinks: false,
-      //alias,
     },
-
-    //entry: {
-    //  ...entry.reduce((e, { name, index }) => {
-    //    e[name] = path.join(cwd, 'src', app, index);
-    //    return e;
-    //  }, {}),
-    //},
 
     module: {
       strictExportPresence: true,
@@ -147,14 +127,6 @@ export default function ({
     plugins: [
       new WatchIgnorePlugin([path.join(cwd, 'node_modules')]),
 
-      // create html files
-      //...entry.map(({ html }) => {
-      //  return new HtmlWebpackPlugin({
-      //    template: path.join(cwd, 'src', app, html),
-      //    filename: html,
-      //  });
-      //}),
-
       ...(fs.existsSync(tsconfig)
         ? [
             new ForkTsCheckerWebpackPlugin({
@@ -180,33 +152,10 @@ export default function ({
             }),
           ]
         : []),
-
-      //new InterpolateHtmlPlugin(HtmlWebpackPlugin, webpackEnv),
-      //
-      //new DefinePlugin({
-      //  'process.env': Object.keys(webpackEnv).reduce((stringifiedEnv, key) => {
-      //    stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
-      //    return stringifiedEnv;
-      //  }, {}),
-      //}),
     ],
 
-    optimization: {
-      removeAvailableModules: false,
-      removeEmptyChunks: false,
-      splitChunks: false,
-
-      moduleIds: 'named',
-      noEmitOnErrors: true,
-    },
-
-    // miscellaneous configs
     resolveLoader: {
       modules: ['node_modules'],
-    },
-
-    performance: {
-      hints: false,
     },
 
     node: {
