@@ -3,13 +3,12 @@ import { watch } from 'chokidar';
 import { FSWatcher } from 'fs';
 import fs from 'fs-extra';
 import path from 'path';
-import { useEffect } from 'react';
+import { Observable } from 'rxjs';
 
 interface Params {
   filesDirsOrGlobs: string[];
   outDir: string;
   ignored?: Matcher;
-  onMessage: (message: MirrorMessage) => void;
 }
 
 export type MirrorMessage =
@@ -22,8 +21,8 @@ export type MirrorMessage =
       file: string;
     };
 
-export function useMirrorFiles({ filesDirsOrGlobs, outDir, ignored, onMessage }: Params) {
-  useEffect(() => {
+export function mirrorFiles({ filesDirsOrGlobs, outDir, ignored }: Params): Observable<MirrorMessage> {
+  return new Observable<MirrorMessage>((subscriber) => {
     fs.mkdirpSync(outDir);
 
     function toRelativePath(file: string): string | undefined {
@@ -42,7 +41,7 @@ export function useMirrorFiles({ filesDirsOrGlobs, outDir, ignored, onMessage }:
         const relpath: string | undefined = toRelativePath(file);
 
         if (!relpath) {
-          onMessage({
+          subscriber.next({
             type: 'undefined',
             file,
           });
@@ -54,7 +53,7 @@ export function useMirrorFiles({ filesDirsOrGlobs, outDir, ignored, onMessage }:
         await fs.mkdirp(path.dirname(tofile));
         await fs.copy(file, tofile, { dereference: false });
 
-        onMessage({
+        subscriber.next({
           type: 'added',
           file: relpath,
         });
@@ -63,7 +62,7 @@ export function useMirrorFiles({ filesDirsOrGlobs, outDir, ignored, onMessage }:
         const relpath: string | undefined = toRelativePath(file);
 
         if (!relpath) {
-          onMessage({
+          subscriber.next({
             type: 'undefined',
             file,
           });
@@ -75,7 +74,7 @@ export function useMirrorFiles({ filesDirsOrGlobs, outDir, ignored, onMessage }:
         await fs.mkdirp(path.dirname(tofile));
         await fs.copy(file, tofile, { dereference: false });
 
-        onMessage({
+        subscriber.next({
           type: 'updated',
           file: relpath,
         });
@@ -84,7 +83,7 @@ export function useMirrorFiles({ filesDirsOrGlobs, outDir, ignored, onMessage }:
         const relpath: string | undefined = toRelativePath(file);
 
         if (!relpath) {
-          onMessage({
+          subscriber.next({
             type: 'undefined',
             file,
           });
@@ -96,7 +95,7 @@ export function useMirrorFiles({ filesDirsOrGlobs, outDir, ignored, onMessage }:
         if (fs.pathExistsSync(tofile)) {
           await fs.remove(tofile);
 
-          onMessage({
+          subscriber.next({
             type: 'removed',
             file: relpath,
           });
@@ -106,5 +105,5 @@ export function useMirrorFiles({ filesDirsOrGlobs, outDir, ignored, onMessage }:
     return () => {
       watcher.close();
     };
-  }, [ignored, onMessage, outDir, filesDirsOrGlobs]);
+  });
 }

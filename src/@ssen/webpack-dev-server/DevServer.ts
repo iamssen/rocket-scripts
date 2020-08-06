@@ -17,6 +17,7 @@ export class DevServer {
 
   private readonly statusSubject: BehaviorSubject<DevServerStatus>;
   private readonly webpackStatsSubject: BehaviorSubject<WebpackStats>;
+
   private readonly startResolvers: Set<() => void> = new Set();
   private readonly closeResolvers: Set<() => void> = new Set();
 
@@ -95,6 +96,8 @@ export class DevServer {
       resolve();
     }
     this.closeResolvers.clear();
+
+    this.webpackStatsSubject.unsubscribe();
 
     this.statusSubject.next(DevServerStatus.CLOSED);
 

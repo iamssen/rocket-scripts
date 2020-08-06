@@ -117,6 +117,7 @@ export function run() {
         httpsCert,
         httpsKey,
         webpackConfig,
+        ...argv
       }: Arguments<CommonArgs & WebCommonArgs & WebStartArgs>) => {
         if (!app) {
           console.error('<app> is required');
