@@ -19,7 +19,10 @@ import { observeAppEntryChange } from './utils/observeAppEntryChange';
 import { observeProxyConfigChange } from './utils/observeProxyConfigChange';
 
 export interface StartParams
-  extends Omit<DevServerStartParams, 'port' | 'hostname' | 'devServerConfig' | 'webpackConfig'> {
+  extends Omit<
+    DevServerStartParams,
+    'port' | 'hostname' | 'devServerConfig' | 'webpackConfig' | 'restartAlarm' | 'header'
+  > {
   // cli
   app: string;
   port?: 'random' | number;
@@ -32,8 +35,6 @@ export interface StartParams
   // api
   cwd: string;
   env?: NodeJS.ProcessEnv;
-  stdout?: NodeJS.WriteStream;
-  stdin?: NodeJS.ReadStream;
 }
 
 export interface Start extends DevServerStartParams {
@@ -47,7 +48,7 @@ export async function start({
   hostname = 'localhost',
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
   https,
-  env = {},
+  env = process.env,
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
   stdout = process.stdout,
   stdin = process.stdin,
@@ -55,6 +56,7 @@ export async function start({
   webpackConfig: _webpackConfig,
 }: StartParams): Promise<Start> {
   console.log('Start Server...');
+
   const port: number =
     typeof _port === 'number' ? _port : await getPort({ port: getPort.makeRange(8000, 9999) });
   const staticFileDirectories: string[] = _staticFileDirectories.map((dir) => icuFormat(dir, { cwd, app }));

@@ -49,7 +49,7 @@ import { devServerStart } from '../devServerStart';
   const babelLoaderOptions: object = {
     presets: [
       [
-        require.resolve('@rocket-scripts/react-electron-preset/babelPreset'),
+        require.resolve('@rocket-scripts/react-preset/babelPreset'),
         {
           modules: false,
           targets: getBrowserslistQuery({ cwd }),

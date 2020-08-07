@@ -18,6 +18,7 @@
     "run:web:webpack:start": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.webpack.run.ts",
     "run:web:webpack:build": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/build.webpack.run.ts",
     "run:webpack-dev-server:basic": "ts-node -r tsconfig-paths/register src/@ssen/webpack-dev-server/__run__/basic.run.ts",
+    "run:electron:start": "ts-node -r tsconfig-paths/register src/@rocket-scripts/electron/__run__/start.run.ts",
     "run:electron-dev-server:start": "ts-node -r tsconfig-paths/register src/@ssen/electron-dev-server/__run__/basic.run.ts"
   },
   "husky": {

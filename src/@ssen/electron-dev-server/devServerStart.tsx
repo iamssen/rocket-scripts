@@ -50,6 +50,7 @@ export async function devServerStart({
     outDir = await createTmpDirectory();
   }
 
+  await fs.mkdirp(outDir);
   await fs.symlink(path.join(cwd, 'node_modules'), path.join(outDir, 'node_modules'));
 
   const syncStaticFiles: Observable<MirrorMessage> | undefined =
