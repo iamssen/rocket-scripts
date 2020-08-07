@@ -1,4 +1,5 @@
 import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
+import electron from 'electron';
 
 export interface ElectronServerParams {
   dir: string;
@@ -15,7 +16,8 @@ export class ElectronServer {
 
   public start = () => {
     const { main, dir, argv } = this.params;
-    this.proc = spawn(`npx electron ${argv.join(' ')} ${main}`, { cwd: dir, detached: true, shell: true });
+    //@ts-ignore
+    this.proc = spawn(electron, [...argv, main], { cwd: dir, shell: true });
   };
 
   public restart = () => {
