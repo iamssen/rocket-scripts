@@ -84,7 +84,7 @@ export class DevServer {
 
   public waitUntilClose = () =>
     new Promise<void>((resolve) => {
-      if (this.statusSubject.getValue() >= DevServerStatus.CLOSED) {
+      if (this.statusSubject.isStopped || this.statusSubject.getValue() >= DevServerStatus.CLOSED) {
         resolve();
       } else {
         this.closeResolvers.add(resolve);

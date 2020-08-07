@@ -6,7 +6,7 @@
     "publish:local": "rocket-punch build && rocket-punch publish --tag canary --registry $LOCAL_NPM_REGISTRY",
     "view": "rocket-punch view",
     "doctor": "rocket-punch doctor",
-    "test": "jest --runInBand --colors --forceExit --detectOpenHandles",
+    "test": "jest --runInBand --forceExit --detectOpenHandles --colors",
     "coverage": "jest --runInBand --forceExit --detectOpenHandles --coverage",
     "e2e": "npm run build && node test/updateVerdaccioYaml.js && bash test/e2e.sh",
     "format": "prettier --write \"src/{**/*,*}/*.{ts,tsx}\"",
@@ -30,7 +30,7 @@
     "src/{**/*,*}/*.{ts,tsx}": [
       "prettier --write",
       "eslint",
-      "jest --runInBand --colors --findRelatedTests"
+      "jest --runInBand --forceExit --colors --findRelatedTests"
     ]
   },
   "devDependencies": {
@@ -83,6 +83,7 @@
     "@types/prettier": "^2.0.1",
     "@types/prompts": "^2.4.0",
     "@types/puppeteer": "^3.0.1",
+    "@types/puppeteer-core": "^2.0.0",
     "@types/ramda": "^0.27.14",
     "@types/react": "^16.9.44",
     "@types/react-dev-utils": "^9.0.4",
@@ -154,6 +155,7 @@
     "prettier": "^2.0.2",
     "prompts": "^2.3.1",
     "puppeteer": "^5.2.1",
+    "puppeteer-core": "^5.2.1",
     "ramda": "^0.27.1",
     "raw-loader": "^4.0.0",
     "react": "^16.13.1",

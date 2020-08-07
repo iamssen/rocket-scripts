@@ -10,6 +10,7 @@ import path from 'path';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import tmp from 'tmp';
 import { Configuration as WebpackConfiguration, DefinePlugin, HotModuleReplacementPlugin } from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 import { merge as webpackMerge } from 'webpack-merge';
@@ -52,7 +53,7 @@ export async function start({
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
   stdout = process.stdout,
   stdin = process.stdin,
-  logfile,
+  logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
   webpackConfig: _webpackConfig,
 }: StartParams): Promise<Start> {
   console.log('Start Server...');
@@ -61,6 +62,7 @@ export async function start({
     typeof _port === 'number' ? _port : await getPort({ port: getPort.makeRange(8000, 9999) });
   const staticFileDirectories: string[] = _staticFileDirectories.map((dir) => icuFormat(dir, { cwd, app }));
   const appDir: string = path.join(cwd, 'src', app);
+  const logfile: string = icuFormat(_logfile, { cwd, app });
   const tsconfig: string = icuFormat(_tsconfig, { cwd, app });
   const alias = getWebpackAlias(cwd);
   const entry = getAppEntry({ appDir });

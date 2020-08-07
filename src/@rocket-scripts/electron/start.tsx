@@ -12,6 +12,7 @@ import path from 'path';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import tmp from 'tmp';
 import { Configuration as WebpackConfiguration, DefinePlugin } from 'webpack';
 import { merge as webpackMerge } from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
@@ -43,7 +44,7 @@ export async function start({
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
   electronSwitches = {},
   env = process.env,
-  logfile,
+  logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
   mainWebpackConfig: _mainWebpackConfig,
   rendererWebpackConfig: _rendererWebpackConfig,
   stdout = process.stdout,
@@ -56,6 +57,7 @@ export async function start({
   const outDir: string = icuFormat(_outDir, { cwd, app });
   const tsconfig: string = icuFormat(_tsconfig, { cwd, app });
   const alias = getWebpackAlias(cwd);
+  const logfile: string = icuFormat(_logfile, { cwd, app });
   const publicPath: string = '';
   const chunkPath: string = '';
 

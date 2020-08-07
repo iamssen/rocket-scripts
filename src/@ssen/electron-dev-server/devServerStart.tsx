@@ -112,11 +112,11 @@ export async function devServerStart({
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   return async () => {
-    syncStaticFilesSubscription?.unsubscribe();
     electronServer.close();
     webpackServer.close();
     await webpackServer.waitUntilClose();
     unmount();
+    syncStaticFilesSubscription?.unsubscribe();
     restoreConsole();
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };

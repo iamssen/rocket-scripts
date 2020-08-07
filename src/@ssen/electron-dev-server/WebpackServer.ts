@@ -154,7 +154,7 @@ export class WebpackServer {
 
   public waitUntilClose = () =>
     new Promise<void>((resolve) => {
-      if (this.statusSubject.getValue() >= WebpackServerStatus.CLOSED) {
+      if (this.statusSubject.isStopped || this.statusSubject.getValue() >= WebpackServerStatus.CLOSED) {
         resolve();
       } else {
         this.closeResolvers.add(resolve);
