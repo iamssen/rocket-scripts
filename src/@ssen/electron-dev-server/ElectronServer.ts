@@ -1,4 +1,4 @@
-import nodemon from 'nodemon';
+import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
 
 export interface ElectronServerParams {
   dir: string;
@@ -7,22 +7,23 @@ export interface ElectronServerParams {
 }
 
 export class ElectronServer {
-  private instance: typeof nodemon | null = null;
+  private proc: ChildProcessWithoutNullStreams | null = null;
 
-  constructor({ main, dir, argv }: ElectronServerParams) {
-    this.instance = nodemon({
-      watch: [main],
-      exec: `npx electron ${argv.join(' ')} ${main}`,
-      cwd: dir,
-    });
+  constructor(private params: ElectronServerParams) {
+    this.start();
   }
 
+  public start = () => {
+    const { main, dir, argv } = this.params;
+    this.proc = spawn(`npx electron ${argv.join(' ')} ${main}`, { cwd: dir, detached: true, shell: true });
+  };
+
   public restart = () => {
-    this.instance?.emit('restart');
+    this.close();
+    this.start();
   };
 
   public close = () => {
-    this.instance?.emit('quit');
-    this.instance = null;
+    this.proc?.kill();
   };
 }

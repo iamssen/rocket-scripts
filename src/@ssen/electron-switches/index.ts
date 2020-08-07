@@ -15,7 +15,7 @@ export const electronSwitchesYargsOptions = {
   lang: { type: 'string', describe },
   inspect: { type: 'string', describe },
   'inspect-brk': { type: 'string', describe },
-  'remote-debugging-port': { type: 'string', describe },
+  'remote-debugging-port': { type: 'number', describe },
   'disk-cache-size': { type: 'number', describe },
   'js-flags': { type: 'string', describe },
   'proxy-server': { type: 'string', describe },
