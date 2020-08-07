@@ -1,6 +1,7 @@
 import { build } from '@rocket-scripts/web';
-import { exec, glob } from '@ssen/promised';
+import { glob } from '@ssen/promised';
 import { copyTmpDirectory, createTmpDirectory } from '@ssen/tmp-directory';
+import fs from 'fs-extra';
 import path from 'path';
 
 describe('web/build', () => {
@@ -13,7 +14,7 @@ describe('web/build', () => {
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
-      await exec(`npm install`, { cwd });
+      await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
 
       // Act
       await build({
@@ -45,7 +46,7 @@ describe('web/build', () => {
     const staticFileDirectories: string[] = ['{cwd}/public', '{cwd}/static'];
     const app: string = 'app';
 
-    await exec(`npm install`, { cwd });
+    await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
 
     // Act
     await build({
