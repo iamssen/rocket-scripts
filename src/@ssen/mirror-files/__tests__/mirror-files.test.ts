@@ -1,6 +1,5 @@
+import { mirrorFiles } from '@ssen/mirror-files/index';
 import { createTmpDirectory } from '@ssen/tmp-directory';
-import { useMirrorFiles } from '@ssen/use-mirror-files';
-import { renderHook } from '@testing-library/react-hooks';
 import fs from 'fs-extra';
 import path from 'path';
 
@@ -28,9 +27,9 @@ async function copy(file: string, dir: string, toDir: string) {
   await fs.copyFile(path.join(dir, file), f);
 }
 
-describe('useMirrorFiles()', () => {
+describe('mirrorFiles()', () => {
   test('should mirror static files', async () => {
-    const source: string = path.join(process.cwd(), 'test/fixtures/use-mirror-files/static-files');
+    const source: string = path.join(process.cwd(), 'test/fixtures/mirror-files/static-files');
     const dir: string = await createTmpDirectory();
     const outDir: string = await createTmpDirectory();
 
@@ -40,14 +39,11 @@ describe('useMirrorFiles()', () => {
     expect(fs.existsSync(path.join(dir, 'a.mp4'))).toBeTruthy();
     expect(fs.existsSync(path.join(dir, 'b.jpeg'))).toBeTruthy();
 
-    const { unmount } = renderHook(() =>
-      useMirrorFiles({
-        filesDirsOrGlobs: [dir],
-        outDir,
-        ignored: /.jpeg$/,
-        onMessage: () => {},
-      }),
-    );
+    const subscription = mirrorFiles({
+      filesDirsOrGlobs: [dir],
+      outDir,
+      ignored: /.jpeg$/,
+    }).subscribe(() => {});
 
     await expect(waitExists(path.join(outDir, 'a.mp4'))).resolves.toBeTruthy();
     await expect(waitExists(path.join(outDir, 'b.jpeg'))).resolves.toBeFalsy();
@@ -68,6 +64,6 @@ describe('useMirrorFiles()', () => {
     await expect(waitExists(path.join(outDir, 'public/d.html'))).resolves.toBeTruthy();
     await expect(waitExists(path.join(outDir, 'public/e.pdf'))).resolves.toBeTruthy();
 
-    unmount();
+    subscription.unsubscribe();
   });
 });

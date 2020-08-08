@@ -17,6 +17,7 @@ export class DevServer {
 
   private readonly statusSubject: BehaviorSubject<DevServerStatus>;
   private readonly webpackStatsSubject: BehaviorSubject<WebpackStats>;
+
   private readonly startResolvers: Set<() => void> = new Set();
   private readonly closeResolvers: Set<() => void> = new Set();
 
@@ -83,7 +84,7 @@ export class DevServer {
 
   public waitUntilClose = () =>
     new Promise<void>((resolve) => {
-      if (this.statusSubject.getValue() >= DevServerStatus.CLOSED) {
+      if (this.statusSubject.isStopped || this.statusSubject.getValue() >= DevServerStatus.CLOSED) {
         resolve();
       } else {
         this.closeResolvers.add(resolve);
@@ -95,6 +96,8 @@ export class DevServer {
       resolve();
     }
     this.closeResolvers.clear();
+
+    this.webpackStatsSubject.unsubscribe();
 
     this.statusSubject.next(DevServerStatus.CLOSED);
 

@@ -1,6 +1,5 @@
 import { start } from '@rocket-scripts/web';
 import { createInkWriteStream } from '@ssen/ink-helpers';
-import { exec } from '@ssen/promised';
 import { copyTmpDirectory } from '@ssen/tmp-directory';
 import fs from 'fs-extra';
 import path from 'path';
@@ -40,7 +39,7 @@ describe('web/start', () => {
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
-      await exec(`npm install`, { cwd });
+      await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
 
       // Arrange : stdout
       const stdout = createInkWriteStream();
@@ -108,7 +107,7 @@ describe('web/start', () => {
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
-      await exec(`npm install`, { cwd });
+      await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
 
       // Arrange : stdout
       const stdout = createInkWriteStream();
@@ -151,7 +150,7 @@ describe('web/start', () => {
     const staticFileDirectories: string[] = ['{cwd}/public', '{cwd}/static'];
     const app: string = 'app';
 
-    await exec(`npm install`, { cwd });
+    await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
 
     // Arrange : stdout
     const stdout = createInkWriteStream();
@@ -198,7 +197,7 @@ describe('web/start', () => {
     const staticFileDirectories: string[] = ['{cwd}/public'];
     const app: string = 'app';
 
-    await exec(`npm install`, { cwd });
+    await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
 
     // Arrange : stdout
     const stdout = createInkWriteStream();

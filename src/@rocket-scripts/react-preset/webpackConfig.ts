@@ -17,6 +17,7 @@ export interface WebpackConfigOptions {
   publicPath: string;
   babelLoaderOptions: object;
   tsconfig: string;
+  extractCss: boolean;
 }
 
 export default function ({
@@ -25,6 +26,7 @@ export default function ({
   publicPath,
   babelLoaderOptions,
   tsconfig,
+  extractCss,
 }: WebpackConfigOptions): Configuration {
   return {
     resolve: {

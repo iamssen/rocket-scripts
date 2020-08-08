@@ -1,11 +1,10 @@
+import { Divider, PadText } from '@ssen/dev-server-components';
 import { exec } from 'child_process';
 import { format } from 'date-fns';
 import { Text, useInput, useStdin } from 'ink';
 import os from 'os';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { Observable } from 'rxjs';
-import { Divider } from './components/Divider';
-import { PadText } from './components/PadText';
 import { DevServer } from './DevServer';
 import { DevServerStatus, TimeMessage, WebpackStats } from './types';
 

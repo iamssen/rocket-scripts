@@ -1,5 +1,8 @@
 import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
-import { webpackConfig as webpackReactConfig } from '@rocket-scripts/react-preset';
+import {
+  mainWebpackConfig as webpackReactElectronMainConfig,
+  rendererWebpackConfig as webpackReactElectronRendererConfig,
+} from '@rocket-scripts/react-electron-preset';
 import { getWebpackAlias, icuFormat } from '@rocket-scripts/utils';
 import { filterReactEnv } from '@rocket-scripts/web/utils/filterReactEnv';
 import fs from 'fs-extra';
@@ -10,54 +13,47 @@ import path from 'path';
 import safePostCssParser from 'postcss-safe-parser';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import TerserPlugin from 'terser-webpack-plugin';
-import webpack, {
-  Compiler,
-  Configuration as WebpackConfiguration,
-  DefinePlugin,
-  Options as WebpackOptions,
-  Stats,
-} from 'webpack';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import webpack, { Compiler, Configuration as WebpackConfiguration, DefinePlugin, Stats } from 'webpack';
 import { merge as webpackMerge } from 'webpack-merge';
-import { getAppEntry } from './utils/getAppEntry';
+import nodeExternals from 'webpack-node-externals';
 
 export interface BuildParams {
-  // cli
   app: string;
   outDir?: string;
   tsconfig?: string;
+  mainWebpackConfig?: string | WebpackConfiguration;
+  rendererWebpackConfig?: string | WebpackConfiguration;
   staticFileDirectories?: string[];
-  webpackConfig?: string | WebpackConfiguration;
-
-  // api
   cwd?: string;
-  devtool?: WebpackOptions.Devtool;
   env?: NodeJS.ProcessEnv;
 }
 
 export async function build({
   cwd = process.cwd(),
   app,
-  devtool = 'source-map',
   outDir: _outDir = '{cwd}/out/{app}',
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
-  env = {},
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
-  webpackConfig: _webpackConfig,
+  env = process.env,
+  mainWebpackConfig: _mainWebpackConfig,
+  rendererWebpackConfig: _rendererWebpackConfig,
 }: BuildParams) {
-  const outDir: string = icuFormat(_outDir, { cwd, app });
   const staticFileDirectories: string[] = _staticFileDirectories.map((dir) => icuFormat(dir, { cwd, app }));
-  const appDir: string = path.join(cwd, 'src', app);
+  const outDir: string = icuFormat(_outDir, { cwd, app });
   const tsconfig: string = icuFormat(_tsconfig, { cwd, app });
   const alias = getWebpackAlias(cwd);
-  const entry = getAppEntry({ appDir });
   const publicPath: string = '';
   const chunkPath: string = '';
 
-  const userWebpackConfig: WebpackConfiguration | {} =
-    typeof _webpackConfig === 'string'
-      ? require(icuFormat(_webpackConfig, { cwd, app }))
-      : _webpackConfig ?? {};
+  const userMainWebpackConfig: WebpackConfiguration | {} =
+    typeof _mainWebpackConfig === 'string'
+      ? require(icuFormat(_mainWebpackConfig, { cwd, app }))
+      : _mainWebpackConfig ?? {};
+
+  const userRendererWebpackConfig: WebpackConfiguration | {} =
+    typeof _rendererWebpackConfig === 'string'
+      ? require(icuFormat(_rendererWebpackConfig, { cwd, app }))
+      : _rendererWebpackConfig ?? {};
 
   const webpackEnv = {
     ...filterReactEnv(env),
@@ -78,25 +74,20 @@ export async function build({
     ],
   };
 
-  const webpackConfig: WebpackConfiguration = webpackMerge(
-    userWebpackConfig,
-    webpackReactConfig({
-      chunkPath,
-      publicPath,
+  const mainWebpackConfig: WebpackConfiguration = webpackMerge(
+    userMainWebpackConfig,
+    webpackReactElectronMainConfig({
       cwd,
-      tsconfig,
       babelLoaderOptions,
-      extractCss: true,
+      tsconfig,
     }),
     {
       mode: 'production',
-      devtool,
 
       output: {
         path: outDir,
-        publicPath,
-        filename: `${chunkPath}[name].[hash].js`,
-        chunkFilename: `${chunkPath}[name].[hash].js`,
+        filename: `[name].js`,
+        chunkFilename: `[name].js`,
         pathinfo: false,
       },
 
@@ -105,10 +96,91 @@ export async function build({
         alias,
       },
 
-      entry: entry.reduce((e, { name, index }) => {
-        e[name] = path.join(cwd, 'src', app, index);
-        return e;
-      }, {}),
+      entry: {
+        main: path.join(cwd, `src/${app}/main`),
+        preload: path.join(cwd, `src/${app}/preload`),
+      },
+
+      externals: [
+        nodeExternals({
+          allowlist: [
+            // include asset files
+            /\.(?!(?:jsx?|json)$).{1,5}$/i,
+          ],
+        }),
+      ],
+
+      optimization: {
+        concatenateModules: true,
+        minimize: true,
+        minimizer: [
+          new TerserPlugin({
+            terserOptions: {
+              ecma: 5,
+              parse: {
+                ecma: 8,
+              },
+              compress: {
+                //ecma: 5,
+                warnings: false,
+                comparisons: false,
+                inline: 2,
+              },
+              mangle: {
+                safari10: true,
+              },
+              output: {
+                ecma: 5,
+                comments: false,
+                ascii_only: true,
+              },
+            },
+            parallel: true,
+            cache: true,
+            sourceMap: true,
+          }),
+        ],
+      },
+
+      plugins: [
+        new DefinePlugin({
+          'process.env': Object.keys(webpackEnv).reduce((stringifiedEnv, key) => {
+            stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
+            return stringifiedEnv;
+          }, {}),
+        }),
+      ],
+    },
+  );
+
+  const rendererWebpackConfig: WebpackConfiguration = webpackMerge(
+    userRendererWebpackConfig,
+    webpackReactElectronRendererConfig({
+      cwd,
+      tsconfig,
+      babelLoaderOptions,
+      chunkPath,
+      publicPath,
+      extractCss: true,
+    }),
+    {
+      mode: 'production',
+
+      output: {
+        path: outDir,
+        filename: `[name].js`,
+        chunkFilename: `[name].js`,
+        pathinfo: false,
+      },
+
+      resolve: {
+        symlinks: false,
+        alias,
+      },
+
+      entry: {
+        renderer: path.join(cwd, `src/${app}/renderer`),
+      },
 
       optimization: {
         concatenateModules: true,
@@ -174,27 +246,14 @@ export async function build({
       },
 
       plugins: [
-        // create css files
         new MiniCssExtractPlugin({
-          filename: `${chunkPath}[name].[hash].css`,
-          chunkFilename: `${chunkPath}[name].[hash].css`,
+          filename: `[name].css`,
         }),
 
-        // create size report
-        new BundleAnalyzerPlugin({
-          analyzerMode: 'static',
-          reportFilename: path.join(outDir, 'size-report.html'),
-          openAnalyzer: false,
+        new HtmlWebpackPlugin({
+          template: path.join(cwd, `src/${app}/index.html`),
+          filename: 'index.html',
         }),
-
-        //create html files
-        ...entry.map(
-          ({ html }) =>
-            new HtmlWebpackPlugin({
-              template: path.join(cwd, 'src', app, html),
-              filename: html,
-            }),
-        ),
 
         new InterpolateHtmlPlugin(HtmlWebpackPlugin, webpackEnv),
 
@@ -211,20 +270,40 @@ export async function build({
   await fs.mkdirp(outDir);
   await Promise.all(staticFileDirectories.map((dir) => fs.copy(dir, outDir, { dereference: true })));
 
-  const compiler: Compiler = webpack(webpackConfig);
+  const mainCompiler: Compiler = webpack(mainWebpackConfig);
+  const rendererCompiler: Compiler = webpack(rendererWebpackConfig);
 
   await new Promise((resolve, reject) => {
-    compiler.run((error: Error, stats: Stats) => {
+    mainCompiler.run((error: Error, stats: Stats) => {
       if (error) {
         reject(error);
       } else {
         console.log(
           stats.toString(
-            typeof webpackConfig.stats === 'object'
+            typeof mainWebpackConfig.stats === 'object'
               ? {
                   colors: true,
                 }
-              : webpackConfig.stats ?? { colors: true },
+              : mainWebpackConfig.stats ?? { colors: true },
+          ),
+        );
+        resolve();
+      }
+    });
+  });
+
+  await new Promise((resolve, reject) => {
+    rendererCompiler.run((error: Error, stats: Stats) => {
+      if (error) {
+        reject(error);
+      } else {
+        console.log(
+          stats.toString(
+            typeof rendererWebpackConfig.stats === 'object'
+              ? {
+                  colors: true,
+                }
+              : rendererWebpackConfig.stats ?? { colors: true },
           ),
         );
         resolve();

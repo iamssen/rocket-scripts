@@ -14,7 +14,6 @@ import puppeteer from 'puppeteer';
     cwd,
     staticFileDirectories: ['{cwd}/public'],
     app: 'app',
-    https: false,
   });
 
   const browser = await puppeteer.launch({
