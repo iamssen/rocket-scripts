@@ -1,7 +1,6 @@
 import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import { webpackConfig as webpackReactConfig } from '@rocket-scripts/react-preset';
 import { getWebpackAlias, icuFormat, rocketTitle } from '@rocket-scripts/utils';
-import { observeAliasChange } from '@rocket-scripts/web/utils/observeAliasChange';
 import { devServerStart, DevServerStartParams } from '@ssen/webpack-dev-server';
 import getPort from 'get-port';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -12,10 +11,16 @@ import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import tmp from 'tmp';
 import { Configuration as WebpackConfiguration, DefinePlugin, HotModuleReplacementPlugin } from 'webpack';
-import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+import {
+  Configuration as WebpackDevServerConfiguration,
+  ProxyConfigArray,
+  ProxyConfigMap,
+} from 'webpack-dev-server';
 import { merge as webpackMerge } from 'webpack-merge';
+import { filterReactEnv } from './utils/filterReactEnv';
 import { getAppEntry } from './utils/getAppEntry';
 import { getProxyConfig } from './utils/getProxyConfig';
+import { observeAliasChange } from './utils/observeAliasChange';
 import { observeAppEntryChange } from './utils/observeAppEntryChange';
 import { observeProxyConfigChange } from './utils/observeProxyConfigChange';
 
@@ -32,10 +37,12 @@ export interface StartParams
   tsconfig?: string;
   staticFileDirectories?: string[];
   webpackConfig?: string | WebpackConfiguration;
+  webpackDevServerConfig?: string | WebpackDevServerConfiguration;
 
   // api
   cwd: string;
   env?: NodeJS.ProcessEnv;
+  proxyConfig?: ProxyConfigMap | ProxyConfigArray;
 }
 
 export interface Start extends DevServerStartParams {
@@ -55,6 +62,8 @@ export async function start({
   stdin = process.stdin,
   logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
   webpackConfig: _webpackConfig,
+  webpackDevServerConfig: _webpackDevServerConfig,
+  proxyConfig,
 }: StartParams): Promise<Start> {
   console.log('Start Server...');
 
@@ -74,15 +83,13 @@ export async function start({
       ? require(icuFormat(_webpackConfig, { cwd, app }))
       : _webpackConfig ?? {};
 
-  const reactAppEnv: NodeJS.ProcessEnv = Object.keys(env)
-    .filter((key) => /^REACT_APP_/i.test(key))
-    .reduce((e, key) => {
-      e[key] = env[key];
-      return e;
-    }, {});
+  const userWebpackDevServerConfig: WebpackDevServerConfiguration | {} =
+    typeof _webpackDevServerConfig === 'string'
+      ? require(icuFormat(_webpackDevServerConfig, { cwd, app }))
+      : _webpackDevServerConfig ?? {};
 
   const webpackEnv = {
-    ...reactAppEnv,
+    ...filterReactEnv(env),
     PUBLIC_PATH: publicPath,
     PUBLIC_URL: publicPath,
     NODE_ENV: env['NODE_ENV'] || 'development',
@@ -168,24 +175,28 @@ export async function start({
     },
   );
 
-  const proxyConfig = getProxyConfig(cwd);
-
   const devServerConfig: WebpackDevServerConfiguration = {
+    ...userWebpackDevServerConfig,
     hot: true,
     compress: true,
     contentBase: staticFileDirectories,
     stats: {
       colors: false,
     },
-    proxy: proxyConfig,
+    proxy: proxyConfig || getProxyConfig(cwd),
     https,
   };
 
-  const restartAlarm: Observable<string[]> = combineLatest([
+  const restartSignals: Observable<string | null>[] = [
     observeAppEntryChange({ appDir, current: entry }),
     observeAliasChange({ cwd, current: alias }),
-    observeProxyConfigChange({ cwd, current: proxyConfig }),
-  ]).pipe(
+  ];
+
+  if (!proxyConfig) {
+    restartSignals.push(observeProxyConfigChange({ cwd, current: proxyConfig }));
+  }
+
+  const restartAlarm: Observable<string[]> = combineLatest(restartSignals).pipe(
     map<(string | null)[], string[]>((changes) => changes.filter((change): change is string => !!change)),
   );
 

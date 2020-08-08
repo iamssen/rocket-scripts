@@ -1,6 +1,7 @@
 import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import { webpackConfig as webpackReactConfig } from '@rocket-scripts/react-preset';
 import { getWebpackAlias, icuFormat } from '@rocket-scripts/utils';
+import { filterReactEnv } from '@rocket-scripts/web/utils/filterReactEnv';
 import fs from 'fs-extra';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -58,15 +59,8 @@ export async function build({
       ? require(icuFormat(_webpackConfig, { cwd, app }))
       : _webpackConfig ?? {};
 
-  const reactAppEnv: NodeJS.ProcessEnv = Object.keys(env)
-    .filter((key) => /^REACT_APP_/i.test(key))
-    .reduce((e, key) => {
-      e[key] = env[key];
-      return e;
-    }, {});
-
   const webpackEnv = {
-    ...reactAppEnv,
+    ...filterReactEnv(env),
     PUBLIC_PATH: publicPath,
     PUBLIC_URL: publicPath,
     NODE_ENV: env['NODE_ENV'] || 'development',

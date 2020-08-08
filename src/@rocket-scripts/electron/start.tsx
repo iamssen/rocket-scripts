@@ -4,6 +4,7 @@ import {
   rendererWebpackConfig as webpackReactElectronRendererConfig,
 } from '@rocket-scripts/react-electron-preset';
 import { getWebpackAlias, icuFormat, rocketTitle } from '@rocket-scripts/utils';
+import { filterReactEnv } from '@rocket-scripts/web/utils/filterReactEnv';
 import { observeAliasChange } from '@rocket-scripts/web/utils/observeAliasChange';
 import { devServerStart, DevServerStartParams } from '@ssen/electron-dev-server';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -71,15 +72,8 @@ export async function start({
       ? require(icuFormat(_rendererWebpackConfig, { cwd, app }))
       : _rendererWebpackConfig ?? {};
 
-  const reactAppEnv: NodeJS.ProcessEnv = Object.keys(env)
-    .filter((key) => /^REACT_APP_/i.test(key))
-    .reduce((e, key) => {
-      e[key] = env[key];
-      return e;
-    }, {});
-
   const webpackEnv = {
-    ...reactAppEnv,
+    ...filterReactEnv(env),
     PUBLIC_PATH: publicPath,
     PUBLIC_URL: publicPath,
     NODE_ENV: env['NODE_ENV'] || 'development',
