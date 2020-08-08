@@ -30,7 +30,7 @@ export interface StartParams
   rendererWebpackConfig?: string | WebpackConfiguration;
 
   // api
-  cwd: string;
+  cwd?: string;
   env?: NodeJS.ProcessEnv;
 }
 
@@ -39,7 +39,7 @@ export interface Start extends DevServerStartParams {
 }
 
 export async function start({
-  cwd,
+  cwd = process.cwd(),
   app,
   outDir: _outDir = '{cwd}/out/{app}',
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
@@ -160,6 +160,7 @@ export async function start({
       babelLoaderOptions,
       chunkPath,
       publicPath,
+      extractCss: true,
     }),
     {
       mode: 'development',

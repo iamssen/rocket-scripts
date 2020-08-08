@@ -40,7 +40,7 @@ export interface StartParams
   webpackDevServerConfig?: string | WebpackDevServerConfiguration;
 
   // api
-  cwd: string;
+  cwd?: string;
   env?: NodeJS.ProcessEnv;
   proxyConfig?: ProxyConfigMap | ProxyConfigArray;
 }
@@ -50,7 +50,7 @@ export interface Start extends DevServerStartParams {
 }
 
 export async function start({
-  cwd,
+  cwd = process.cwd(),
   app,
   port: _port = 'random',
   hostname = 'localhost',
@@ -115,6 +115,7 @@ export async function start({
       cwd,
       tsconfig,
       babelLoaderOptions,
+      extractCss: false,
     }),
     {
       mode: 'development',

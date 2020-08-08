@@ -10,6 +10,7 @@ export default function ({
   chunkPath,
   publicPath,
   tsconfig,
+  extractCss,
 }: RendererWebpackConfigOptions): Configuration {
   return merge(
     reactWebpackConfig({
@@ -18,6 +19,7 @@ export default function ({
       chunkPath,
       publicPath,
       tsconfig,
+      extractCss,
     }),
     {
       target: 'electron-renderer',
