@@ -58,7 +58,9 @@ describe('electron/start', () => {
       }
 
       const pages = await browser.pages();
-      const page = pages[pages.length - 1];
+
+      const page = pages.find((page) => /index\.html$/.test(page.url()));
+      if (!page) throw new Error(`Undefined index.html`);
 
       await page.waitForSelector('#app h1', { timeout: 1000 * 60 });
 

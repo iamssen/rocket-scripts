@@ -16,6 +16,10 @@ export class ElectronServer {
   constructor(private params: ElectronServerParams) {
     this.startProc();
     this.watcher = watch(params.main).on('change', this.restart);
+
+    process.on('exit', this.close);
+    process.on('SIGINT', this.close);
+    process.on('SIGTERM', this.close);
   }
 
   public restart = () => {
