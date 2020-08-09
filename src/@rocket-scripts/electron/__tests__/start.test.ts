@@ -75,15 +75,21 @@ describe('electron/start', () => {
 
       await timeout(1000 * 5);
 
-      await page.reload({ waitUntil: 'load' });
+      const watchTimeout: number = Date.now() + 1000 * 60;
 
-      await timeout(1000 * 5);
+      while (true) {
+        await page.reload({ waitUntil: 'load' });
 
-      // Assert : update browser text by webpack watch
-      await page.waitForFunction(`document.querySelector('#app h1').innerHTML === 'Hi World!'`, {
-        timeout: 1000 * 60,
-        polling: 1000 * 3,
-      });
+        await timeout(1000 * 5);
+
+        // Assert : update browser text by webpack watch
+        const text: string = await page.$eval('#app h1', (e) => e.innerHTML);
+        if (text === 'Hi World!') {
+          break;
+        } else if (Date.now() > watchTimeout) {
+          throw new Error(`${text} is not "Hi World!"`);
+        }
+      }
 
       // Exit
       browser.disconnect();
