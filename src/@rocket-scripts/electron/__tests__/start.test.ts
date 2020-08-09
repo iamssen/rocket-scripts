@@ -34,7 +34,7 @@ describe('electron/start', () => {
         stdout,
         logfile: '{cwd}/log.txt',
         electronSwitches: {
-          'remote-debugging-port': remoteDebuggingPort.toString(),
+          'remote-debugging-port': remoteDebuggingPort,
         },
       });
 
