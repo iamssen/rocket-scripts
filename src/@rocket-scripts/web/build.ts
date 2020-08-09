@@ -10,40 +10,24 @@ import path from 'path';
 import safePostCssParser from 'postcss-safe-parser';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import TerserPlugin from 'terser-webpack-plugin';
-import webpack, {
-  Compiler,
-  Configuration as WebpackConfiguration,
-  DefinePlugin,
-  Options as WebpackOptions,
-  Stats,
-} from 'webpack';
+import webpack, { Compiler, Configuration as WebpackConfiguration, DefinePlugin, Stats } from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { merge as webpackMerge } from 'webpack-merge';
+import { BuildParams } from './params';
 import { getAppEntry } from './utils/getAppEntry';
-
-export interface BuildParams {
-  // cli
-  app: string;
-  outDir?: string;
-  tsconfig?: string;
-  staticFileDirectories?: string[];
-  webpackConfig?: string | WebpackConfiguration;
-
-  // api
-  cwd?: string;
-  devtool?: WebpackOptions.Devtool;
-  env?: NodeJS.ProcessEnv;
-}
 
 export async function build({
   cwd = process.cwd(),
   app,
-  devtool = 'source-map',
-  outDir: _outDir = '{cwd}/out/{app}',
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
+  outDir: _outDir = '{cwd}/out/{app}',
+
   env = {},
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
+
   webpackConfig: _webpackConfig,
+
+  devtool = 'source-map',
 }: BuildParams) {
   const outDir: string = icuFormat(_outDir, { cwd, app });
   const staticFileDirectories: string[] = _staticFileDirectories.map((dir) => icuFormat(dir, { cwd, app }));

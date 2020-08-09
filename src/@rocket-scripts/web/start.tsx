@@ -4,84 +4,19 @@ import { getWebpackAlias, icuFormat, rocketTitle } from '@rocket-scripts/utils';
 import { devServerStart, DevServerStartParams } from '@ssen/webpack-dev-server';
 import getPort from 'get-port';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import https from 'https';
 import path from 'path';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import tmp from 'tmp';
 import { Configuration as WebpackConfiguration, DefinePlugin, HotModuleReplacementPlugin } from 'webpack';
-import {
-  Configuration as WebpackDevServerConfiguration,
-  ProxyConfigArray,
-  ProxyConfigMap,
-} from 'webpack-dev-server';
+import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 import { merge as webpackMerge } from 'webpack-merge';
+import { StartParams } from './params';
 import { filterReactEnv } from './utils/filterReactEnv';
 import { getAppEntry } from './utils/getAppEntry';
 import { observeAliasChange } from './utils/observeAliasChange';
 import { observeAppEntryChange } from './utils/observeAppEntryChange';
-
-export interface StartParams {
-  /**
-   * if you run from outside of project root.
-   *
-   * you have to set this value to your project root.
-   *
-   * e.g. `cwd: path.join(__dirname, 'my-project)`
-   *
-   * default. `process.cwd()`
-   */
-  cwd?: string;
-
-  /**
-   * app directory you want to run
-   *
-   * e.g. `app: 'app'` mean run `src/app` directory
-   *
-   * warn. do not set over 2-depth directory path (e.g. `app: 'group/app'`)
-   *       it just support top level directory only.
-   */
-  app: string;
-
-  /**
-   * set static file directories.
-   *
-   * you can set with this when you want to use the other static file directories instead of `{project}/public`.
-   *
-   * e.g. `staticFileDirectories: ['{cwd}/static', '{cwd}/public']
-   *
-   * default. `['{cwd}/public']`
-   *
-   * tip. you can use `{cwd}` and `{app}`. they are same values that you are input.
-   */
-  staticFileDirectories?: string[];
-
-  /**
-   * set env.
-   *
-   * you can set with this when you want to use another env values instead of `process.env`.
-   *
-   * e.g. `env: { ...process.env, REACT_APP_ENDPOINT: 'http://server.com:3485' }`
-   *
-   * default. `process.env`
-   */
-  env?: NodeJS.ProcessEnv;
-
-  stdout?: NodeJS.WriteStream;
-  stdin?: NodeJS.ReadStream;
-  logfile?: string;
-
-  webpackConfig?: string | WebpackConfiguration;
-
-  port?: 'random' | number;
-  hostname?: string;
-  https?: boolean | https.ServerOptions;
-  proxy?: ProxyConfigMap | ProxyConfigArray;
-  webpackDevServerConfig?: string | WebpackDevServerConfiguration;
-
-  tsconfig?: string;
-}
 
 export interface Start extends DevServerStartParams {
   close: () => Promise<void>;
@@ -90,18 +25,22 @@ export interface Start extends DevServerStartParams {
 export async function start({
   cwd = process.cwd(),
   app,
-  port: _port = 'random',
-  hostname = 'localhost',
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
-  https,
+
   env = process.env,
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
-  stdout = process.stdout,
-  stdin = process.stdin,
-  logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
+
+  port: _port = 'random',
+  hostname = 'localhost',
+  https,
+  proxy,
+
   webpackConfig: _webpackConfig,
   webpackDevServerConfig: _webpackDevServerConfig,
-  proxy,
+
+  logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
+  stdout = process.stdout,
+  stdin = process.stdin,
 }: StartParams): Promise<Start> {
   console.log('Start Server...');
 

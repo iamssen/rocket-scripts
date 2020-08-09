@@ -17,22 +17,7 @@ import tmp from 'tmp';
 import { Configuration as WebpackConfiguration, DefinePlugin } from 'webpack';
 import { merge as webpackMerge } from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
-
-export interface StartParams
-  extends Omit<
-    DevServerStartParams,
-    'mainWebpackConfig' | 'rendererWebpackConfig' | 'restartAlarm' | 'header'
-  > {
-  // cli
-  app: string;
-  tsconfig?: string;
-  mainWebpackConfig?: string | WebpackConfiguration;
-  rendererWebpackConfig?: string | WebpackConfiguration;
-
-  // api
-  cwd?: string;
-  env?: NodeJS.ProcessEnv;
-}
+import { StartParams } from './params';
 
 export interface Start extends DevServerStartParams {
   close: () => Promise<void>;
