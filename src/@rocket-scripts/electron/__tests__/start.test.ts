@@ -62,10 +62,11 @@ describe('electron/start', () => {
       const page = pages.find((page) => /index\.html$/.test(page.url()));
       if (!page) throw new Error(`Undefined index.html`);
 
-      await page.waitForSelector('#app h1', { timeout: 1000 * 60 });
-
       // Assert
-      await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hello World!');
+      await page.waitForFunction(`document.querySelector('#app h1').innerHTML === 'Hello World!'`, {
+        timeout: 1000 * 60,
+        polling: 1000 * 3,
+      });
 
       // Act : update source file to be causing webpack watch
       const file: string = path.join(cwd, 'src/app/preload.ts');
@@ -78,10 +79,11 @@ describe('electron/start', () => {
 
       await timeout(1000 * 5);
 
-      await page.waitForSelector('#app h1', { timeout: 1000 * 60 });
-
       // Assert : update browser text by webpack watch
-      await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hi World!');
+      await page.waitForFunction(`document.querySelector('#app h1').innerHTML === 'Hi World!'`, {
+        timeout: 1000 * 60,
+        polling: 1000 * 3,
+      });
 
       // Exit
       browser.disconnect();
