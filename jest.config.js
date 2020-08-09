@@ -12,7 +12,6 @@ module.exports = {
   collectCoverageFrom: [
     ...jestPreset.collectCoverageFrom,
     '!src/@rocket-scripts/react-preset/jestTransform/**',
-    '!src/rocket-scripts/**',
     '!src/**/.package.ts',
   ],
 };

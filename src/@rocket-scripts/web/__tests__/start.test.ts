@@ -209,6 +209,16 @@ describe('web/start', () => {
       app,
       https: false,
       stdout,
+      proxy: {
+        '/api': {
+          target: 'http://labs.ssen.name',
+          changeOrigin: true,
+          logLevel: 'debug',
+          pathRewrite: {
+            '^/api': '',
+          },
+        },
+      },
     });
 
     await timeout(1000 * 5);

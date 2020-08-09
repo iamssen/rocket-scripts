@@ -36,11 +36,11 @@ export async function devServerStart({
   const stream: NodeJS.WritableStream = fs.createWriteStream(logfile);
   const restoreConsole = patchConsole({ stdout: stream, stderr: stream, colorMode: false });
 
-  let proxyConfig: ProxyConfigMap | ProxyConfigArray | undefined = undefined;
+  let proxy: ProxyConfigMap | ProxyConfigArray | undefined = undefined;
   let proxySubject: Subject<TimeMessage[]> | undefined = undefined;
   if (devServerConfig.proxy) {
     proxySubject = new BehaviorSubject<TimeMessage[]>([]);
-    proxyConfig = patchProxyLogger({ proxyConfig: devServerConfig.proxy, subject: proxySubject });
+    proxy = patchProxyLogger({ proxyConfig: devServerConfig.proxy, subject: proxySubject });
   }
 
   const server: DevServer = new DevServer({
@@ -52,7 +52,7 @@ export async function devServerStart({
     devServerConfig: {
       ...devServerConfig,
       // TODO
-      proxy: proxyConfig,
+      proxy,
     },
   });
 

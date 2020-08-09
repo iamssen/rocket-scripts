@@ -19,16 +19,22 @@ packages:
   '@rocket-scripts/*':
     access: $anonymous
     publish: $anonymous
+  '@ssen/dev-server-components':
+    access: $anonymous
+    publish: $anonymous
   '@ssen/electron-dev-server':
+    access: $anonymous
+    publish: $anonymous
+  '@ssen/electron-switches':
     access: $anonymous
     publish: $anonymous
   '@ssen/ink-helpers':
     access: $anonymous
     publish: $anonymous
-  '@ssen/patch-console':
+  '@ssen/mirror-files':
     access: $anonymous
     publish: $anonymous
-  '@ssen/use-mirror-files':
+  '@ssen/patch-console':
     access: $anonymous
     publish: $anonymous
   '@ssen/webpack-dev-server':

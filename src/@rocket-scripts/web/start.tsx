@@ -19,30 +19,68 @@ import {
 import { merge as webpackMerge } from 'webpack-merge';
 import { filterReactEnv } from './utils/filterReactEnv';
 import { getAppEntry } from './utils/getAppEntry';
-import { getProxyConfig } from './utils/getProxyConfig';
 import { observeAliasChange } from './utils/observeAliasChange';
 import { observeAppEntryChange } from './utils/observeAppEntryChange';
-import { observeProxyConfigChange } from './utils/observeProxyConfigChange';
 
-export interface StartParams
-  extends Omit<
-    DevServerStartParams,
-    'port' | 'hostname' | 'devServerConfig' | 'webpackConfig' | 'restartAlarm' | 'header'
-  > {
-  // cli
+export interface StartParams {
+  /**
+   * if you run from outside of project root.
+   *
+   * you have to set this value to your project root.
+   *
+   * e.g. `cwd: path.join(__dirname, 'my-project)`
+   *
+   * default. `process.cwd()`
+   */
+  cwd?: string;
+
+  /**
+   * app directory you want to run
+   *
+   * e.g. `app: 'app'` mean run `src/app` directory
+   *
+   * warn. do not set over 2-depth directory path (e.g. `app: 'group/app'`)
+   *       it just support top level directory only.
+   */
   app: string;
+
+  /**
+   * set static file directories.
+   *
+   * you can set with this when you want to use the other static file directories instead of `{project}/public`.
+   *
+   * e.g. `staticFileDirectories: ['{cwd}/static', '{cwd}/public']
+   *
+   * default. `['{cwd}/public']`
+   *
+   * tip. you can use `{cwd}` and `{app}`. they are same values that you are input.
+   */
+  staticFileDirectories?: string[];
+
+  /**
+   * set env.
+   *
+   * you can set with this when you want to use another env values instead of `process.env`.
+   *
+   * e.g. `env: { ...process.env, REACT_APP_ENDPOINT: 'http://server.com:3485' }`
+   *
+   * default. `process.env`
+   */
+  env?: NodeJS.ProcessEnv;
+
+  stdout?: NodeJS.WriteStream;
+  stdin?: NodeJS.ReadStream;
+  logfile?: string;
+
+  webpackConfig?: string | WebpackConfiguration;
+
   port?: 'random' | number;
   hostname?: string;
   https?: boolean | https.ServerOptions;
-  tsconfig?: string;
-  staticFileDirectories?: string[];
-  webpackConfig?: string | WebpackConfiguration;
+  proxy?: ProxyConfigMap | ProxyConfigArray;
   webpackDevServerConfig?: string | WebpackDevServerConfiguration;
 
-  // api
-  cwd?: string;
-  env?: NodeJS.ProcessEnv;
-  proxyConfig?: ProxyConfigMap | ProxyConfigArray;
+  tsconfig?: string;
 }
 
 export interface Start extends DevServerStartParams {
@@ -63,7 +101,7 @@ export async function start({
   logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
   webpackConfig: _webpackConfig,
   webpackDevServerConfig: _webpackDevServerConfig,
-  proxyConfig,
+  proxy,
 }: StartParams): Promise<Start> {
   console.log('Start Server...');
 
@@ -184,20 +222,14 @@ export async function start({
     stats: {
       colors: false,
     },
-    proxy: proxyConfig || getProxyConfig(cwd),
+    proxy,
     https,
   };
 
-  const restartSignals: Observable<string | null>[] = [
+  const restartAlarm: Observable<string[]> = combineLatest([
     observeAppEntryChange({ appDir, current: entry }),
     observeAliasChange({ cwd, current: alias }),
-  ];
-
-  if (!proxyConfig) {
-    restartSignals.push(observeProxyConfigChange({ cwd, current: proxyConfig }));
-  }
-
-  const restartAlarm: Observable<string[]> = combineLatest(restartSignals).pipe(
+  ]).pipe(
     map<(string | null)[], string[]>((changes) => changes.filter((change): change is string => !!change)),
   );
 
