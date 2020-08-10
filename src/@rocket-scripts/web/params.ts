@@ -1,10 +1,5 @@
-import https from 'https';
 import { Configuration as WebpackConfiguration, Options as WebpackOptions } from 'webpack';
-import {
-  Configuration as WebpackDevServerConfiguration,
-  ProxyConfigArray,
-  ProxyConfigMap,
-} from 'webpack-dev-server';
+import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
 export interface CommonParams {
   /**
@@ -99,41 +94,11 @@ export interface StartParams extends CommonParams {
   hostname?: string;
 
   /**
-   * if you set this value the server will run with https.
-   *
-   * @example { https: true }
-   *
-   * @example { https: { cert: process.env.HTTPS_CERT, key: process.env.HTTPS_KEY } }
-   *
-   * @default false
-   */
-  https?: boolean | https.ServerOptions;
-
-  /**
-   * proxy configuration. (it will pass to proxy option of webpack-dev-server)
-   *
-   * @example
-   * {
-   *   proxy: {
-   *     '/api': {
-   *       target: 'http://labs.ssen.name',
-   *       changeOrigin: true,
-   *       logLevel: 'debug',
-   *       pathRewrite: {
-   *         '^/api': '',
-   *       },
-   *     },
-   *   }
-   * }
-   */
-  proxy?: ProxyConfigMap | ProxyConfigArray;
-
-  /**
    * custom webpack-dev-server configuration
    *
    * but, this value will be used with the lowest priority.
    *
-   * also, `https`, `proxy` and `staticFileDirectories` options will be override this.
+   * also, `staticFileDirectories` options will be override this.
    *
    * so just use to set the miscellaneous options.
    *
@@ -141,7 +106,9 @@ export interface StartParams extends CommonParams {
    *
    * @example { webpackDevServerConfig: { https: true } }
    */
-  webpackDevServerConfig?: string | WebpackDevServerConfiguration;
+  webpackDevServerConfig?:
+    | string
+    | Omit<WebpackDevServerConfiguration, 'hot' | 'compress' | 'contentBase' | 'stats'>;
 
   /**
    * logfile path.
@@ -178,7 +145,7 @@ export interface BuildParams extends CommonParams {
   outDir?: string;
 
   /**
-   * this value will path to `devtool` option of webpackConfig.
+   * this value will pass to `devtool` option of webpackConfig.
    *
    * @example { devtool: false }
    *

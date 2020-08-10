@@ -13,9 +13,11 @@ import path from 'path';
     cwd,
     staticFileDirectories: ['{cwd}/public'],
     app: 'app',
-    https: {
-      cert: process.env.LOCALHOST_HTTPS_CERT,
-      key: process.env.LOCALHOST_HTTPS_KEY,
+    webpackDevServerConfig: {
+      https: {
+        cert: process.env.LOCALHOST_HTTPS_CERT,
+        key: process.env.LOCALHOST_HTTPS_KEY,
+      },
     },
   });
 })();

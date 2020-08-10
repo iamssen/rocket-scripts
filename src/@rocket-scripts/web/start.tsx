@@ -32,8 +32,6 @@ export async function start({
 
   port: _port = 'random',
   hostname = 'localhost',
-  https,
-  proxy,
 
   webpackConfig: _webpackConfig,
   webpackDevServerConfig: _webpackDevServerConfig,
@@ -161,8 +159,6 @@ export async function start({
     stats: {
       colors: false,
     },
-    proxy,
-    https,
   };
 
   const restartAlarm: Observable<string[]> = combineLatest([
