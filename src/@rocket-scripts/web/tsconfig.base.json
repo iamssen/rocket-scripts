@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    // language
+    "jsx": "react",
+    "allowJs": true,
+    "downlevelIteration": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    // strict
+    "strict": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    // module
+    "module": "ESNext",
+    "target": "ES5",
+    "moduleResolution": "node",
+    // lib
+    "skipLibCheck": true,
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ]
+  }
+}
