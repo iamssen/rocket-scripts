@@ -26,7 +26,7 @@ export interface Start extends DevServerStartParams {
 export async function start({
   cwd = process.cwd(),
   app,
-  outDir: _outDir = '{cwd}/out/{app}',
+  outDir: _outDir = '{cwd}/dev/{app}',
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
   electronSwitches = {},
   env = process.env,
