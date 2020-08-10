@@ -69,7 +69,24 @@ export interface CommonParams {
    *
    * @example { webpackConfig: { externals : { ... } } }
    */
-  webpackConfig?: string | WebpackConfiguration;
+  webpackConfig?:
+    | string
+    | Omit<
+        WebpackConfiguration,
+        // @rocket-scripts/react-preset
+        | 'resolve'
+        | 'module'
+        | 'plugin'
+        | 'resolveLoader'
+        | 'node'
+        // @rocket-scripts/web
+        | 'mode'
+        | 'devtool'
+        | 'output'
+        | 'entry'
+        | 'performance'
+        | 'optimization'
+      >;
 }
 
 export interface StartParams extends CommonParams {
