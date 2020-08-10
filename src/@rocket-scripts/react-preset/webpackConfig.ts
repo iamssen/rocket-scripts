@@ -93,25 +93,29 @@ export default function ({
               ];
 
               try {
-                styleLoaders.push(
-                  ...getWebpackStyleLoaders({
-                    cssRegex: /\.(scss|sass)$/,
-                    cssModuleRegex: /\.module.(scss|sass)$/,
-                    extractCss,
-                    preProcessor: require.resolve('sass-loader'),
-                  }),
-                );
+                if (require.resolve('node-sass').length > 0) {
+                  styleLoaders.push(
+                    ...getWebpackStyleLoaders({
+                      cssRegex: /\.(scss|sass)$/,
+                      cssModuleRegex: /\.module.(scss|sass)$/,
+                      extractCss,
+                      preProcessor: require.resolve('sass-loader'),
+                    }),
+                  );
+                }
               } catch {}
 
               try {
-                styleLoaders.push(
-                  ...getWebpackStyleLoaders({
-                    cssRegex: /\.less$/,
-                    cssModuleRegex: /\.module.less$/,
-                    extractCss,
-                    preProcessor: require.resolve('less-loader'),
-                  }),
-                );
+                if (require.resolve('less').length > 0) {
+                  styleLoaders.push(
+                    ...getWebpackStyleLoaders({
+                      cssRegex: /\.less$/,
+                      cssModuleRegex: /\.module.less$/,
+                      extractCss,
+                      preProcessor: require.resolve('less-loader'),
+                    }),
+                  );
+                }
               } catch {}
 
               return styleLoaders;

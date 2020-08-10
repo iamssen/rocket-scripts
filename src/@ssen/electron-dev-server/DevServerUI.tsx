@@ -4,10 +4,10 @@ import { exec } from 'child_process';
 import { Text, useInput, useStdin } from 'ink';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { Observable } from 'rxjs';
-import { bufferTime } from 'rxjs/operators';
 import { ElectronServer } from './ElectronServer';
 import { WebpackServerStatus, WebpackStats } from './types';
 import { WebpackServer } from './WebpackServer';
+import { format } from 'date-fns';
 
 export interface DevServerUIProps {
   header?: ReactNode;
@@ -68,9 +68,9 @@ export function DevServerUI({
 
   useEffect(() => {
     if (syncStaticFiles) {
-      const subscription = syncStaticFiles.pipe(bufferTime(5000)).subscribe((messages) => {
+      const subscription = syncStaticFiles.subscribe((message) => {
         setSyncStaticFilesMessages((prev) => {
-          return prev.length === 0 && messages.length === 0 ? prev : messages;
+          return [message, ...prev].slice(0, 5);
         });
       });
 
@@ -209,12 +209,12 @@ export function DevServerUI({
           : '?? Webpack<renderer> Unknown Webpack Status ??'}
       </Divider>
 
-      {webpackMainStatsJson && webpackMainStatsJson.errors.length > 0 && (
+      {webpackRendererStatsJson && webpackRendererStatsJson.errors.length > 0 && (
         <>
           <Divider bold color="redBright">
             Error
           </Divider>
-          {webpackMainStatsJson.errors.map((text) => (
+          {webpackRendererStatsJson.errors.map((text) => (
             <Text key={text} color="redBright">
               {text}
             </Text>
@@ -222,12 +222,12 @@ export function DevServerUI({
         </>
       )}
 
-      {webpackMainStatsJson && webpackMainStatsJson.warnings.length > 0 && (
+      {webpackRendererStatsJson && webpackRendererStatsJson.warnings.length > 0 && (
         <>
           <Divider bold color="yellow">
             Warning
           </Divider>
-          {webpackMainStatsJson.warnings.map((text) => (
+          {webpackRendererStatsJson.warnings.map((text) => (
             <Text key={text} color="yellow">
               {text}
             </Text>
@@ -237,15 +237,16 @@ export function DevServerUI({
 
       {syncStaticFilesMessages.length > 0 && (
         <>
-          <Divider bold>Proxy</Divider>
-          {syncStaticFilesMessages
-            .slice()
-            .reverse()
-            .map(({ type, file }, i) => (
-              <Text key={type + file} color={type === 'undefined' ? 'red' : undefined}>
-                [{type}] {file}
-              </Text>
-            ))}
+          <Divider bold>Sync Static Files</Divider>
+          {syncStaticFilesMessages.map(({ type, file, time }, i) => (
+            <Text
+              key={file + time.getTime()}
+              color={type === 'undefined' ? 'red' : undefined}
+              dimColor={i > 3}
+            >
+              [{format(time, 'hh:mm:ss')}] [{type}] {file}
+            </Text>
+          ))}
         </>
       )}
     </>

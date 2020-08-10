@@ -3,7 +3,7 @@
   "scripts": {
     "build": "rocket-punch build",
     "publish": "npm test && rocket-punch build && rocket-punch publish",
-    "publish:local": "rocket-punch build && rocket-punch publish --tag canary --registry $LOCAL_NPM_REGISTRY",
+    "publish:local": "rocket-punch build && rocket-punch publish --skip-selection --tag canary --registry $LOCAL_NPM_REGISTRY",
     "view": "rocket-punch view",
     "doctor": "rocket-punch doctor",
     "test": "jest --runInBand --forceExit --detectOpenHandles --colors",

@@ -15,10 +15,12 @@ export type MirrorMessage =
   | {
       type: 'added' | 'updated' | 'removed';
       file: string;
+      time: Date;
     }
   | {
       type: 'undefined';
       file: string;
+      time: Date;
     };
 
 export function mirrorFiles({ filesDirsOrGlobs, outDir, ignored }: Params): Observable<MirrorMessage> {
@@ -44,6 +46,7 @@ export function mirrorFiles({ filesDirsOrGlobs, outDir, ignored }: Params): Obse
           subscriber.next({
             type: 'undefined',
             file,
+            time: new Date(),
           });
           return;
         }
@@ -56,6 +59,7 @@ export function mirrorFiles({ filesDirsOrGlobs, outDir, ignored }: Params): Obse
         subscriber.next({
           type: 'added',
           file: relpath,
+          time: new Date(),
         });
       })
       .on('change', async (file) => {
@@ -65,6 +69,7 @@ export function mirrorFiles({ filesDirsOrGlobs, outDir, ignored }: Params): Obse
           subscriber.next({
             type: 'undefined',
             file,
+            time: new Date(),
           });
           return;
         }
@@ -77,6 +82,7 @@ export function mirrorFiles({ filesDirsOrGlobs, outDir, ignored }: Params): Obse
         subscriber.next({
           type: 'updated',
           file: relpath,
+          time: new Date(),
         });
       })
       .on('unlink', async (file) => {
@@ -86,6 +92,7 @@ export function mirrorFiles({ filesDirsOrGlobs, outDir, ignored }: Params): Obse
           subscriber.next({
             type: 'undefined',
             file,
+            time: new Date(),
           });
           return;
         }
@@ -98,6 +105,7 @@ export function mirrorFiles({ filesDirsOrGlobs, outDir, ignored }: Params): Obse
           subscriber.next({
             type: 'removed',
             file: relpath,
+            time: new Date(),
           });
         }
       });

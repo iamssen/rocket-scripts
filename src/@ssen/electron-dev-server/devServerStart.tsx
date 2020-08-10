@@ -51,7 +51,9 @@ export async function devServerStart({
   }
 
   await fs.mkdirp(outDir);
-  await fs.symlink(path.join(cwd, 'node_modules'), path.join(outDir, 'node_modules'));
+  const outNodeModules: string = path.join(outDir, 'node_modules');
+  if (fs.existsSync(outNodeModules)) fs.unlinkSync(outNodeModules);
+  await fs.symlink(path.join(cwd, 'node_modules'), outNodeModules);
 
   const syncStaticFiles: Observable<MirrorMessage> | undefined =
     Array.isArray(staticFileDirectories) && staticFileDirectories.length > 0
