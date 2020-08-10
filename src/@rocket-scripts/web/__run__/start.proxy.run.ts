@@ -13,6 +13,5 @@ import path from 'path';
     cwd,
     staticFileDirectories: ['{cwd}/public'],
     app: 'app',
-    https: false,
   });
 })();

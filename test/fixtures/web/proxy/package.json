@@ -1,20 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "app:build": "rocket-scripts web/build app",
-    "app:start": "rocket-scripts web/start app",
-    "build": "npm run app:build",
+    "app:start": "ts-node scripts/start.ts",
     "start": "npm run app:start"
-  },
-  "proxy": {
-    "/api": {
-      "target": "http://labs.ssen.name",
-      "changeOrigin": true,
-      "logLevel": "debug",
-      "pathRewrite": {
-        "^/api": ""
-      }
-    }
   },
   "dependencies": {
     "react": "^16.13.1",
@@ -24,6 +12,7 @@
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
     "@types/webpack-env": "^1.15.1",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.5",
+    "ts-node": "^8.10.2"
   }
 }

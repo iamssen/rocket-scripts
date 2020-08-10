@@ -4,46 +4,19 @@ import { getWebpackAlias, icuFormat, rocketTitle } from '@rocket-scripts/utils';
 import { devServerStart, DevServerStartParams } from '@ssen/webpack-dev-server';
 import getPort from 'get-port';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import https from 'https';
 import path from 'path';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import tmp from 'tmp';
 import { Configuration as WebpackConfiguration, DefinePlugin, HotModuleReplacementPlugin } from 'webpack';
-import {
-  Configuration as WebpackDevServerConfiguration,
-  ProxyConfigArray,
-  ProxyConfigMap,
-} from 'webpack-dev-server';
+import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 import { merge as webpackMerge } from 'webpack-merge';
+import { StartParams } from './params';
 import { filterReactEnv } from './utils/filterReactEnv';
 import { getAppEntry } from './utils/getAppEntry';
-import { getProxyConfig } from './utils/getProxyConfig';
 import { observeAliasChange } from './utils/observeAliasChange';
 import { observeAppEntryChange } from './utils/observeAppEntryChange';
-import { observeProxyConfigChange } from './utils/observeProxyConfigChange';
-
-export interface StartParams
-  extends Omit<
-    DevServerStartParams,
-    'port' | 'hostname' | 'devServerConfig' | 'webpackConfig' | 'restartAlarm' | 'header'
-  > {
-  // cli
-  app: string;
-  port?: 'random' | number;
-  hostname?: string;
-  https?: boolean | https.ServerOptions;
-  tsconfig?: string;
-  staticFileDirectories?: string[];
-  webpackConfig?: string | WebpackConfiguration;
-  webpackDevServerConfig?: string | WebpackDevServerConfiguration;
-
-  // api
-  cwd?: string;
-  env?: NodeJS.ProcessEnv;
-  proxyConfig?: ProxyConfigMap | ProxyConfigArray;
-}
 
 export interface Start extends DevServerStartParams {
   close: () => Promise<void>;
@@ -52,18 +25,20 @@ export interface Start extends DevServerStartParams {
 export async function start({
   cwd = process.cwd(),
   app,
-  port: _port = 'random',
-  hostname = 'localhost',
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
-  https,
+
   env = process.env,
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
-  stdout = process.stdout,
-  stdin = process.stdin,
-  logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
+
+  port: _port = 'random',
+  hostname = 'localhost',
+
   webpackConfig: _webpackConfig,
   webpackDevServerConfig: _webpackDevServerConfig,
-  proxyConfig,
+
+  logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
+  stdout = process.stdout,
+  stdin = process.stdin,
 }: StartParams): Promise<Start> {
   console.log('Start Server...');
 
@@ -184,20 +159,12 @@ export async function start({
     stats: {
       colors: false,
     },
-    proxy: proxyConfig || getProxyConfig(cwd),
-    https,
   };
 
-  const restartSignals: Observable<string | null>[] = [
+  const restartAlarm: Observable<string[]> = combineLatest([
     observeAppEntryChange({ appDir, current: entry }),
     observeAliasChange({ cwd, current: alias }),
-  ];
-
-  if (!proxyConfig) {
-    restartSignals.push(observeProxyConfigChange({ cwd, current: proxyConfig }));
-  }
-
-  const restartAlarm: Observable<string[]> = combineLatest(restartSignals).pipe(
+  ]).pipe(
     map<(string | null)[], string[]>((changes) => changes.filter((change): change is string => !!change)),
   );
 

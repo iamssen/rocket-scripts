@@ -88,7 +88,7 @@ export default function ({
                 ...getWebpackStyleLoaders({
                   cssRegex: /\.css$/,
                   cssModuleRegex: /\.module.css$/,
-                  extractCss: false,
+                  extractCss,
                 }),
               ];
 
@@ -97,7 +97,7 @@ export default function ({
                   ...getWebpackStyleLoaders({
                     cssRegex: /\.(scss|sass)$/,
                     cssModuleRegex: /\.module.(scss|sass)$/,
-                    extractCss: false,
+                    extractCss,
                     preProcessor: require.resolve('sass-loader'),
                   }),
                 );
@@ -108,7 +108,7 @@ export default function ({
                   ...getWebpackStyleLoaders({
                     cssRegex: /\.less$/,
                     cssModuleRegex: /\.module.less$/,
-                    extractCss: false,
+                    extractCss,
                     preProcessor: require.resolve('less-loader'),
                   }),
                 );

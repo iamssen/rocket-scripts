@@ -1,5 +1,5 @@
 import { ConnectableObservable, Observable, Subject } from 'rxjs';
-import { bufferTime, filter, multicast } from 'rxjs/operators';
+import { bufferTime, multicast } from 'rxjs/operators';
 
 describe('rxjs', () => {
   test('multicast', async () => {

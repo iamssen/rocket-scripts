@@ -16,17 +16,7 @@ import TerserPlugin from 'terser-webpack-plugin';
 import webpack, { Compiler, Configuration as WebpackConfiguration, DefinePlugin, Stats } from 'webpack';
 import { merge as webpackMerge } from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
-
-export interface BuildParams {
-  app: string;
-  outDir?: string;
-  tsconfig?: string;
-  mainWebpackConfig?: string | WebpackConfiguration;
-  rendererWebpackConfig?: string | WebpackConfiguration;
-  staticFileDirectories?: string[];
-  cwd?: string;
-  env?: NodeJS.ProcessEnv;
-}
+import { BuildParams } from './params';
 
 export async function build({
   cwd = process.cwd(),

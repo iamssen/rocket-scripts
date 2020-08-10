@@ -49,7 +49,6 @@ describe('web/start', () => {
         cwd,
         staticFileDirectories,
         app,
-        https: false,
         stdout,
         webpackConfig: dir === 'webpack-config' ? '{cwd}/webpack.config.js' : undefined,
       });
@@ -117,7 +116,6 @@ describe('web/start', () => {
         cwd,
         staticFileDirectories,
         app,
-        https: false,
         stdout,
       });
 
@@ -160,7 +158,6 @@ describe('web/start', () => {
       cwd,
       staticFileDirectories,
       app,
-      https: false,
       stdout,
     });
 
@@ -207,8 +204,19 @@ describe('web/start', () => {
       cwd,
       staticFileDirectories,
       app,
-      https: false,
       stdout,
+      webpackDevServerConfig: {
+        proxy: {
+          '/api': {
+            target: 'http://labs.ssen.name',
+            changeOrigin: true,
+            logLevel: 'debug',
+            pathRewrite: {
+              '^/api': '',
+            },
+          },
+        },
+      },
     });
 
     await timeout(1000 * 5);

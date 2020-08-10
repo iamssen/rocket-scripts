@@ -39,6 +39,8 @@ export const electronSwitchesYargsOptions = {
 export type ElectronSwitchesYargsValues = {
   [Key in keyof typeof electronSwitchesYargsOptions]?: typeof electronSwitchesYargsOptions[Key]['type'] extends 'boolean'
     ? boolean
+    : typeof electronSwitchesYargsOptions[Key]['type'] extends 'number'
+    ? number
     : string;
 };
 
