@@ -37,24 +37,30 @@ export default function ({
       strictExportPresence: true,
 
       rules: [
-        ...(eslintConfigExistsSync(cwd)
-          ? [
-              {
-                test: /\.(js|mjs|jsx|ts|tsx)$/,
-                include: path.join(cwd, 'src'),
-                enforce: 'pre',
-                use: [
+        ...(() => {
+          try {
+            return eslintConfigExistsSync(cwd)
+              ? [
                   {
-                    loader: require.resolve('eslint-loader'),
-                    options: {
-                      eslintPath: require.resolve('eslint'),
-                      cwd,
-                    },
-                  },
-                ],
-              } as RuleSetRule,
-            ]
-          : []),
+                    test: /\.(js|mjs|jsx|ts|tsx)$/,
+                    include: path.join(cwd, 'src'),
+                    enforce: 'pre',
+                    use: [
+                      {
+                        loader: require.resolve('eslint-loader'),
+                        options: {
+                          eslintPath: require.resolve('eslint'),
+                          cwd,
+                        },
+                      },
+                    ],
+                  } as RuleSetRule,
+                ]
+              : [];
+          } catch {
+            return [];
+          }
+        })(),
         {
           oneOf: [
             // convert small image files to data uri
