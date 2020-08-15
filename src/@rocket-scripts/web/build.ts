@@ -26,6 +26,7 @@ export async function build({
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
 
   webpackConfig: _webpackConfig,
+  babelLoaderOptions: _babelLoaderOptions,
 
   devtool = 'source-map',
 }: BuildParams) {
@@ -50,7 +51,7 @@ export async function build({
     NODE_ENV: env['NODE_ENV'] || 'development',
   };
 
-  const babelLoaderOptions: object = {
+  const babelLoaderOptions: object = _babelLoaderOptions ?? {
     presets: [
       [
         require.resolve('@rocket-scripts/react-preset/babelPreset'),

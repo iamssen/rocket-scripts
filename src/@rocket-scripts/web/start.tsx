@@ -35,6 +35,7 @@ export async function start({
 
   webpackConfig: _webpackConfig,
   webpackDevServerConfig: _webpackDevServerConfig,
+  babelLoaderOptions: _babelLoaderOptions,
 
   logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
   stdout = process.stdout,
@@ -70,7 +71,7 @@ export async function start({
     NODE_ENV: env['NODE_ENV'] || 'development',
   };
 
-  const babelLoaderOptions: object = {
+  const babelLoaderOptions: object = _babelLoaderOptions ?? {
     presets: [
       [
         require.resolve('@rocket-scripts/react-preset/babelPreset'),
