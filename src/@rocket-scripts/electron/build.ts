@@ -21,12 +21,15 @@ import { BuildParams } from './params';
 export async function build({
   cwd = process.cwd(),
   app,
-  outDir: _outDir = '{cwd}/out/{app}',
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
-  tsconfig: _tsconfig = '{cwd}/tsconfig.json',
+  outDir: _outDir = '{cwd}/out/{app}',
+
   env = process.env,
+  tsconfig: _tsconfig = '{cwd}/tsconfig.json',
+
   mainWebpackConfig: _mainWebpackConfig,
   rendererWebpackConfig: _rendererWebpackConfig,
+  babelLoaderOptions: _babelLoaderOptions,
 }: BuildParams) {
   const staticFileDirectories: string[] = _staticFileDirectories.map((dir) => icuFormat(dir, { cwd, app }));
   const outDir: string = icuFormat(_outDir, { cwd, app });
@@ -52,7 +55,7 @@ export async function build({
     NODE_ENV: env['NODE_ENV'] || 'development',
   };
 
-  const babelLoaderOptions: object = {
+  const babelLoaderOptions: object = _babelLoaderOptions ?? {
     presets: [
       [
         require.resolve('@rocket-scripts/react-preset/babelPreset'),

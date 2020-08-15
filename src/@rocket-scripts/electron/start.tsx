@@ -26,16 +26,20 @@ export interface Start extends DevServerStartParams {
 export async function start({
   cwd = process.cwd(),
   app,
-  outDir: _outDir = '{cwd}/dev/{app}',
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
+  outDir: _outDir = '{cwd}/dev/{app}',
+
   electronSwitches = {},
   env = process.env,
-  logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
+  tsconfig: _tsconfig = '{cwd}/tsconfig.json',
+
   mainWebpackConfig: _mainWebpackConfig,
   rendererWebpackConfig: _rendererWebpackConfig,
+  babelLoaderOptions: _babelLoaderOptions,
+
+  logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
   stdout = process.stdout,
   stdin = process.stdin,
-  tsconfig: _tsconfig = '{cwd}/tsconfig.json',
 }: StartParams): Promise<Start> {
   console.log('Start Server...');
 
@@ -64,7 +68,7 @@ export async function start({
     NODE_ENV: env['NODE_ENV'] || 'development',
   };
 
-  const babelLoaderOptions: object = {
+  const babelLoaderOptions: object = _babelLoaderOptions ?? {
     presets: [
       [
         require.resolve('@rocket-scripts/react-preset/babelPreset'),
