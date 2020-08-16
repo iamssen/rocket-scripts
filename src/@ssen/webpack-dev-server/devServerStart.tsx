@@ -1,6 +1,7 @@
 import { patchConsole } from '@ssen/patch-console';
-import fs from 'fs';
+import fs from 'fs-extra';
 import { render } from 'ink';
+import path from 'path';
 import React, { ReactNode } from 'react';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import tmp from 'tmp';
@@ -33,6 +34,9 @@ export async function devServerStart({
   restartAlarm,
 }: DevServerStartParams): Promise<() => Promise<void>> {
   console.clear();
+  if (!fs.existsSync(path.dirname(logfile))) {
+    fs.mkdirpSync(path.dirname(logfile));
+  }
   const stream: NodeJS.WritableStream = fs.createWriteStream(logfile);
   const restoreConsole = patchConsole({ stdout: stream, stderr: stream, colorMode: false });
 

@@ -50,6 +50,7 @@ describe('web/start', () => {
         staticFileDirectories,
         app,
         stdout,
+        logfile: process.env.CI ? path.join(process.cwd(), `logs/start-basic.${dir}.txt`) : undefined,
         webpackConfig: dir === 'webpack-config' ? '{cwd}/webpack.config.js' : undefined,
       });
 
@@ -117,6 +118,7 @@ describe('web/start', () => {
         staticFileDirectories,
         app,
         stdout,
+        logfile: process.env.CI ? path.join(process.cwd(), `logs/start-alias.${dir}.txt`) : undefined,
       });
 
       await timeout(1000 * 5);
@@ -159,6 +161,9 @@ describe('web/start', () => {
       staticFileDirectories,
       app,
       stdout,
+      logfile: process.env.CI
+        ? path.join(process.cwd(), `logs/start-static-file-directories.txt`)
+        : undefined,
     });
 
     await timeout(1000 * 5);
@@ -205,6 +210,7 @@ describe('web/start', () => {
       staticFileDirectories,
       app,
       stdout,
+      logfile: process.env.CI ? path.join(process.cwd(), `logs/start-proxy.txt`) : undefined,
       webpackDevServerConfig: {
         proxy: {
           '/api': {

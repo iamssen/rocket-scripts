@@ -57,6 +57,7 @@ describe('webpack-dev-server', () => {
       webpackConfig,
       devServerConfig,
       stdout,
+      logfile: process.env.CI ? path.join(process.cwd(), `logs/webpack-dev-server.txt`) : undefined,
     });
 
     await timeout(1000 * 5);
