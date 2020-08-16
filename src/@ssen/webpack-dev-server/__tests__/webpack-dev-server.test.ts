@@ -57,6 +57,9 @@ describe('webpack-dev-server', () => {
       webpackConfig,
       devServerConfig,
       stdout,
+      logfile: process.env.GITHUB_WORKFLOW
+        ? path.join(process.cwd(), `logs/${process.env.GITHUB_WORKFLOW}--webpack-dev-server.txt`)
+        : undefined,
     });
 
     await timeout(1000 * 5);
