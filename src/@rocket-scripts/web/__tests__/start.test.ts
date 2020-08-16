@@ -51,7 +51,7 @@ describe('web/start', () => {
         app,
         stdout,
         logfile: process.env.GITHUB_WORKFLOW
-          ? path.join(process.cwd(), `logs/${process.env.GITHUB_WORKFLOW}--start-basic--${dir}.txt`)
+          ? path.join(process.cwd(), `logs/start-basic.${dir}.txt`)
           : undefined,
         webpackConfig: dir === 'webpack-config' ? '{cwd}/webpack.config.js' : undefined,
       });
@@ -121,7 +121,7 @@ describe('web/start', () => {
         app,
         stdout,
         logfile: process.env.GITHUB_WORKFLOW
-          ? path.join(process.cwd(), `logs/${process.env.GITHUB_WORKFLOW}--start-alias--${dir}.txt`)
+          ? path.join(process.cwd(), `logs/start-alias.${dir}.txt`)
           : undefined,
       });
 
@@ -166,7 +166,7 @@ describe('web/start', () => {
       app,
       stdout,
       logfile: process.env.GITHUB_WORKFLOW
-        ? path.join(process.cwd(), `logs/${process.env.GITHUB_WORKFLOW}--start-static-file-directories.txt`)
+        ? path.join(process.cwd(), `logs/start-static-file-directories.txt`)
         : undefined,
     });
 
@@ -214,9 +214,7 @@ describe('web/start', () => {
       staticFileDirectories,
       app,
       stdout,
-      logfile: process.env.GITHUB_WORKFLOW
-        ? path.join(process.cwd(), `logs/${process.env.GITHUB_WORKFLOW}--start-proxy.txt`)
-        : undefined,
+      logfile: process.env.GITHUB_WORKFLOW ? path.join(process.cwd(), `logs/start-proxy.txt`) : undefined,
       webpackDevServerConfig: {
         proxy: {
           '/api': {

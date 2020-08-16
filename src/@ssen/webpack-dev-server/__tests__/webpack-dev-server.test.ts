@@ -58,7 +58,7 @@ describe('webpack-dev-server', () => {
       devServerConfig,
       stdout,
       logfile: process.env.GITHUB_WORKFLOW
-        ? path.join(process.cwd(), `logs/${process.env.GITHUB_WORKFLOW}--webpack-dev-server.txt`)
+        ? path.join(process.cwd(), `logs/webpack-dev-server.txt`)
         : undefined,
     });
 
