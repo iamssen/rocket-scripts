@@ -16,6 +16,7 @@
     "lint": "eslint \"src/{**/*,*}/*.{ts,tsx}\"",
     "run:web:start": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.run.ts",
     "run:web:build": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/build.run.ts",
+    "run:web:puppeteer-recorder-test": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.puppeteer-recorder-test.run.ts",
     "run:web:proxy:start": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.proxy.run.ts",
     "run:web:https:start": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.https.run.ts",
     "run:web:webpack:start": "ts-node -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.webpack.run.ts",
