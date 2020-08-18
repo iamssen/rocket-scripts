@@ -1,9 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "app:build": "ts-node scripts/build.ts",
     "app:start": "ts-node scripts/start.ts",
-    "build": "npm run app:build",
     "start": "npm run app:start"
   },
   "dependencies": {
