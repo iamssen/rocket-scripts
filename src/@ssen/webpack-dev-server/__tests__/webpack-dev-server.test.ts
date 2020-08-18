@@ -3,8 +3,8 @@ import { exec } from '@ssen/promised';
 import { copyTmpDirectory } from '@ssen/tmp-directory';
 import { devServerStart } from '@ssen/webpack-dev-server';
 import { format } from 'date-fns';
-import getPort, { makeRange } from 'get-port';
 import path from 'path';
+import { getPortPromise } from 'portfinder';
 import puppeteer, { Browser, Page } from 'puppeteer';
 
 const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
@@ -39,7 +39,7 @@ describe('webpack-dev-server', () => {
       path.join(process.cwd(), 'test/fixtures/webpack-dev-server/basic'),
     );
 
-    const port: number = await getPort({ port: makeRange(8000, 9000) });
+    const port: number = await getPortPromise();
 
     await exec(`npm install`, { cwd });
 

@@ -2,9 +2,9 @@ import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import { webpackConfig as webpackReactConfig } from '@rocket-scripts/react-preset';
 import { getWebpackAlias, icuFormat, rocketTitle } from '@rocket-scripts/utils';
 import { devServerStart, DevServerStartParams } from '@ssen/webpack-dev-server';
-import getPort from 'get-port';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
+import { getPortPromise } from 'portfinder';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -43,8 +43,7 @@ export async function start({
 }: StartParams): Promise<Start> {
   console.log('Start Server...');
 
-  const port: number =
-    typeof _port === 'number' ? _port : await getPort({ port: getPort.makeRange(8000, 9999) });
+  const port: number = typeof _port === 'number' ? _port : await getPortPromise();
   const staticFileDirectories: string[] = _staticFileDirectories.map((dir) => icuFormat(dir, { cwd, app }));
   const appDir: string = path.join(cwd, 'src', app);
   const logfile: string = icuFormat(_logfile, { cwd, app });

@@ -2,8 +2,8 @@ import { start } from '@rocket-scripts/electron';
 import { createInkWriteStream } from '@ssen/ink-helpers';
 import { copyTmpDirectory } from '@ssen/tmp-directory';
 import fs from 'fs-extra';
-import getPort from 'get-port';
 import path from 'path';
+import { getPortPromise } from 'portfinder';
 import puppeteer, { Browser } from 'puppeteer-core';
 
 const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
@@ -16,7 +16,7 @@ describe('electron/start', () => {
       const cwd: string = await copyTmpDirectory(path.join(process.cwd(), `test/fixtures/electron/${dir}`));
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
-      const remoteDebuggingPort: number = await getPort({ port: getPort.makeRange(9266, 10366) });
+      const remoteDebuggingPort: number = await getPortPromise();
 
       //await exec(`code ${cwd}`);
 

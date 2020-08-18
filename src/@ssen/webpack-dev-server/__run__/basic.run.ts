@@ -1,8 +1,8 @@
 import { exec } from '@ssen/promised';
 import { copyTmpDirectory } from '@ssen/tmp-directory';
 import { devServerStart } from '@ssen/webpack-dev-server/devServerStart';
-import getPort, { makeRange } from 'get-port';
 import path from 'path';
+import { getPortPromise } from 'portfinder';
 import puppeteer from 'puppeteer';
 
 (async () => {
@@ -12,7 +12,7 @@ import puppeteer from 'puppeteer';
 
   await exec(`npm install`, { cwd });
 
-  const port: number = await getPort({ port: makeRange(8000, 9000) });
+  const port: number = await getPortPromise();
 
   const { devServer: devServerConfig, ...webpackConfig } = require(`${cwd}/webpack.config.js`);
 

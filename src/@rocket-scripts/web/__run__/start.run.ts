@@ -14,7 +14,6 @@ import puppeteer from 'puppeteer';
     cwd,
     staticFileDirectories: ['{cwd}/public'],
     app: 'app',
-    babelLoaderOptions: {},
   });
 
   const browser = await puppeteer.launch({
