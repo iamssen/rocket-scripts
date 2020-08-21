@@ -19,6 +19,7 @@ export interface DevServerStartParams extends DevServerParams {
   cwd?: string;
   logfile?: string;
   restartAlarm?: Observable<string[]>;
+  children?: ReactNode;
 }
 
 export async function devServerStart({
@@ -32,6 +33,7 @@ export async function devServerStart({
   webpackConfig,
   devServerConfig,
   restartAlarm,
+  children,
 }: DevServerStartParams): Promise<() => Promise<void>> {
   console.clear();
   if (!fs.existsSync(path.dirname(logfile))) {
@@ -68,6 +70,7 @@ export async function devServerStart({
       proxyMessage={proxySubject}
       logfile={logfile}
       restartAlarm={restartAlarm}
+      children={children}
     />,
     {
       stdout,

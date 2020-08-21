@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { Configuration as WebpackConfiguration, Options as WebpackOptions } from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
@@ -203,6 +204,23 @@ export interface StartParams extends CommonParams {
    * @default process.stdin
    */
   stdin?: NodeJS.ReadStream;
+
+  /**
+   * [advanced] attach ui elements
+   *
+   * This elements will attach the end of UI
+   *
+   * @example
+   * {
+   *   children: (
+   *     <>
+   *       <Custom1/>
+   *       <Custom2/>
+   *     </>
+   *   )
+   * }
+   */
+  children?: ReactNode;
 }
 
 export interface BuildParams extends CommonParams {

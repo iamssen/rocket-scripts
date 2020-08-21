@@ -15,6 +15,7 @@ export interface DevServerUIProps {
   logfile: string;
   proxyMessage?: Observable<TimeMessage[]>;
   restartAlarm?: Observable<string[]>;
+  children?: ReactNode;
 }
 
 export function DevServerUI({
@@ -24,6 +25,7 @@ export function DevServerUI({
   logfile,
   proxyMessage,
   restartAlarm,
+  children,
 }: DevServerUIProps) {
   const [status, setStatus] = useState<DevServerStatus>(DevServerStatus.STARTING);
   const [webpackStats, setWebpackStats] = useState<WebpackStats>({ status: 'waiting' });
@@ -199,6 +201,8 @@ export function DevServerUI({
             ))}
         </>
       )}
+
+      {children}
     </>
   );
 }

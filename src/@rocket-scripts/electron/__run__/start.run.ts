@@ -8,7 +8,7 @@ const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
 
 (async () => {
   const cwd: string = await copyTmpDirectory(path.join(process.cwd(), 'test/fixtures/electron/start'));
-  const remoteDebuggingPort: string = '9366';
+  const remoteDebuggingPort: number = 9366;
 
   await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
   //exec(`code ${cwd}`);
