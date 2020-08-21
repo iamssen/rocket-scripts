@@ -27,6 +27,7 @@ export interface DevServerStartParams {
   logfile?: string;
   electronSwitches?: ElectronSwitchesYargsValues;
   restartAlarm?: Observable<string[]>;
+  children?: ReactNode;
 }
 
 export async function devServerStart({
@@ -41,6 +42,7 @@ export async function devServerStart({
   logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
   electronSwitches = {},
   restartAlarm,
+  children,
 }: DevServerStartParams): Promise<() => Promise<void>> {
   console.clear();
   const stream: NodeJS.WritableStream = fs.createWriteStream(logfile);
@@ -103,6 +105,7 @@ export async function devServerStart({
       logfile={logfile}
       syncStaticFiles={syncStaticFilesCaster}
       restartAlarm={restartAlarm}
+      children={children}
     />,
     {
       stdout,

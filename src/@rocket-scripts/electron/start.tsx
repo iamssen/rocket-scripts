@@ -40,6 +40,7 @@ export async function start({
   logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
   stdout = process.stdout,
   stdin = process.stdin,
+  children,
 }: StartParams): Promise<Start> {
   console.log('Start Server...');
 
@@ -230,6 +231,7 @@ export async function start({
     stdout,
     restartAlarm,
     logfile,
+    children,
   };
 
   const close = await devServerStart(startParams);

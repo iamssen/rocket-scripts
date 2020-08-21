@@ -17,6 +17,7 @@ export interface DevServerUIProps {
   cwd: string;
   logfile: string;
   restartAlarm?: Observable<string[]>;
+  children?: ReactNode;
 }
 
 export function DevServerUI({
@@ -27,6 +28,7 @@ export function DevServerUI({
   cwd,
   logfile,
   restartAlarm,
+  children,
 }: DevServerUIProps) {
   const [webpackServerStatus, setWebpackServerStatus] = useState<WebpackServerStatus>(
     WebpackServerStatus.STARTING,
@@ -249,6 +251,8 @@ export function DevServerUI({
           ))}
         </>
       )}
+
+      {children}
     </>
   );
 }
