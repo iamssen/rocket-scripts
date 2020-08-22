@@ -1,24 +1,32 @@
 {
   "compilerOptions": {
+    // lang
     "downlevelIteration": true,
+    "resolveJsonModule": true,
+    "jsx": "react",
+    // import
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "alwaysStrict": true,
-    "jsx": "react",
     "allowJs": true,
-    "strictNullChecks": true,
-    "strictBindCallApply": true,
-    "strictFunctionTypes": true,
-    "strictPropertyInitialization": true,
-    "resolveJsonModule": true,
+    // strict
+    "strict": true,
+    // build
     "module": "commonjs",
     "target": "ES2018",
     "moduleResolution": "node",
     "skipLibCheck": true,
+    // export
     "sourceMap": true,
     "declaration": true,
-    "baseUrl": "src",
-    "outDir": "foo"
+    // types
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types"
+    ],
+    // output
+    "outDir": "lib",
+    // path
+    "baseUrl": "src"
   },
   "include": [
     "src"

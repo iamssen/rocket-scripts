@@ -1,7 +1,3 @@
-import type { Argv } from 'yargs';
-
-type Options = Parameters<Argv['options']>[0];
-
 const describe = '* electon command-line switch';
 
 /**
@@ -45,7 +41,9 @@ export type ElectronSwitchesYargsValues = {
 };
 
 export function toElectronArgv(values: ElectronSwitchesYargsValues): string[] {
-  return Object.keys(values).reduce((args: string[], key) => {
+  return Object.keys(values).reduce((args: string[], _key) => {
+    const key = _key as keyof typeof electronSwitchesYargsOptions;
+
     if (!!electronSwitchesYargsOptions[key]) {
       switch (electronSwitchesYargsOptions[key].type) {
         case 'boolean':

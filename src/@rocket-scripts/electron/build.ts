@@ -48,7 +48,7 @@ export async function build({
       ? require(icuFormat(_rendererWebpackConfig, { cwd, app }))
       : _rendererWebpackConfig ?? {};
 
-  const webpackEnv = {
+  const webpackEnv: NodeJS.ProcessEnv = {
     ...filterReactEnv(env),
     PUBLIC_PATH: publicPath,
     PUBLIC_URL: publicPath,
@@ -140,7 +140,7 @@ export async function build({
           'process.env': Object.keys(webpackEnv).reduce((stringifiedEnv, key) => {
             stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
             return stringifiedEnv;
-          }, {}),
+          }, {} as NodeJS.ProcessEnv),
         }),
       ],
     },
@@ -248,13 +248,13 @@ export async function build({
           filename: 'index.html',
         }),
 
-        new InterpolateHtmlPlugin(HtmlWebpackPlugin, webpackEnv),
+        new InterpolateHtmlPlugin(HtmlWebpackPlugin, webpackEnv as Record<string, string>),
 
         new DefinePlugin({
           'process.env': Object.keys(webpackEnv).reduce((stringifiedEnv, key) => {
             stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
             return stringifiedEnv;
-          }, {}),
+          }, {} as NodeJS.ProcessEnv),
         }),
       ],
     },

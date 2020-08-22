@@ -4,5 +4,5 @@ export function filterReactEnv(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
     .reduce((e, key) => {
       e[key] = env[key];
       return e;
-    }, {});
+    }, {} as NodeJS.ProcessEnv);
 }

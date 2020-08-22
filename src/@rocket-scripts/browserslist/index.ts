@@ -15,8 +15,16 @@ interface Params {
   env?: keyof typeof defaultQuery;
 }
 
+function findQuery(key: string | undefined = ''): string | string[] | undefined {
+  if (key in defaultQuery) {
+    //@ts-ignore
+    return defaultQuery[key];
+  }
+  return undefined;
+}
+
 export function getBrowserslistQuery({ cwd, env }: Params): string | string[] {
   if (env) process.env.BROWSERSLIST_ENV = env;
   const query: string | string[] | undefined = loadConfig({ path: cwd });
-  return query || defaultQuery[process.env.BROWSERSLIST_ENV || 'defaults'] || defaultQuery.defaults;
+  return query ?? findQuery(process.env.BROWSERSLIST_ENV) ?? defaultQuery.defaults;
 }

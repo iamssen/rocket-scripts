@@ -64,7 +64,7 @@ export async function start({
       ? require(icuFormat(_webpackDevServerConfig, { cwd, app }))
       : _webpackDevServerConfig ?? {};
 
-  const webpackEnv = {
+  const webpackEnv: NodeJS.ProcessEnv = {
     ...filterReactEnv(env),
     PUBLIC_PATH: publicPath,
     PUBLIC_URL: publicPath,
@@ -113,7 +113,7 @@ export async function start({
       entry: entry.reduce((e, { name, index }) => {
         e[name] = path.join(cwd, 'src', app, index);
         return e;
-      }, {}),
+      }, {} as Record<string, string>),
 
       plugins: [
         new HotModuleReplacementPlugin(),
@@ -127,13 +127,13 @@ export async function start({
             }),
         ),
 
-        new InterpolateHtmlPlugin(HtmlWebpackPlugin, webpackEnv),
+        new InterpolateHtmlPlugin(HtmlWebpackPlugin, webpackEnv as Record<string, string>),
 
         new DefinePlugin({
           'process.env': Object.keys(webpackEnv).reduce((stringifiedEnv, key) => {
             stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
             return stringifiedEnv;
-          }, {}),
+          }, {} as NodeJS.ProcessEnv),
         }),
       ],
 

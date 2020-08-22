@@ -70,6 +70,6 @@ export function patchProxyLogger({ proxyConfig, subject }: Params): ProxyConfigM
             };
 
       return config;
-    }, {});
+    }, {} as ProxyConfigMap);
   }
 }
