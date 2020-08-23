@@ -41,14 +41,12 @@ describe('web/start', () => {
       const app: string = 'app';
 
       await exec(`yarn`, { cwd });
-      console.log('start.test.ts..()', module.paths);
-      //await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
 
       // Arrange : stdout
       const stdout = createInkWriteStream();
 
       // Act : server start
-      const { port, close, logfile } = await start({
+      const { port, close } = await start({
         cwd,
         staticFileDirectories,
         app,
@@ -57,7 +55,7 @@ describe('web/start', () => {
         webpackConfig: dir === 'webpack-config' ? '{cwd}/webpack.config.js' : undefined,
       });
 
-      exec(`code ${logfile}`);
+      //exec(`code ${logfile}`);
 
       await timeout(1000 * 5);
 
@@ -113,7 +111,6 @@ describe('web/start', () => {
       const app: string = 'app';
 
       await exec(`yarn`, { cwd });
-      //await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
 
       // Arrange : stdout
       const stdout = createInkWriteStream();
@@ -157,7 +154,6 @@ describe('web/start', () => {
     const app: string = 'app';
 
     await exec(`yarn`, { cwd });
-    //await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
 
     // Arrange : stdout
     const stdout = createInkWriteStream();
@@ -207,7 +203,6 @@ describe('web/start', () => {
     const app: string = 'app';
 
     await exec(`yarn`, { cwd });
-    //await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
 
     // Arrange : stdout
     const stdout = createInkWriteStream();

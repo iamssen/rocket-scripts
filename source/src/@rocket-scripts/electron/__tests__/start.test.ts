@@ -20,10 +20,7 @@ describe('electron/start', () => {
       const remoteDebuggingPort: number = await getPortPromise();
 
       //await exec(`code ${cwd}`);
-
-      //await exec(`npm install`, { cwd });
       await exec(`yarn`, { cwd });
-      //await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
 
       // Arrange : stdout
       const stdout = createInkWriteStream();

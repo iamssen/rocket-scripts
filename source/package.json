@@ -6,7 +6,7 @@
     "publish": "rocket-punch publish",
     "view": "rocket-punch view",
     "doctor": "rocket-punch doctor",
-    "e2e": "npm run build && node test/updateVerdaccioYaml.js && bash test/e2e.sh",
+    "e2e": "yarn run build && node test/updateVerdaccioYaml.js && bash test/e2e.sh && rimraf out",
     "test": "jest --runInBand --forceExit --detectOpenHandles --colors",
     "coverage": "jest --runInBand --forceExit --detectOpenHandles --coverage",
     "precommit": "lint-staged",

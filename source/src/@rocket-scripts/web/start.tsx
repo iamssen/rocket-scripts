@@ -108,7 +108,6 @@ export async function start({
       resolve: {
         symlinks: false,
         alias,
-        modules: [path.join(cwd, 'node_modules'), ...(process.env.NODE_PATH?.split(':') ?? [])],
       },
 
       entry: entry.reduce((e, { name, index }) => {

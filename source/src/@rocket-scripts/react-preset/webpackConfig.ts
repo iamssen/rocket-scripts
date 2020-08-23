@@ -20,25 +20,6 @@ export interface WebpackConfigOptions {
   extractCss: boolean;
 }
 
-function getNodeModules(start: string) {
-  const nodeModules = [];
-
-  let dir = start;
-  const top = path.resolve('/');
-
-  while (dir !== top) {
-    const modules = path.resolve(dir, 'node_modules');
-
-    if (fs.existsSync(modules)) {
-      nodeModules.push(modules);
-    }
-
-    dir = path.dirname(dir);
-  }
-
-  return nodeModules.join(':');
-}
-
 export default function ({
   cwd,
   chunkPath,

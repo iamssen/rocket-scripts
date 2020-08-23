@@ -1,7 +1,6 @@
 import { build } from '@rocket-scripts/web';
 import { exec, glob } from '@ssen/promised';
 import { copyTmpDirectory, createTmpDirectory } from '@ssen/tmp-directory';
-import fs from 'fs-extra';
 import path from 'path';
 
 describe('web/build', () => {
@@ -15,7 +14,6 @@ describe('web/build', () => {
       const app: string = 'app';
 
       await exec(`yarn`, { cwd });
-      //await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
 
       // Act
       await build({
@@ -48,7 +46,6 @@ describe('web/build', () => {
     const app: string = 'app';
 
     await exec(`yarn`, { cwd });
-    //await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
 
     // Act
     await build({

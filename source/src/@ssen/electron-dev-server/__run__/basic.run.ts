@@ -4,7 +4,6 @@ import rendererWebpackConfig from '@rocket-scripts/react-electron-preset/rendere
 import { getWebpackAlias } from '@rocket-scripts/utils';
 import { copyTmpDirectory, createTmpDirectory } from '@ssen/tmp-directory';
 import { exec } from 'child_process';
-import fs from 'fs-extra';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
@@ -20,7 +19,6 @@ import { devServerStart } from '../devServerStart';
   const env: NodeJS.ProcessEnv = process.env;
 
   await exec(`yarn`, { cwd });
-  //await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
 
   console.log('Start Server...');
 
@@ -142,7 +140,7 @@ import { devServerStart } from '../devServerStart';
             filename: 'index.html',
           }),
 
-          new InterpolateHtmlPlugin(HtmlWebpackPlugin, webpackEnv),
+          new InterpolateHtmlPlugin(HtmlWebpackPlugin, webpackEnv as Record<string, string>),
 
           new DefinePlugin({
             'process.env': Object.keys(webpackEnv).reduce((stringifiedEnv, key) => {
