@@ -1,23 +1,22 @@
 const fs = require('fs');
 const path = require('path');
 
-function getNodeModules(start) {
-  const nodeModules = [];
+function getModuleDirectories(from) {
+  const moduleDirectories = [];
+  const root = path.resolve('/');
 
-  let dir = start;
-  const top = path.resolve('/');
-
-  while (dir !== top) {
+  let dir = from;
+  while (dir !== root) {
     const modules = path.resolve(dir, 'node_modules');
-
+    
     if (fs.existsSync(modules)) {
-      nodeModules.push(modules);
+      moduleDirectories.push(modules);
     }
-
+    
     dir = path.dirname(dir);
   }
 
-  return nodeModules.join(':');
+  return moduleDirectories.join(':');
 }
 
-process.env.NODE_PATH = getNodeModules(__dirname);
+process.env.NODE_PATH = getModuleDirectories(__dirname);
