@@ -258,6 +258,10 @@ function generate-web-project
     echo "👍 Generated! follow next steps"
     echo "Add $app to workspaces of package.json"
     echo "And, yarn install"
+    
+    # open project in your IDE
+    # webstorm .
+    # code .
   end
 end
 ```
