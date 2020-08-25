@@ -1,6 +1,7 @@
 # 🚀 Rocket Scripts
 
-[![NPM](https://img.shields.io/npm/v/rocket-scripts.svg)](https://www.npmjs.com/package/rocket-scripts)
+[![NPM](https://img.shields.io/npm/v/@rocket-scripts/web.svg)](https://www.npmjs.com/package/@rocket-scripts/web)
+[![NPM](https://img.shields.io/npm/v/@rocket-scripts/electron.svg)](https://www.npmjs.com/package/@rocket-scripts/electron)
 [![TEST](https://github.com/rocket-hangar/rocket-scripts/workflows/TEST/badge.svg)](https://github.com/rocket-hangar/rocket-scripts/actions?query=workflow%3ATEST)
 [![E2E](https://github.com/rocket-hangar/rocket-scripts/workflows/E2E/badge.svg)](https://github.com/rocket-hangar/rocket-scripts/actions?query=workflow%3AE2E)
 [![codecov](https://codecov.io/gh/rocket-hangar/rocket-scripts/branch/master/graph/badge.svg)](https://codecov.io/gh/rocket-hangar/rocket-scripts)
@@ -256,3 +257,7 @@ direnv allow .
 # start
 yarn run start
 ```
+
+# More repositories for reference
+
+- <https://github.com/rocket-hangar/rocket-scripts-templates>
