@@ -232,6 +232,38 @@ direnv allow .
 yarn run start
 ```
 
+<details>
+<summary>Fish shell function</summary>
+
+```fish
+# add ~/.config/fish/config.fish
+function generate-web-project
+  set project $argv[1]
+  set app $argv[2]
+
+  if [ -z $project ] || [ -z $app ]
+    echo "Undefined arguments $project $app : generate-web-project project app"
+  else
+    # create a workspace directory
+    generate-github-directory https://github.com/rocket-hangar/workspace-template $project
+    cd $project
+
+    # create an app
+    generate-github-directory https://github.com/rocket-hangar/rocket-scripts-templates/tree/master/templates/web $app
+    cd $app
+    cp .envrc.template .envrc
+    direnv allow .
+    cd ..
+
+    echo "👍 Generated! follow next steps"
+    echo "Add $app to workspaces of package.json"
+    echo "And, yarn install"
+  end
+end
+```
+
+</details>
+
 # Quick start React Electron app development
 
 <https://github.com/rocket-hangar/rocket-scripts-templates/tree/master/templates/electron>
