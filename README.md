@@ -10,7 +10,7 @@
 
 These scripts are not support CLI for easy usage.
 
-But, you can connect the many other environments (e.g. Back-End API Server, Puppeteer...) with API usage.
+But, you can easy combine the many other environments (e.g. Back-End API Server, Puppeteer...) in API usage.
 
 For example, you can available like below.
 
