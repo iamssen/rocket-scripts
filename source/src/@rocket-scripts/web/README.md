@@ -6,9 +6,9 @@
 [![E2E](https://github.com/rocket-hangar/rocket-scripts/workflows/E2E/badge.svg)](https://github.com/rocket-hangar/rocket-scripts/actions?query=workflow%3AE2E)
 [![codecov](https://codecov.io/gh/rocket-hangar/rocket-scripts/branch/master/graph/badge.svg)](https://codecov.io/gh/rocket-hangar/rocket-scripts)
 
-🚀 Rocket Scripts is a app scripts for development React web apps and React electron apps.
+🚀 Rocket Scripts are development scripts for React web apps and React electron apps.
 
-This scripts is not support CLI for easy usage.
+These scripts are not support CLI for easy usage.
 
 But, you can connect the many other environments (e.g. Back-End API Server, Puppeteer...) with API usage.
 
