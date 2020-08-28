@@ -10,7 +10,7 @@
 
 These scripts are not support CLI for easy usage.
 
-But, you can connect the many other environments (e.g. Back-End API Server, Puppeteer...) with API usage.
+But, you can easy combine the many other environments (e.g. Back-End API Server, Puppeteer...) in API usage.
 
 For example, you can available like below.
 
@@ -231,6 +231,42 @@ direnv allow .
 # start
 yarn run start
 ```
+
+<details>
+<summary>Fish shell function</summary>
+
+```fish
+# add ~/.config/fish/config.fish
+function generate-web-project
+  set project $argv[1]
+  set app $argv[2]
+
+  if [ -z $project ] || [ -z $app ]
+    echo "Undefined arguments $project $app : generate-web-project project app"
+  else
+    # create a workspace directory
+    generate-github-directory https://github.com/rocket-hangar/workspace-template $project
+    cd $project
+
+    # create an app
+    generate-github-directory https://github.com/rocket-hangar/rocket-scripts-templates/tree/master/templates/web $app
+    cd $app
+    cp .envrc.template .envrc
+    direnv allow .
+    cd ..
+
+    echo "👍 Generated! follow next steps"
+    echo "Add $app to workspaces of package.json"
+    echo "And, yarn install"
+    
+    # open project in your IDE
+    # webstorm .
+    # code .
+  end
+end
+```
+
+</details>
 
 # Quick start React Electron app development
 

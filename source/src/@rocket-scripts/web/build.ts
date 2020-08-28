@@ -174,10 +174,11 @@ export async function build({
 
         //create html files
         ...entry.map(
-          ({ html }) =>
+          ({ html, name }) =>
             new HtmlWebpackPlugin({
               template: path.join(cwd, 'src', app, html),
               filename: html,
+              chunks: [name],
             }),
         ),
 
