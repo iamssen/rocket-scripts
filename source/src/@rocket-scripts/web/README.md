@@ -225,8 +225,6 @@ yarn
 
 # start
 cd my-app
-cp .envrc.template .envrc
-direnv allow .
 
 # start
 yarn run start
@@ -251,8 +249,7 @@ function generate-web-project
     # create an app
     generate-github-directory https://github.com/rocket-hangar/rocket-scripts-templates/tree/master/templates/web $app
     cd $app
-    cp .envrc.template .envrc
-    direnv allow .
+
     cd ..
 
     echo "👍 Generated! follow next steps"
@@ -287,8 +284,6 @@ yarn
 
 # directory
 cd my-app
-cp .envrc.template .envrc
-direnv allow .
 
 # start
 yarn run start
