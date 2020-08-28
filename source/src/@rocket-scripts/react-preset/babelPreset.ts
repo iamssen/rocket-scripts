@@ -39,6 +39,12 @@ export default function (api: unknown, { modules, targets }: Options) {
       //require.resolve('@babel/plugin-transform-destructuring'),
       //[require.resolve('@babel/plugin-proposal-decorators'), false],
       [
+        require.resolve('@babel/plugin-transform-arrow-functions'),
+        {
+          spec: false,
+        },
+      ],
+      [
         require.resolve('@babel/plugin-proposal-class-properties'),
         {
           loose: true,
