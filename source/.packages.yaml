@@ -3,6 +3,6 @@
   tag: latest
   module: commonjs
 '@rocket-scripts/*':
-  version: 1.0.1
+  version: 1.0.2
   tag: latest
   module: commonjs

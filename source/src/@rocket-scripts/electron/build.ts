@@ -52,7 +52,7 @@ export async function build({
     ...filterReactEnv(env),
     PUBLIC_PATH: publicPath,
     PUBLIC_URL: publicPath,
-    NODE_ENV: env['NODE_ENV'] || 'development',
+    NODE_ENV: env['NODE_ENV'] || 'production',
   };
 
   const babelLoaderOptions: object = _babelLoaderOptions ?? {
