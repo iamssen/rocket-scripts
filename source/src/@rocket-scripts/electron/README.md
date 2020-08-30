@@ -20,53 +20,56 @@ For example, you can available like below.
 // 1. Start Back-End API Server
 // 2. Start Front-End Development Server
 // 3. Start Chromium Browser with Puppeteer
-import { serverStart } from '@myorg/api-server';
-import { start } from '@rocket-scripts/web';
-import puppeteer from 'puppeteer';
+import { serverStart } from "@myorg/api-server";
+import { start } from "@rocket-scripts/web";
+import puppeteer from "puppeteer";
 
 (async () => {
   const remoteDebuggingPort: number = +(process.env.INSPECT_CHROME ?? 9222);
   const serverPort: number = +(process.env.API_SERVER_PORT ?? 9455);
-  
+
   // start back-end server
   await serverStart({ port: serverPort });
-  
+
   // start front-end dev server
   const { port } = await start({
-    app: 'client',
+    app: "client",
     webpackDevServerConfig: {
       // bind proxy `<back-end>/*` -> `<front-end>/api/*`
       proxy: {
-        '/api': {
+        "/api": {
           target: `http://localhost:${serverPort}`,
           changeOrigin: true,
-          logLevel: 'debug',
+          logLevel: "debug",
           pathRewrite: {
-            '^/api': '',
+            "^/api": "",
           },
         },
       },
     },
   });
-  
+
   // start puppeteer
   const browser = await puppeteer.launch({
     //userDataDir: process.env.CHROMIUM_USER_DATA_DEBUG,
     headless: false,
     args: [
-      '--start-fullscreen',
+      "--start-fullscreen",
       `--remote-debugging-port=${remoteDebuggingPort}`,
     ],
     devtools: true,
   });
-  
+
   const [page] = await browser.pages();
   await page.goto(`http://localhost:${port}`);
-  
-  await page.waitForFunction(`document.querySelector('#app h1').innerHTML === 'Hello World!'`, {
-    timeout: 1000 * 60,
-    polling: 1000 * 3,
-  });
+
+  await page.waitForFunction(
+    `document.querySelector('#app h1').innerHTML === 'Hello World!'`,
+    {
+      timeout: 1000 * 60,
+      polling: 1000 * 3,
+    }
+  );
 })();
 ```
 
@@ -76,18 +79,18 @@ import puppeteer from 'puppeteer';
 // 1. Start Front-End development server
 // 2. Start Chromium Broser with Puppeteer
 // 3. Start performance profiling with shortcut on Interactive CLI
-import { start } from '@rocket-scripts/web';
-import { Divider } from '@ssen/dev-server-components';
-import chokidar from 'chokidar';
-import { format } from 'date-fns';
-import { FSWatcher } from 'fs';
-import fs from 'fs-extra';
-import { Text, useInput } from 'ink';
-import path from 'path';
-import puppeteer, { Browser } from 'puppeteer';
-import React, { useCallback, useEffect, useState } from 'react';
+import { start } from "@rocket-scripts/web";
+import { Divider } from "@ssen/dev-server-components";
+import chokidar from "chokidar";
+import { format } from "date-fns";
+import { FSWatcher } from "fs";
+import fs from "fs-extra";
+import { Text, useInput } from "ink";
+import path from "path";
+import puppeteer, { Browser } from "puppeteer";
+import React, { useCallback, useEffect, useState } from "react";
 
-const profileStore: string = path.join(process.cwd(), 'profiles');
+const profileStore: string = path.join(process.cwd(), "profiles");
 
 function ProfileRepeater({
   browser,
@@ -108,7 +111,7 @@ function ProfileRepeater({
 
     const profile: string = path.join(
       profileStore,
-      `animate-${format(new Date(), 'yyyy-MM-dd-hhmmss')}.json`,
+      `animate-${format(new Date(), "yyyy-MM-dd-hhmmss")}.json`
     );
 
     await page.tracing.start({
@@ -118,13 +121,13 @@ function ProfileRepeater({
       // const cdp: CDPSession = await page._client;
       // const categories = await cdp.send('Tracing.getCategories');
       categories: [
-        'devtools.timeline',
-        'disabled-by-default-devtools.timeline',
-        'disabled-by-default-devtools.timeline.frame',
-        'disabled-by-default-devtools.timeline.stack',
-        'disabled-by-default-v8.cpu_profiler',
-        'disabled-by-default-v8.cpu_profiler.hires',
-        'memory',
+        "devtools.timeline",
+        "disabled-by-default-devtools.timeline",
+        "disabled-by-default-devtools.timeline.frame",
+        "disabled-by-default-devtools.timeline.stack",
+        "disabled-by-default-v8.cpu_profiler",
+        "disabled-by-default-v8.cpu_profiler.hires",
+        "memory",
       ],
     });
 
@@ -139,13 +142,15 @@ function ProfileRepeater({
 
   useEffect(() => {
     function update() {
-      setProfiles(fs.readdirSync(profileStore).filter((file) => /^animate-/.test(file)));
+      setProfiles(
+        fs.readdirSync(profileStore).filter((file) => /^animate-/.test(file))
+      );
     }
 
     const watcher: FSWatcher = chokidar
       .watch([`${profileStore}/*.json`])
-      .on('add', update)
-      .on('unlink', update);
+      .on("add", update)
+      .on("unlink", update);
 
     return () => {
       watcher.close();
@@ -188,18 +193,21 @@ function ProfileRepeater({
   const browser = await puppeteer.launch({
     userDataDir: process.env.CHROMIUM_USER_DATA_DEBUG,
     headless: false,
-    args: ['--start-fullscreen', `--remote-debugging-port=${remoteDebuggingPort}`],
+    args: [
+      "--start-fullscreen",
+      `--remote-debugging-port=${remoteDebuggingPort}`,
+    ],
     devtools: true,
   });
 
   await start({
-    app: 'app',
+    app: "app",
     port: webPort,
     children: (
       <ProfileRepeater
         browser={browser}
         pageUrl={`http://localhost:${webPort}`}
-        shortcuts={{ record: 'x', clean: 'c' }}
+        shortcuts={{ record: "x", clean: "c" }}
       />
     ),
   });
@@ -231,6 +239,7 @@ yarn run start
 ```
 
 <details>
+
 <summary>Fish shell function</summary>
 
 ```fish
@@ -255,7 +264,7 @@ function generate-web-project
     echo "👍 Generated! follow next steps"
     echo "Add $app to workspaces of package.json"
     echo "And, yarn install"
-    
+
     # open project in your IDE
     # webstorm .
     # code .

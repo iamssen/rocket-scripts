@@ -9,7 +9,7 @@ function precommit(...workspaces) {
 module.exports = {
   hooks: {
     'pre-commit': [
-      `markdown-source-import "{,!(node_modules)/**/}*.md" --git-add`,
+      `markdown-source-import README.md --git-add`,
       ...cp(`README.md`, `source/src/@rocket-scripts/web/README.md`),
       ...cp(`README.md`, `source/src/@rocket-scripts/electron/README.md`),
       `lint-staged`,
