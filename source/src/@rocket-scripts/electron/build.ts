@@ -13,7 +13,12 @@ import path from 'path';
 import safePostCssParser from 'postcss-safe-parser';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import TerserPlugin from 'terser-webpack-plugin';
-import webpack, { Compiler, Configuration as WebpackConfiguration, DefinePlugin, Stats } from 'webpack';
+import webpack, {
+  Compiler,
+  Configuration as WebpackConfiguration,
+  DefinePlugin,
+  Stats,
+} from 'webpack';
 import { merge as webpackMerge } from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
 import { BuildParams } from './params';
@@ -31,7 +36,9 @@ export async function build({
   rendererWebpackConfig: _rendererWebpackConfig,
   babelLoaderOptions: _babelLoaderOptions,
 }: BuildParams) {
-  const staticFileDirectories: string[] = _staticFileDirectories.map((dir) => icuFormat(dir, { cwd, app }));
+  const staticFileDirectories: string[] = _staticFileDirectories.map((dir) =>
+    icuFormat(dir, { cwd, app }),
+  );
   const outDir: string = icuFormat(_outDir, { cwd, app });
   const tsconfig: string = icuFormat(_tsconfig, { cwd, app });
   const alias = getWebpackAlias(cwd);
@@ -137,10 +144,13 @@ export async function build({
 
       plugins: [
         new DefinePlugin({
-          'process.env': Object.keys(webpackEnv).reduce((stringifiedEnv, key) => {
-            stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
-            return stringifiedEnv;
-          }, {} as NodeJS.ProcessEnv),
+          'process.env': Object.keys(webpackEnv).reduce(
+            (stringifiedEnv, key) => {
+              stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
+              return stringifiedEnv;
+            },
+            {} as NodeJS.ProcessEnv,
+          ),
         }),
       ],
     },
@@ -213,7 +223,10 @@ export async function build({
               },
             },
             cssProcessorPluginOptions: {
-              preset: ['default', { minifyFontValues: { removeQuotes: false } }],
+              preset: [
+                'default',
+                { minifyFontValues: { removeQuotes: false } },
+              ],
             },
           }),
         ],
@@ -248,20 +261,30 @@ export async function build({
           filename: 'index.html',
         }),
 
-        new InterpolateHtmlPlugin(HtmlWebpackPlugin, webpackEnv as Record<string, string>),
+        new InterpolateHtmlPlugin(
+          HtmlWebpackPlugin,
+          webpackEnv as Record<string, string>,
+        ),
 
         new DefinePlugin({
-          'process.env': Object.keys(webpackEnv).reduce((stringifiedEnv, key) => {
-            stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
-            return stringifiedEnv;
-          }, {} as NodeJS.ProcessEnv),
+          'process.env': Object.keys(webpackEnv).reduce(
+            (stringifiedEnv, key) => {
+              stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
+              return stringifiedEnv;
+            },
+            {} as NodeJS.ProcessEnv,
+          ),
         }),
       ],
     },
   );
 
   await fs.mkdirp(outDir);
-  await Promise.all(staticFileDirectories.map((dir) => fs.copy(dir, outDir, { dereference: true })));
+  await Promise.all(
+    staticFileDirectories.map((dir) =>
+      fs.copy(dir, outDir, { dereference: true }),
+    ),
+  );
 
   const mainCompiler: Compiler = webpack(mainWebpackConfig);
   const rendererCompiler: Compiler = webpack(rendererWebpackConfig);

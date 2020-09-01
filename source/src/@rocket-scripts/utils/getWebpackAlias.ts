@@ -15,7 +15,9 @@ export function getWebpackAlias(cwd: string): Record<string, string> {
     if (/^@/.test(name)) {
       const subnames: string[] = fs
         .readdirSync(dir)
-        .filter((subname: string) => fs.statSync(path.join(dir, subname)).isDirectory());
+        .filter((subname: string) =>
+          fs.statSync(path.join(dir, subname)).isDirectory(),
+        );
 
       for (const subname of subnames) {
         const subdir: string = path.join(dir, subname);

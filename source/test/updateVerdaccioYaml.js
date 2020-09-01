@@ -4,9 +4,13 @@ const path = require('path');
 
 const ssen = fs
   .readdirSync(path.join(__dirname, '../src/@ssen'))
-  .filter((item) => fs.statSync(path.join(__dirname, '../src/@ssen', item)).isDirectory());
+  .filter((item) =>
+    fs.statSync(path.join(__dirname, '../src/@ssen', item)).isDirectory(),
+  );
 
-const prev = yaml.safeLoad(fs.readFileSync(path.join(__dirname, 'verdaccio.yaml'), 'utf8'));
+const prev = yaml.safeLoad(
+  fs.readFileSync(path.join(__dirname, 'verdaccio.yaml'), 'utf8'),
+);
 const next = {
   ...prev,
   packages: {
@@ -22,4 +26,6 @@ const next = {
 
 const yamlString = yaml.safeDump(next);
 
-fs.writeFileSync(path.join(__dirname, 'verdaccio.yaml'), yamlString, { encoding: 'utf8' });
+fs.writeFileSync(path.join(__dirname, 'verdaccio.yaml'), yamlString, {
+  encoding: 'utf8',
+});

@@ -8,7 +8,10 @@ import path from 'path';
 describe('observeAppEntrChange()', () => {
   test('should catch app entry changed', async () => {
     // Arrange
-    const cwd: string = await copyTmpDirectory(process.cwd(), 'test/fixtures/web/observeAppEntryChange');
+    const cwd: string = await copyTmpDirectory(
+      process.cwd(),
+      'test/fixtures/web/observeAppEntryChange',
+    );
 
     // Act
     const current: AppEntry[] = getAppEntry({ appDir: cwd });
@@ -23,18 +26,21 @@ describe('observeAppEntrChange()', () => {
     // Arrange
     let change: string | null = null;
 
-    const subscription = observeAppEntryChange({ current, appDir: cwd }).subscribe(
-      (changeValue: string | null) => {
-        change = changeValue;
-      },
-    );
+    const subscription = observeAppEntryChange({
+      current,
+      appDir: cwd,
+    }).subscribe((changeValue: string | null) => {
+      change = changeValue;
+    });
 
     // Act
     fs.copyFileSync(path.join(cwd, 'test1.html'), path.join(cwd, 'test3.html'));
     fs.copyFileSync(path.join(cwd, 'test1.tsx'), path.join(cwd, 'test3.tsx'));
 
     // Assert
-    await waitFor(() => expect(change).toContain('entry changed'), { timeout: 5000 });
+    await waitFor(() => expect(change).toContain('entry changed'), {
+      timeout: 5000,
+    });
 
     // Act
     fs.unlinkSync(path.join(cwd, 'test3.html'));

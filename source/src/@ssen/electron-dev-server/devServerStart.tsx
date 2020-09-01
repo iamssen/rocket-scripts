@@ -1,4 +1,7 @@
-import { ElectronSwitchesYargsValues, toElectronArgv } from '@ssen/electron-switches';
+import {
+  ElectronSwitchesYargsValues,
+  toElectronArgv,
+} from '@ssen/electron-switches';
 import { mirrorFiles, MirrorMessage } from '@ssen/mirror-files';
 import { patchConsole } from '@ssen/patch-console';
 import { createTmpDirectory } from '@ssen/tmp-directory';
@@ -46,7 +49,11 @@ export async function devServerStart({
 }: DevServerStartParams): Promise<() => Promise<void>> {
   console.clear();
   const stream: NodeJS.WritableStream = fs.createWriteStream(logfile);
-  const restoreConsole = patchConsole({ stdout: stream, stderr: stream, colorMode: false });
+  const restoreConsole = patchConsole({
+    stdout: stream,
+    stderr: stream,
+    colorMode: false,
+  });
 
   if (!outDir) {
     outDir = await createTmpDirectory();
@@ -66,7 +73,9 @@ export async function devServerStart({
         })
       : undefined;
 
-  const syncStaticFilesCaster: ConnectableObservable<MirrorMessage> | undefined = syncStaticFiles?.pipe(
+  const syncStaticFilesCaster:
+    | ConnectableObservable<MirrorMessage>
+    | undefined = syncStaticFiles?.pipe(
     multicast(() => new Subject()),
   ) as ConnectableObservable<MirrorMessage>;
 

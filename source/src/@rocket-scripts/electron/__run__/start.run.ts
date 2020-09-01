@@ -8,7 +8,9 @@ import puppeteer, { Browser } from 'puppeteer-core';
 const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
 
 (async () => {
-  const cwd: string = await copyTmpDirectory(path.join(process.cwd(), 'test/fixtures/electron/start'));
+  const cwd: string = await copyTmpDirectory(
+    path.join(process.cwd(), 'test/fixtures/electron/start'),
+  );
   const remoteDebuggingPort: number = 9366;
 
   await exec(`yarn`, { cwd });
@@ -36,7 +38,14 @@ const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
         browserURL: `http://localhost:${remoteDebuggingPort}`,
       });
     } catch (error) {
-      console.log('start.test.ts..()', error, remoteDebuggingPort, Date.now(), connectTimeout, browser);
+      console.log(
+        'start.test.ts..()',
+        error,
+        remoteDebuggingPort,
+        Date.now(),
+        connectTimeout,
+        browser,
+      );
       if (Date.now() > connectTimeout) {
         throw error;
       }
@@ -55,7 +64,9 @@ const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
 
   const file: string = path.join(cwd, 'src/app/preload.ts');
   const source: string = await fs.readFile(file, 'utf8');
-  await fs.writeFile(file, source.replace(/(Hello)/g, 'Hi'), { encoding: 'utf8' });
+  await fs.writeFile(file, source.replace(/(Hello)/g, 'Hi'), {
+    encoding: 'utf8',
+  });
 
   await timeout(1000 * 5);
 

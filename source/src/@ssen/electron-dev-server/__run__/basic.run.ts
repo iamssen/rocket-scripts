@@ -14,7 +14,9 @@ import nodeExternals from 'webpack-node-externals';
 import { devServerStart } from '../devServerStart';
 
 (async () => {
-  const cwd: string = await copyTmpDirectory(path.join(process.cwd(), 'test/fixtures/electron/start'));
+  const cwd: string = await copyTmpDirectory(
+    path.join(process.cwd(), 'test/fixtures/electron/start'),
+  );
   const outDir: string = await createTmpDirectory();
   const env: NodeJS.ProcessEnv = process.env;
 
@@ -92,10 +94,13 @@ import { devServerStart } from '../devServerStart';
 
         plugins: [
           new DefinePlugin({
-            'process.env': Object.keys(webpackEnv).reduce((stringifiedEnv, key) => {
-              stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
-              return stringifiedEnv;
-            }, {} as NodeJS.ProcessEnv),
+            'process.env': Object.keys(webpackEnv).reduce(
+              (stringifiedEnv, key) => {
+                stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
+                return stringifiedEnv;
+              },
+              {} as NodeJS.ProcessEnv,
+            ),
           }),
         ],
 
@@ -140,13 +145,19 @@ import { devServerStart } from '../devServerStart';
             filename: 'index.html',
           }),
 
-          new InterpolateHtmlPlugin(HtmlWebpackPlugin, webpackEnv as Record<string, string>),
+          new InterpolateHtmlPlugin(
+            HtmlWebpackPlugin,
+            webpackEnv as Record<string, string>,
+          ),
 
           new DefinePlugin({
-            'process.env': Object.keys(webpackEnv).reduce((stringifiedEnv, key) => {
-              stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
-              return stringifiedEnv;
-            }, {} as NodeJS.ProcessEnv),
+            'process.env': Object.keys(webpackEnv).reduce(
+              (stringifiedEnv, key) => {
+                stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
+                return stringifiedEnv;
+              },
+              {} as NodeJS.ProcessEnv,
+            ),
           }),
         ],
 

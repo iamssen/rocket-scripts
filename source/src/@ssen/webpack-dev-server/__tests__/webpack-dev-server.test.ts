@@ -43,7 +43,10 @@ describe('webpack-dev-server', () => {
 
     await exec(`npm install`, { cwd });
 
-    const { devServer: devServerConfig, ...webpackConfig } = require(`${cwd}/webpack.config.js`);
+    const {
+      devServer: devServerConfig,
+      ...webpackConfig
+    } = require(`${cwd}/webpack.config.js`);
 
     // Arrange : stdout
     const stdout = createInkWriteStream();
@@ -57,7 +60,9 @@ describe('webpack-dev-server', () => {
       webpackConfig,
       devServerConfig,
       stdout,
-      logfile: process.env.CI ? path.join(process.cwd(), `logs/webpack-dev-server.txt`) : undefined,
+      logfile: process.env.CI
+        ? path.join(process.cwd(), `logs/webpack-dev-server.txt`)
+        : undefined,
     });
 
     await timeout(1000 * 5);
@@ -70,7 +75,9 @@ describe('webpack-dev-server', () => {
 
     // Assert
     const time: string = format(1596258181790, 'yyyy-MM-dd hh:mm:ss');
-    await expect(page.$eval('#app', (e) => e.innerHTML)).resolves.toBe(`Hello Webpack! ${time}`);
+    await expect(page.$eval('#app', (e) => e.innerHTML)).resolves.toBe(
+      `Hello Webpack! ${time}`,
+    );
 
     // Exit
     await close();

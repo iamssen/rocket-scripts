@@ -21,7 +21,8 @@ export class InkWritableStream extends EventEmitter {
 }
 
 export function createInkWriteStream(): InkWritableStream & NodeJS.WriteStream {
-  return (new InkWritableStream() as unknown) as InkWritableStream & NodeJS.WriteStream;
+  return (new InkWritableStream() as unknown) as InkWritableStream &
+    NodeJS.WriteStream;
 }
 
 export function inkToString(element: ReactElement): string {

@@ -1,4 +1,6 @@
-import reactWebpackConfig, { WebpackConfigOptions } from '@rocket-scripts/react-preset/webpackConfig';
+import reactWebpackConfig, {
+  WebpackConfigOptions,
+} from '@rocket-scripts/react-preset/webpackConfig';
 import { Configuration } from 'webpack';
 import { merge } from 'webpack-merge';
 

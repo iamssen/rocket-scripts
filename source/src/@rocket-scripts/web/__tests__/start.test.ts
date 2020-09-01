@@ -36,7 +36,9 @@ describe('web/start', () => {
     'should read h1 text and the text should change with HMR (%s)',
     async (dir: string) => {
       // Arrange : project directories
-      const cwd: string = await copyTmpDirectory(path.join(process.cwd(), `test/fixtures/web/${dir}`));
+      const cwd: string = await copyTmpDirectory(
+        path.join(process.cwd(), `test/fixtures/web/${dir}`),
+      );
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
@@ -51,8 +53,11 @@ describe('web/start', () => {
         staticFileDirectories,
         app,
         stdout,
-        logfile: process.env.CI ? path.join(process.cwd(), `logs/start-basic.${dir}.txt`) : undefined,
-        webpackConfig: dir === 'webpack-config' ? '{cwd}/webpack.config.js' : undefined,
+        logfile: process.env.CI
+          ? path.join(process.cwd(), `logs/start-basic.${dir}.txt`)
+          : undefined,
+        webpackConfig:
+          dir === 'webpack-config' ? '{cwd}/webpack.config.js' : undefined,
       });
 
       //exec(`code ${logfile}`);
@@ -69,12 +74,16 @@ describe('web/start', () => {
       await page.waitFor('#app h1', { timeout: 1000 * 60 });
 
       // Assert
-      await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hello World!');
+      await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe(
+        'Hello World!',
+      );
 
       // Act : update the source file to be causing HMR
       const file: string = path.join(cwd, 'src/app/index.tsx');
       const source: string = await fs.readFile(file, 'utf8');
-      await fs.writeFile(file, source.replace(/(Hello)/g, 'Hi'), { encoding: 'utf8' });
+      await fs.writeFile(file, source.replace(/(Hello)/g, 'Hi'), {
+        encoding: 'utf8',
+      });
 
       // Assert : update browser text by HMR (but, it can fail)
       const waitMs: number = 1000;
@@ -89,7 +98,9 @@ describe('web/start', () => {
           await page.reload({ waitUntil: 'load' });
           await timeout(1000 * 2);
           await page.waitFor('#app h1', { timeout: 1000 * 60 });
-          await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hi World!');
+          await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe(
+            'Hi World!',
+          );
         }
         await timeout(waitMs);
         count -= 1;
@@ -106,7 +117,9 @@ describe('web/start', () => {
     'should make abc text from alias directories (%s)',
     async (dir: string) => {
       // Arrange : project directories
-      const cwd: string = await copyTmpDirectory(path.join(process.cwd(), `test/fixtures/web/${dir}`));
+      const cwd: string = await copyTmpDirectory(
+        path.join(process.cwd(), `test/fixtures/web/${dir}`),
+      );
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
@@ -121,7 +134,9 @@ describe('web/start', () => {
         staticFileDirectories,
         app,
         stdout,
-        logfile: process.env.CI ? path.join(process.cwd(), `logs/start-alias.${dir}.txt`) : undefined,
+        logfile: process.env.CI
+          ? path.join(process.cwd(), `logs/start-alias.${dir}.txt`)
+          : undefined,
       });
 
       await timeout(1000 * 5);
@@ -136,7 +151,9 @@ describe('web/start', () => {
       await page.waitFor('#app h1', { timeout: 1000 * 60 });
 
       // Assert
-      await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('abc');
+      await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe(
+        'abc',
+      );
 
       // Exit
       await close();
@@ -181,7 +198,9 @@ describe('web/start', () => {
     await page.waitFor('#app h1', { timeout: 1000 * 60 });
 
     // Assert
-    await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe('Hello World!');
+    await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe(
+      'Hello World!',
+    );
 
     const manifest = await fetch(`http://localhost:${port}/manifest.json`);
     expect(manifest.status).toBeLessThan(299);
@@ -198,7 +217,9 @@ describe('web/start', () => {
 
   test('should use proxy api', async () => {
     // Arrange : project directories
-    const cwd: string = await copyTmpDirectory(path.join(process.cwd(), 'test/fixtures/web/proxy'));
+    const cwd: string = await copyTmpDirectory(
+      path.join(process.cwd(), 'test/fixtures/web/proxy'),
+    );
     const staticFileDirectories: string[] = ['{cwd}/public'];
     const app: string = 'app';
 
@@ -213,7 +234,9 @@ describe('web/start', () => {
       staticFileDirectories,
       app,
       stdout,
-      logfile: process.env.CI ? path.join(process.cwd(), `logs/start-proxy.txt`) : undefined,
+      logfile: process.env.CI
+        ? path.join(process.cwd(), `logs/start-proxy.txt`)
+        : undefined,
       webpackDevServerConfig: {
         proxy: {
           '/api': {
@@ -231,7 +254,9 @@ describe('web/start', () => {
     await timeout(1000 * 5);
 
     // Assert
-    const api = await fetch(`http://localhost:${port}/api/assets/book-opened.svg`);
+    const api = await fetch(
+      `http://localhost:${port}/api/assets/book-opened.svg`,
+    );
     expect(api.status).toBeLessThan(299);
 
     // Exit

@@ -16,12 +16,19 @@ function toMessage(args: unknown[], level: TimeMessage['level']): TimeMessage {
   };
 }
 
-export function patchProxyLogger({ proxyConfig, subject }: Params): ProxyConfigMap | ProxyConfigArray {
+export function patchProxyLogger({
+  proxyConfig,
+  subject,
+}: Params): ProxyConfigMap | ProxyConfigArray {
   let messages: TimeMessage[] = [];
 
   function next(args: unknown[], level: TimeMessage['level']) {
-    const prevMessages: TimeMessage[] = messages.length > 9 ? messages.slice(messages.length - 9) : messages;
-    const nextMessages: TimeMessage[] = [...prevMessages, toMessage(args, level)];
+    const prevMessages: TimeMessage[] =
+      messages.length > 9 ? messages.slice(messages.length - 9) : messages;
+    const nextMessages: TimeMessage[] = [
+      ...prevMessages,
+      toMessage(args, level),
+    ];
     subject.next(nextMessages);
     messages = nextMessages;
   }

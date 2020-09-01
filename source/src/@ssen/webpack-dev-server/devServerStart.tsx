@@ -40,13 +40,20 @@ export async function devServerStart({
     fs.mkdirpSync(path.dirname(logfile));
   }
   const stream: NodeJS.WritableStream = fs.createWriteStream(logfile);
-  const restoreConsole = patchConsole({ stdout: stream, stderr: stream, colorMode: false });
+  const restoreConsole = patchConsole({
+    stdout: stream,
+    stderr: stream,
+    colorMode: false,
+  });
 
   let proxy: ProxyConfigMap | ProxyConfigArray | undefined = undefined;
   let proxySubject: Subject<TimeMessage[]> | undefined = undefined;
   if (devServerConfig.proxy) {
     proxySubject = new BehaviorSubject<TimeMessage[]>([]);
-    proxy = patchProxyLogger({ proxyConfig: devServerConfig.proxy, subject: proxySubject });
+    proxy = patchProxyLogger({
+      proxyConfig: devServerConfig.proxy,
+      subject: proxySubject,
+    });
   }
 
   const server: DevServer = new DevServer({

@@ -1,6 +1,11 @@
 import { BehaviorSubject } from 'rxjs';
-import webpack, { Compiler, Configuration as WebpackConfiguration } from 'webpack';
-import WebpackDevServer, { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+import webpack, {
+  Compiler,
+  Configuration as WebpackConfiguration,
+} from 'webpack';
+import WebpackDevServer, {
+  Configuration as WebpackDevServerConfiguration,
+} from 'webpack-dev-server';
 import { DevServerStatus, WebpackStats } from './types';
 
 export interface DevServerParams {
@@ -21,13 +26,23 @@ export class DevServer {
   private readonly startResolvers: Set<() => void> = new Set();
   private readonly closeResolvers: Set<() => void> = new Set();
 
-  constructor({ port, hostname, webpackConfig, devServerConfig }: DevServerParams) {
-    this.url = (devServerConfig.https ? 'https://' : 'http://') + hostname + ':' + port;
+  constructor({
+    port,
+    hostname,
+    webpackConfig,
+    devServerConfig,
+  }: DevServerParams) {
+    this.url =
+      (devServerConfig.https ? 'https://' : 'http://') + hostname + ':' + port;
 
     this.compiler = webpack(webpackConfig);
 
-    this.statusSubject = new BehaviorSubject<DevServerStatus>(DevServerStatus.STARTING);
-    this.webpackStatsSubject = new BehaviorSubject<WebpackStats>({ status: 'waiting' });
+    this.statusSubject = new BehaviorSubject<DevServerStatus>(
+      DevServerStatus.STARTING,
+    );
+    this.webpackStatsSubject = new BehaviorSubject<WebpackStats>({
+      status: 'waiting',
+    });
 
     this.devServer = new WebpackDevServer(this.compiler, devServerConfig);
     this.devServer.listen(port, hostname, this.onStart);
@@ -84,7 +99,10 @@ export class DevServer {
 
   public waitUntilClose = () =>
     new Promise<void>((resolve) => {
-      if (this.statusSubject.isStopped || this.statusSubject.getValue() >= DevServerStatus.CLOSED) {
+      if (
+        this.statusSubject.isStopped ||
+        this.statusSubject.getValue() >= DevServerStatus.CLOSED
+      ) {
         resolve();
       } else {
         this.closeResolvers.add(resolve);

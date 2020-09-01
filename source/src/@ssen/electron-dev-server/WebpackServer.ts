@@ -1,5 +1,9 @@
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import webpack, { Compiler, Configuration as WebpackConfiguration, Stats } from 'webpack';
+import webpack, {
+  Compiler,
+  Configuration as WebpackConfiguration,
+  Stats,
+} from 'webpack';
 import { WebpackServerStatus, WebpackStats } from './types';
 
 export interface WebpackServerParams {
@@ -32,9 +36,13 @@ export class WebpackServer {
     this.mainCompiler = webpack(mainWebpackConfig);
     this.rendererCompiler = webpack(rendererWebpackConfig);
 
-    this.statusSubject = new BehaviorSubject<WebpackServerStatus>(WebpackServerStatus.STARTING);
+    this.statusSubject = new BehaviorSubject<WebpackServerStatus>(
+      WebpackServerStatus.STARTING,
+    );
 
-    this.mainWebpackStatusSubject = new BehaviorSubject<WebpackStats>({ status: 'waiting' });
+    this.mainWebpackStatusSubject = new BehaviorSubject<WebpackStats>({
+      status: 'waiting',
+    });
 
     this.mainCompiler.hooks.invalid.tap('invalid', () => {
       this.mainWebpackStatusSubject.next({
@@ -62,7 +70,9 @@ export class WebpackServer {
       },
     );
 
-    this.rendererWebpackStatusSubject = new BehaviorSubject<WebpackStats>({ status: 'waiting' });
+    this.rendererWebpackStatusSubject = new BehaviorSubject<WebpackStats>({
+      status: 'waiting',
+    });
 
     this.rendererCompiler.hooks.invalid.tap('invalid', () => {
       this.rendererWebpackStatusSubject.next({
@@ -105,7 +115,8 @@ export class WebpackServer {
 
   public mainWebpackStats = () => this.mainWebpackStatusSubject.asObservable();
 
-  public rendererWebpackStats = () => this.rendererWebpackStatusSubject.asObservable();
+  public rendererWebpackStats = () =>
+    this.rendererWebpackStatusSubject.asObservable();
 
   public waitUntilStart = () =>
     new Promise<void>((resolve) => {
@@ -154,7 +165,10 @@ export class WebpackServer {
 
   public waitUntilClose = () =>
     new Promise<void>((resolve) => {
-      if (this.statusSubject.isStopped || this.statusSubject.getValue() >= WebpackServerStatus.CLOSED) {
+      if (
+        this.statusSubject.isStopped ||
+        this.statusSubject.getValue() >= WebpackServerStatus.CLOSED
+      ) {
         resolve();
       } else {
         this.closeResolvers.add(resolve);

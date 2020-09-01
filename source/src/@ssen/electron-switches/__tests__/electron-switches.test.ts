@@ -1,4 +1,7 @@
-import { ElectronSwitchesYargsValues, toElectronArgv } from '@ssen/electron-switches';
+import {
+  ElectronSwitchesYargsValues,
+  toElectronArgv,
+} from '@ssen/electron-switches';
 
 describe('electron-switches', () => {
   test('should convert to electron argv', () => {

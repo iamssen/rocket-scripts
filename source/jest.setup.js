@@ -8,11 +8,11 @@ function getModuleDirectories(from) {
   let dir = from;
   while (dir !== root) {
     const modules = path.resolve(dir, 'node_modules');
-    
+
     if (fs.existsSync(modules)) {
       moduleDirectories.push(modules);
     }
-    
+
     dir = path.dirname(dir);
   }
 

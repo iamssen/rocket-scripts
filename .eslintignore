@@ -1,4 +1,5 @@
 node_modules
 fixtures
 out
+coverage
 src/**/public

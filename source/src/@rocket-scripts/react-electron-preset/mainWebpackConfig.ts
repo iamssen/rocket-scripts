@@ -13,7 +13,11 @@ export interface MainWebpackConfigOptions {
   tsconfig: string;
 }
 
-export default function ({ cwd, babelLoaderOptions, tsconfig }: MainWebpackConfigOptions): Configuration {
+export default function ({
+  cwd,
+  babelLoaderOptions,
+  tsconfig,
+}: MainWebpackConfigOptions): Configuration {
   return {
     target: 'electron-main',
 

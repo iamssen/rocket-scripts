@@ -5,7 +5,9 @@ import path from 'path';
 import puppeteer from 'puppeteer';
 
 (async () => {
-  const cwd: string = await copyTmpDirectory(path.join(process.cwd(), 'test/fixtures/web/start'));
+  const cwd: string = await copyTmpDirectory(
+    path.join(process.cwd(), 'test/fixtures/web/start'),
+  );
 
   await exec(`npm install`, { cwd });
   //await exec(`code ${cwd}`);

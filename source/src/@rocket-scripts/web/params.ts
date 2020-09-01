@@ -1,5 +1,8 @@
 import { ReactNode } from 'react';
-import { Configuration as WebpackConfiguration, Options as WebpackOptions } from 'webpack';
+import {
+  Configuration as WebpackConfiguration,
+  Options as WebpackOptions,
+} from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
 export interface CommonParams {
@@ -180,7 +183,10 @@ export interface StartParams extends CommonParams {
    */
   webpackDevServerConfig?:
     | string
-    | Omit<WebpackDevServerConfiguration, 'hot' | 'compress' | 'contentBase' | 'stats'>;
+    | Omit<
+        WebpackDevServerConfiguration,
+        'hot' | 'compress' | 'contentBase' | 'stats'
+      >;
 
   /**
    * logfile path.

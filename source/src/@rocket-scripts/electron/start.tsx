@@ -6,7 +6,10 @@ import {
 import { getWebpackAlias, icuFormat, rocketTitle } from '@rocket-scripts/utils';
 import { filterReactEnv } from '@rocket-scripts/web/utils/filterReactEnv';
 import { observeAliasChange } from '@rocket-scripts/web/utils/observeAliasChange';
-import { devServerStart, DevServerStartParams } from '@ssen/electron-dev-server';
+import {
+  devServerStart,
+  DevServerStartParams,
+} from '@ssen/electron-dev-server';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
@@ -44,7 +47,9 @@ export async function start({
 }: StartParams): Promise<Start> {
   console.log('Start Server...');
 
-  const staticFileDirectories: string[] = _staticFileDirectories.map((dir) => icuFormat(dir, { cwd, app }));
+  const staticFileDirectories: string[] = _staticFileDirectories.map((dir) =>
+    icuFormat(dir, { cwd, app }),
+  );
   const outDir: string = icuFormat(_outDir, { cwd, app });
   const tsconfig: string = icuFormat(_tsconfig, { cwd, app });
   const alias = getWebpackAlias(cwd);
@@ -120,10 +125,13 @@ export async function start({
 
       plugins: [
         new DefinePlugin({
-          'process.env': Object.keys(webpackEnv).reduce((stringifiedEnv, key) => {
-            stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
-            return stringifiedEnv;
-          }, {} as NodeJS.ProcessEnv),
+          'process.env': Object.keys(webpackEnv).reduce(
+            (stringifiedEnv, key) => {
+              stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
+              return stringifiedEnv;
+            },
+            {} as NodeJS.ProcessEnv,
+          ),
         }),
       ],
 
@@ -182,13 +190,19 @@ export async function start({
           filename: 'index.html',
         }),
 
-        new InterpolateHtmlPlugin(HtmlWebpackPlugin, webpackEnv as Record<string, string>),
+        new InterpolateHtmlPlugin(
+          HtmlWebpackPlugin,
+          webpackEnv as Record<string, string>,
+        ),
 
         new DefinePlugin({
-          'process.env': Object.keys(webpackEnv).reduce((stringifiedEnv, key) => {
-            stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
-            return stringifiedEnv;
-          }, {} as NodeJS.ProcessEnv),
+          'process.env': Object.keys(webpackEnv).reduce(
+            (stringifiedEnv, key) => {
+              stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
+              return stringifiedEnv;
+            },
+            {} as NodeJS.ProcessEnv,
+          ),
         }),
       ],
 
@@ -210,7 +224,9 @@ export async function start({
   const restartAlarm: Observable<string[]> = combineLatest([
     observeAliasChange({ cwd, current: alias }),
   ]).pipe(
-    map<(string | null)[], string[]>((changes) => changes.filter((change): change is string => !!change)),
+    map<(string | null)[], string[]>((changes) =>
+      changes.filter((change): change is string => !!change),
+    ),
   );
 
   let version: string = '';

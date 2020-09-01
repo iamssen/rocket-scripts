@@ -29,7 +29,10 @@ async function copy(file: string, dir: string, toDir: string) {
 
 describe('mirrorFiles()', () => {
   test('should mirror static files', async () => {
-    const source: string = path.join(process.cwd(), 'test/fixtures/mirror-files/static-files');
+    const source: string = path.join(
+      process.cwd(),
+      'test/fixtures/mirror-files/static-files',
+    );
     const dir: string = await createTmpDirectory();
     const outDir: string = await createTmpDirectory();
 
@@ -49,20 +52,32 @@ describe('mirrorFiles()', () => {
     await expect(waitExists(path.join(outDir, 'b.jpeg'))).resolves.toBeFalsy();
 
     await copy('public/c.svg', source, dir);
-    await expect(waitExists(path.join(outDir, 'public/c.svg'))).resolves.toBeTruthy();
+    await expect(
+      waitExists(path.join(outDir, 'public/c.svg')),
+    ).resolves.toBeTruthy();
 
     await copy('public/d.html', source, dir);
     await copy('public/e.pdf', source, dir);
-    await expect(waitExists(path.join(outDir, 'public/d.html'))).resolves.toBeTruthy();
-    await expect(waitExists(path.join(outDir, 'public/e.pdf'))).resolves.toBeTruthy();
+    await expect(
+      waitExists(path.join(outDir, 'public/d.html')),
+    ).resolves.toBeTruthy();
+    await expect(
+      waitExists(path.join(outDir, 'public/e.pdf')),
+    ).resolves.toBeTruthy();
 
     await fs.unlink(path.join(path.join(outDir, 'a.mp4')));
     await fs.unlink(path.join(path.join(outDir, 'public/c.svg')));
     await expect(waitExists(path.join(outDir, 'a.mp4'))).resolves.toBeFalsy();
     await expect(waitExists(path.join(outDir, 'b.jpeg'))).resolves.toBeFalsy();
-    await expect(waitExists(path.join(outDir, 'public/c.svg'))).resolves.toBeFalsy();
-    await expect(waitExists(path.join(outDir, 'public/d.html'))).resolves.toBeTruthy();
-    await expect(waitExists(path.join(outDir, 'public/e.pdf'))).resolves.toBeTruthy();
+    await expect(
+      waitExists(path.join(outDir, 'public/c.svg')),
+    ).resolves.toBeFalsy();
+    await expect(
+      waitExists(path.join(outDir, 'public/d.html')),
+    ).resolves.toBeTruthy();
+    await expect(
+      waitExists(path.join(outDir, 'public/e.pdf')),
+    ).resolves.toBeTruthy();
 
     subscription.unsubscribe();
   });

@@ -8,7 +8,11 @@ interface Params {
   interval?: number;
 }
 
-export function observeAliasChange({ cwd, current, interval = 10000 }: Params): Observable<string | null> {
+export function observeAliasChange({
+  cwd,
+  current,
+  interval = 10000,
+}: Params): Observable<string | null> {
   return new Observable<string | null>((subscriber) => {
     let intervalId: NodeJS.Timeout | null = null;
 

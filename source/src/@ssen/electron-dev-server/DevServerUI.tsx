@@ -30,18 +30,30 @@ export function DevServerUI({
   restartAlarm,
   children,
 }: DevServerUIProps) {
-  const [webpackServerStatus, setWebpackServerStatus] = useState<WebpackServerStatus>(
-    WebpackServerStatus.STARTING,
-  );
-  const [webpackMainStats, setWebpackMainStats] = useState<WebpackStats>({ status: 'waiting' });
-  const [webpackRendererStats, setWebpackRendererStats] = useState<WebpackStats>({ status: 'waiting' });
+  const [webpackServerStatus, setWebpackServerStatus] = useState<
+    WebpackServerStatus
+  >(WebpackServerStatus.STARTING);
+  const [webpackMainStats, setWebpackMainStats] = useState<WebpackStats>({
+    status: 'waiting',
+  });
+  const [webpackRendererStats, setWebpackRendererStats] = useState<
+    WebpackStats
+  >({ status: 'waiting' });
   const [restartMessages, setRestartMessages] = useState<string[] | null>(null);
-  const [syncStaticFilesMessages, setSyncStaticFilesMessages] = useState<MirrorMessage[]>([]);
+  const [syncStaticFilesMessages, setSyncStaticFilesMessages] = useState<
+    MirrorMessage[]
+  >([]);
 
   useEffect(() => {
-    const statusSubscription = webpackServer.status().subscribe(setWebpackServerStatus);
-    const mainStatsSubscription = webpackServer.mainWebpackStats().subscribe(setWebpackMainStats);
-    const rendererStatsSubscription = webpackServer.rendererWebpackStats().subscribe(setWebpackRendererStats);
+    const statusSubscription = webpackServer
+      .status()
+      .subscribe(setWebpackServerStatus);
+    const mainStatsSubscription = webpackServer
+      .mainWebpackStats()
+      .subscribe(setWebpackMainStats);
+    const rendererStatsSubscription = webpackServer
+      .rendererWebpackStats()
+      .subscribe(setWebpackRendererStats);
 
     return () => {
       statusSubscription.unsubscribe();
@@ -224,18 +236,19 @@ export function DevServerUI({
         </>
       )}
 
-      {webpackRendererStatsJson && webpackRendererStatsJson.warnings.length > 0 && (
-        <>
-          <Divider bold color="yellow">
-            Warning
-          </Divider>
-          {webpackRendererStatsJson.warnings.map((text) => (
-            <Text key={text} color="yellow">
-              {text}
-            </Text>
-          ))}
-        </>
-      )}
+      {webpackRendererStatsJson &&
+        webpackRendererStatsJson.warnings.length > 0 && (
+          <>
+            <Divider bold color="yellow">
+              Warning
+            </Divider>
+            {webpackRendererStatsJson.warnings.map((text) => (
+              <Text key={text} color="yellow">
+                {text}
+              </Text>
+            ))}
+          </>
+        )}
 
       {syncStaticFilesMessages.length > 0 && (
         <>

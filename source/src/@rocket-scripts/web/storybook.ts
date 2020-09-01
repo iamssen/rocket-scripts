@@ -6,7 +6,9 @@ export interface WebpackFinalParams {
   cwd?: string;
 }
 
-export const webpackFinal = ({ cwd = process.cwd() }: WebpackFinalParams) => async (
+export const webpackFinal = ({
+  cwd = process.cwd(),
+}: WebpackFinalParams) => async (
   config: Configuration,
 ): Promise<Configuration> => {
   const alias = getWebpackAlias(cwd);

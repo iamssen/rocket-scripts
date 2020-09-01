@@ -23,12 +23,18 @@ export type MirrorMessage =
       time: Date;
     };
 
-export function mirrorFiles({ filesDirsOrGlobs, outDir, ignored }: Params): Observable<MirrorMessage> {
+export function mirrorFiles({
+  filesDirsOrGlobs,
+  outDir,
+  ignored,
+}: Params): Observable<MirrorMessage> {
   return new Observable<MirrorMessage>((subscriber) => {
     fs.mkdirpSync(outDir);
 
     function toRelativePath(file: string): string | undefined {
-      const source: string | undefined = filesDirsOrGlobs.find((s) => file.indexOf(s) === 0);
+      const source: string | undefined = filesDirsOrGlobs.find(
+        (s) => file.indexOf(s) === 0,
+      );
       return source ? path.relative(source, file) : undefined;
     }
 

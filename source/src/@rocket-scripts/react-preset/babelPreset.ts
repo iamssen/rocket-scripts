@@ -1,4 +1,11 @@
-export type Modules = 'amd' | 'umd' | 'systemjs' | 'commonjs' | 'cjs' | 'auto' | false;
+export type Modules =
+  | 'amd'
+  | 'umd'
+  | 'systemjs'
+  | 'commonjs'
+  | 'cjs'
+  | 'auto'
+  | false;
 
 export interface Options {
   modules: Modules;

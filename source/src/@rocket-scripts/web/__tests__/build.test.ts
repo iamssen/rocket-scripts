@@ -8,7 +8,9 @@ describe('web/build', () => {
     'should build the project "fixtures/web/%s"',
     async (dir: string) => {
       // Arrange : project directories
-      const cwd: string = await copyTmpDirectory(path.join(process.cwd(), `test/fixtures/web/${dir}`));
+      const cwd: string = await copyTmpDirectory(
+        path.join(process.cwd(), `test/fixtures/web/${dir}`),
+      );
       const outDir: string = await createTmpDirectory();
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
@@ -21,7 +23,8 @@ describe('web/build', () => {
         staticFileDirectories,
         app,
         outDir,
-        webpackConfig: dir === 'webpack-config' ? '{cwd}/webpack.config.js' : undefined,
+        webpackConfig:
+          dir === 'webpack-config' ? '{cwd}/webpack.config.js' : undefined,
       });
 
       // Assert

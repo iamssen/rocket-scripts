@@ -20,7 +20,9 @@ describe('rxjs', () => {
         };
       });
 
-      const multi = observable.pipe(multicast(() => new Subject<number>())) as ConnectableObservable<number>;
+      const multi = observable.pipe(
+        multicast(() => new Subject<number>()),
+      ) as ConnectableObservable<number>;
 
       const toUI: Observable<number[]> = multi.pipe(bufferTime(500));
 

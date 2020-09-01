@@ -14,7 +14,9 @@ describe('electron/start', () => {
     'should read h1 text and the text should change with watch (%s)',
     async (dir: string) => {
       // Arrange : project directories
-      const cwd: string = await copyTmpDirectory(path.join(process.cwd(), `test/fixtures/electron/${dir}`));
+      const cwd: string = await copyTmpDirectory(
+        path.join(process.cwd(), `test/fixtures/electron/${dir}`),
+      );
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
       const remoteDebuggingPort: number = await getPortPromise();
@@ -49,7 +51,14 @@ describe('electron/start', () => {
             browserURL: `http://localhost:${remoteDebuggingPort}`,
           });
         } catch (error) {
-          console.log('start.test.ts..()', error, remoteDebuggingPort, Date.now(), connectTimeout, browser);
+          console.log(
+            'start.test.ts..()',
+            error,
+            remoteDebuggingPort,
+            Date.now(),
+            connectTimeout,
+            browser,
+          );
           if (Date.now() > connectTimeout) {
             throw error;
           }
@@ -62,15 +71,20 @@ describe('electron/start', () => {
       if (!page) throw new Error(`Undefined index.html`);
 
       // Assert
-      await page.waitForFunction(`document.querySelector('#app h1').innerHTML === 'Hello World!'`, {
-        timeout: 1000 * 60,
-        polling: 1000 * 3,
-      });
+      await page.waitForFunction(
+        `document.querySelector('#app h1').innerHTML === 'Hello World!'`,
+        {
+          timeout: 1000 * 60,
+          polling: 1000 * 3,
+        },
+      );
 
       // Act : update source file to be causing webpack watch
       const file: string = path.join(cwd, 'src/app/preload.ts');
       const source: string = await fs.readFile(file, 'utf8');
-      await fs.writeFile(file, source.replace(/(Hello)/g, 'Hi'), { encoding: 'utf8' });
+      await fs.writeFile(file, source.replace(/(Hello)/g, 'Hi'), {
+        encoding: 'utf8',
+      });
 
       await timeout(1000 * 5);
 

@@ -64,5 +64,11 @@ declare module 'cfonts' {
     size?: Size,
   ) => Result;
 
-  export const say: (text: string, option: Options, debug?: boolean, debugLevl?: number, size?: Size) => void;
+  export const say: (
+    text: string,
+    option: Options,
+    debug?: boolean,
+    debugLevl?: number,
+    size?: Size,
+  ) => void;
 }

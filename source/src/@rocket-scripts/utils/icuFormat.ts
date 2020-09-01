@@ -6,7 +6,10 @@ import { IntlMessageFormat } from 'intl-messageformat';
  * @param vars variables (e.g. { name: "Jane" })
  * @return formatted text (e.g. "Hello, Jane!")
  */
-export function icuFormat(text: string, vars: Record<string, string | number>): string {
+export function icuFormat(
+  text: string,
+  vars: Record<string, string | number>,
+): string {
   const { format } = new IntlMessageFormat(text);
   const result: string | number | (string | number)[] = format(vars);
   return Array.isArray(result) ? result.join(' ') : result.toString();

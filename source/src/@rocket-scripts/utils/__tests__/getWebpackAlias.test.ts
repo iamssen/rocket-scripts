@@ -5,7 +5,9 @@ import path from 'path';
 describe('getWebpackAlias()', () => {
   test('should get alias from dir', async () => {
     // Arrange
-    const cwd: string = await copyTmpDirectory(path.join(process.cwd(), `test/fixtures/web/alias`));
+    const cwd: string = await copyTmpDirectory(
+      path.join(process.cwd(), `test/fixtures/web/alias`),
+    );
 
     // Act
     const alias: Record<string, string> = getWebpackAlias(cwd);
@@ -19,7 +21,9 @@ describe('getWebpackAlias()', () => {
 
   test('should get group alias from dir', async () => {
     // Arrange
-    const cwd: string = await copyTmpDirectory(path.join(process.cwd(), `test/fixtures/web/alias-group`));
+    const cwd: string = await copyTmpDirectory(
+      path.join(process.cwd(), `test/fixtures/web/alias-group`),
+    );
 
     // Act
     const alias: Record<string, string> = getWebpackAlias(cwd);

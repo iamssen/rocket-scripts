@@ -8,7 +8,10 @@ import path from 'path';
 describe('observeAliasChange', () => {
   test('should catch alias changed', async () => {
     // Arrange
-    const cwd: string = await copyTmpDirectory(process.cwd(), 'test/fixtures/web/start');
+    const cwd: string = await copyTmpDirectory(
+      process.cwd(),
+      'test/fixtures/web/start',
+    );
 
     // Act
     const current: Record<string, string> = getWebpackAlias(cwd);
@@ -19,11 +22,13 @@ describe('observeAliasChange', () => {
     // Arrange
     let change: string | null = null;
 
-    const subscription = observeAliasChange({ cwd, current, interval: 1000 }).subscribe(
-      (changeValue: string | null) => {
-        change = changeValue;
-      },
-    );
+    const subscription = observeAliasChange({
+      cwd,
+      current,
+      interval: 1000,
+    }).subscribe((changeValue: string | null) => {
+      change = changeValue;
+    });
 
     const hello: string = path.join(cwd, 'src/hello');
 
@@ -31,7 +36,9 @@ describe('observeAliasChange', () => {
     fs.mkdirpSync(hello);
 
     // Assert
-    await waitFor(() => expect(change).toContain('alias changed'), { timeout: 5000 });
+    await waitFor(() => expect(change).toContain('alias changed'), {
+      timeout: 5000,
+    });
 
     // Act
     fs.rmdirSync(hello);

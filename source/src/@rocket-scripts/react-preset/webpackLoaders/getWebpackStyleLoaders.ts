@@ -73,7 +73,9 @@ export function getWebpackStyleLoaders({
       loader: preProcessor,
       options: {
         sourceMap: true,
-        ...(preProcessor.indexOf('less-loader') > -1 ? { javascriptEnabled: true } : {}),
+        ...(preProcessor.indexOf('less-loader') > -1
+          ? { javascriptEnabled: true }
+          : {}),
       },
     };
 

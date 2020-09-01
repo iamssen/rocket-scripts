@@ -4,7 +4,9 @@ import { copyTmpDirectory, createTmpDirectory } from '@ssen/tmp-directory';
 import path from 'path';
 
 (async () => {
-  const cwd: string = await copyTmpDirectory(path.join(process.cwd(), 'test/fixtures/electron/start'));
+  const cwd: string = await copyTmpDirectory(
+    path.join(process.cwd(), 'test/fixtures/electron/start'),
+  );
   const outDir: string = await createTmpDirectory();
 
   await exec(`yarn`, { cwd });

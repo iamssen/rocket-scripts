@@ -9,7 +9,11 @@ import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import tmp from 'tmp';
-import { Configuration as WebpackConfiguration, DefinePlugin, HotModuleReplacementPlugin } from 'webpack';
+import {
+  Configuration as WebpackConfiguration,
+  DefinePlugin,
+  HotModuleReplacementPlugin,
+} from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 import { merge as webpackMerge } from 'webpack-merge';
 import { StartParams } from './params';
@@ -44,8 +48,11 @@ export async function start({
 }: StartParams): Promise<Start> {
   console.log('Start Server...');
 
-  const port: number = typeof _port === 'number' ? _port : await getPortPromise();
-  const staticFileDirectories: string[] = _staticFileDirectories.map((dir) => icuFormat(dir, { cwd, app }));
+  const port: number =
+    typeof _port === 'number' ? _port : await getPortPromise();
+  const staticFileDirectories: string[] = _staticFileDirectories.map((dir) =>
+    icuFormat(dir, { cwd, app }),
+  );
   const appDir: string = path.join(cwd, 'src', app);
   const logfile: string = icuFormat(_logfile, { cwd, app });
   const tsconfig: string = icuFormat(_tsconfig, { cwd, app });
@@ -128,13 +135,19 @@ export async function start({
             }),
         ),
 
-        new InterpolateHtmlPlugin(HtmlWebpackPlugin, webpackEnv as Record<string, string>),
+        new InterpolateHtmlPlugin(
+          HtmlWebpackPlugin,
+          webpackEnv as Record<string, string>,
+        ),
 
         new DefinePlugin({
-          'process.env': Object.keys(webpackEnv).reduce((stringifiedEnv, key) => {
-            stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
-            return stringifiedEnv;
-          }, {} as NodeJS.ProcessEnv),
+          'process.env': Object.keys(webpackEnv).reduce(
+            (stringifiedEnv, key) => {
+              stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
+              return stringifiedEnv;
+            },
+            {} as NodeJS.ProcessEnv,
+          ),
         }),
       ],
 
@@ -167,7 +180,9 @@ export async function start({
     observeAppEntryChange({ appDir, current: entry }),
     observeAliasChange({ cwd, current: alias }),
   ]).pipe(
-    map<(string | null)[], string[]>((changes) => changes.filter((change): change is string => !!change)),
+    map<(string | null)[], string[]>((changes) =>
+      changes.filter((change): change is string => !!change),
+    ),
   );
 
   let version: string = '';

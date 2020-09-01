@@ -8,14 +8,18 @@ interface Params {
   appDir: string;
 }
 
-export function observeAppEntryChange({ appDir, current }: Params): Observable<string | null> {
+export function observeAppEntryChange({
+  appDir,
+  current,
+}: Params): Observable<string | null> {
   return new Observable<string | null>((subscriber) => {
     function update() {
       const next: AppEntry[] = getAppEntry({ appDir });
 
       if (
         current.length !== next.length ||
-        current.map(({ name }) => name).join('') !== next.map(({ name }) => name).join('')
+        current.map(({ name }) => name).join('') !==
+          next.map(({ name }) => name).join('')
       ) {
         const message: string[] = [
           `entry changed : `,
@@ -29,7 +33,10 @@ export function observeAppEntryChange({ appDir, current }: Params): Observable<s
       }
     }
 
-    const watcher: FSWatcher = watch([`${appDir}/*.{js,jsx,ts,tsx}`, `${appDir}/*.html`])
+    const watcher: FSWatcher = watch([
+      `${appDir}/*.{js,jsx,ts,tsx}`,
+      `${appDir}/*.html`,
+    ])
       .on('add', update)
       .on('unlink', update);
 

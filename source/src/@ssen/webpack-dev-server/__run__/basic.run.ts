@@ -14,7 +14,10 @@ import puppeteer from 'puppeteer';
 
   const port: number = await getPortPromise();
 
-  const { devServer: devServerConfig, ...webpackConfig } = require(`${cwd}/webpack.config.js`);
+  const {
+    devServer: devServerConfig,
+    ...webpackConfig
+  } = require(`${cwd}/webpack.config.js`);
 
   await devServerStart({
     cwd,

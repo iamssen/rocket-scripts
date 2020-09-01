@@ -27,14 +27,20 @@ export function DevServerUI({
   restartAlarm,
   children,
 }: DevServerUIProps) {
-  const [status, setStatus] = useState<DevServerStatus>(DevServerStatus.STARTING);
-  const [webpackStats, setWebpackStats] = useState<WebpackStats>({ status: 'waiting' });
+  const [status, setStatus] = useState<DevServerStatus>(
+    DevServerStatus.STARTING,
+  );
+  const [webpackStats, setWebpackStats] = useState<WebpackStats>({
+    status: 'waiting',
+  });
   const [restartMessages, setRestartMessages] = useState<string[] | null>(null);
   const [proxyMessages, setProxyMessages] = useState<TimeMessage[]>([]);
 
   useEffect(() => {
     const statusSubscription = devServer.status().subscribe(setStatus);
-    const webpackStatsSubscription = devServer.webpackStats().subscribe(setWebpackStats);
+    const webpackStatsSubscription = devServer
+      .webpackStats()
+      .subscribe(setWebpackStats);
 
     return () => {
       statusSubscription.unsubscribe();
@@ -193,7 +199,13 @@ export function DevServerUI({
             .map(({ message, level, time }, i) => (
               <Text
                 key={message + time}
-                color={level === 'error' ? 'red' : level === 'warn' ? 'yellow' : undefined}
+                color={
+                  level === 'error'
+                    ? 'red'
+                    : level === 'warn'
+                    ? 'yellow'
+                    : undefined
+                }
                 dimColor={i > 3}
               >
                 [{format(new Date(time), 'hh:mm:ss')}] {message}
