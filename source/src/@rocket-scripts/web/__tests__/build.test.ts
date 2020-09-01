@@ -4,7 +4,7 @@ import { copyTmpDirectory, createTmpDirectory } from '@ssen/tmp-directory';
 import path from 'path';
 
 describe('web/build', () => {
-  test.each(['start', 'webpack-config'])(
+  test.each(['start', 'webpack-config', 'css'])(
     'should build the project "fixtures/web/%s"',
     async (dir: string) => {
       // Arrange : project directories

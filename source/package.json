@@ -152,7 +152,7 @@
     "rimraf": "^3.0.2",
     "rocket-punch": "^2.2.3",
     "rxjs": "^6.6.2",
-    "sass-loader": "^10.0.1",
+    "sass-loader": "^8.0.2",
     "semver": "^7.1.3",
     "source-map-support": "^0.5.16",
     "stream-buffers": "^3.0.2",

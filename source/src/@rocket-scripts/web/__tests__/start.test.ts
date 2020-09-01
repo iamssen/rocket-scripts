@@ -32,7 +32,7 @@ describe('web/start', () => {
     }
   });
 
-  test.each(['start', 'webpack-config'])(
+  test.each(['start', 'webpack-config', 'css'])(
     'should read h1 text and the text should change with HMR (%s)',
     async (dir: string) => {
       // Arrange : project directories
