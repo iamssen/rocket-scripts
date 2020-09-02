@@ -14,6 +14,8 @@ import nodeExternals from 'webpack-node-externals';
 import { devServerStart } from '../devServerStart';
 
 (async () => {
+  process.env.NODE_ENV = 'development';
+
   const cwd: string = await copyTmpDirectory(
     path.join(process.cwd(), 'test/fixtures/electron/start'),
   );
@@ -44,7 +46,7 @@ import { devServerStart } from '../devServerStart';
     ...reactAppEnv,
     PUBLIC_PATH: publicPath,
     PUBLIC_URL: publicPath,
-    NODE_ENV: process.env['NODE_ENV'] || 'development',
+    NODE_ENV: process.env.NODE_ENV ?? 'development',
   };
 
   const babelLoaderOptions: object = {

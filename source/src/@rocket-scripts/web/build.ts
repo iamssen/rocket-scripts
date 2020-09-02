@@ -35,6 +35,11 @@ export async function build({
 
   devtool = 'source-map',
 }: BuildParams) {
+  if (!env.NODE_ENV && !process.env.NODE_ENV) {
+    env.NODE_ENV = 'production';
+    process.env.NODE_ENV = 'production';
+  }
+
   const outDir: string = icuFormat(_outDir, { cwd, app });
   const staticFileDirectories: string[] = _staticFileDirectories.map((dir) =>
     icuFormat(dir, { cwd, app }),
@@ -55,7 +60,7 @@ export async function build({
     ...filterReactEnv(env),
     PUBLIC_PATH: publicPath,
     PUBLIC_URL: publicPath,
-    NODE_ENV: env['NODE_ENV'] || 'production',
+    NODE_ENV: env.NODE_ENV,
   };
 
   const babelLoaderOptions: object = _babelLoaderOptions ?? {

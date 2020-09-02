@@ -36,6 +36,11 @@ export async function build({
   rendererWebpackConfig: _rendererWebpackConfig,
   babelLoaderOptions: _babelLoaderOptions,
 }: BuildParams) {
+  if (!env.NODE_ENV && !process.env.NODE_ENV) {
+    env.NODE_ENV = 'production';
+    process.env.NODE_ENV = 'production';
+  }
+
   const staticFileDirectories: string[] = _staticFileDirectories.map((dir) =>
     icuFormat(dir, { cwd, app }),
   );
@@ -59,7 +64,7 @@ export async function build({
     ...filterReactEnv(env),
     PUBLIC_PATH: publicPath,
     PUBLIC_URL: publicPath,
-    NODE_ENV: env['NODE_ENV'] || 'production',
+    NODE_ENV: env.NODE_ENV,
   };
 
   const babelLoaderOptions: object = _babelLoaderOptions ?? {

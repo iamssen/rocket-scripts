@@ -46,6 +46,11 @@ export async function start({
   stdin = process.stdin,
   children,
 }: StartParams): Promise<Start> {
+  if (!env.NODE_ENV && !process.env.NODE_ENV) {
+    env.NODE_ENV = 'development';
+    process.env.NODE_ENV = 'development';
+  }
+
   console.log('Start Server...');
 
   const port: number =
@@ -75,7 +80,7 @@ export async function start({
     ...filterReactEnv(env),
     PUBLIC_PATH: publicPath,
     PUBLIC_URL: publicPath,
-    NODE_ENV: env['NODE_ENV'] || 'development',
+    NODE_ENV: env.NODE_ENV,
   };
 
   const babelLoaderOptions: object = _babelLoaderOptions ?? {
