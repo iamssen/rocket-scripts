@@ -127,6 +127,7 @@ export async function build({
               },
               compress: {
                 //ecma: 5,
+                drop_console: true,
                 warnings: false,
                 comparisons: false,
                 inline: 2,
@@ -202,6 +203,7 @@ export async function build({
               },
               compress: {
                 //ecma: 5,
+                drop_console: true,
                 warnings: false,
                 comparisons: false,
                 inline: 2,
