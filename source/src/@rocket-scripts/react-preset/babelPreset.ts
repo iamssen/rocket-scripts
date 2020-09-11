@@ -9,13 +9,15 @@ export type Modules =
 
 export interface Options {
   modules: Modules;
-  targets: string | string[];
+  targets: string | string[] | { [name: string]: string };
 }
 
-// references
-// https://github.com/facebook/create-react-app/blob/master/packages/babel-preset-react-app/create.js#L78
+// @see https://github.com/facebook/create-react-app/blob/master/packages/babel-preset-react-app/create.js#L78
 
 export default function (api: unknown, { modules, targets }: Options) {
+  const isTest: boolean = process.env.NODE_ENV === 'test';
+  const isProduction: boolean = process.env.NODE_ENV === 'production';
+
   return {
     presets: [
       [
@@ -23,13 +25,14 @@ export default function (api: unknown, { modules, targets }: Options) {
         require.resolve('@babel/preset-env'),
         {
           // read browserslist config manually by getBrowserslistQuery
-          targets,
+          targets: isTest ? 'current node' : targets,
           ignoreBrowserslistConfig: true,
-          // TODO improved polyfill builtin?
-          useBuiltIns: false,
+          // core-js built in
+          useBuiltIns: isTest ? false : 'entry',
+          corejs: 3,
           // https://babeljs.io/docs/en/babel-preset-env#modules
-          // webpack - modules: false
-          // jest - modules: 'commonjs'
+          // webpack = modules: false
+          // jest    = modules: 'commonjs'
           modules,
           exclude: ['transform-typeof-symbol'],
         },
@@ -37,36 +40,41 @@ export default function (api: unknown, { modules, targets }: Options) {
       [
         require.resolve('@babel/preset-react'),
         {
+          development: !isProduction,
           useBuiltIns: true,
         },
       ],
-      [require.resolve('@babel/preset-typescript')],
+      [
+        require.resolve('@babel/preset-typescript'),
+        {
+          allowDeclareFields: true,
+          allowNamespaces: true,
+        },
+      ],
     ],
     plugins: [
-      //require.resolve('@babel/plugin-transform-destructuring'),
-      //[require.resolve('@babel/plugin-proposal-decorators'), false],
+      // replace all arrow functions to binded functions
+      // this is performance reason ( binded function is faster than arrow function)
       [
         require.resolve('@babel/plugin-transform-arrow-functions'),
         {
           spec: false,
         },
       ],
+      // support class properties
       [
         require.resolve('@babel/plugin-proposal-class-properties'),
         {
+          // using Object.defineProperty()
+          // https://babel.dev/docs/en/babel-plugin-proposal-class-properties#loose
           loose: true,
         },
       ],
-      //[
-      //  require.resolve('@babel/plugin-proposal-object-rest-spread'),
-      //  {
-      //    useBuiltIns: true,
-      //  },
-      //],
-      //require.resolve('@babel/plugin-syntax-dynamic-import'),
+      // support TS39 `obj?.val` and `obj ?? next`
       require.resolve('@babel/plugin-proposal-optional-chaining'),
       require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
-
+      // support import url, { ReactComponent } from './image.svg'
+      // this is CRA rule
       [
         require.resolve('babel-plugin-named-asset-import'),
         {
@@ -78,18 +86,5 @@ export default function (api: unknown, { modules, targets }: Options) {
         },
       ],
     ],
-    //overrides: [
-    //  {
-    //    test: /\.(ts|tsx)$/,
-    //    plugins: [
-    //      [
-    //        require.resolve('@babel/plugin-proposal-decorators'),
-    //        {
-    //          legacy: true,
-    //        },
-    //      ],
-    //    ],
-    //  },
-    //],
   };
 }
