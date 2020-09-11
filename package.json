@@ -4,22 +4,21 @@
   "license": "MIT",
   "repository": "github:rocket-hangar/rocket-scripts",
   "workspaces": [
-    "source",
-    "out/packages/*"
+    "packages"
   ],
   "scripts": {
-    "build": "yarn workspace source run build --out-dir $PWD/out/packages",
-    "publish": "yarn run test && yarn run build && yarn workspace source run publish --out-dir $PWD/out/packages",
-    "view": "yarn workspace source run view",
-    "doctor": "yarn workspace source run doctor",
+    "build": "yarn workspace packages run build --out-dir $PWD/out/packages",
+    "publish": "yarn run test && yarn run build && yarn workspace packages run publish --out-dir $PWD/out/packages",
+    "view": "yarn workspace packages run view",
+    "doctor": "yarn workspace packages run doctor",
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "e2e": "yarn workspace source run e2e",
-    "test": "yarn workspace source run test",
-    "coverage": "yarn workspace source run coverage --coverageDirectory $PWD/coverage"
+    "e2e": "yarn workspace packages run e2e",
+    "test": "yarn workspace packages run test",
+    "coverage": "yarn workspace packages run coverage --coverageDirectory $PWD/coverage"
   },
   "lint-staged": {
-    "**/src/{**/*,*}.{ts,tsx}": [
+    "packages/{src,@types}/{**/*,*}.{ts,tsx}": [
       "prettier --write",
       "eslint"
     ]

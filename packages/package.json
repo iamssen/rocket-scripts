@@ -1,5 +1,5 @@
 {
-  "name": "source",
+  "name": "packages",
   "version": "1.0.0",
   "scripts": {
     "build": "rocket-punch build",
