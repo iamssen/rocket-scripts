@@ -78,7 +78,6 @@ export interface CommonParams {
     | Omit<
         WebpackConfiguration,
         // @rocket-scripts/react-preset
-        | 'resolve'
         | 'module'
         | 'plugin'
         | 'resolveLoader'
