@@ -21,26 +21,36 @@ export function getWebpackStyleLoaders({
     ? MiniCssExtractPlugin.loader
     : require.resolve('style-loader');
 
-  const postcssLoader: RuleSetUseItem = {
-    loader: require.resolve('postcss-loader'),
-    options: {
-      // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/config/webpack.config.js#L99
-      postcssOptions: {
-        ident: 'postcss',
-        plugins: () => [
-          require('postcss-flexbugs-fixes'),
-          require('postcss-preset-env')({
-            autoprefixer: {
-              flexbox: 'no-2009',
+  const postcssLoader: RuleSetUseItem | undefined = (() => {
+    try {
+      return require.resolve('postcss').length > 0
+        ? {
+            loader: require.resolve('postcss-loader'),
+            options: {
+              // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/config/webpack.config.js#L99
+              postcssOptions: {
+                ident: 'postcss',
+                plugins: () => [
+                  require('postcss-flexbugs-fixes'),
+                  require('postcss-preset-env')({
+                    autoprefixer: {
+                      flexbox: 'no-2009',
+                    },
+                    stage: 3,
+                  }),
+                  require('postcss-normalize')(),
+                ],
+              },
+              sourceMap: true,
             },
-            stage: 3,
-          }),
-          require('postcss-normalize')(),
-        ],
-      },
-      sourceMap: true,
-    },
-  };
+          }
+        : undefined;
+    } catch {
+      return undefined;
+    }
+  })();
+
+  const loaderCount: number = postcssLoader ? 1 : 0;
 
   const use: RuleSetUse = [
     styleLoader,
@@ -48,11 +58,10 @@ export function getWebpackStyleLoaders({
       loader: require.resolve('css-loader'),
       options: {
         url: false,
-        importLoaders: preProcessor ? 2 : 1,
+        importLoaders: preProcessor ? 2 : loaderCount,
         sourceMap: true,
       },
     },
-    postcssLoader,
   ];
 
   const moduleUse: RuleSetUse = [
@@ -61,23 +70,24 @@ export function getWebpackStyleLoaders({
       loader: require.resolve('css-loader'),
       options: {
         url: false,
-        importLoaders: preProcessor ? 2 : 1,
+        importLoaders: preProcessor ? 2 : loaderCount,
         sourceMap: true,
         modules: true,
         getLocalIdent: getCSSModuleLocalIdent,
       },
     },
-    postcssLoader,
   ];
+
+  if (postcssLoader) {
+    use.push(postcssLoader);
+    moduleUse.push(postcssLoader);
+  }
 
   if (preProcessor) {
     const preProcessorLoader: RuleSetUseItem = {
       loader: preProcessor,
       options: {
         sourceMap: true,
-        //...(preProcessor.indexOf('less-loader') > -1
-        //  ? { javascriptEnabled: true }
-        //  : {}),
       },
     };
 
