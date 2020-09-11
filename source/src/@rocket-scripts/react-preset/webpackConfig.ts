@@ -34,9 +34,11 @@ export default function ({
     },
 
     module: {
+      // makes missing exports an error instead of warning
       strictExportPresence: true,
 
       rules: [
+        // enable eslint-loader if exists
         ...(() => {
           try {
             return eslintConfigExistsSync(cwd)

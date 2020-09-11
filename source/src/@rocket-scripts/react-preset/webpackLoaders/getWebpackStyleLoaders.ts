@@ -24,7 +24,7 @@ export function getWebpackStyleLoaders({
   const postcssLoader: RuleSetUseItem = {
     loader: require.resolve('postcss-loader'),
     options: {
-      // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/config/webpack.config.js#L99
+      // @see https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/config/webpack.config.js#L99
       ident: 'postcss',
       plugins: () => [
         require('postcss-flexbugs-fixes'),
