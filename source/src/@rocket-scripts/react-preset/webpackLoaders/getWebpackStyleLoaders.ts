@@ -24,18 +24,20 @@ export function getWebpackStyleLoaders({
   const postcssLoader: RuleSetUseItem = {
     loader: require.resolve('postcss-loader'),
     options: {
-      // @see https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/config/webpack.config.js#L99
-      ident: 'postcss',
-      plugins: () => [
-        require('postcss-flexbugs-fixes'),
-        require('postcss-preset-env')({
-          autoprefixer: {
-            flexbox: 'no-2009',
-          },
-          stage: 3,
-        }),
-        require('postcss-normalize')(),
-      ],
+      // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/config/webpack.config.js#L99
+      postcssOptions: {
+        ident: 'postcss',
+        plugins: () => [
+          require('postcss-flexbugs-fixes'),
+          require('postcss-preset-env')({
+            autoprefixer: {
+              flexbox: 'no-2009',
+            },
+            stage: 3,
+          }),
+          require('postcss-normalize')(),
+        ],
+      },
       sourceMap: true,
     },
   };
