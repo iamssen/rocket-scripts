@@ -2,8 +2,8 @@ import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import mainWebpackConfig from '@rocket-scripts/react-electron-preset/mainWebpackConfig';
 import rendererWebpackConfig from '@rocket-scripts/react-electron-preset/rendererWebpackConfig';
 import { getWebpackAlias } from '@rocket-scripts/utils';
+import { exec } from '@ssen/promised';
 import { copyTmpDirectory, createTmpDirectory } from '@ssen/tmp-directory';
-import { exec } from 'child_process';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
@@ -55,7 +55,7 @@ import { devServerStart } from '../devServerStart';
         require.resolve('@rocket-scripts/react-preset/babelPreset'),
         {
           modules: false,
-          targets: getBrowserslistQuery({ cwd }),
+          targets: getBrowserslistQuery({ cwd, env: 'electron' }),
         },
       ],
     ],

@@ -18,6 +18,12 @@ export default function (api: unknown, { modules, targets }: Options) {
   const isTest: boolean = process.env.NODE_ENV === 'test';
   const isProduction: boolean = process.env.NODE_ENV === 'production';
 
+  if (!isTest) {
+    console.log('='.repeat(20));
+    console.log('BABEL LOADER TARGETS:', { modules, targets });
+    console.log('='.repeat(20));
+  }
+
   return {
     presets: [
       [

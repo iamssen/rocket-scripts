@@ -73,7 +73,7 @@ export async function build({
         require.resolve('@rocket-scripts/react-preset/babelPreset'),
         {
           modules: false,
-          targets: getBrowserslistQuery({ cwd }),
+          targets: getBrowserslistQuery({ cwd, env: 'electron' }),
         },
       ],
     ],

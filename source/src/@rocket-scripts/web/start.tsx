@@ -89,7 +89,7 @@ export async function start({
         require.resolve('@rocket-scripts/react-preset/babelPreset'),
         {
           modules: false,
-          targets: getBrowserslistQuery({ cwd }),
+          targets: getBrowserslistQuery({ cwd, env: 'production' }),
         },
       ],
     ],

@@ -4,6 +4,7 @@ import {
 } from '@ssen/electron-switches';
 import { mirrorFiles, MirrorMessage } from '@ssen/mirror-files';
 import { patchConsole } from '@ssen/patch-console';
+import { exec } from '@ssen/promised';
 import { createTmpDirectory } from '@ssen/tmp-directory';
 import fs from 'fs-extra';
 import { render } from 'ink';
@@ -60,10 +61,12 @@ export async function devServerStart({
   }
 
   await fs.mkdirp(outDir);
-  const outNodeModules: string = path.join(outDir, 'node_modules');
+  const outNodeModules: string = path.resolve(outDir, 'node_modules');
   if (fs.existsSync(outNodeModules)) fs.unlinkSync(outNodeModules);
   // TODO Test this code should works in a package on yarn workspaces
-  await fs.symlink(path.join(cwd, 'node_modules'), outNodeModules);
+  //await exec(`ln -s ${path.resolve(cwd, 'node_modules')} ${outNodeModules}`)
+  await fs.symlink(path.resolve(cwd, 'node_modules'), outNodeModules, 'dir');
+  //console.log('devServerStart.tsx..devServerStart()', outNodeModules);
 
   const syncStaticFiles: Observable<MirrorMessage> | undefined =
     Array.isArray(staticFileDirectories) && staticFileDirectories.length > 0
