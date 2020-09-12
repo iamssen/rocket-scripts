@@ -33,7 +33,6 @@ export async function start({
   outDir: _outDir = '{cwd}/dev/{app}',
 
   electronSwitches = {},
-  env = process.env,
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
 
   mainWebpackConfig: _mainWebpackConfig,
@@ -45,8 +44,7 @@ export async function start({
   stdin = process.stdin,
   children,
 }: StartParams): Promise<Start> {
-  if (!env.NODE_ENV && !process.env.NODE_ENV) {
-    env.NODE_ENV = 'development';
+  if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'development';
   }
 
@@ -73,10 +71,10 @@ export async function start({
       : _rendererWebpackConfig ?? {};
 
   const webpackEnv: NodeJS.ProcessEnv = {
-    ...filterReactEnv(env),
+    ...filterReactEnv(process.env),
     PUBLIC_PATH: publicPath,
     PUBLIC_URL: publicPath,
-    NODE_ENV: env.NODE_ENV,
+    NODE_ENV: process.env.NODE_ENV,
   };
 
   const babelLoaderOptions: object = _babelLoaderOptions ?? {

@@ -40,13 +40,19 @@ export interface CommonParams {
   staticFileDirectories?: string[];
 
   /**
-   * set env.
+   * @deprecated do not use this env option. use instead `process.env.VAR = 'value'` before run.
    *
-   * you can set with this when you want to use another env values instead of `process.env`.
+   * @example
    *
-   * @example { env: { ...process.env, REACT_APP_ENDPOINT: 'http://server.com:3485' } }
+   * // remove this like code
+   * start({
+   *  env: { REACT_APP_HELLO: 'value' }
+   * })
    *
-   * @default process.env
+   * // use instead of this
+   * process.env.REACT_APP_HELLO = 'value'
+   *
+   * start({})
    */
   env?: NodeJS.ProcessEnv;
 

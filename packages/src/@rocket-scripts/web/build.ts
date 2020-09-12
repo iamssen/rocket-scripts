@@ -27,7 +27,6 @@ export async function build({
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
   outDir: _outDir = '{cwd}/out/{app}',
 
-  env = {},
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
 
   webpackConfig: _webpackConfig,
@@ -35,8 +34,7 @@ export async function build({
 
   devtool = 'source-map',
 }: BuildParams) {
-  if (!env.NODE_ENV && !process.env.NODE_ENV) {
-    env.NODE_ENV = 'production';
+  if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'production';
   }
 
@@ -57,10 +55,10 @@ export async function build({
       : _webpackConfig ?? {};
 
   const webpackEnv: NodeJS.ProcessEnv = {
-    ...filterReactEnv(env),
+    ...filterReactEnv(process.env),
     PUBLIC_PATH: publicPath,
     PUBLIC_URL: publicPath,
-    NODE_ENV: env.NODE_ENV,
+    NODE_ENV: process.env.NODE_ENV,
   };
 
   const babelLoaderOptions: object = _babelLoaderOptions ?? {

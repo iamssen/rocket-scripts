@@ -29,15 +29,13 @@ export async function build({
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
   outDir: _outDir = '{cwd}/out/{app}',
 
-  env = process.env,
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
 
   mainWebpackConfig: _mainWebpackConfig,
   rendererWebpackConfig: _rendererWebpackConfig,
   babelLoaderOptions: _babelLoaderOptions,
 }: BuildParams) {
-  if (!env.NODE_ENV && !process.env.NODE_ENV) {
-    env.NODE_ENV = 'production';
+  if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'production';
   }
 
@@ -61,10 +59,10 @@ export async function build({
       : _rendererWebpackConfig ?? {};
 
   const webpackEnv: NodeJS.ProcessEnv = {
-    ...filterReactEnv(env),
+    ...filterReactEnv(process.env),
     PUBLIC_PATH: publicPath,
     PUBLIC_URL: publicPath,
-    NODE_ENV: env.NODE_ENV,
+    NODE_ENV: process.env.NODE_ENV,
   };
 
   const babelLoaderOptions: object = _babelLoaderOptions ?? {
