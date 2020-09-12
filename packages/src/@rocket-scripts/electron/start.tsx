@@ -99,7 +99,6 @@ export async function start({
       tsconfig,
     }),
     {
-      target: 'electron-main',
       mode: 'development',
       devtool: 'source-map',
 
@@ -167,7 +166,6 @@ export async function start({
       extractCss: true,
     }),
     {
-      target: 'electron-renderer',
       mode: 'development',
       devtool: 'source-map',
 

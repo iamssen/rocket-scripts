@@ -87,7 +87,6 @@ export async function build({
       tsconfig,
     }),
     {
-      target: 'electron-main',
       mode: 'production',
 
       output: {
@@ -174,7 +173,6 @@ export async function build({
       extractCss: true,
     }),
     {
-      target: 'electron-renderer',
       mode: 'production',
 
       output: {
