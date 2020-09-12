@@ -60,7 +60,7 @@ export interface CommonParams {
   env?: NodeJS.ProcessEnv;
 
   /**
-   * tsconfig path. (it will pass to fork-ts-checker-webpack-plugin)
+   * ⚠️ tsconfig path. (it will pass to fork-ts-checker-webpack-plugin)
    *
    * @example { tsconfig: '{cwd}/tsconfig.dev.json' }
    *
@@ -69,7 +69,7 @@ export interface CommonParams {
   tsconfig?: string;
 
   /**
-   * custom webpack configuration
+   * ⚠️ custom webpack configuration
    *
    * but, this value will be used with the lowest priority.
    *
@@ -98,7 +98,7 @@ export interface CommonParams {
       >;
 
   /**
-   * replace babel-loader options
+   * ⚠️ replace babel-loader options
    *
    * you can replace babel-loader options
    *
@@ -174,7 +174,7 @@ export interface StartParams extends CommonParams {
   hostname?: string;
 
   /**
-   * custom webpack-dev-server configuration
+   * ⚠️ custom webpack-dev-server configuration
    *
    * but, this value will be used with the lowest priority.
    *
@@ -203,21 +203,21 @@ export interface StartParams extends CommonParams {
   logfile?: string;
 
   /**
-   * [advanced] ink stdout
+   * ⚠️ ink stdout
    *
    * @default process.stdout
    */
   stdout?: NodeJS.WriteStream;
 
   /**
-   * [advanced] ink stdin
+   * ⚠️ ink stdin
    *
    * @default process.stdin
    */
   stdin?: NodeJS.ReadStream;
 
   /**
-   * [advanced] attach ui elements
+   * ⚠️ attach ui elements
    *
    * This elements will attach the end of UI
    *

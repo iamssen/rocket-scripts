@@ -57,7 +57,7 @@ export interface CommonParams {
   env?: NodeJS.ProcessEnv;
 
   /**
-   * custom webpack configuration to main and preload process
+   * ⚠️ custom webpack configuration to main and preload process
    *
    * but, this value will be used with the lowest priority.
    *
@@ -87,7 +87,7 @@ export interface CommonParams {
       >;
 
   /**
-   * custom webpack configuration to renderer process
+   * ⚠️ custom webpack configuration to renderer process
    *
    * but, this value will be used with the lowest priority.
    *
@@ -117,7 +117,7 @@ export interface CommonParams {
       >;
 
   /**
-   * replace babel-loader options
+   * ⚠️ replace babel-loader options
    *
    * you can replace babel-loader options
    *
@@ -171,7 +171,7 @@ export interface CommonParams {
   babelLoaderOptions?: object;
 
   /**
-   * tsconfig path. (it will pass to fork-ts-checker-webpack-plugin)
+   * ⚠️ tsconfig path. (it will pass to fork-ts-checker-webpack-plugin)
    *
    * @example { tsconfig: '{cwd}/tsconfig.dev.json' }
    *
@@ -202,21 +202,21 @@ export interface StartParams extends CommonParams {
   electronSwitches?: ElectronSwitchesYargsValues;
 
   /**
-   * [advanced] ink stdout
+   * ⚠️ ink stdout
    *
    * @default process.stdout
    */
   stdout?: NodeJS.WriteStream;
 
   /**
-   * [advanced] ink stdin
+   * ⚠️ ink stdin
    *
    * @default process.stdin
    */
   stdin?: NodeJS.ReadStream;
 
   /**
-   * [advanced] attach ui elements
+   * ⚠️ attach ui elements
    *
    * This elements will attach the end of UI
    *
