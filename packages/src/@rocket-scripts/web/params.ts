@@ -252,4 +252,15 @@ export interface BuildParams extends CommonParams {
    * @default source-map
    */
   devtool?: WebpackOptions.Devtool;
+
+  /**
+   * if you want to open bundle size report on your web browser after build set `true` this option.
+   *
+   * this option is just opening `{outDir}/size-report.html` file.
+   *
+   * `{outDir}/size-report.html` file always be made.
+   *
+   * @default false
+   */
+  openBundleSizeReport?: boolean;
 }

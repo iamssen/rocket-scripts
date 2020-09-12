@@ -1,10 +1,12 @@
 import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import webpackReactConfig from '@rocket-scripts/react-preset/webpackConfig';
 import { getWebpackAlias, icuFormat } from '@rocket-scripts/utils';
+import { exec } from 'child_process';
 import fs from 'fs-extra';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import os from 'os';
 import path from 'path';
 import safePostCssParser from 'postcss-safe-parser';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
@@ -26,6 +28,8 @@ export async function build({
   app,
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
   outDir: _outDir = '{cwd}/out/{app}',
+
+  openBundleSizeReport = false,
 
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
 
@@ -237,6 +241,15 @@ export async function build({
               : webpackConfig.stats ?? { colors: true },
           ),
         );
+
+        if (openBundleSizeReport) {
+          if (os.platform() === 'win32') {
+            exec(`start ${path.join(outDir, 'size-report.html')}`);
+          } else {
+            exec(`open ${path.join(outDir, 'size-report.html')}`);
+          }
+        }
+
         resolve();
       }
     });
