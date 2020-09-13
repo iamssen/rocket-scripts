@@ -35,16 +35,23 @@ export async function devServerStart({
   restartAlarm,
   children,
 }: DevServerStartParams): Promise<() => Promise<void>> {
-  console.clear();
   if (!fs.existsSync(path.dirname(logfile))) {
     fs.mkdirpSync(path.dirname(logfile));
   }
-  const stream: NodeJS.WritableStream = fs.createWriteStream(logfile);
-  const restoreConsole = patchConsole({
-    stdout: stream,
-    stderr: stream,
-    colorMode: false,
-  });
+
+  const interactiveUI = !process.env.CI && process.env.NODE_ENV !== 'test';
+  const clearUI: (() => void)[] = [];
+
+  if (interactiveUI) {
+    console.clear();
+    const stream: NodeJS.WritableStream = fs.createWriteStream(logfile);
+    const restoreConsole = patchConsole({
+      stdout: stream,
+      stderr: stream,
+      colorMode: false,
+    });
+    clearUI.push(restoreConsole);
+  }
 
   let proxy: ProxyConfigMap | ProxyConfigArray | undefined = undefined;
   let proxySubject: Subject<TimeMessage[]> | undefined = undefined;
@@ -69,31 +76,33 @@ export async function devServerStart({
     },
   });
 
-  const { unmount } = render(
-    <DevServerUI
-      header={header}
-      devServer={server}
-      cwd={cwd}
-      proxyMessage={proxySubject}
-      logfile={logfile}
-      restartAlarm={restartAlarm}
-      children={children}
-    />,
-    {
-      stdout,
-      stdin,
-      patchConsole: false,
-    },
-  );
+  if (interactiveUI) {
+    const { unmount } = render(
+      <DevServerUI
+        header={header}
+        devServer={server}
+        cwd={cwd}
+        proxyMessage={proxySubject}
+        logfile={logfile}
+        restartAlarm={restartAlarm}
+        children={children}
+      />,
+      {
+        stdout,
+        stdin,
+        patchConsole: false,
+      },
+    );
+    clearUI.push(unmount);
+  }
 
   await server.waitUntilStart();
 
   return async () => {
     server.close();
     await server.waitUntilClose();
-    unmount();
     if (proxySubject) proxySubject.unsubscribe();
-    restoreConsole();
+    clearUI.forEach((fn) => fn());
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };
 }
