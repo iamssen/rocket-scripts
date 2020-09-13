@@ -29,8 +29,7 @@ export function getWebpackStyleLoaders({
             options: {
               // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/config/webpack.config.js#L99
               postcssOptions: {
-                ident: 'postcss',
-                plugins: () => [
+                plugins: [
                   require('postcss-flexbugs-fixes'),
                   require('postcss-preset-env')({
                     autoprefixer: {

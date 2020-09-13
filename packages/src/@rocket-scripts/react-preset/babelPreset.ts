@@ -35,7 +35,7 @@ export default function (api: unknown, { modules, targets }: Options) {
           ignoreBrowserslistConfig: true,
           // core-js built in
           useBuiltIns: isTest ? false : 'entry',
-          corejs: 3,
+          corejs: isTest ? undefined : 3,
           // https://babeljs.io/docs/en/babel-preset-env#modules
           // webpack = modules: false
           // jest    = modules: 'commonjs'
