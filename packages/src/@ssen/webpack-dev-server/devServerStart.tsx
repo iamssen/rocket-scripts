@@ -6,7 +6,6 @@ import React, { ReactNode } from 'react';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import tmp from 'tmp';
 import { ProxyConfigArray, ProxyConfigMap } from 'webpack-dev-server';
-import { merge } from 'webpack-merge';
 import { DevServer, DevServerParams } from './DevServer';
 import { DevServerUI } from './DevServerUI';
 import { TimeMessage } from './types';
@@ -66,12 +65,9 @@ export async function devServerStart({
   const server: DevServer = new DevServer({
     port,
     hostname,
-    webpackConfig: merge(webpackConfig, {
-      // TODO
-    }),
+    webpackConfig,
     devServerConfig: {
       ...devServerConfig,
-      // TODO
       proxy,
     },
   });

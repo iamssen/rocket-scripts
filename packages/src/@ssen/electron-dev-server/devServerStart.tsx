@@ -4,7 +4,6 @@ import {
 } from '@ssen/electron-switches';
 import { mirrorFiles, MirrorMessage } from '@ssen/mirror-files';
 import { patchConsole } from '@ssen/patch-console';
-import { exec } from '@ssen/promised';
 import { createTmpDirectory } from '@ssen/tmp-directory';
 import fs from 'fs-extra';
 import { render } from 'ink';
@@ -48,13 +47,23 @@ export async function devServerStart({
   restartAlarm,
   children,
 }: DevServerStartParams): Promise<() => Promise<void>> {
-  console.clear();
-  const stream: NodeJS.WritableStream = fs.createWriteStream(logfile);
-  const restoreConsole = patchConsole({
-    stdout: stream,
-    stderr: stream,
-    colorMode: false,
-  });
+  if (!fs.existsSync(path.dirname(logfile))) {
+    fs.mkdirpSync(path.dirname(logfile));
+  }
+
+  const interactiveUI = !process.env.CI && process.env.NODE_ENV !== 'test';
+  const clearUI: (() => void)[] = [];
+
+  if (interactiveUI) {
+    console.clear();
+    const stream: NodeJS.WritableStream = fs.createWriteStream(logfile);
+    const restoreConsole = patchConsole({
+      stdout: stream,
+      stderr: stream,
+      colorMode: false,
+    });
+    clearUI.push(restoreConsole);
+  }
 
   if (!outDir) {
     outDir = await createTmpDirectory();
@@ -86,13 +95,11 @@ export async function devServerStart({
 
   const webpackServer: WebpackServer = new WebpackServer({
     mainWebpackConfig: merge(mainWebpackConfig, {
-      // TODO
       output: {
         path: outDir,
       },
     }),
     rendererWebpackConfig: merge(rendererWebpackConfig, {
-      // TODO
       output: {
         path: outDir,
       },
@@ -109,23 +116,26 @@ export async function devServerStart({
     main: path.join(outDir, 'main.js'),
   });
 
-  const { unmount } = render(
-    <DevServerUI
-      header={header}
-      webpackServer={webpackServer}
-      electronServer={electronServer}
-      cwd={cwd}
-      logfile={logfile}
-      syncStaticFiles={syncStaticFilesCaster}
-      restartAlarm={restartAlarm}
-      children={children}
-    />,
-    {
-      stdout,
-      stdin,
-      patchConsole: false,
-    },
-  );
+  if (interactiveUI) {
+    const { unmount } = render(
+      <DevServerUI
+        header={header}
+        webpackServer={webpackServer}
+        electronServer={electronServer}
+        cwd={cwd}
+        logfile={logfile}
+        syncStaticFiles={syncStaticFilesCaster}
+        restartAlarm={restartAlarm}
+        children={children}
+      />,
+      {
+        stdout,
+        stdin,
+        patchConsole: false,
+      },
+    );
+    clearUI.push(unmount);
+  }
 
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -133,9 +143,8 @@ export async function devServerStart({
     electronServer.close();
     webpackServer.close();
     await webpackServer.waitUntilClose();
-    unmount();
     syncStaticFilesSubscription?.unsubscribe();
-    restoreConsole();
+    clearUI.forEach((fn) => fn());
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };
 }
