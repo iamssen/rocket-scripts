@@ -6,7 +6,7 @@ import { mirrorFiles, MirrorMessage } from '@ssen/mirror-files';
 import { patchConsole } from '@ssen/patch-console';
 import { createTmpDirectory } from '@ssen/tmp-directory';
 import fs from 'fs-extra';
-import { render } from 'ink';
+import { Box, render, Text } from 'ink';
 import path from 'path';
 import React, { ReactNode } from 'react';
 import { ConnectableObservable, Observable, Subject } from 'rxjs';
@@ -117,7 +117,7 @@ export async function devServerStart({
   });
 
   if (interactiveUI) {
-    const { unmount } = render(
+    const { unmount, rerender } = render(
       <DevServerUI
         header={header}
         webpackServer={webpackServer}
@@ -127,11 +127,20 @@ export async function devServerStart({
         syncStaticFiles={syncStaticFilesCaster}
         restartAlarm={restartAlarm}
         children={children}
+        exit={() => {
+          rerender(
+            <Box height={3}>
+              <Text color="blueBright">[DevServer Closed] {logfile}</Text>
+            </Box>,
+          );
+          process.exit();
+        }}
       />,
       {
         stdout,
         stdin,
         patchConsole: false,
+        exitOnCtrlC: false,
       },
     );
     clearUI.push(unmount);

@@ -1,7 +1,8 @@
 import { Divider, PadText } from '@ssen/dev-server-components';
 import { exec } from 'child_process';
 import { format } from 'date-fns';
-import { Text, useInput, useStdin } from 'ink';
+import { Box, Text, useInput, useStdin } from 'ink';
+import useStdoutDimensions from 'ink-use-stdout-dimensions';
 import os from 'os';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { Observable } from 'rxjs';
@@ -16,6 +17,7 @@ export interface DevServerUIProps {
   proxyMessage?: Observable<TimeMessage[]>;
   restartAlarm?: Observable<string[]>;
   children?: ReactNode;
+  exit: () => void;
 }
 
 export function DevServerUI({
@@ -26,6 +28,7 @@ export function DevServerUI({
   proxyMessage,
   restartAlarm,
   children,
+  exit,
 }: DevServerUIProps) {
   const [status, setStatus] = useState<DevServerStatus>(
     DevServerStatus.STARTING,
@@ -92,7 +95,11 @@ export function DevServerUI({
   const { isRawModeSupported } = useStdin();
 
   useInput(
-    (input) => {
+    (input, key) => {
+      if (input === 'q' || (input === 'c' && key.ctrl)) {
+        exit();
+      }
+
       switch (input) {
         case 'b':
           if (os.platform() === 'win32') {
@@ -107,16 +114,15 @@ export function DevServerUI({
         case 'p':
           exec(`code ${cwd}`);
           break;
-        case 'q':
-          process.exit();
-          break;
       }
     },
     { isActive: isRawModeSupported === true },
   );
 
+  const [, height] = useStdoutDimensions();
+
   return (
-    <>
+    <Box minHeight={height} flexDirection="column">
       {typeof header === 'string' ? <Text>{header}</Text> : header}
 
       <PadText title="Log" color="blueBright">
@@ -215,6 +221,6 @@ export function DevServerUI({
       )}
 
       {children}
-    </>
+    </Box>
   );
 }

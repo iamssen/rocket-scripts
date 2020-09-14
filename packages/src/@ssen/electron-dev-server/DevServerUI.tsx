@@ -1,13 +1,14 @@
 import { Divider, PadText } from '@ssen/dev-server-components';
 import { MirrorMessage } from '@ssen/mirror-files';
 import { exec } from 'child_process';
-import { Text, useInput, useStdin } from 'ink';
+import { format } from 'date-fns';
+import { Box, Text, useInput, useStdin } from 'ink';
+import useStdoutDimensions from 'ink-use-stdout-dimensions';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { Observable } from 'rxjs';
 import { ElectronServer } from './ElectronServer';
 import { WebpackServerStatus, WebpackStats } from './types';
 import { WebpackServer } from './WebpackServer';
-import { format } from 'date-fns';
 
 export interface DevServerUIProps {
   header?: ReactNode;
@@ -18,6 +19,7 @@ export interface DevServerUIProps {
   logfile: string;
   restartAlarm?: Observable<string[]>;
   children?: ReactNode;
+  exit: () => void;
 }
 
 export function DevServerUI({
@@ -29,6 +31,7 @@ export function DevServerUI({
   logfile,
   restartAlarm,
   children,
+  exit,
 }: DevServerUIProps) {
   const [webpackServerStatus, setWebpackServerStatus] = useState<
     WebpackServerStatus
@@ -119,7 +122,11 @@ export function DevServerUI({
   const { isRawModeSupported } = useStdin();
 
   useInput(
-    (input) => {
+    (input, key) => {
+      if (input === 'q' || (input === 'c' && key.ctrl)) {
+        exit();
+      }
+
       switch (input) {
         case 'r':
           electronServer.restart();
@@ -130,16 +137,15 @@ export function DevServerUI({
         case 'p':
           exec(`code ${cwd}`);
           break;
-        case 'q':
-          process.exit();
-          break;
       }
     },
     { isActive: isRawModeSupported === true },
   );
 
+  const [, height] = useStdoutDimensions();
+
   return (
-    <>
+    <Box minHeight={height} flexDirection="column">
       {typeof header === 'string' ? <Text>{header}</Text> : header}
 
       <PadText title="Log" color="blueBright">
@@ -266,6 +272,6 @@ export function DevServerUI({
       )}
 
       {children}
-    </>
+    </Box>
   );
 }
