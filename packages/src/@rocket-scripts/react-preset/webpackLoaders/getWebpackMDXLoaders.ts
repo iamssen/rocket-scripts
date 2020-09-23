@@ -26,6 +26,9 @@ export function getWebpackMDXLoaders({
           loader: require.resolve('@mdx-js/loader'),
           options: mdxLoaderOptions,
         },
+        {
+          loader: require.resolve('@ssen/mdx-matter-loader'),
+        },
       ],
     },
   ];

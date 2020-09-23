@@ -37,7 +37,9 @@ declare module '*.webp' {
 // ---------------------------------------------
 declare module '*.mdx' {
   import React from 'react';
-  const content: React.ComponentType<{}>;
+  const content: React.ComponentType<{}> & {
+    frontmatter: { [key: string]: any };
+  };
   export = content;
 }
 
