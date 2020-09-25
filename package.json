@@ -15,7 +15,7 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "e2e": "yarn workspace packages run e2e",
     "test": "yarn workspace packages run test",
-    "coverage": "yarn workspace packages run coverage --coverageDirectory $PWD/coverage"
+    "coverage": "yarn workspace packages run coverage"
   },
   "lint-staged": {
     "packages/{src,@types}/{**/*,*}.{ts,tsx}": [

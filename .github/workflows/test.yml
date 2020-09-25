@@ -70,6 +70,8 @@ jobs:
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
+        with:
+          files: ./packages/coverage/coverage-final.json # ./{workspace}/coverage/coverage-final.json,./{workspace}/coverage/coverage-final.json...
 
       - name: Save Logs
         uses: actions/upload-artifact@v2
