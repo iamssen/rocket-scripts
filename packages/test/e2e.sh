@@ -125,6 +125,19 @@ fileExists "$TEMP"/out/app/index.*.js;
 fileExists "$TEMP"/out/app/vendor.*.js;
 
 
+createTmpFixture web/worker;
+npm install @rocket-scripts/web@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
+
+npm run build;
+fileExists "$TEMP"/out/app/manifest.json;
+fileExists "$TEMP"/out/app/size-report.html;
+fileExists "$TEMP"/out/app/favicon.ico;
+fileExists "$TEMP"/out/app/index.html;
+fileExists "$TEMP"/out/app/index.*.js;
+fileExists "$TEMP"/out/app/vendor.*.js;
+fileExists "$TEMP"/out/app/*.worker.js;
+
+
 createTmpFixture web/webpack-config;
 npm install @rocket-scripts/web@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
 

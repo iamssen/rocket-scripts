@@ -18,6 +18,8 @@
     "run:web:mdx:start": "node -r ts-node/register -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.mdx.run.ts",
     "run:web:webpack:start": "node -r ts-node/register -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.webpack.run.ts",
     "run:web:webpack:build": "node -r ts-node/register -r tsconfig-paths/register src/@rocket-scripts/web/__run__/build.webpack.run.ts",
+    "run:web:worker:start": "node -r ts-node/register -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.worker.run.ts",
+    "run:web:worker:build": "node -r ts-node/register -r tsconfig-paths/register src/@rocket-scripts/web/__run__/build.worker.run.ts",
     "run:webpack-dev-server:basic": "node -r ts-node/register -r tsconfig-paths/register src/@ssen/webpack-dev-server/__run__/basic.run.ts",
     "run:electron:start": "node -r ts-node/register -r tsconfig-paths/register src/@rocket-scripts/electron/__run__/start.run.ts",
     "run:electron:build": "node -r ts-node/register -r tsconfig-paths/register src/@rocket-scripts/electron/__run__/build.run.ts",

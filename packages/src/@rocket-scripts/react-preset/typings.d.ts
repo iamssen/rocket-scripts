@@ -33,6 +33,25 @@ declare module '*.webp' {
 }
 
 // ---------------------------------------------
+// worker
+// ---------------------------------------------
+declare module '*.worker.js' {
+  class WebpackWorker extends Worker {
+    constructor();
+  }
+
+  export default WebpackWorker;
+}
+
+declare module '*.worker.ts' {
+  class WebpackWorker extends Worker {
+    constructor();
+  }
+
+  export default WebpackWorker;
+}
+
+// ---------------------------------------------
 // mdx
 // ---------------------------------------------
 declare module '*.mdx' {
