@@ -1,19 +1,6 @@
-onmessage = (event: MessageEvent<ImageData>) => {
-  const imageData = event.data;
-  const w = imageData.width;
-  const h = imageData.height;
-  const data = imageData.data;
+import { process } from 'app/process';
 
-  let x = -1;
-  let y;
-
-  while (++x < w) {
-    y = -1;
-    while (++y < h) {
-      const index = (x + y * w) * 4;
-      data[index] = data[index + 1] * 1.6;
-    }
-  }
-
-  postMessage(imageData, [imageData.data.buffer]);
+onmessage = ({ data }: MessageEvent<{ value: number }>) => {
+  console.log('process.worker.ts..onmessage()', data);
+  postMessage({ value: process(data.value) });
 };
