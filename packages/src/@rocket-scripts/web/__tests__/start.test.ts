@@ -71,7 +71,7 @@ describe('web/start', () => {
 
       await page.goto(url, { timeout: 1000 * 60 });
 
-      await page.waitFor('#app h1', { timeout: 1000 * 60 });
+      await page.waitForSelector('#app h1', { timeout: 1000 * 60 });
 
       // Assert
       await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe(
@@ -97,7 +97,7 @@ describe('web/start', () => {
           console.warn(`HMR did not work`);
           await page.reload({ waitUntil: 'load' });
           await timeout(1000 * 2);
-          await page.waitFor('#app h1', { timeout: 1000 * 60 });
+          await page.waitForSelector('#app h1', { timeout: 1000 * 60 });
           await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe(
             'Hi World!',
           );
@@ -148,7 +148,7 @@ describe('web/start', () => {
 
       await page.goto(url, { timeout: 1000 * 60 });
 
-      await page.waitFor('#app h1', { timeout: 1000 * 60 });
+      await page.waitForSelector('#app h1', { timeout: 1000 * 60 });
 
       // Assert
       await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe(
@@ -195,7 +195,7 @@ describe('web/start', () => {
 
     await page.goto(url, { timeout: 1000 * 60 });
 
-    await page.waitFor('#app h1', { timeout: 1000 * 60 });
+    await page.waitForSelector('#app h1', { timeout: 1000 * 60 });
 
     // Assert
     await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe(

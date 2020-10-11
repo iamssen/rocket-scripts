@@ -71,7 +71,7 @@ describe('webpack-dev-server', () => {
     page = await browser.newPage();
 
     await page.goto(`http://localhost:${port}`, { timeout: 1000 * 60 });
-    await page.waitFor('#app', { timeout: 1000 * 60 });
+    await page.waitForSelector('#app', { timeout: 1000 * 60 });
 
     // Assert
     const time: string = format(1596258181790, 'yyyy-MM-dd hh:mm:ss');
