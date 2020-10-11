@@ -16,7 +16,7 @@ function getModuleDirectories(from) {
     dir = path.dirname(dir);
   }
 
-  return moduleDirectories.join(':');
+  return moduleDirectories.reverse().join(':');
 }
 
 process.env.NODE_PATH = getModuleDirectories(__dirname);

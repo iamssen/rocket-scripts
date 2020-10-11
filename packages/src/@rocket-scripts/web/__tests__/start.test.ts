@@ -1,7 +1,7 @@
 import { start } from '@rocket-scripts/web';
+import { copyFixture } from '@ssen/copy-fixture';
 import { createInkWriteStream } from '@ssen/ink-helpers';
 import { exec } from '@ssen/promised';
-import { copyTmpDirectory } from '@ssen/tmp-directory';
 import fs from 'fs-extra';
 import path from 'path';
 import puppeteer, { Browser, Page } from 'puppeteer';
@@ -36,13 +36,11 @@ describe('web/start', () => {
     'should read h1 text and the text should change with HMR (%s)',
     async (dir: string) => {
       // Arrange : project directories
-      const cwd: string = await copyTmpDirectory(
-        path.join(process.cwd(), `test/fixtures/web/${dir}`),
-      );
+      const cwd: string = await copyFixture(`test/fixtures/web/${dir}`);
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
-      await exec(`yarn`, { cwd });
+      await exec(`yarn --production`, { cwd });
 
       // Arrange : stdout
       const stdout = createInkWriteStream();
@@ -117,13 +115,11 @@ describe('web/start', () => {
     'should make abc text from alias directories (%s)',
     async (dir: string) => {
       // Arrange : project directories
-      const cwd: string = await copyTmpDirectory(
-        path.join(process.cwd(), `test/fixtures/web/${dir}`),
-      );
+      const cwd: string = await copyFixture(`test/fixtures/web/${dir}`);
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
-      await exec(`yarn`, { cwd });
+      await exec(`yarn --production`, { cwd });
 
       // Arrange : stdout
       const stdout = createInkWriteStream();
@@ -164,13 +160,13 @@ describe('web/start', () => {
 
   test('should get static files with multiple static file directories', async () => {
     // Arrange : project directories
-    const cwd: string = await copyTmpDirectory(
-      path.join(process.cwd(), 'test/fixtures/web/static-file-directories'),
+    const cwd: string = await copyFixture(
+      'test/fixtures/web/static-file-directories',
     );
     const staticFileDirectories: string[] = ['{cwd}/public', '{cwd}/static'];
     const app: string = 'app';
 
-    await exec(`yarn`, { cwd });
+    await exec(`yarn --production`, { cwd });
 
     // Arrange : stdout
     const stdout = createInkWriteStream();
@@ -217,13 +213,11 @@ describe('web/start', () => {
 
   test('should use proxy api', async () => {
     // Arrange : project directories
-    const cwd: string = await copyTmpDirectory(
-      path.join(process.cwd(), 'test/fixtures/web/proxy'),
-    );
+    const cwd: string = await copyFixture('test/fixtures/web/proxy');
     const staticFileDirectories: string[] = ['{cwd}/public'];
     const app: string = 'app';
 
-    await exec(`yarn`, { cwd });
+    await exec(`yarn --production`, { cwd });
 
     // Arrange : stdout
     const stdout = createInkWriteStream();

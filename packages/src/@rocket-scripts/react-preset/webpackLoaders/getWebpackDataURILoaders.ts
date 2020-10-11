@@ -11,7 +11,7 @@ export function getWebpackDataURILoaders({
       loader: require.resolve('url-loader'),
       options: {
         limit: 10000,
-        name: `${chunkPath}[name].[hash].[ext]`,
+        name: `${chunkPath}[name].[fullhash].[ext]`,
       },
     },
   ];

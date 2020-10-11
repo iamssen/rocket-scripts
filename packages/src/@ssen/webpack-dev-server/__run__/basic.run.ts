@@ -1,16 +1,17 @@
+import { copyFixture } from '@ssen/copy-fixture';
 import { exec } from '@ssen/promised';
-import { copyTmpDirectory } from '@ssen/tmp-directory';
 import { devServerStart } from '@ssen/webpack-dev-server/devServerStart';
 import path from 'path';
 import { getPortPromise } from 'portfinder';
 import puppeteer from 'puppeteer';
 
 (async () => {
-  const cwd: string = await copyTmpDirectory(
-    path.join(process.cwd(), 'test/fixtures/webpack-dev-server/basic'),
+  const cwd: string = await copyFixture(
+    'test/fixtures/webpack-dev-server/basic',
   );
 
-  await exec(`npm install`, { cwd });
+  await exec(`yarn --production`, { cwd });
+  //await exec(`code ${cwd}`);
 
   const port: number = await getPortPromise();
 
@@ -23,6 +24,7 @@ import puppeteer from 'puppeteer';
     cwd,
     header: '\nBASIC SAMPLE!!!\n',
     port,
+    logfile: path.join(cwd, 'rocket-test.log'),
     hostname: 'localhost',
     webpackConfig,
     devServerConfig,

@@ -1,6 +1,6 @@
 import { getWebpackAlias } from '@rocket-scripts/utils';
 import { observeAliasChange } from '@rocket-scripts/web/utils/observeAliasChange';
-import { copyTmpDirectory } from '@ssen/tmp-directory';
+import { copyFixture } from '@ssen/copy-fixture';
 import { waitFor } from '@testing-library/dom';
 import fs from 'fs-extra';
 import path from 'path';
@@ -8,10 +8,7 @@ import path from 'path';
 describe('observeAliasChange', () => {
   test('should catch alias changed', async () => {
     // Arrange
-    const cwd: string = await copyTmpDirectory(
-      process.cwd(),
-      'test/fixtures/web/start',
-    );
+    const cwd: string = await copyFixture('test/fixtures/web/start');
 
     // Act
     const current: Record<string, string> = getWebpackAlias(cwd);

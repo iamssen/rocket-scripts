@@ -1,6 +1,6 @@
+import { copyFixture } from '@ssen/copy-fixture';
 import { createInkWriteStream } from '@ssen/ink-helpers';
 import { exec } from '@ssen/promised';
-import { copyTmpDirectory } from '@ssen/tmp-directory';
 import { devServerStart } from '@ssen/webpack-dev-server';
 import { format } from 'date-fns';
 import path from 'path';
@@ -35,13 +35,11 @@ describe('webpack-dev-server', () => {
 
   test('should read text and the text should change with HMR', async () => {
     // Arrange : project directories
-    const cwd: string = await copyTmpDirectory(
-      path.join(process.cwd(), 'test/fixtures/webpack-dev-server/basic'),
-    );
+    const cwd: string = await copyFixture('test/fixtures/webpack-dev-server/basic');
 
     const port: number = await getPortPromise();
 
-    await exec(`npm install`, { cwd });
+    await exec(`yarn --production`, { cwd });
 
     const {
       devServer: devServerConfig,

@@ -1,7 +1,7 @@
 import { start } from '@rocket-scripts/electron';
+import { copyFixture } from '@ssen/copy-fixture';
 import { createInkWriteStream } from '@ssen/ink-helpers';
 import { exec } from '@ssen/promised';
-import { copyTmpDirectory } from '@ssen/tmp-directory';
 import fs from 'fs-extra';
 import path from 'path';
 import { getPortPromise } from 'portfinder';
@@ -14,15 +14,13 @@ describe('electron/start', () => {
     'should read h1 text and the text should change with watch (%s)',
     async (dir: string) => {
       // Arrange : project directories
-      const cwd: string = await copyTmpDirectory(
-        path.join(process.cwd(), `test/fixtures/electron/${dir}`),
-      );
+      const cwd: string = await copyFixture(`test/fixtures/electron/${dir}`);
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
       const remoteDebuggingPort: number = await getPortPromise();
 
       //await exec(`code ${cwd}`);
-      await exec(`yarn`, { cwd });
+      await exec(`yarn --production`, { cwd });
 
       // Arrange : stdout
       const stdout = createInkWriteStream();

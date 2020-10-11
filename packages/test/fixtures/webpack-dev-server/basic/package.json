@@ -8,6 +8,6 @@
   },
   "devDependencies": {
     "html-webpack-plugin": "^4.3.0",
-    "webpack": "^4.44.1"
+    "webpack": "^5.0.0"
   }
 }

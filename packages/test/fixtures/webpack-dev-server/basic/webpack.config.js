@@ -4,7 +4,8 @@ const { HotModuleReplacementPlugin } = require('webpack');
 
 module.exports = {
   mode: 'development',
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval-cheap-module-source-map',
+  //devtool: 'cheap-module-eval-source-map',
 
   entry: path.join(__dirname, 'src/index.js'),
 

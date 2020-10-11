@@ -1,14 +1,11 @@
 import { build } from '@rocket-scripts/web/build';
+import { copyFixture } from '@ssen/copy-fixture';
 import { exec } from '@ssen/promised';
-import { copyTmpDirectory } from '@ssen/tmp-directory';
-import path from 'path';
 
 (async () => {
-  const cwd: string = await copyTmpDirectory(
-    path.join(process.cwd(), 'test/fixtures/web/webpack-config'),
-  );
+  const cwd: string = await copyFixture('test/fixtures/web/webpack-config');
 
-  await exec(`npm install`, { cwd });
+  await exec(`yarn --production`, { cwd });
   //await exec(`code ${cwd}`);
 
   await build({

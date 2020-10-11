@@ -17,7 +17,7 @@ import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import tmp from 'tmp';
-import { Configuration as WebpackConfiguration, DefinePlugin } from 'webpack';
+import { Configuration as WebpackConfiguration, DefinePlugin, WebpackPluginInstance } from 'webpack';
 import { merge as webpackMerge } from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
 import { StartParams } from './params';
@@ -133,7 +133,7 @@ export async function start({
               stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
               return stringifiedEnv;
             },
-            {} as NodeJS.ProcessEnv,
+            {} as Record<string, string>,
           ),
         }),
       ],
@@ -148,7 +148,7 @@ export async function start({
         splitChunks: false,
 
         moduleIds: 'named',
-        noEmitOnErrors: true,
+        emitOnErrors: false,
       },
     },
   );
@@ -186,7 +186,7 @@ export async function start({
       plugins: [
         new MiniCssExtractPlugin({
           filename: `[name].css`,
-        }),
+        }) as WebpackPluginInstance,
 
         new HtmlWebpackPlugin({
           template: path.join(cwd, `src/${app}/index.html`),
@@ -196,7 +196,7 @@ export async function start({
         new InterpolateHtmlPlugin(
           HtmlWebpackPlugin,
           webpackEnv as Record<string, string>,
-        ),
+        ) as WebpackPluginInstance,
 
         new DefinePlugin({
           'process.env': Object.keys(webpackEnv).reduce(
@@ -204,7 +204,7 @@ export async function start({
               stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
               return stringifiedEnv;
             },
-            {} as NodeJS.ProcessEnv,
+            {} as Record<string, string>,
           ),
         }),
       ],
@@ -219,7 +219,7 @@ export async function start({
         splitChunks: false,
 
         moduleIds: 'named',
-        noEmitOnErrors: true,
+        emitOnErrors: false,
       },
     },
   );

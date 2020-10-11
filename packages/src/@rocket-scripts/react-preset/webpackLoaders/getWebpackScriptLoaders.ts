@@ -1,4 +1,4 @@
-import { RuleSetCondition, RuleSetLoader, RuleSetRule } from 'webpack';
+import { RuleSetCondition, RuleSetRule, RuleSetUse } from 'webpack';
 
 interface WorkerUseParams {
   useWebWorker: true;
@@ -21,7 +21,7 @@ export function getWebpackScriptLoaders(params: Params): RuleSetRule[] {
   const scriptRegex: RegExp = /\.(ts|tsx|js|mjs|jsx)$/;
   const workerRegex: RegExp = /\.worker.(ts|tsx|js|mjs|jsx)$/;
 
-  const babelLoader: RuleSetLoader = {
+  const babelLoader: RuleSetUse = {
     loader: require.resolve('babel-loader'),
     options: params.babelLoaderOptions,
   };
@@ -37,7 +37,7 @@ export function getWebpackScriptLoaders(params: Params): RuleSetRule[] {
           {
             loader: require.resolve('worker-loader'),
             options: {
-              filename: `${chunkPath}[hash].worker.js`,
+              filename: `${chunkPath}[fullhash].worker.js`,
               publicPath,
             },
           },

@@ -2,8 +2,9 @@ import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import mainWebpackConfig from '@rocket-scripts/react-electron-preset/mainWebpackConfig';
 import rendererWebpackConfig from '@rocket-scripts/react-electron-preset/rendererWebpackConfig';
 import { getWebpackAlias } from '@rocket-scripts/utils';
+import { copyFixture } from '@ssen/copy-fixture';
 import { exec } from '@ssen/promised';
-import { copyTmpDirectory, createTmpDirectory } from '@ssen/tmp-directory';
+import { createTmpDirectory } from '@ssen/tmp-directory';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
@@ -16,13 +17,11 @@ import { devServerStart } from '../devServerStart';
 (async () => {
   process.env.NODE_ENV = 'development';
 
-  const cwd: string = await copyTmpDirectory(
-    path.join(process.cwd(), 'test/fixtures/electron/start'),
-  );
+  const cwd: string = await copyFixture('test/fixtures/electron/start');
   const outDir: string = await createTmpDirectory();
   const env: NodeJS.ProcessEnv = process.env;
 
-  await exec(`yarn`, { cwd });
+  await exec(`yarn --production`, { cwd });
 
   console.log('Start Server...');
 
@@ -101,7 +100,7 @@ import { devServerStart } from '../devServerStart';
                 stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
                 return stringifiedEnv;
               },
-              {} as NodeJS.ProcessEnv,
+              {} as Record<string, string>,
             ),
           }),
         ],
@@ -116,7 +115,7 @@ import { devServerStart } from '../devServerStart';
           splitChunks: false,
 
           moduleIds: 'named',
-          noEmitOnErrors: true,
+          emitOnErrors: false,
         },
       },
     ),
@@ -158,7 +157,7 @@ import { devServerStart } from '../devServerStart';
                 stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
                 return stringifiedEnv;
               },
-              {} as NodeJS.ProcessEnv,
+              {} as Record<string, string>,
             ),
           }),
         ],
@@ -173,7 +172,7 @@ import { devServerStart } from '../devServerStart';
           splitChunks: false,
 
           moduleIds: 'named',
-          noEmitOnErrors: true,
+          emitOnErrors: false,
         },
       },
     ),

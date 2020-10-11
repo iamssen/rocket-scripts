@@ -17,7 +17,7 @@ import webpack, {
   Compiler,
   Configuration as WebpackConfiguration,
   DefinePlugin,
-  Stats,
+  Stats, WebpackPluginInstance,
 } from 'webpack';
 import { merge as webpackMerge } from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
@@ -142,7 +142,7 @@ export async function build({
             parallel: true,
             cache: true,
             sourceMap: true,
-          }),
+          }) as WebpackPluginInstance,
         ],
       },
 
@@ -153,7 +153,7 @@ export async function build({
               stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
               return stringifiedEnv;
             },
-            {} as NodeJS.ProcessEnv,
+            {} as Record<string, string>,
           ),
         }),
       ],
@@ -218,7 +218,7 @@ export async function build({
             parallel: true,
             cache: true,
             sourceMap: true,
-          }),
+          }) as WebpackPluginInstance,
           new OptimizeCSSAssetsPlugin({
             cssProcessorOptions: {
               parser: safePostCssParser,
@@ -233,7 +233,7 @@ export async function build({
                 { minifyFontValues: { removeQuotes: false } },
               ],
             },
-          }),
+          }) as WebpackPluginInstance,
         ],
 
         splitChunks: {
@@ -259,7 +259,7 @@ export async function build({
       plugins: [
         new MiniCssExtractPlugin({
           filename: `[name].css`,
-        }),
+        }) as WebpackPluginInstance,
 
         new HtmlWebpackPlugin({
           template: path.join(cwd, `src/${app}/index.html`),
@@ -269,7 +269,7 @@ export async function build({
         new InterpolateHtmlPlugin(
           HtmlWebpackPlugin,
           webpackEnv as Record<string, string>,
-        ),
+        ) as WebpackPluginInstance,
 
         new DefinePlugin({
           'process.env': Object.keys(webpackEnv).reduce(
@@ -277,7 +277,7 @@ export async function build({
               stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
               return stringifiedEnv;
             },
-            {} as NodeJS.ProcessEnv,
+            {} as Record<string, string>,
           ),
         }),
       ],
@@ -295,10 +295,10 @@ export async function build({
   const rendererCompiler: Compiler = webpack(rendererWebpackConfig);
 
   await new Promise((resolve, reject) => {
-    mainCompiler.run((error: Error, stats: Stats) => {
+    mainCompiler.run((error?: Error, stats?: Stats) => {
       if (error) {
         reject(error);
-      } else {
+      } else if (stats) {
         console.log(
           stats.toString(
             typeof mainWebpackConfig.stats === 'object'
@@ -309,15 +309,17 @@ export async function build({
           ),
         );
         resolve();
+      } else {
+        throw new Error('No error and stats');
       }
     });
   });
 
   await new Promise((resolve, reject) => {
-    rendererCompiler.run((error: Error, stats: Stats) => {
+    rendererCompiler.run((error?: Error, stats?: Stats) => {
       if (error) {
         reject(error);
-      } else {
+      } else if (stats) {
         console.log(
           stats.toString(
             typeof rendererWebpackConfig.stats === 'object'
@@ -328,6 +330,8 @@ export async function build({
           ),
         );
         resolve();
+      } else {
+        throw new Error('No error and stats');
       }
     });
   });

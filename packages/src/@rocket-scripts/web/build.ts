@@ -16,6 +16,7 @@ import webpack, {
   Configuration as WebpackConfiguration,
   DefinePlugin,
   Stats,
+  WebpackPluginInstance,
 } from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { merge as webpackMerge } from 'webpack-merge';
@@ -77,7 +78,7 @@ export async function build({
     ],
   };
 
-  const webpackConfig: WebpackConfiguration = webpackMerge(
+  const webpackConfig: WebpackConfiguration = webpackMerge([
     userWebpackConfig,
     webpackReactConfig({
       chunkPath,
@@ -94,8 +95,8 @@ export async function build({
       output: {
         path: outDir,
         publicPath,
-        filename: `${chunkPath}[name].[hash].js`,
-        chunkFilename: `${chunkPath}[name].[hash].js`,
+        filename: `${chunkPath}[name].[fullhash].js`,
+        chunkFilename: `${chunkPath}[name].[fullhash].js`,
         pathinfo: false,
       },
 
@@ -105,9 +106,10 @@ export async function build({
       },
 
       entry: entry.reduce((e, { name, index }) => {
+        //@ts-ignore EntryObject
         e[name] = path.join(cwd, 'src', app, index);
         return e;
-      }, {} as Record<string, string | string[]>),
+      }, {}),
 
       optimization: {
         concatenateModules: true,
@@ -138,7 +140,7 @@ export async function build({
             parallel: true,
             cache: true,
             sourceMap: true,
-          }),
+          }) as WebpackPluginInstance,
           new OptimizeCSSAssetsPlugin({
             cssProcessorOptions: {
               parser: safePostCssParser,
@@ -153,7 +155,7 @@ export async function build({
                 { minifyFontValues: { removeQuotes: false } },
               ],
             },
-          }),
+          }) as WebpackPluginInstance,
         ],
 
         splitChunks: {
@@ -179,9 +181,9 @@ export async function build({
       plugins: [
         // create css files
         new MiniCssExtractPlugin({
-          filename: `${chunkPath}[name].[hash].css`,
-          chunkFilename: `${chunkPath}[name].[hash].css`,
-        }),
+          filename: `${chunkPath}[name].[fullhash].css`,
+          chunkFilename: `${chunkPath}[name].[fullhash].css`,
+        }) as WebpackPluginInstance,
 
         // create size report
         new BundleAnalyzerPlugin({
@@ -197,13 +199,13 @@ export async function build({
               template: path.join(cwd, 'src', app, html),
               filename: html,
               chunks: [name],
-            }),
+            }) as WebpackPluginInstance,
         ),
 
         new InterpolateHtmlPlugin(
           HtmlWebpackPlugin,
           webpackEnv as Record<string, string>,
-        ),
+        ) as WebpackPluginInstance,
 
         new DefinePlugin({
           'process.env': Object.keys(webpackEnv).reduce(
@@ -211,12 +213,12 @@ export async function build({
               stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
               return stringifiedEnv;
             },
-            {} as NodeJS.ProcessEnv,
+            {} as Record<string, string>,
           ),
         }),
       ],
     },
-  );
+  ]);
 
   await fs.mkdirp(outDir);
   await Promise.all(
@@ -228,10 +230,10 @@ export async function build({
   const compiler: Compiler = webpack(webpackConfig);
 
   await new Promise((resolve, reject) => {
-    compiler.run((error: Error, stats: Stats) => {
+    compiler.run((error?: Error, stats?: Stats) => {
       if (error) {
         reject(error);
-      } else {
+      } else if (stats) {
         console.log(
           stats.toString(
             typeof webpackConfig.stats === 'object'
@@ -251,6 +253,8 @@ export async function build({
         }
 
         resolve();
+      } else {
+        throw new Error(`No error and stats`);
       }
     });
   });

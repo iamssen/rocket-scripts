@@ -1,6 +1,6 @@
 import { AppEntry, getAppEntry } from '@rocket-scripts/web/utils/getAppEntry';
 import { observeAppEntryChange } from '@rocket-scripts/web/utils/observeAppEntryChange';
-import { copyTmpDirectory } from '@ssen/tmp-directory';
+import { copyFixture } from '@ssen/copy-fixture';
 import { waitFor } from '@testing-library/dom';
 import fs from 'fs-extra';
 import path from 'path';
@@ -8,8 +8,7 @@ import path from 'path';
 describe('observeAppEntrChange()', () => {
   test('should catch app entry changed', async () => {
     // Arrange
-    const cwd: string = await copyTmpDirectory(
-      process.cwd(),
+    const cwd: string = await copyFixture(
       'test/fixtures/web/observeAppEntryChange',
     );
 

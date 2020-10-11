@@ -1,17 +1,16 @@
 import { start } from '@rocket-scripts/web';
+import { copyFixture } from '@ssen/copy-fixture';
 import { exec } from '@ssen/promised';
-import { copyTmpDirectory } from '@ssen/tmp-directory';
-import path from 'path';
 import puppeteer from 'puppeteer';
 
 const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
 
 (async () => {
-  const cwd: string = await copyTmpDirectory(
-    path.join(process.cwd(), 'test/fixtures/web/puppeteer-recorder-test'),
+  const cwd: string = await copyFixture(
+    'test/fixtures/web/puppeteer-recorder-test',
   );
 
-  await exec(`npm install`, { cwd });
+  await exec(`yarn --production`, { cwd });
   //await exec(`code ${cwd}`);
 
   const { port } = await start({

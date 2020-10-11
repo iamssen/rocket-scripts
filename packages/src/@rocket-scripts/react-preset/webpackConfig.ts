@@ -139,8 +139,10 @@ export default function ({
     },
 
     plugins: [
-      new WatchIgnorePlugin([path.join(cwd, 'node_modules')]),
+      // @ts-ignore TODO webpack5 definition error
+      new WatchIgnorePlugin({ paths: [path.join(cwd, 'node_modules')] }),
 
+      // @ts-ignore TODO webpack5 definition error
       ...(fs.existsSync(tsconfig)
         ? [
             new ForkTsCheckerWebpackPlugin({
@@ -167,16 +169,5 @@ export default function ({
           ]
         : []),
     ],
-
-    node: {
-      module: 'empty',
-      dgram: 'empty',
-      dns: 'mock',
-      fs: 'empty',
-      http2: 'empty',
-      net: 'empty',
-      tls: 'empty',
-      child_process: 'empty',
-    },
   };
 }

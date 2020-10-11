@@ -12,7 +12,7 @@ import tmp from 'tmp';
 import {
   Configuration as WebpackConfiguration,
   DefinePlugin,
-  HotModuleReplacementPlugin,
+  HotModuleReplacementPlugin, WebpackPluginInstance,
 } from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 import { merge as webpackMerge } from 'webpack-merge';
@@ -105,7 +105,8 @@ export async function start({
     }),
     {
       mode: 'development',
-      devtool: 'cheap-module-eval-source-map',
+      devtool: 'eval-cheap-module-source-map',
+      //devtool: 'cheap-module-eval-source-map',
 
       output: {
         path: cwd,
@@ -141,7 +142,7 @@ export async function start({
         new InterpolateHtmlPlugin(
           HtmlWebpackPlugin,
           webpackEnv as Record<string, string>,
-        ),
+        ) as WebpackPluginInstance,
 
         new DefinePlugin({
           'process.env': Object.keys(webpackEnv).reduce(
@@ -149,9 +150,9 @@ export async function start({
               stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
               return stringifiedEnv;
             },
-            {} as NodeJS.ProcessEnv,
+            {} as Record<string, string>,
           ),
-        }),
+        }) as WebpackPluginInstance,
       ],
 
       performance: {
@@ -164,7 +165,7 @@ export async function start({
         splitChunks: false,
 
         moduleIds: 'named',
-        noEmitOnErrors: true,
+        emitOnErrors: false,
       },
     },
   );
