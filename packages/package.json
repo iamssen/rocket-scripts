@@ -173,7 +173,7 @@
     "typescript": "^4.0.3",
     "url-loader": "^4.1.1",
     "webpack": "^5.0.0",
-    "webpack-bundle-analyzer": "../webpack-bundle-analyzer-3.10.0.tgz",
+    "webpack-bundle-analyzer": "^3.9.0",
     "webpack-dev-server": "^3.10.3",
     "webpack-merge": "^5.2.0",
     "webpack-node-externals": "^2.5.2",

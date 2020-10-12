@@ -12779,9 +12779,10 @@ webidl-conversions@^6.1.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-6.1.0.tgz#9111b4d7ea80acd40f5270d666621afa78b69514"
   integrity sha512-qBIvFLGiBpLjfwmYAaHPXsn+ho5xZnGvyGvsarywGNc8VyQJUMHJ8OBKGGrPER0okBeMDaan4mNBlgBROxuI8w==
 
-webpack-bundle-analyzer@../webpack-bundle-analyzer-3.10.0.tgz:
-  version "3.10.0"
-  resolved "./webpack-bundle-analyzer-3.10.0.tgz#c2ecbd96841219339910e1556a8b0635426e63ad"
+webpack-bundle-analyzer@^3.9.0:
+  version "3.9.0"
+  resolved "https://registry.npmjs.org/@ssen-temp/webpack-bundle-analyzer/-/webpack-bundle-analyzer-3.9.1.tgz#f5df2285221d45cf6b6ef5471e52f3998eb406ba"
+  integrity sha512-BSB+1VIrO5n08Qg1+WYCKNiR8QxqIOSY9idaBKCmXilk9KvKtZA6ouQ9QLvOX4E1KHt7k9WN/mrmGJlhKjvqtQ==
   dependencies:
     acorn "^7.1.1"
     acorn-walk "^7.1.1"
