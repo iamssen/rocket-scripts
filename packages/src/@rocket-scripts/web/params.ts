@@ -1,8 +1,5 @@
 import { ReactNode } from 'react';
-import {
-  Configuration as WebpackConfiguration,
-  Options as WebpackOptions,
-} from 'webpack';
+import { Configuration as WebpackConfiguration } from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
 export interface CommonParams {
@@ -249,9 +246,37 @@ export interface BuildParams extends CommonParams {
    *
    * @example { devtool: false }
    *
+   * @see https://webpack.js.org/configuration/devtool/#devtool
+   *
    * @default source-map
    */
-  devtool?: WebpackOptions.Devtool;
+  devtool?:
+    | false
+    | 'eval'
+    | 'eval-cheap-source-map'
+    | 'eval-cheap-module-source-map'
+    | 'eval-source-map'
+    | 'eval-nosources-source-map'
+    | 'eval-nosources-cheap-source-map'
+    | 'eval-nosources-cheap-module-source-map'
+    | 'cheap-source-map'
+    | 'cheap-module-source-map'
+    | 'inline-cheap-source-map'
+    | 'inline-cheap-module-source-map'
+    | 'inline-source-map'
+    | 'inline-nosources-source-map'
+    | 'inline-nosources-cheap-source-map'
+    | 'inline-nosources-cheap-module-source-map'
+    | 'source-map'
+    | 'hidden-source-map'
+    | 'hidden-nosources-source-map'
+    | 'hidden-nosources-cheap-source-map'
+    | 'hidden-nosources-cheap-module-source-map'
+    | 'hidden-cheap-source-map'
+    | 'hidden-cheap-module-source-map'
+    | 'nosources-source-map'
+    | 'nosources-cheap-source-map'
+    | 'nosources-cheap-module-source-map';
 
   /**
    * if you want to open bundle size report on your web browser after build set `true` this option.

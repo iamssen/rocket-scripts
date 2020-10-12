@@ -175,7 +175,7 @@ export function DevServerUI({
           <Divider bold color="redBright">
             Error
           </Divider>
-          {webpackStatsJson.errors.map((text) => (
+          {webpackStatsJson.errors.map((text: string) => (
             <Text key={text} color="redBright">
               {text}
             </Text>
@@ -188,7 +188,7 @@ export function DevServerUI({
           <Divider bold color="yellow">
             Warning
           </Divider>
-          {webpackStatsJson.warnings.map((text) => (
+          {webpackStatsJson.warnings.map((text: string) => (
             <Text key={text} color="yellow">
               {text}
             </Text>

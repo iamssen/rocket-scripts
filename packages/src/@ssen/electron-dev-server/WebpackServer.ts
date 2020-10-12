@@ -6,19 +6,23 @@ import webpack, {
 } from 'webpack';
 import { WebpackServerStatus, WebpackStats } from './types';
 
+export type WatchParams = Parameters<Compiler['watch']>;
+export type WatchOptions = WatchParams[0];
+export type Watching = ReturnType<Compiler['watch']>;
+
 export interface WebpackServerParams {
   mainWebpackConfig: WebpackConfiguration;
-  mainWebpackWatchOptions: Compiler.WatchOptions;
+  mainWebpackWatchOptions: WatchOptions;
   rendererWebpackConfig: WebpackConfiguration;
-  rendererWebpackWatchOptions: Compiler.WatchOptions;
+  rendererWebpackWatchOptions: WatchOptions;
 }
 
 export class WebpackServer {
   readonly mainCompiler: Compiler;
   readonly rendererCompiler: Compiler;
 
-  private mainWatching: Compiler.Watching;
-  private rendererWatching: Compiler.Watching;
+  private mainWatching: Watching;
+  private rendererWatching: Watching;
 
   private readonly statusSubject: BehaviorSubject<WebpackServerStatus>;
   private readonly mainWebpackStatusSubject: BehaviorSubject<WebpackStats>;
@@ -52,20 +56,22 @@ export class WebpackServer {
 
     this.mainWatching = this.mainCompiler.watch(
       mainWebpackWatchOptions,
-      (error: Error | undefined, statsData: Stats) => {
+      (error?: Error, stats?: Stats) => {
         if (error) {
           throw error;
-        } else {
+        } else if (stats) {
           console.log(
-            statsData.toString({
+            stats.toString({
               colors: false,
             }),
           );
 
           this.mainWebpackStatusSubject.next({
             status: 'done',
-            statsData,
+            statsData: stats,
           });
+        } else {
+          throw new Error('No error and stats');
         }
       },
     );
@@ -82,20 +88,22 @@ export class WebpackServer {
 
     this.rendererWatching = this.rendererCompiler.watch(
       rendererWebpackWatchOptions,
-      (error: Error | undefined, statsData: Stats) => {
+      (error?: Error, stats?: Stats) => {
         if (error) {
           throw error;
-        } else {
+        } else if (stats) {
           console.log(
-            statsData.toString({
+            stats.toString({
               colors: false,
             }),
           );
 
           this.rendererWebpackStatusSubject.next({
             status: 'done',
-            statsData,
+            statsData: stats,
           });
+        } else {
+          throw new Error('No error and stats');
         }
       },
     );

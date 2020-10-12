@@ -1,9 +1,8 @@
 import matterLoader from '@ssen/mdx-matter-loader';
-import { loader } from 'webpack';
 
 function compile(source: string): Promise<string | Buffer | undefined> {
   return new Promise<string | Buffer | undefined>((resolve, reject) => {
-    const context: loader.LoaderContext = {
+    const context = {
       async: () => (
         err: Error | null | undefined,
         content: string | Buffer | undefined,
@@ -14,7 +13,7 @@ function compile(source: string): Promise<string | Buffer | undefined> {
           resolve(content);
         }
       },
-    } as loader.LoaderContext;
+    };
 
     matterLoader.call(context, source);
   });

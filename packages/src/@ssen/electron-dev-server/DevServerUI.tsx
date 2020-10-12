@@ -198,7 +198,7 @@ export function DevServerUI({
           <Divider bold color="redBright">
             Error
           </Divider>
-          {webpackMainStatsJson.errors.map((text) => (
+          {webpackMainStatsJson.errors.map((text: string) => (
             <Text key={text} color="redBright">
               {text}
             </Text>
@@ -211,7 +211,7 @@ export function DevServerUI({
           <Divider bold color="yellow">
             Warning
           </Divider>
-          {webpackMainStatsJson.warnings.map((text) => (
+          {webpackMainStatsJson.warnings.map((text: string) => (
             <Text key={text} color="yellow">
               {text}
             </Text>
@@ -234,7 +234,7 @@ export function DevServerUI({
           <Divider bold color="redBright">
             Error
           </Divider>
-          {webpackRendererStatsJson.errors.map((text) => (
+          {webpackRendererStatsJson.errors.map((text: string) => (
             <Text key={text} color="redBright">
               {text}
             </Text>
@@ -248,7 +248,7 @@ export function DevServerUI({
             <Divider bold color="yellow">
               Warning
             </Divider>
-            {webpackRendererStatsJson.warnings.map((text) => (
+            {webpackRendererStatsJson.warnings.map((text: string) => (
               <Text key={text} color="yellow">
                 {text}
               </Text>

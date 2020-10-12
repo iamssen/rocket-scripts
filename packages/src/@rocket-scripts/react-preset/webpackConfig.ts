@@ -139,10 +139,8 @@ export default function ({
     },
 
     plugins: [
-      // @ts-ignore TODO webpack5 definition error
       new WatchIgnorePlugin({ paths: [path.join(cwd, 'node_modules')] }),
 
-      // @ts-ignore TODO webpack5 definition error
       ...(fs.existsSync(tsconfig)
         ? [
             new ForkTsCheckerWebpackPlugin({

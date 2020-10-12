@@ -3,8 +3,7 @@ import { copyFixture } from '@ssen/copy-fixture';
 import { exec, glob } from '@ssen/promised';
 import { createTmpDirectory } from '@ssen/tmp-directory';
 
-// TODO BundleAnalyzerPlugin error with webpack5
-describe.skip('web/build', () => {
+describe('web/build', () => {
   test.each(['start', 'webpack-config', 'css'])(
     'should build the project "fixtures/web/%s"',
     async (dir: string) => {

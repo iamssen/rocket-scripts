@@ -1,7 +1,6 @@
 import matter from 'gray-matter';
-import { loader } from 'webpack';
 
-export default function (this: loader.LoaderContext, contents: string) {
+export default function (this: LoaderContext, contents: string) {
   const callback = this.async();
 
   if (!callback) return contents;
@@ -15,4 +14,11 @@ export default function (this: loader.LoaderContext, contents: string) {
   } catch {
     callback(null, contents);
   }
+}
+
+interface LoaderContext {
+  async: () => (
+    err: Error | null | undefined,
+    content: string | Buffer | undefined,
+  ) => void;
 }
