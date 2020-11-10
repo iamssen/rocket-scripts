@@ -286,6 +286,8 @@ export interface BuildParams extends CommonParams {
    * `{outDir}/size-report.html` file always be made.
    *
    * @default false
+   *
+   * TODO disable webpack-bundle-analyzer with error https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
    */
   openBundleSizeReport?: boolean;
 }

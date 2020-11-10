@@ -27,7 +27,8 @@ describe('web/build', () => {
 
       // Assert
       await expect(glob(`${outDir}/manifest.json`)).resolves.toHaveLength(1);
-      await expect(glob(`${outDir}/size-report.html`)).resolves.toHaveLength(1);
+      // TODO disable webpack-bundle-analyzer with error https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
+      //await expect(glob(`${outDir}/size-report.html`)).resolves.toHaveLength(1);
       await expect(glob(`${outDir}/favicon.ico`)).resolves.toHaveLength(1);
       await expect(glob(`${outDir}/index.*.js`)).resolves.toHaveLength(1);
       await expect(glob(`${outDir}/index.html`)).resolves.toHaveLength(1);
@@ -59,7 +60,8 @@ describe('web/build', () => {
     // Assert
     await expect(glob(`${outDir}/hello.json`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/manifest.json`)).resolves.toHaveLength(1);
-    await expect(glob(`${outDir}/size-report.html`)).resolves.toHaveLength(1);
+    // TODO disable webpack-bundle-analyzer with error https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
+    //await expect(glob(`${outDir}/size-report.html`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/favicon.ico`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/index.*.js`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/index.html`)).resolves.toHaveLength(1);
