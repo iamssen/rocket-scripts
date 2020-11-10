@@ -119,12 +119,11 @@ export async function build({
             terserOptions: {
               ecma: 5,
               parse: {
-                ecma: 8,
+                ecma: 2017,
               },
               compress: {
                 //ecma: 5,
                 drop_console: true,
-                warnings: false,
                 comparisons: false,
                 inline: 2,
               },
@@ -138,8 +137,6 @@ export async function build({
               },
             },
             parallel: true,
-            cache: true,
-            sourceMap: true,
           }) as WebpackPluginInstance,
           new OptimizeCSSAssetsPlugin({
             cssProcessorOptions: {
@@ -169,7 +166,7 @@ export async function build({
 
             // extract single css file
             style: {
-              test: (m) => m.constructor.name === 'CssModule',
+              test: (m: object) => m.constructor.name === 'CssModule',
               name: 'style',
               chunks: 'all',
               enforce: true,
@@ -204,7 +201,8 @@ export async function build({
         ),
 
         new InterpolateHtmlPlugin(
-          HtmlWebpackPlugin,
+          //eslint-disable-next-line @typescript-eslint/no-explicit-any
+          HtmlWebpackPlugin as any,
           webpackEnv as Record<string, string>,
         ) as WebpackPluginInstance,
 

@@ -140,7 +140,8 @@ export async function start({
         ),
 
         new InterpolateHtmlPlugin(
-          HtmlWebpackPlugin,
+          //eslint-disable-next-line @typescript-eslint/no-explicit-any
+          HtmlWebpackPlugin as any,
           webpackEnv as Record<string, string>,
         ) as WebpackPluginInstance,
 
