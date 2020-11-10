@@ -118,7 +118,8 @@ stopTestServer;
 
 npm run build;
 fileExists "$TEMP"/out/app/manifest.json;
-fileExists "$TEMP"/out/app/size-report.html;
+# TODO disable webpack-bundle-analyzer with error https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
+#fileExists "$TEMP"/out/app/size-report.html;
 fileExists "$TEMP"/out/app/favicon.ico;
 fileExists "$TEMP"/out/app/index.html;
 fileExists "$TEMP"/out/app/index.*.js;
@@ -130,7 +131,8 @@ npm install @rocket-scripts/web@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" 
 
 npm run build;
 fileExists "$TEMP"/out/app/manifest.json;
-fileExists "$TEMP"/out/app/size-report.html;
+# TODO disable webpack-bundle-analyzer with error https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
+#fileExists "$TEMP"/out/app/size-report.html;
 fileExists "$TEMP"/out/app/favicon.ico;
 fileExists "$TEMP"/out/app/index.html;
 fileExists "$TEMP"/out/app/index.*.js;
@@ -150,7 +152,8 @@ stopTestServer;
 
 npm run build;
 fileExists "$TEMP"/out/app/manifest.json;
-fileExists "$TEMP"/out/app/size-report.html;
+# TODO disable webpack-bundle-analyzer with error https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
+#fileExists "$TEMP"/out/app/size-report.html;
 fileExists "$TEMP"/out/app/favicon.ico;
 fileExists "$TEMP"/out/app/index.*.js;
 fileExists "$TEMP"/out/app/index.html;
@@ -169,7 +172,8 @@ stopTestServer;
 
 npm run build;
 fileExists "$TEMP"/out/app/manifest.json;
-fileExists "$TEMP"/out/app/size-report.html;
+# TODO disable webpack-bundle-analyzer with error https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
+#fileExists "$TEMP"/out/app/size-report.html;
 fileExists "$TEMP"/out/app/favicon.ico;
 fileExists "$TEMP"/out/app/index.*.js;
 fileExists "$TEMP"/out/app/index.html;
