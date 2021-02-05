@@ -8,7 +8,7 @@ const ssen = fs
     fs.statSync(path.join(__dirname, '../src/@ssen', item)).isDirectory(),
   );
 
-const prev = yaml.safeLoad(
+const prev = yaml.load(
   fs.readFileSync(path.join(__dirname, 'verdaccio.yaml'), 'utf8'),
 );
 const next = {
@@ -24,7 +24,7 @@ const next = {
   },
 };
 
-const yamlString = yaml.safeDump(next);
+const yamlString = yaml.dump(next);
 
 fs.writeFileSync(path.join(__dirname, 'verdaccio.yaml'), yamlString, {
   encoding: 'utf8',
