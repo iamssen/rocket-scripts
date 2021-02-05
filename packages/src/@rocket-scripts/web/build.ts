@@ -183,12 +183,11 @@ export async function build({
         }) as WebpackPluginInstance,
 
         // create size report
-        // TODO disable webpack-bundle-analyzer with error https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
-        //new BundleAnalyzerPlugin({
-        //  analyzerMode: 'static',
-        //  reportFilename: path.join(outDir, 'size-report.html'),
-        //  openAnalyzer: false,
-        //}),
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+          reportFilename: path.join(outDir, 'size-report.html'),
+          openAnalyzer: false,
+        }),
 
         //create html files
         ...entry.map(
@@ -227,6 +226,8 @@ export async function build({
   );
 
   const compiler: Compiler = webpack(webpackConfig);
+  // FIXME webpack-bundle-analyzer related monkey patch https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
+  compiler.outputFileSystem.constructor = () => {};
 
   await new Promise<void>((resolve, reject) => {
     compiler.run((error?: Error, stats?: Stats) => {
@@ -244,12 +245,11 @@ export async function build({
         );
 
         if (openBundleSizeReport) {
-          // TODO disable webpack-bundle-analyzer with error https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
-          //if (os.platform() === 'win32') {
-          //  exec(`start ${path.join(outDir, 'size-report.html')}`);
-          //} else {
-          //  exec(`open ${path.join(outDir, 'size-report.html')}`);
-          //}
+          if (os.platform() === 'win32') {
+            exec(`start ${path.join(outDir, 'size-report.html')}`);
+          } else {
+            exec(`open ${path.join(outDir, 'size-report.html')}`);
+          }
         }
 
         resolve();
