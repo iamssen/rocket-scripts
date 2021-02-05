@@ -193,11 +193,11 @@ export async function build({
         //create html files
         ...entry.map(
           ({ html, name }) =>
-            new HtmlWebpackPlugin({
+            (new HtmlWebpackPlugin({
               template: path.join(cwd, 'src', app, html),
               filename: html,
               chunks: [name],
-            }) as WebpackPluginInstance,
+            }) as unknown) as WebpackPluginInstance,
         ),
 
         new InterpolateHtmlPlugin(
@@ -228,7 +228,7 @@ export async function build({
 
   const compiler: Compiler = webpack(webpackConfig);
 
-  await new Promise((resolve, reject) => {
+  await new Promise<void>((resolve, reject) => {
     compiler.run((error?: Error, stats?: Stats) => {
       if (error) {
         reject(error);

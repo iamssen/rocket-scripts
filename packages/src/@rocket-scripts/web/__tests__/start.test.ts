@@ -87,7 +87,10 @@ describe('web/start', () => {
       const waitMs: number = 1000;
       let count: number = 20;
       while (count >= 0) {
-        const text: string = await page.$eval('#app h1', (e) => e.innerHTML);
+        const text: string = await page.$eval(
+          '#app h1',
+          (e: Element) => e.innerHTML,
+        );
         if (text === 'Hi World!') {
           break;
         } else if (count === 0) {
@@ -96,9 +99,9 @@ describe('web/start', () => {
           await page.reload({ waitUntil: 'load' });
           await timeout(1000 * 2);
           await page.waitForSelector('#app h1', { timeout: 1000 * 60 });
-          await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe(
-            'Hi World!',
-          );
+          await expect(
+            page.$eval('#app h1', (e: Element) => e.innerHTML),
+          ).resolves.toBe('Hi World!');
         }
         await timeout(waitMs);
         count -= 1;
@@ -147,9 +150,9 @@ describe('web/start', () => {
       await page.waitForSelector('#app h1', { timeout: 1000 * 60 });
 
       // Assert
-      await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe(
-        'abc',
-      );
+      await expect(
+        page.$eval('#app h1', (e: Element) => e.innerHTML),
+      ).resolves.toBe('abc');
 
       // Exit
       await close();
@@ -194,9 +197,9 @@ describe('web/start', () => {
     await page.waitForSelector('#app h1', { timeout: 1000 * 60 });
 
     // Assert
-    await expect(page.$eval('#app h1', (e) => e.innerHTML)).resolves.toBe(
-      'Hello World!',
-    );
+    await expect(
+      page.$eval('#app h1', (e: Element) => e.innerHTML),
+    ).resolves.toBe('Hello World!');
 
     const manifest = await fetch(`http://localhost:${port}/manifest.json`);
     expect(manifest.status).toBeLessThan(299);

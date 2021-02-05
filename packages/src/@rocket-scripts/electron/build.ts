@@ -17,7 +17,8 @@ import webpack, {
   Compiler,
   Configuration as WebpackConfiguration,
   DefinePlugin,
-  Stats, WebpackPluginInstance,
+  Stats,
+  WebpackPluginInstance,
 } from 'webpack';
 import { merge as webpackMerge } from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
@@ -289,7 +290,7 @@ export async function build({
   const mainCompiler: Compiler = webpack(mainWebpackConfig);
   const rendererCompiler: Compiler = webpack(rendererWebpackConfig);
 
-  await new Promise((resolve, reject) => {
+  await new Promise<void>((resolve, reject) => {
     mainCompiler.run((error?: Error, stats?: Stats) => {
       if (error) {
         reject(error);
@@ -310,7 +311,7 @@ export async function build({
     });
   });
 
-  await new Promise((resolve, reject) => {
+  await new Promise<void>((resolve, reject) => {
     rendererCompiler.run((error?: Error, stats?: Stats) => {
       if (error) {
         reject(error);
