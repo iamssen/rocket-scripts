@@ -5,7 +5,7 @@
   "bugs": "https://github.com/rocket-hangar/rocket-scripts/issues",
   "homepage": "https://github.com/rocket-hangar/rocket-scripts/tree/master/packages/src/{name}",
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "publishConfig": {
     "access": "public"
