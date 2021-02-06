@@ -137,7 +137,7 @@ export async function build({
               },
             },
             parallel: true,
-          }) as WebpackPluginInstance,
+          }) as unknown as WebpackPluginInstance,
           new OptimizeCSSAssetsPlugin({
             cssProcessorOptions: {
               parser: safePostCssParser,
