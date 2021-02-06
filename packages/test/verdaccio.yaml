@@ -4,7 +4,7 @@ auth:
     file: ./htpasswd
 uplinks:
   npmjs:
-    url: 'https://registry.npmjs.org/'
+    url: https://registry.npmjs.org/
     max_fails: 40
     maxage: 30m
     timeout: 60s
@@ -19,6 +19,9 @@ packages:
   '@rocket-scripts/*':
     access: $anonymous
     publish: $anonymous
+  '@ssen/copy-fixture':
+    access: $anonymous
+    publish: $anonymous
   '@ssen/dev-server-components':
     access: $anonymous
     publish: $anonymous
@@ -29,6 +32,9 @@ packages:
     access: $anonymous
     publish: $anonymous
   '@ssen/ink-helpers':
+    access: $anonymous
+    publish: $anonymous
+  '@ssen/mdx-matter-loader':
     access: $anonymous
     publish: $anonymous
   '@ssen/mirror-files':

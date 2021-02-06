@@ -170,27 +170,27 @@ export function DevServerUI({
         </>
       )}
 
-      {webpackStatsJson && webpackStatsJson.errors.length > 0 && (
+      {webpackStatsJson?.errors && webpackStatsJson.errors.length > 0 && (
         <>
           <Divider bold color="redBright">
             Error
           </Divider>
-          {webpackStatsJson.errors.map((text: string) => (
-            <Text key={text} color="redBright">
-              {text}
+          {webpackStatsJson.errors.map((error) => (
+            <Text key={error.message} color="redBright">
+              {JSON.stringify(error)}
             </Text>
           ))}
         </>
       )}
 
-      {webpackStatsJson && webpackStatsJson.warnings.length > 0 && (
+      {webpackStatsJson?.warnings && webpackStatsJson.warnings.length > 0 && (
         <>
           <Divider bold color="yellow">
             Warning
           </Divider>
-          {webpackStatsJson.warnings.map((text: string) => (
-            <Text key={text} color="yellow">
-              {text}
+          {webpackStatsJson.warnings.map((warning) => (
+            <Text key={warning.message} color="yellow">
+              {JSON.stringify(warning)}
             </Text>
           ))}
         </>

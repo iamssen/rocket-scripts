@@ -63,6 +63,10 @@ grep -q 'http address' <(tail -f "$VERDACCIO_REGISTRY_LOG"); # wating verdaccio
 
 # LOCAL PUBLISH
 # ==================================================----------------------------------
+for dir in "$ROOT/out/packages"/*/; do
+  echo "//localhost:$VERDACCIO_PORT/:_authToken=ANONYMOUS_TOKEN_STRING" > "$dir/.npmrc";
+done
+
 echo "PUNCH: $(which rocket-punch)";
 npx rocket-punch publish --skip-selection --tag e2e --registry "$LOCAL_REGISTRY_URL";
 
@@ -118,8 +122,7 @@ stopTestServer;
 
 npm run build;
 fileExists "$TEMP"/out/app/manifest.json;
-# TODO disable webpack-bundle-analyzer with error https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
-#fileExists "$TEMP"/out/app/size-report.html;
+fileExists "$TEMP"/out/app/size-report.html;
 fileExists "$TEMP"/out/app/favicon.ico;
 fileExists "$TEMP"/out/app/index.html;
 fileExists "$TEMP"/out/app/index.*.js;
@@ -131,8 +134,7 @@ npm install @rocket-scripts/web@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" 
 
 npm run build;
 fileExists "$TEMP"/out/app/manifest.json;
-# TODO disable webpack-bundle-analyzer with error https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
-#fileExists "$TEMP"/out/app/size-report.html;
+fileExists "$TEMP"/out/app/size-report.html;
 fileExists "$TEMP"/out/app/favicon.ico;
 fileExists "$TEMP"/out/app/index.html;
 fileExists "$TEMP"/out/app/index.*.js;
@@ -152,8 +154,7 @@ stopTestServer;
 
 npm run build;
 fileExists "$TEMP"/out/app/manifest.json;
-# TODO disable webpack-bundle-analyzer with error https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
-#fileExists "$TEMP"/out/app/size-report.html;
+fileExists "$TEMP"/out/app/size-report.html;
 fileExists "$TEMP"/out/app/favicon.ico;
 fileExists "$TEMP"/out/app/index.*.js;
 fileExists "$TEMP"/out/app/index.html;
@@ -172,8 +173,7 @@ stopTestServer;
 
 npm run build;
 fileExists "$TEMP"/out/app/manifest.json;
-# TODO disable webpack-bundle-analyzer with error https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
-#fileExists "$TEMP"/out/app/size-report.html;
+fileExists "$TEMP"/out/app/size-report.html;
 fileExists "$TEMP"/out/app/favicon.ico;
 fileExists "$TEMP"/out/app/index.*.js;
 fileExists "$TEMP"/out/app/index.html;

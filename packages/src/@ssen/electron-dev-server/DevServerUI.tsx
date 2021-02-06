@@ -33,15 +33,17 @@ export function DevServerUI({
   children,
   exit,
 }: DevServerUIProps) {
-  const [webpackServerStatus, setWebpackServerStatus] = useState<
-    WebpackServerStatus
-  >(WebpackServerStatus.STARTING);
+  const [
+    webpackServerStatus,
+    setWebpackServerStatus,
+  ] = useState<WebpackServerStatus>(WebpackServerStatus.STARTING);
   const [webpackMainStats, setWebpackMainStats] = useState<WebpackStats>({
     status: 'waiting',
   });
-  const [webpackRendererStats, setWebpackRendererStats] = useState<
-    WebpackStats
-  >({ status: 'waiting' });
+  const [
+    webpackRendererStats,
+    setWebpackRendererStats,
+  ] = useState<WebpackStats>({ status: 'waiting' });
   const [restartMessages, setRestartMessages] = useState<string[] | null>(null);
   const [syncStaticFilesMessages, setSyncStaticFilesMessages] = useState<
     MirrorMessage[]
@@ -193,31 +195,32 @@ export function DevServerUI({
           : '?? Webpack<main, preload> Unknown Webpack Status ??'}
       </Divider>
 
-      {webpackMainStatsJson && webpackMainStatsJson.errors.length > 0 && (
+      {webpackMainStatsJson?.errors && webpackMainStatsJson.errors.length > 0 && (
         <>
           <Divider bold color="redBright">
             Error
           </Divider>
-          {webpackMainStatsJson.errors.map((text: string) => (
-            <Text key={text} color="redBright">
-              {text}
+          {webpackMainStatsJson.errors.map((error) => (
+            <Text key={error.message} color="redBright">
+              {JSON.stringify(error)}
             </Text>
           ))}
         </>
       )}
 
-      {webpackMainStatsJson && webpackMainStatsJson.warnings.length > 0 && (
-        <>
-          <Divider bold color="yellow">
-            Warning
-          </Divider>
-          {webpackMainStatsJson.warnings.map((text: string) => (
-            <Text key={text} color="yellow">
-              {text}
-            </Text>
-          ))}
-        </>
-      )}
+      {webpackMainStatsJson?.warnings &&
+        webpackMainStatsJson.warnings.length > 0 && (
+          <>
+            <Divider bold color="yellow">
+              Warning
+            </Divider>
+            {webpackMainStatsJson.warnings.map((warning) => (
+              <Text key={warning.message} color="yellow">
+                {JSON.stringify(warning)}
+              </Text>
+            ))}
+          </>
+        )}
 
       <Divider delimiter="=">
         {webpackRendererStats.status === 'waiting'
@@ -229,28 +232,29 @@ export function DevServerUI({
           : '?? Webpack<renderer> Unknown Webpack Status ??'}
       </Divider>
 
-      {webpackRendererStatsJson && webpackRendererStatsJson.errors.length > 0 && (
-        <>
-          <Divider bold color="redBright">
-            Error
-          </Divider>
-          {webpackRendererStatsJson.errors.map((text: string) => (
-            <Text key={text} color="redBright">
-              {text}
-            </Text>
-          ))}
-        </>
-      )}
+      {webpackRendererStatsJson?.errors &&
+        webpackRendererStatsJson.errors.length > 0 && (
+          <>
+            <Divider bold color="redBright">
+              Error
+            </Divider>
+            {webpackRendererStatsJson.errors.map((error) => (
+              <Text key={error.message} color="redBright">
+                {JSON.stringify(error)}
+              </Text>
+            ))}
+          </>
+        )}
 
-      {webpackRendererStatsJson &&
+      {webpackRendererStatsJson?.warnings &&
         webpackRendererStatsJson.warnings.length > 0 && (
           <>
             <Divider bold color="yellow">
               Warning
             </Divider>
-            {webpackRendererStatsJson.warnings.map((text: string) => (
-              <Text key={text} color="yellow">
-                {text}
+            {webpackRendererStatsJson.warnings.map((warning) => (
+              <Text key={warning.message} color="yellow">
+                {JSON.stringify(warning)}
               </Text>
             ))}
           </>
