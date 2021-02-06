@@ -11372,7 +11372,7 @@ react-is@^16.12.0, react-is@^16.8.1:
 
 react-reconciler@^0.24.0:
   version "0.24.0"
-  resolved "https://registry.yarnpkg.com/react-reconciler/-/react-reconciler-0.24.0.tgz#5a396b2c2f5efe8554134a5935f49f546723f2dd"
+  resolved "https://registry.npmjs.org/react-reconciler/-/react-reconciler-0.24.0.tgz#5a396b2c2f5efe8554134a5935f49f546723f2dd"
   integrity sha512-gAGnwWkf+NOTig9oOowqid9O0HjTDC+XVGBCAmJYYJ2A2cN/O4gDdIuuUQjv8A4v6GDwVfJkagpBBLW5OW9HSw==
   dependencies:
     loose-envify "^1.1.0"
