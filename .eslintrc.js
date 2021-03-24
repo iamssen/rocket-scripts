@@ -2,8 +2,6 @@ module.exports = {
   extends: [
     '@ssen',
     'prettier',
-    'prettier/react',
-    'prettier/@typescript-eslint',
   ],
   rules: {
     'import/no-anonymous-default-export': 0,
