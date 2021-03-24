@@ -50,4 +50,9 @@ jobs:
         run: yarn install
 
       - name: E2E Test
-        run: yarn run e2e
+        run: |
+          cd packages
+          yarn run build
+          node test/updateVerdaccioYaml.js
+          bash test/e2e.sh
+          rimraf out
