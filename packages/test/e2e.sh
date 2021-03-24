@@ -96,13 +96,13 @@ function createTmpFixture() {
   echo "FIXTURE: $1"
   echo "TEMP: $TEMP";
   echo "PWD: $(pwd)";
-  yarn install --registry "$LOCAL_REGISTRY_URL" > /dev/null;
+  npm install --registry "$LOCAL_REGISTRY_URL" > /dev/null;
 }
 
 # webpack-dev-server
 
 createTmpFixture webpack-dev-server/basic;
-yarn add @ssen/webpack-dev-server@e2e --dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
+npm install @ssen/webpack-dev-server@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
 (PORT=$TEST_SERVER_PORT yarn run start &> log.txt &);
 sleep 15s;
 is200 "http://localhost:$TEST_SERVER_PORT";
@@ -111,7 +111,7 @@ stopTestServer;
 # web
 
 createTmpFixture web/start;
-yarn add @rocket-scripts/web@e2e --dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
+npm install @rocket-scripts/web@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
 
 (PORT=$TEST_SERVER_PORT yarn run start &> log.txt &);
 sleep 15s;
@@ -130,7 +130,7 @@ fileExists "$TEMP"/out/app/vendor.*.js;
 
 
 createTmpFixture web/worker;
-yarn add @rocket-scripts/web@e2e --dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
+npm install @rocket-scripts/web@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
 
 yarn run build;
 fileExists "$TEMP"/out/app/manifest.json;
@@ -143,7 +143,7 @@ fileExists "$TEMP"/out/app/*.worker.js;
 
 
 createTmpFixture web/webpack-config;
-yarn add @rocket-scripts/web@e2e --dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
+npm install @rocket-scripts/web@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
 
 (PORT=$TEST_SERVER_PORT yarn run start &> log.txt &);
 sleep 15s;
@@ -161,7 +161,7 @@ fileExists "$TEMP"/out/app/index.html;
 
 
 createTmpFixture web/static-file-directories;
-yarn add @rocket-scripts/web@e2e --dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
+npm install @rocket-scripts/web@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
 
 (PORT=$TEST_SERVER_PORT yarn run start &> log.txt &);
 sleep 15s;
@@ -181,7 +181,7 @@ fileExists "$TEMP"/out/app/hello.json;
 
 
 createTmpFixture web/proxy;
-yarn add @rocket-scripts/web@e2e --dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
+npm install @rocket-scripts/web@e2e --save-dev --registry "$LOCAL_REGISTRY_URL" > /dev/null;
 
 (PORT=$TEST_SERVER_PORT yarn run start &> log.txt &);
 sleep 15s;
