@@ -14,7 +14,8 @@
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "test": "yarn workspace packages run test",
-    "coverage": "yarn workspace packages run coverage"
+    "coverage": "yarn workspace packages run coverage",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "packages/{src,@types}/{**/*,*}.{ts,tsx}": [
@@ -28,7 +29,7 @@
     "@ssen/prettier-config": "^1.2.0",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
-    "husky": "^4.3.8",
+    "husky": "^5.2.0",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1"
   }
