@@ -1,8 +1,8 @@
 '@ssen/*':
-  version: 2.0.0
+  version: 2.0.1
   tag: latest
   module: commonjs
 '@rocket-scripts/*':
-  version: 2.0.0
+  version: 2.0.1
   tag: latest
   module: commonjs
