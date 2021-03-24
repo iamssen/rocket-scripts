@@ -63,8 +63,11 @@ export function patchProxyLogger({
     }));
   } else {
     return Object.keys(proxyConfig).reduce((config, context) => {
-      const contextConfig: Config | string = proxyConfig[context];
+      const contextConfig: Config | string = proxyConfig[context] as
+        | Config
+        | string;
 
+      //@ts-ignore
       config[context] =
         typeof contextConfig === 'string'
           ? {

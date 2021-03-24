@@ -9,7 +9,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
-import { DefinePlugin } from 'webpack';
+import { DefinePlugin, WebpackPluginInstance } from 'webpack';
 import { merge } from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
 import { devServerStart } from '../devServerStart';
@@ -21,7 +21,7 @@ import { devServerStart } from '../devServerStart';
   const outDir: string = await createTmpDirectory();
   const env: NodeJS.ProcessEnv = process.env;
 
-  await exec(`yarn --production`, { cwd });
+  // await exec(`yarn --production`, { cwd });
 
   console.log('Start Server...');
 
@@ -149,7 +149,7 @@ import { devServerStart } from '../devServerStart';
           new InterpolateHtmlPlugin(
             HtmlWebpackPlugin,
             webpackEnv as Record<string, string>,
-          ),
+          ) as WebpackPluginInstance,
 
           new DefinePlugin({
             'process.env': Object.keys(webpackEnv).reduce(

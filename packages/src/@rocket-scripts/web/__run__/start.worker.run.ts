@@ -7,7 +7,7 @@ import puppeteer from 'puppeteer';
   const cwd: string = await copyFixture('test/fixtures/web/worker');
   //const cwd: string = path.join(process.cwd(), 'test/fixtures/web/worker');
 
-  await exec(`yarn --production`, { cwd });
+  // await exec(`yarn --production`, { cwd });
   //await exec(`code ${cwd}`);
 
   const { port } = await start({

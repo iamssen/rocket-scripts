@@ -13,7 +13,7 @@ describe('web/build', () => {
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
-      await exec(`yarn --production`, { cwd });
+      // await exec(`yarn --production`, { cwd });
 
       // Act
       await build({
@@ -46,7 +46,7 @@ describe('web/build', () => {
     const staticFileDirectories: string[] = ['{cwd}/public', '{cwd}/static'];
     const app: string = 'app';
 
-    await exec(`yarn --production`, { cwd });
+    // await exec(`yarn --production`, { cwd });
 
     // Act
     await build({

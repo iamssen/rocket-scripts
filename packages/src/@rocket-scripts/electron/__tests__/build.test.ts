@@ -13,7 +13,7 @@ describe('electron/build', () => {
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
-      await exec(`yarn --production`, { cwd });
+      // await exec(`yarn --production`, { cwd });
 
       // Act
       await build({

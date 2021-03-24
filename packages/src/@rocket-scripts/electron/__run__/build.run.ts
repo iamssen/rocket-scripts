@@ -7,7 +7,7 @@ import { createTmpDirectory } from '@ssen/tmp-directory';
   const cwd: string = await copyFixture('test/fixtures/electron/start');
   const outDir: string = await createTmpDirectory();
 
-  await exec(`yarn --production`, { cwd });
+  // await exec(`yarn --production`, { cwd });
 
   await build({
     cwd,

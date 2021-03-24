@@ -10,7 +10,7 @@ const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
     'test/fixtures/web/puppeteer-recorder-test',
   );
 
-  await exec(`yarn --production`, { cwd });
+  // await exec(`yarn --production`, { cwd });
   //await exec(`code ${cwd}`);
 
   const { port } = await start({

@@ -35,11 +35,13 @@ describe('webpack-dev-server', () => {
 
   test('should read text and the text should change with HMR', async () => {
     // Arrange : project directories
-    const cwd: string = await copyFixture('test/fixtures/webpack-dev-server/basic');
+    const cwd: string = await copyFixture(
+      'test/fixtures/webpack-dev-server/basic',
+    );
 
     const port: number = await getPortPromise();
 
-    await exec(`yarn --production`, { cwd });
+    // await exec(`yarn --production`, { cwd });
 
     const {
       devServer: devServerConfig,

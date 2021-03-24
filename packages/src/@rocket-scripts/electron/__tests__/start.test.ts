@@ -20,7 +20,7 @@ describe('electron/start', () => {
       const remoteDebuggingPort: number = await getPortPromise();
 
       //await exec(`code ${cwd}`);
-      await exec(`yarn --production`, { cwd });
+      // await exec(`yarn --production`, { cwd });
 
       // Arrange : stdout
       const stdout = createInkWriteStream();

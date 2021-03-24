@@ -11,7 +11,7 @@ const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
   const cwd: string = await copyFixture('test/fixtures/electron/start');
   const remoteDebuggingPort: number = 9366;
 
-  await exec(`yarn --production`, { cwd });
+  // await exec(`yarn --production`, { cwd });
   //await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
   //exec(`code ${cwd}`);
 

@@ -10,7 +10,7 @@ import puppeteer from 'puppeteer';
     'test/fixtures/webpack-dev-server/basic',
   );
 
-  await exec(`yarn --production`, { cwd });
+  // await exec(`yarn --production`, { cwd });
   //await exec(`code ${cwd}`);
 
   const port: number = await getPortPromise();

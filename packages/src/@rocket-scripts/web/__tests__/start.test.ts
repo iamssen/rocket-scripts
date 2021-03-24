@@ -40,7 +40,7 @@ describe('web/start', () => {
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
-      await exec(`yarn --production`, { cwd });
+      // await exec(`yarn --production`, { cwd });
 
       // Arrange : stdout
       const stdout = createInkWriteStream();
@@ -122,7 +122,7 @@ describe('web/start', () => {
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
-      await exec(`yarn --production`, { cwd });
+      // await exec(`yarn --production`, { cwd });
 
       // Arrange : stdout
       const stdout = createInkWriteStream();
@@ -169,7 +169,7 @@ describe('web/start', () => {
     const staticFileDirectories: string[] = ['{cwd}/public', '{cwd}/static'];
     const app: string = 'app';
 
-    await exec(`yarn --production`, { cwd });
+    // await exec(`yarn --production`, { cwd });
 
     // Arrange : stdout
     const stdout = createInkWriteStream();
@@ -220,7 +220,7 @@ describe('web/start', () => {
     const staticFileDirectories: string[] = ['{cwd}/public'];
     const app: string = 'app';
 
-    await exec(`yarn --production`, { cwd });
+    // await exec(`yarn --production`, { cwd });
 
     // Arrange : stdout
     const stdout = createInkWriteStream();

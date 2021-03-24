@@ -5,7 +5,7 @@ import { exec } from '@ssen/promised';
 (async () => {
   const cwd: string = await copyFixture('test/fixtures/web/proxy');
 
-  await exec(`yarn --production`, { cwd });
+  // await exec(`yarn --production`, { cwd });
   //await exec(`open ${cwd}`);
 
   await start({
