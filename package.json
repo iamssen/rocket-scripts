@@ -7,8 +7,8 @@
     "packages"
   ],
   "scripts": {
-    "build": "yarn workspace packages run build --out-dir $PWD/out/packages",
-    "publish": "yarn run test && yarn run build && yarn workspace packages run publish --out-dir $PWD/out/packages",
+    "build": "yarn workspace packages run build --out-dir out/packages",
+    "publish": "yarn run test && yarn run build && yarn workspace packages run publish --out-dir out/packages",
     "view": "yarn workspace packages run view",
     "doctor": "yarn workspace packages run doctor",
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
