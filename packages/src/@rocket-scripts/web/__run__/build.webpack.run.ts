@@ -5,9 +5,6 @@ import { exec } from '@ssen/promised';
 (async () => {
   const cwd: string = await copyFixture('test/fixtures/web/webpack-config');
 
-  // await exec(`yarn --production`, { cwd });
-  //await exec(`code ${cwd}`);
-
   await build({
     cwd,
     staticFileDirectories: ['{cwd}/public'],

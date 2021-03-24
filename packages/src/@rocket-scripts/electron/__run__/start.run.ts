@@ -1,6 +1,5 @@
 import { start } from '@rocket-scripts/electron';
 import { copyFixture } from '@ssen/copy-fixture';
-import { exec } from '@ssen/promised';
 import fs from 'fs-extra';
 import path from 'path';
 import puppeteer, { Browser } from 'puppeteer-core';
@@ -10,10 +9,6 @@ const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
 (async () => {
   const cwd: string = await copyFixture('test/fixtures/electron/start');
   const remoteDebuggingPort: number = 9366;
-
-  // await exec(`yarn --production`, { cwd });
-  //await fs.symlink(path.join(process.cwd(), 'node_modules'), path.join(cwd, 'node_modules'));
-  //exec(`code ${cwd}`);
 
   await start({
     cwd,
@@ -56,7 +51,7 @@ const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
   if (!page) throw new Error(`Undefined index.html`);
 
   await page.waitForSelector('#app h1', { timeout: 1000 * 60 });
-  const text = await page.$eval('#app h1', (e) => e.innerHTML);
+  //const text = await page.$eval('#app h1', (e) => e.innerHTML);
 
   const file: string = path.join(cwd, 'src/app/preload.ts');
   const source: string = await fs.readFile(file, 'utf8');

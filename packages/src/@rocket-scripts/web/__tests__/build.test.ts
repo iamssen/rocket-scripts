@@ -1,6 +1,6 @@
 import { build } from '@rocket-scripts/web';
 import { copyFixture } from '@ssen/copy-fixture';
-import { exec, glob } from '@ssen/promised';
+import { glob } from '@ssen/promised';
 import { createTmpDirectory } from '@ssen/tmp-directory';
 
 describe('web/build', () => {
@@ -12,8 +12,6 @@ describe('web/build', () => {
       const outDir: string = await createTmpDirectory();
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
-
-      // await exec(`yarn --production`, { cwd });
 
       // Act
       await build({
@@ -45,8 +43,6 @@ describe('web/build', () => {
     const outDir: string = await createTmpDirectory();
     const staticFileDirectories: string[] = ['{cwd}/public', '{cwd}/static'];
     const app: string = 'app';
-
-    // await exec(`yarn --production`, { cwd });
 
     // Act
     await build({

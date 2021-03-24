@@ -1,7 +1,6 @@
 import { start } from '@rocket-scripts/web';
 import { copyFixture } from '@ssen/copy-fixture';
 import { createInkWriteStream } from '@ssen/ink-helpers';
-import { exec } from '@ssen/promised';
 import fs from 'fs-extra';
 import path from 'path';
 import puppeteer, { Browser, Page } from 'puppeteer';
@@ -40,8 +39,6 @@ describe('web/start', () => {
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
-      // await exec(`yarn --production`, { cwd });
-
       // Arrange : stdout
       const stdout = createInkWriteStream();
 
@@ -57,8 +54,6 @@ describe('web/start', () => {
         webpackConfig:
           dir === 'webpack-config' ? '{cwd}/webpack.config.js' : undefined,
       });
-
-      //exec(`code ${logfile}`);
 
       await timeout(1000 * 5);
 
@@ -122,8 +117,6 @@ describe('web/start', () => {
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
-      // await exec(`yarn --production`, { cwd });
-
       // Arrange : stdout
       const stdout = createInkWriteStream();
 
@@ -168,8 +161,6 @@ describe('web/start', () => {
     );
     const staticFileDirectories: string[] = ['{cwd}/public', '{cwd}/static'];
     const app: string = 'app';
-
-    // await exec(`yarn --production`, { cwd });
 
     // Arrange : stdout
     const stdout = createInkWriteStream();
@@ -219,8 +210,6 @@ describe('web/start', () => {
     const cwd: string = await copyFixture('test/fixtures/web/proxy');
     const staticFileDirectories: string[] = ['{cwd}/public'];
     const app: string = 'app';
-
-    // await exec(`yarn --production`, { cwd });
 
     // Arrange : stdout
     const stdout = createInkWriteStream();

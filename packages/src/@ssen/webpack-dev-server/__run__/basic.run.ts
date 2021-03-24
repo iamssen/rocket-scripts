@@ -1,5 +1,4 @@
 import { copyFixture } from '@ssen/copy-fixture';
-import { exec } from '@ssen/promised';
 import { devServerStart } from '@ssen/webpack-dev-server/devServerStart';
 import path from 'path';
 import { getPortPromise } from 'portfinder';
@@ -9,9 +8,6 @@ import puppeteer from 'puppeteer';
   const cwd: string = await copyFixture(
     'test/fixtures/webpack-dev-server/basic',
   );
-
-  // await exec(`yarn --production`, { cwd });
-  //await exec(`code ${cwd}`);
 
   const port: number = await getPortPromise();
 

@@ -1,7 +1,6 @@
 import { start } from '@rocket-scripts/electron';
 import { copyFixture } from '@ssen/copy-fixture';
 import { createInkWriteStream } from '@ssen/ink-helpers';
-import { exec } from '@ssen/promised';
 import fs from 'fs-extra';
 import path from 'path';
 import { getPortPromise } from 'portfinder';
@@ -18,9 +17,6 @@ describe('electron/start', () => {
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
       const remoteDebuggingPort: number = await getPortPromise();
-
-      //await exec(`code ${cwd}`);
-      // await exec(`yarn --production`, { cwd });
 
       // Arrange : stdout
       const stdout = createInkWriteStream();

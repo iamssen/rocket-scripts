@@ -1,6 +1,5 @@
 import { copyFixture } from '@ssen/copy-fixture';
 import { createInkWriteStream } from '@ssen/ink-helpers';
-import { exec } from '@ssen/promised';
 import { devServerStart } from '@ssen/webpack-dev-server';
 import { format } from 'date-fns';
 import path from 'path';
@@ -40,8 +39,6 @@ describe('webpack-dev-server', () => {
     );
 
     const port: number = await getPortPromise();
-
-    // await exec(`yarn --production`, { cwd });
 
     const {
       devServer: devServerConfig,

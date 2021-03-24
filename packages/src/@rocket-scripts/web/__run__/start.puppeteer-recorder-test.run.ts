@@ -1,6 +1,5 @@
 import { start } from '@rocket-scripts/web';
 import { copyFixture } from '@ssen/copy-fixture';
-import { exec } from '@ssen/promised';
 import puppeteer from 'puppeteer';
 
 const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
@@ -9,9 +8,6 @@ const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
   const cwd: string = await copyFixture(
     'test/fixtures/web/puppeteer-recorder-test',
   );
-
-  // await exec(`yarn --production`, { cwd });
-  //await exec(`code ${cwd}`);
 
   const { port } = await start({
     cwd,
