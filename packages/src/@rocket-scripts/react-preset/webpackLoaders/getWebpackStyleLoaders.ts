@@ -71,8 +71,9 @@ export function getWebpackStyleLoaders({
         url: false,
         importLoaders: preProcessor ? 2 : loaderCount,
         sourceMap: true,
-        modules: true,
-        getLocalIdent: getCSSModuleLocalIdent,
+        modules: {
+          getLocalIdent: getCSSModuleLocalIdent,
+        },
       },
     },
   ];
