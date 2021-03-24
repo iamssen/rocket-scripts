@@ -52,7 +52,4 @@ jobs:
       - name: E2E Test
         run: |
           cd packages
-          yarn run build
-          node test/updateVerdaccioYaml.js
-          bash test/e2e.sh
-          rimraf out
+          bash run-e2e.sh

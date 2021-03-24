@@ -13,7 +13,6 @@
     "doctor": "yarn workspace packages run doctor",
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "e2e": "yarn workspace packages run e2e",
     "test": "yarn workspace packages run test",
     "coverage": "yarn workspace packages run coverage"
   },
