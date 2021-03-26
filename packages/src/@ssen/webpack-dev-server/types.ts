@@ -1,4 +1,4 @@
-import { Stats } from 'webpack';
+import { MultiStats } from 'webpack';
 
 export enum DevServerStatus {
   STARTING,
@@ -13,7 +13,7 @@ export type WebpackStats =
     }
   | {
       status: 'done';
-      statsData: Stats;
+      statsData: MultiStats;
     };
 
 export type TimeMessage = {

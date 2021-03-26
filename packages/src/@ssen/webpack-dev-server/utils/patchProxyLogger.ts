@@ -1,4 +1,4 @@
-import { Config, LogProvider } from 'http-proxy-middleware';
+import { Options } from 'http-proxy-middleware';
 import { Subject } from 'rxjs';
 import { ProxyConfigArray, ProxyConfigMap } from 'webpack-dev-server';
 import { TimeMessage } from '../types';
@@ -7,6 +7,8 @@ interface Params {
   proxyConfig: ProxyConfigMap | ProxyConfigArray;
   subject: Subject<TimeMessage[]>;
 }
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 function toMessage(args: unknown[], level: TimeMessage['level']): TimeMessage {
   return {
@@ -34,23 +36,23 @@ export function patchProxyLogger({
   }
 
   const logProvider: LogProvider = {
-    log: (...args) => {
+    log: (...args: any[]) => {
       console.log(...args);
       next(args, 'log');
     },
-    info: (...args) => {
+    info: (...args: any[]) => {
       console.info(...args);
       next(args, 'info');
     },
-    debug: (...args) => {
+    debug: (...args: any[]) => {
       console.debug(...args);
       next(args, 'debug');
     },
-    warn: (...args) => {
+    warn: (...args: any[]) => {
       console.warn(...args);
       next(args, 'warn');
     },
-    error: (...args) => {
+    error: (...args: any[]) => {
       console.error(...args);
       next(args, 'error');
     },
@@ -63,11 +65,10 @@ export function patchProxyLogger({
     }));
   } else {
     return Object.keys(proxyConfig).reduce((config, context) => {
-      const contextConfig: Config | string = proxyConfig[context] as
-        | Config
+      const contextConfig: Options | string = proxyConfig[context] as
+        | Options
         | string;
 
-      //@ts-ignore
       config[context] =
         typeof contextConfig === 'string'
           ? {
@@ -83,3 +84,14 @@ export function patchProxyLogger({
     }, {} as ProxyConfigMap);
   }
 }
+
+// Copied from http-proxy-middleware/dist/types.d.ts
+interface LogProvider {
+  log: Logger;
+  debug?: Logger;
+  info?: Logger;
+  warn?: Logger;
+  error?: Logger;
+}
+
+declare type Logger = (...args: any[]) => void;

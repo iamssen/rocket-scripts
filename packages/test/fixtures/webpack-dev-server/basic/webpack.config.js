@@ -26,9 +26,6 @@ module.exports = {
   devServer: {
     hot: true,
     compress: true,
-    contentBase: path.join(__dirname, 'public'),
-    stats: {
-      colors: false,
-    },
+    static: path.join(__dirname, 'public'),
   },
 };

@@ -5,21 +5,32 @@ import path from 'path';
 import React, { ReactNode } from 'react';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import tmp from 'tmp';
+import { Configuration as WebpackConfiguration } from 'webpack';
 import { ProxyConfigArray, ProxyConfigMap } from 'webpack-dev-server';
 import { DevServer, DevServerParams } from './DevServer';
 import { DevServerUI } from './DevServerUI';
 import { TimeMessage } from './types';
 import { patchProxyLogger } from './utils/patchProxyLogger';
 
-export interface DevServerStartParams extends DevServerParams {
-  stdout?: NodeJS.WriteStream;
-  stdin?: NodeJS.ReadStream;
-  header?: ReactNode;
-  cwd?: string;
-  logfile?: string;
-  restartAlarm?: Observable<string[]>;
-  children?: ReactNode;
-}
+export type WebpackConfigs =
+  | {
+      /**
+       * @deprecated use instead webpackConfigs
+       */
+      webpackConfig: WebpackConfiguration;
+    }
+  | { webpackConfigs: WebpackConfiguration[] };
+
+export type DevServerStartParams = WebpackConfigs &
+  Omit<DevServerParams, 'webpackConfigs'> & {
+    stdout?: NodeJS.WriteStream;
+    stdin?: NodeJS.ReadStream;
+    header?: ReactNode;
+    cwd?: string;
+    logfile?: string;
+    restartAlarm?: Observable<string[]>;
+    children?: ReactNode;
+  };
 
 export async function devServerStart({
   stdout = process.stdout,
@@ -29,11 +40,16 @@ export async function devServerStart({
   logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
   port,
   hostname,
-  webpackConfig,
   devServerConfig,
   restartAlarm,
   children,
+  ..._webpackConfigs
 }: DevServerStartParams): Promise<() => Promise<void>> {
+  const webpackConfigs =
+    'webpackConfigs' in _webpackConfigs
+      ? _webpackConfigs.webpackConfigs
+      : [_webpackConfigs.webpackConfig];
+
   if (!fs.existsSync(path.dirname(logfile))) {
     fs.mkdirpSync(path.dirname(logfile));
   }
@@ -65,7 +81,7 @@ export async function devServerStart({
   const server: DevServer = new DevServer({
     port,
     hostname,
-    webpackConfig,
+    webpackConfigs,
     devServerConfig: {
       ...devServerConfig,
       proxy,

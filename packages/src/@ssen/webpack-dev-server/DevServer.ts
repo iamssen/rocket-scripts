@@ -1,7 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 import webpack, {
-  Compiler,
   Configuration as WebpackConfiguration,
+  MultiCompiler,
 } from 'webpack';
 import WebpackDevServer, {
   Configuration as WebpackDevServerConfiguration,
@@ -11,12 +11,12 @@ import { DevServerStatus, WebpackStats } from './types';
 export interface DevServerParams {
   port: number;
   hostname: string;
-  webpackConfig: WebpackConfiguration;
+  webpackConfigs: WebpackConfiguration[];
   devServerConfig: WebpackDevServerConfiguration;
 }
 
 export class DevServer {
-  readonly compiler: Compiler;
+  readonly compiler: MultiCompiler;
   readonly devServer: WebpackDevServer;
   readonly url: string;
 
@@ -29,13 +29,13 @@ export class DevServer {
   constructor({
     port,
     hostname,
-    webpackConfig,
     devServerConfig,
+    webpackConfigs,
   }: DevServerParams) {
     this.url =
       (devServerConfig.https ? 'https://' : 'http://') + hostname + ':' + port;
 
-    this.compiler = webpack(webpackConfig);
+    this.compiler = webpack(webpackConfigs);
 
     this.statusSubject = new BehaviorSubject<DevServerStatus>(
       DevServerStatus.STARTING,
