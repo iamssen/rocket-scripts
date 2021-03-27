@@ -4,9 +4,15 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - '**.md'
+      - '.prettierrc.js'
   pull_request:
     branches:
       - master
+    paths-ignore:
+      - '**.md'
+      - '.prettierrc.js'
 
 jobs:
   e2e:

@@ -27,7 +27,13 @@ export interface CommonParams {
   app: string;
 
   /**
-   * TODO
+   * add script builds that is out of main app context
+   *
+   * e.g. when you configure like `{ script: 'script.ts' }`
+   *
+   * it will create `script.js`
+   *
+   * and, the `script.js` is did not split by webpack split chunks
    *
    * @example { script: 'script.ts' }
    */
