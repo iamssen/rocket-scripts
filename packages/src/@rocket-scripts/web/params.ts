@@ -27,6 +27,13 @@ export interface CommonParams {
   app: string;
 
   /**
+   * TODO
+   *
+   * @example { script: 'script.ts' }
+   */
+  isolatedScripts?: Record<string, string>;
+
+  /**
    * set static file directories.
    *
    * you can set with this when you want to use the other static file directories instead of `{project}/public`.
@@ -286,8 +293,57 @@ export interface BuildParams extends CommonParams {
    * `{outDir}/size-report.html` file always be made.
    *
    * @default false
-   *
-   * TODO disable webpack-bundle-analyzer with error https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
    */
   openBundleSizeReport?: boolean;
+}
+
+export interface WatchParams extends CommonParams {
+  /**
+   * output directory.
+   *
+   * @example { outDir: '{cwd}/dev/{app}' }
+   *
+   * @default {cwd}/dev/{app}
+   */
+  outDir?: string;
+
+  /**
+   * logfile path.
+   *
+   * @example { logfile: '{cwd}/log.txt' }
+   *
+   * @default (if this value is undefined it will be new temporary file)
+   */
+  logfile?: string;
+
+  /**
+   * ⚠️ ink stdout
+   *
+   * @default process.stdout
+   */
+  stdout?: NodeJS.WriteStream;
+
+  /**
+   * ⚠️ ink stdin
+   *
+   * @default process.stdin
+   */
+  stdin?: NodeJS.ReadStream;
+
+  /**
+   * ⚠️ attach ui elements
+   *
+   * This elements will attach the end of UI
+   *
+   * @example
+   * {
+   *   children: (
+   *     <>
+   *       <Custom1/>
+   *       <Custom2/>
+   *     </>
+   *   )
+   * }
+   */
+  children?: ReactNode;
 }

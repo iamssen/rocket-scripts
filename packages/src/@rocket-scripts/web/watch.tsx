@@ -1,10 +1,12 @@
 import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import webpackReactConfig from '@rocket-scripts/react-preset/webpackConfig';
 import { getWebpackAlias, icuFormat, rocketTitle } from '@rocket-scripts/utils';
-import { devServerStart, DevServerStartParams } from '@ssen/webpack-dev-server';
+import {
+  devServerStart,
+  DevServerStartParams,
+} from '@ssen/webpack-watch-server';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import { getPortPromise } from 'portfinder';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,53 +14,47 @@ import tmp from 'tmp';
 import {
   Configuration as WebpackConfiguration,
   DefinePlugin,
-  HotModuleReplacementPlugin,
   WebpackPluginInstance,
 } from 'webpack';
-import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 import { merge as webpackMerge } from 'webpack-merge';
-import { StartParams } from './params';
+import { WatchParams } from './params';
 import { filterReactEnv } from './utils/filterReactEnv';
 import { getAppEntry } from './utils/getAppEntry';
 import { observeAliasChange } from './utils/observeAliasChange';
 import { observeAppEntryChange } from './utils/observeAppEntryChange';
 
-export type Start = DevServerStartParams & {
+export type Watch = DevServerStartParams & {
   close: () => Promise<void>;
 };
 
-export async function start({
+export async function watch({
   cwd = process.cwd(),
   app,
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
+  outDir: _outDir = '{cwd}/dev/{app}',
 
   isolatedScripts,
 
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
 
-  port: _port = 'random',
-  hostname = 'localhost',
-
   webpackConfig: _webpackConfig,
-  webpackDevServerConfig: _webpackDevServerConfig,
   babelLoaderOptions: _babelLoaderOptions,
 
   logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
   stdout = process.stdout,
   stdin = process.stdin,
   children,
-}: StartParams): Promise<Start> {
+}: WatchParams): Promise<Watch> {
   if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'development';
   }
 
   console.log('Start Server...');
 
-  const port: number =
-    typeof _port === 'number' ? _port : await getPortPromise();
   const staticFileDirectories: string[] = _staticFileDirectories.map((dir) =>
     icuFormat(dir, { cwd, app }),
   );
+  const outDir: string = icuFormat(_outDir, { cwd, app });
   const appDir: string = path.join(cwd, 'src', app);
   const logfile: string = icuFormat(_logfile, { cwd, app });
   const tsconfig: string = icuFormat(_tsconfig, { cwd, app });
@@ -71,11 +67,6 @@ export async function start({
     typeof _webpackConfig === 'string'
       ? require(icuFormat(_webpackConfig, { cwd, app }))
       : _webpackConfig ?? {};
-
-  const userWebpackDevServerConfig: WebpackDevServerConfiguration | {} =
-    typeof _webpackDevServerConfig === 'string'
-      ? require(icuFormat(_webpackDevServerConfig, { cwd, app }))
-      : _webpackDevServerConfig ?? {};
 
   const webpackEnv: NodeJS.ProcessEnv = {
     ...filterReactEnv(process.env),
@@ -108,7 +99,7 @@ export async function start({
     }),
     {
       mode: 'development',
-      devtool: 'eval-cheap-module-source-map',
+      devtool: 'source-map',
 
       resolve: {
         symlinks: false,
@@ -116,8 +107,6 @@ export async function start({
       },
 
       plugins: [
-        new HotModuleReplacementPlugin(),
-
         new DefinePlugin({
           'process.env': Object.keys(webpackEnv).reduce(
             (stringifiedEnv, key) => {
@@ -148,7 +137,7 @@ export async function start({
     baseWebpackConfig,
     {
       output: {
-        path: cwd,
+        path: outDir,
         publicPath,
         filename: `${chunkPath}[name].js`,
         chunkFilename: `${chunkPath}[name].js`,
@@ -189,7 +178,7 @@ export async function start({
       webpackConfigs.push(
         webpackMerge(baseWebpackConfig, {
           output: {
-            path: cwd,
+            path: outDir,
             publicPath,
             filename: `${chunkPath}[name].js`,
             chunkFilename: `${chunkPath}[name].js`,
@@ -203,14 +192,6 @@ export async function start({
       );
     }
   }
-
-  const devServerConfig: WebpackDevServerConfiguration = {
-    ...userWebpackDevServerConfig,
-    hot: true,
-    compress: true,
-    //@ts-ignore TODO webpack-dev-server 4.x
-    static: staticFileDirectories,
-  };
 
   const restartAlarm: Observable<string[]> = combineLatest([
     observeAppEntryChange({ appDir, current: entry }),
@@ -229,14 +210,13 @@ export async function start({
 
   const startParams: DevServerStartParams = {
     header: rocketTitle + version,
-    hostname,
     webpackConfigs,
-    devServerConfig,
-    port,
+    staticFileDirectories,
     cwd,
     logfile,
     stdout,
     stdin,
+    outDir,
     restartAlarm,
     children,
   };

@@ -1,20 +1,20 @@
 import { Divider, PadText } from '@ssen/dev-server-components';
+import { MirrorMessage } from '@ssen/mirror-files';
 import { exec } from 'child_process';
 import { format } from 'date-fns';
 import { Box, Text, useInput, useStdin } from 'ink';
 import useStdoutDimensions from 'ink-use-stdout-dimensions';
-import os from 'os';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { Observable } from 'rxjs';
 import { DevServer } from './DevServer';
-import { DevServerStatus, TimeMessage, WebpackStats } from './types';
+import { DevServerStatus, WebpackStats } from './types';
 
 export interface DevServerUIProps {
   header?: ReactNode;
   devServer: DevServer;
+  syncStaticFiles?: Observable<MirrorMessage>;
   cwd: string;
   logfile: string;
-  proxyMessage?: Observable<TimeMessage[]>;
   restartAlarm?: Observable<string[]>;
   children?: ReactNode;
   exit: () => void;
@@ -23,9 +23,9 @@ export interface DevServerUIProps {
 export function DevServerUI({
   header,
   devServer,
+  syncStaticFiles,
   cwd,
   logfile,
-  proxyMessage,
   restartAlarm,
   children,
   exit,
@@ -37,7 +37,9 @@ export function DevServerUI({
     status: 'waiting',
   });
   const [restartMessages, setRestartMessages] = useState<string[] | null>(null);
-  const [proxyMessages, setProxyMessages] = useState<TimeMessage[]>([]);
+  const [syncStaticFilesMessages, setSyncStaticFilesMessages] = useState<
+    MirrorMessage[]
+  >([]);
 
   useEffect(() => {
     const statusSubscription = devServer.status().subscribe(setStatus);
@@ -70,30 +72,28 @@ export function DevServerUI({
   }, [restartAlarm]);
 
   useEffect(() => {
-    if (proxyMessage) {
-      const subscription = proxyMessage.subscribe((messages) => {
-        setProxyMessages(messages);
+    if (syncStaticFiles) {
+      const subscription = syncStaticFiles.subscribe((message) => {
+        setSyncStaticFilesMessages((prev) => {
+          return [message, ...prev].slice(0, 5);
+        });
       });
 
       return () => {
         subscription.unsubscribe();
       };
     }
-  }, [proxyMessage]);
+  }, [syncStaticFiles]);
 
   const webpackStatsJson = useMemo(() => {
-    const json =
-      webpackStats.status === 'done'
-        ? webpackStats.statsData.toJson({
-            all: false,
-            errors: true,
-            warnings: true,
-            timings: true,
-          })
-        : null;
-
-    console.log('DevServerUI.tsx..()', json);
-    return json;
+    return webpackStats.status === 'done'
+      ? webpackStats.statsData.toJson({
+          all: false,
+          errors: true,
+          warnings: true,
+          timings: true,
+        })
+      : null;
   }, [webpackStats]);
 
   const { isRawModeSupported } = useStdin();
@@ -105,13 +105,6 @@ export function DevServerUI({
       }
 
       switch (input) {
-        case 'b':
-          if (os.platform() === 'win32') {
-            exec(`start ${devServer.url}`);
-          } else {
-            exec(`open ${devServer.url}`);
-          }
-          break;
         case 'l':
           exec(`code ${logfile}`);
           break;
@@ -137,7 +130,7 @@ export function DevServerUI({
         <PadText
           title="Keys"
           color="blueBright"
-          children={`(b) Open ${devServer.url} (l) Open log with \`code\` (p) Open project with \`code\` (q) Quit`}
+          children={`(l) Open log with \`code\` (p) Open project with \`code\` (q) Quit`}
         />
       )}
 
@@ -204,27 +197,18 @@ export function DevServerUI({
         </>
       )}
 
-      {proxyMessages.length > 0 && (
+      {syncStaticFilesMessages.length > 0 && (
         <>
-          <Divider bold>Proxy</Divider>
-          {proxyMessages
-            .slice()
-            .reverse()
-            .map(({ message, level, time }, i) => (
-              <Text
-                key={message + time}
-                color={
-                  level === 'error'
-                    ? 'red'
-                    : level === 'warn'
-                    ? 'yellow'
-                    : undefined
-                }
-                dimColor={i > 3}
-              >
-                [{format(new Date(time), 'hh:mm:ss')}] {message}
-              </Text>
-            ))}
+          <Divider bold>Sync Static Files</Divider>
+          {syncStaticFilesMessages.map(({ type, file, time }, i) => (
+            <Text
+              key={file + time.getTime()}
+              color={type === 'undefined' ? 'red' : undefined}
+              dimColor={i > 3}
+            >
+              [{format(time, 'hh:mm:ss')}] [{type}] {file}
+            </Text>
+          ))}
         </>
       )}
 

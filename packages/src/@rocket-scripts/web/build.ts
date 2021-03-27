@@ -12,10 +12,9 @@ import safePostCssParser from 'postcss-safe-parser';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import webpack, {
-  Compiler,
   Configuration as WebpackConfiguration,
   DefinePlugin,
-  Stats,
+  MultiCompiler,
   WebpackPluginInstance,
 } from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
@@ -29,6 +28,8 @@ export async function build({
   app,
   staticFileDirectories: _staticFileDirectories = ['{cwd}/public'],
   outDir: _outDir = '{cwd}/out/{app}',
+
+  isolatedScripts,
 
   openBundleSizeReport = false,
 
@@ -78,7 +79,7 @@ export async function build({
     ],
   };
 
-  const webpackConfig: WebpackConfiguration = webpackMerge([
+  const baseWebpackConfig: WebpackConfiguration = webpackMerge([
     userWebpackConfig,
     webpackReactConfig({
       chunkPath,
@@ -92,6 +93,28 @@ export async function build({
       mode: 'production',
       devtool,
 
+      resolve: {
+        symlinks: false,
+        alias,
+      },
+
+      plugins: [
+        new DefinePlugin({
+          'process.env': Object.keys(webpackEnv).reduce(
+            (stringifiedEnv, key) => {
+              stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
+              return stringifiedEnv;
+            },
+            {} as Record<string, string>,
+          ),
+        }),
+      ],
+    },
+  ]);
+
+  const appWebpackConfig: WebpackConfiguration = webpackMerge([
+    baseWebpackConfig,
+    {
       output: {
         path: outDir,
         publicPath,
@@ -100,22 +123,16 @@ export async function build({
         pathinfo: false,
       },
 
-      resolve: {
-        symlinks: false,
-        alias,
-      },
-
       entry: entry.reduce((e, { name, index }) => {
-        //@ts-ignore EntryObject
         e[name] = path.join(cwd, 'src', app, index);
         return e;
-      }, {}),
+      }, {} as Record<string, string>),
 
       optimization: {
         concatenateModules: true,
         minimize: true,
         minimizer: [
-          new TerserPlugin({
+          (new TerserPlugin({
             terserOptions: {
               ecma: 5,
               parse: {
@@ -137,7 +154,7 @@ export async function build({
               },
             },
             parallel: true,
-          }) as unknown as WebpackPluginInstance,
+          }) as unknown) as WebpackPluginInstance,
           new OptimizeCSSAssetsPlugin({
             cssProcessorOptions: {
               parser: safePostCssParser,
@@ -204,19 +221,75 @@ export async function build({
           HtmlWebpackPlugin as any,
           webpackEnv as Record<string, string>,
         ) as WebpackPluginInstance,
-
-        new DefinePlugin({
-          'process.env': Object.keys(webpackEnv).reduce(
-            (stringifiedEnv, key) => {
-              stringifiedEnv[key] = JSON.stringify(webpackEnv[key]);
-              return stringifiedEnv;
-            },
-            {} as Record<string, string>,
-          ),
-        }),
       ],
     },
   ]);
+
+  const webpackConfigs: WebpackConfiguration[] = [appWebpackConfig];
+
+  if (isolatedScripts) {
+    const files = Object.keys(isolatedScripts);
+
+    for (const file of files) {
+      webpackConfigs.push(
+        webpackMerge(baseWebpackConfig, {
+          output: {
+            path: outDir,
+            publicPath,
+            filename: `${chunkPath}[name].js`,
+            chunkFilename: `${chunkPath}[name].js`,
+            pathinfo: false,
+          },
+
+          entry: {
+            [file]: path.join(cwd, 'src', app, isolatedScripts[file]),
+          },
+
+          optimization: {
+            concatenateModules: true,
+            minimize: true,
+            minimizer: [
+              (new TerserPlugin({
+                terserOptions: {
+                  ecma: 5,
+                  parse: {
+                    ecma: 2017,
+                  },
+                  compress: {
+                    //ecma: 5,
+                    drop_console: true,
+                    comparisons: false,
+                    inline: 2,
+                  },
+                  mangle: {
+                    safari10: true,
+                  },
+                  output: {
+                    ecma: 5,
+                    comments: false,
+                    ascii_only: true,
+                  },
+                },
+                parallel: true,
+              }) as unknown) as WebpackPluginInstance,
+            ],
+
+            splitChunks: {
+              cacheGroups: {
+                // extract single css file
+                style: {
+                  test: (m: object) => m.constructor.name === 'CssModule',
+                  name: `${file}.style`,
+                  chunks: 'all',
+                  enforce: true,
+                },
+              },
+            },
+          },
+        }),
+      );
+    }
+  }
 
   await fs.mkdirp(outDir);
   await Promise.all(
@@ -225,22 +298,24 @@ export async function build({
     ),
   );
 
-  const compiler: Compiler = webpack(webpackConfig);
+  const compiler: MultiCompiler = webpack(webpackConfigs);
   // FIXME webpack-bundle-analyzer related monkey patch https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
-  compiler.outputFileSystem.constructor = () => {};
+  compiler.compilers.forEach(
+    (compiler) => (compiler.outputFileSystem.constructor = () => {}),
+  );
 
   await new Promise<void>((resolve, reject) => {
-    compiler.run((error?: Error, stats?: Stats) => {
+    compiler.run((error?: Error, stats?) => {
       if (error) {
         reject(error);
       } else if (stats) {
         console.log(
           stats.toString(
-            typeof webpackConfig.stats === 'object'
+            typeof webpackConfigs[0].stats === 'object'
               ? {
                   colors: true,
                 }
-              : webpackConfig.stats ?? { colors: true },
+              : webpackConfigs[0].stats ?? { colors: true },
           ),
         );
 

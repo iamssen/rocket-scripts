@@ -1,9 +1,10 @@
-import { build } from '@rocket-scripts/web';
+import { watch } from '@rocket-scripts/web';
 import { copyFixture } from '@ssen/copy-fixture';
+import { createInkWriteStream } from '@ssen/ink-helpers';
 import { glob } from '@ssen/promised';
 import { createTmpDirectory } from '@ssen/tmp-directory';
 
-describe('web/build', () => {
+describe('web/watch', () => {
   test.each(['start', 'webpack-config', 'css'])(
     'should build the project "fixtures/web/%s"',
     async (dir: string) => {
@@ -13,11 +14,15 @@ describe('web/build', () => {
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
+      // Arrange : stdout
+      const stdout = createInkWriteStream();
+
       // Act
-      await build({
+      const { close } = await watch({
         cwd,
         staticFileDirectories,
         app,
+        stdout,
         outDir,
         webpackConfig:
           dir === 'webpack-config' ? '{cwd}/webpack.config.js' : undefined,
@@ -25,13 +30,14 @@ describe('web/build', () => {
 
       // Assert
       await expect(glob(`${outDir}/manifest.json`)).resolves.toHaveLength(1);
-      await expect(glob(`${outDir}/size-report.html`)).resolves.toHaveLength(1);
       await expect(glob(`${outDir}/favicon.ico`)).resolves.toHaveLength(1);
-      await expect(glob(`${outDir}/index.*.js`)).resolves.toHaveLength(1);
+      await expect(glob(`${outDir}/index.js`)).resolves.toHaveLength(1);
       await expect(glob(`${outDir}/index.html`)).resolves.toHaveLength(1);
-      if (dir !== 'webpack-config') {
-        await expect(glob(`${outDir}/vendor.*.js`)).resolves.toHaveLength(1);
-      }
+
+      // Exit
+      await close();
+
+      console.log(stdout.lastFrame());
     },
   );
 
@@ -42,8 +48,11 @@ describe('web/build', () => {
     const staticFileDirectories: string[] = ['{cwd}/public'];
     const app: string = 'app';
 
+    // Arrange : stdout
+    const stdout = createInkWriteStream();
+
     // Act
-    await build({
+    const { close } = await watch({
       cwd,
       staticFileDirectories,
       app,
@@ -55,11 +64,15 @@ describe('web/build', () => {
 
     // Assert
     await expect(glob(`${outDir}/manifest.json`)).resolves.toHaveLength(1);
-    await expect(glob(`${outDir}/size-report.html`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/favicon.ico`)).resolves.toHaveLength(1);
-    await expect(glob(`${outDir}/index.*.js`)).resolves.toHaveLength(1);
+    await expect(glob(`${outDir}/index.js`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/index.html`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/isolate.js`)).resolves.toHaveLength(1);
+
+    // Exit
+    await close();
+
+    console.log(stdout.lastFrame());
   });
 
   test('should copy static files with multiple static file directories', async () => {
@@ -71,8 +84,11 @@ describe('web/build', () => {
     const staticFileDirectories: string[] = ['{cwd}/public', '{cwd}/static'];
     const app: string = 'app';
 
+    // Arrange : stdout
+    const stdout = createInkWriteStream();
+
     // Act
-    await build({
+    const { close } = await watch({
       cwd,
       staticFileDirectories,
       app,
@@ -80,12 +96,15 @@ describe('web/build', () => {
     });
 
     // Assert
-    await expect(glob(`${outDir}/hello.json`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/manifest.json`)).resolves.toHaveLength(1);
-    await expect(glob(`${outDir}/size-report.html`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/favicon.ico`)).resolves.toHaveLength(1);
-    await expect(glob(`${outDir}/index.*.js`)).resolves.toHaveLength(1);
+    await expect(glob(`${outDir}/index.js`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/index.html`)).resolves.toHaveLength(1);
-    await expect(glob(`${outDir}/vendor.*.js`)).resolves.toHaveLength(1);
+    await expect(glob(`${outDir}/hello.json`)).resolves.toHaveLength(1);
+
+    // Exit
+    await close();
+
+    console.log(stdout.lastFrame());
   });
 });

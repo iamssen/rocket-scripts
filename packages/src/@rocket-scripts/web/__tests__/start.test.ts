@@ -154,6 +154,58 @@ describe('web/start', () => {
     },
   );
 
+  test('should create an isolate script', async () => {
+    // Arrange : project directories
+    const cwd: string = await copyFixture('test/fixtures/web/isolated-scripts');
+    const staticFileDirectories: string[] = ['{cwd}/public'];
+    const app: string = 'app';
+
+    // Arrange : stdout
+    const stdout = createInkWriteStream();
+
+    // Act : server start
+    const { port, close } = await start({
+      cwd,
+      staticFileDirectories,
+      app,
+      stdout,
+      logfile: process.env.CI
+        ? path.join(process.cwd(), `logs/start-static-file-directories.txt`)
+        : undefined,
+      isolatedScripts: {
+        isolate: 'isolate.ts',
+      },
+    });
+
+    await timeout(1000 * 5);
+
+    // Arrange : wait server start
+    const url: string = `http://localhost:${port}`;
+
+    page = await browser.newPage();
+
+    await page.goto(url, { timeout: 1000 * 60 });
+
+    await page.waitForSelector('#app h1', { timeout: 1000 * 60 });
+
+    // Assert
+    await expect(
+      page.$eval('#app h1', (e: Element) => e.innerHTML),
+    ).resolves.toBe('Hello World!');
+
+    const manifest = await fetch(`http://localhost:${port}/manifest.json`);
+    expect(manifest.status).toBeLessThan(299);
+
+    const isolate = await fetch(`http://localhost:${port}/isolate.js`);
+    expect(isolate.status).toBeLessThan(299);
+
+    // Arrange : server close
+    await close();
+
+    // Assert : print stdout
+    console.log(stdout.lastFrame());
+  });
+
   test('should get static files with multiple static file directories', async () => {
     // Arrange : project directories
     const cwd: string = await copyFixture(

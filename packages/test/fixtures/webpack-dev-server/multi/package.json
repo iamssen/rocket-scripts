@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "node devServer.js"
+  },
+  "dependencies": {
+    "date-fns": "^2.15.0"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^4.3.0",
+    "webpack": "^5.0.0"
+  }
+}

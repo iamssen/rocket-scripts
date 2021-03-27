@@ -32,7 +32,7 @@ describe('webpack-dev-server', () => {
     }
   });
 
-  test('should read text and the text should change with HMR', async () => {
+  test('should read text', async () => {
     // Arrange : project directories
     const cwd: string = await copyFixture(
       'test/fixtures/webpack-dev-server/basic',
@@ -74,6 +74,69 @@ describe('webpack-dev-server', () => {
     const time: string = format(1596258181790, 'yyyy-MM-dd hh:mm:ss');
     await expect(page.$eval('#app', (e) => e.innerHTML)).resolves.toBe(
       `Hello Webpack! ${time}`,
+    );
+
+    // Exit
+    await close();
+
+    console.log(stdout.lastFrame());
+  });
+
+  test('should create multiple files', async () => {
+    // Arrange : project directories
+    const cwd: string = await copyFixture(
+      'test/fixtures/webpack-dev-server/multi',
+    );
+
+    const port: number = await getPortPromise();
+
+    const {
+      devServer: devServerConfig,
+      ...indexWebpackConfig
+    } = require(`${cwd}/index.webpack.config.js`);
+
+    const anotherWebpackConfig = require(`${cwd}/another.webpack.config.js`);
+
+    // Arrange : stdout
+    const stdout = createInkWriteStream();
+
+    // Act : server start
+    const close = await devServerStart({
+      cwd,
+      header: '\nBASIC SAMPLE!!!\n',
+      port,
+      hostname: 'localhost',
+      webpackConfigs: [indexWebpackConfig, anotherWebpackConfig],
+      devServerConfig,
+      stdout,
+      logfile: process.env.CI
+        ? path.join(process.cwd(), `logs/webpack-dev-server.txt`)
+        : undefined,
+    });
+
+    await timeout(1000 * 5);
+
+    // Arrange
+    page = await browser.newPage();
+
+    await page.goto(`http://localhost:${port}`, { timeout: 1000 * 60 });
+    await page.waitForSelector('#app', { timeout: 1000 * 60 });
+
+    // Assert
+    const indexTime: string = format(1596258181790, 'yyyy-MM-dd hh:mm:ss');
+    await expect(page.$eval('#app', (e) => e.innerHTML)).resolves.toBe(
+      `Hello Webpack! ${indexTime}`,
+    );
+
+    await page.goto(`http://localhost:${port}/another.html`, {
+      timeout: 1000 * 60,
+    });
+    await page.waitForSelector('#app', { timeout: 1000 * 60 });
+
+    // Assert
+    const anotherTime: string = format(1596258181790, 'yyyy-MM-dd hh:mm:ss');
+    await expect(page.$eval('#app', (e) => e.innerHTML)).resolves.toBe(
+      `Another Config ${anotherTime}`,
     );
 
     // Exit

@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "scripts": {
+    "app:build": "ts-node scripts/build.ts",
+    "app:start": "ts-node scripts/start.ts",
+    "build": "npm run app:build",
+    "start": "npm run app:start"
+  },
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "@types/webpack-env": "^1.15.1",
+    "typescript": "^3.9.5",
+    "ts-node": "^8.10.2"
+  }
+}
