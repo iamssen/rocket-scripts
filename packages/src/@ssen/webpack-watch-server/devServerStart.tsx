@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import { Box, render, Text } from 'ink';
 import path from 'path';
 import React, { ReactNode } from 'react';
-import { ConnectableObservable, Observable, Subject } from 'rxjs';
+import { ConnectableObservable, Observable, Subject, Subscription } from 'rxjs';
 import { multicast } from 'rxjs/operators';
 import tmp from 'tmp';
 import { DevServer, DevServerParams } from './DevServer';
@@ -53,26 +53,33 @@ export async function devServerStart({
     clearUI.push(restoreConsole);
   }
 
-  console.log('devServerStart.tsx..devServerStart()', {
-    staticFileDirectories,
-    outDir,
-  });
+  let syncStaticFiles: Observable<MirrorMessage> | undefined;
+  let syncStaticFilesSubscription: Subscription;
 
-  const syncStaticFiles: Observable<MirrorMessage> | undefined =
-    Array.isArray(staticFileDirectories) && staticFileDirectories.length > 0
-      ? mirrorFiles({
-          filesDirsOrGlobs: staticFileDirectories,
-          outDir,
-        })
-      : undefined;
+  if (staticFileDirectories && staticFileDirectories.length > 0) {
+    await fs.mkdirp(outDir);
+    await Promise.all(
+      staticFileDirectories.map((dir) =>
+        fs.copy(dir, outDir, { dereference: true }),
+      ),
+    );
 
-  const syncStaticFilesCaster:
-    | ConnectableObservable<MirrorMessage>
-    | undefined = syncStaticFiles?.pipe(
-    multicast(() => new Subject()),
-  ) as ConnectableObservable<MirrorMessage>;
+    syncStaticFiles =
+      Array.isArray(staticFileDirectories) && staticFileDirectories.length > 0
+        ? mirrorFiles({
+            filesDirsOrGlobs: staticFileDirectories,
+            outDir,
+          })
+        : undefined;
 
-  const syncStaticFilesSubscription = syncStaticFilesCaster?.connect();
+    const syncStaticFilesCaster:
+      | ConnectableObservable<MirrorMessage>
+      | undefined = syncStaticFiles?.pipe(
+      multicast(() => new Subject()),
+    ) as ConnectableObservable<MirrorMessage>;
+
+    syncStaticFilesSubscription = syncStaticFilesCaster?.connect();
+  }
 
   const server: DevServer = new DevServer({
     webpackConfigs,

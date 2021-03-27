@@ -3,8 +3,6 @@ import { copyFixture } from '@ssen/copy-fixture';
 import { createInkWriteStream } from '@ssen/ink-helpers';
 import { glob } from '@ssen/promised';
 
-const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
-
 describe('web/watch', () => {
   test.each(['start', 'webpack-config', 'css'])(
     'should build the project "fixtures/web/%s"',
@@ -26,8 +24,6 @@ describe('web/watch', () => {
         webpackConfig:
           dir === 'webpack-config' ? '{cwd}/webpack.config.js' : undefined,
       });
-
-      await timeout(1000 * 5);
 
       // Assert
       console.log(await glob(`${outDir}/*`));
@@ -62,8 +58,6 @@ describe('web/watch', () => {
       },
     });
 
-    await timeout(1000 * 15);
-
     // Assert
     console.log(await glob(`${outDir}/*`));
     await expect(glob(`${outDir}/manifest.json`)).resolves.toHaveLength(1);
@@ -95,8 +89,6 @@ describe('web/watch', () => {
       staticFileDirectories,
       app,
     });
-
-    await timeout(1000 * 5);
 
     // Assert
     console.log(await glob(`${outDir}/*`));
