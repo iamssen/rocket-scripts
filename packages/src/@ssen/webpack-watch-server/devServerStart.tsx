@@ -53,6 +53,11 @@ export async function devServerStart({
     clearUI.push(restoreConsole);
   }
 
+  console.log('devServerStart.tsx..devServerStart()', {
+    staticFileDirectories,
+    outDir,
+  });
+
   const syncStaticFiles: Observable<MirrorMessage> | undefined =
     Array.isArray(staticFileDirectories) && staticFileDirectories.length > 0
       ? mirrorFiles({
