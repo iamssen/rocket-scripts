@@ -14,6 +14,7 @@
     "run:web:isolated-scripts:start": "node -r ts-node/register -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.isolated-scripts.run.ts",
     "run:web:isolated-scripts:build": "node -r ts-node/register -r tsconfig-paths/register src/@rocket-scripts/web/__run__/build.isolated-scripts.run.ts",
     "run:web:isolated-scripts:watch": "node -r ts-node/register -r tsconfig-paths/register src/@rocket-scripts/web/__run__/watch.isolated-scripts.run.ts",
+    "run:web:react-router:start": "node -r ts-node/register -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.react-router.run.ts",
     "run:web:puppeteer-recorder-test": "node -r ts-node/register -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.puppeteer-recorder-test.run.ts",
     "run:web:proxy:start": "node -r ts-node/register -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.proxy.run.ts",
     "run:web:https:start": "node -r ts-node/register -r tsconfig-paths/register src/@rocket-scripts/web/__run__/start.https.run.ts",
@@ -86,6 +87,7 @@
     "@types/react": "^17.0.3",
     "@types/react-dev-utils": "^9.0.5",
     "@types/react-dom": "^17.0.3",
+    "@types/react-router-dom": "^5.1.7",
     "@types/react-test-renderer": "^17.0.1",
     "@types/resolve": "^1.20.0",
     "@types/rimraf": "^3.0.0",
@@ -184,5 +186,8 @@
     "worker-loader": "^3.0.8",
     "yaml-loader": "^0.6.0",
     "yargs": "^16.2.0"
+  },
+  "dependencies": {
+    "react-router-dom": "^5.2.0"
   }
 }

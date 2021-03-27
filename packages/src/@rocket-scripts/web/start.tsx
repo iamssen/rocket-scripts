@@ -210,6 +210,7 @@ export async function start({
     compress: true,
     //@ts-ignore TODO webpack-dev-server 4.x
     static: staticFileDirectories,
+    historyApiFallback: true,
   };
 
   const restartAlarm: Observable<string[]> = combineLatest([

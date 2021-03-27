@@ -170,7 +170,7 @@ describe('web/start', () => {
       app,
       stdout,
       logfile: process.env.CI
-        ? path.join(process.cwd(), `logs/start-static-file-directories.txt`)
+        ? path.join(process.cwd(), `logs/isolate-script.txt`)
         : undefined,
       isolatedScripts: {
         isolate: 'isolate.ts',
@@ -198,6 +198,49 @@ describe('web/start', () => {
 
     const isolate = await fetch(`http://localhost:${port}/isolate.js`);
     expect(isolate.status).toBeLessThan(299);
+
+    // Arrange : server close
+    await close();
+
+    // Assert : print stdout
+    console.log(stdout.lastFrame());
+  });
+
+  test('should rewrite url with history fallback', async () => {
+    // Arrange : project directories
+    const cwd: string = await copyFixture('test/fixtures/web/react-router');
+    const staticFileDirectories: string[] = ['{cwd}/public'];
+    const app: string = 'app';
+
+    // Arrange : stdout
+    const stdout = createInkWriteStream();
+
+    // Act : server start
+    const { port, close } = await start({
+      cwd,
+      staticFileDirectories,
+      app,
+      stdout,
+      logfile: process.env.CI
+        ? path.join(process.cwd(), `logs/history-fallback.txt`)
+        : undefined,
+    });
+
+    await timeout(1000 * 5);
+
+    // Arrange : wait server start
+    const url: string = `http://localhost:${port}/b`;
+
+    page = await browser.newPage();
+
+    await page.goto(url, { timeout: 1000 * 60 });
+
+    await page.waitForSelector('#app section div', { timeout: 1000 * 60 });
+
+    // Assert
+    await expect(
+      page.$eval('#app section div', (e: Element) => e.innerHTML),
+    ).resolves.toBe('B');
 
     // Arrange : server close
     await close();
