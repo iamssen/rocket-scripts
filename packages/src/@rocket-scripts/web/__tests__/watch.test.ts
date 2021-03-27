@@ -2,7 +2,6 @@ import { watch } from '@rocket-scripts/web';
 import { copyFixture } from '@ssen/copy-fixture';
 import { createInkWriteStream } from '@ssen/ink-helpers';
 import { glob } from '@ssen/promised';
-import { createTmpDirectory } from '@ssen/tmp-directory';
 
 const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
 
@@ -12,7 +11,6 @@ describe('web/watch', () => {
     async (dir: string) => {
       // Arrange : project directories
       const cwd: string = await copyFixture(`test/fixtures/web/${dir}`);
-      const outDir: string = await createTmpDirectory();
       const staticFileDirectories: string[] = ['{cwd}/public'];
       const app: string = 'app';
 
@@ -20,12 +18,11 @@ describe('web/watch', () => {
       const stdout = createInkWriteStream();
 
       // Act
-      const { close } = await watch({
+      const { close, outDir } = await watch({
         cwd,
         staticFileDirectories,
         app,
         stdout,
-        outDir,
         webpackConfig:
           dir === 'webpack-config' ? '{cwd}/webpack.config.js' : undefined,
       });
@@ -49,7 +46,6 @@ describe('web/watch', () => {
   test('should create an isolated script', async () => {
     // Arrange : project directories
     const cwd: string = await copyFixture(`test/fixtures/web/isolated-scripts`);
-    const outDir: string = await createTmpDirectory();
     const staticFileDirectories: string[] = ['{cwd}/public'];
     const app: string = 'app';
 
@@ -57,11 +53,10 @@ describe('web/watch', () => {
     const stdout = createInkWriteStream();
 
     // Act
-    const { close } = await watch({
+    const { close, outDir } = await watch({
       cwd,
       staticFileDirectories,
       app,
-      outDir,
       isolatedScripts: {
         isolate: 'isolate.ts',
       },
@@ -88,7 +83,6 @@ describe('web/watch', () => {
     const cwd: string = await copyFixture(
       `test/fixtures/web/static-file-directories`,
     );
-    const outDir: string = await createTmpDirectory();
     const staticFileDirectories: string[] = ['{cwd}/public', '{cwd}/static'];
     const app: string = 'app';
 
@@ -96,11 +90,10 @@ describe('web/watch', () => {
     const stdout = createInkWriteStream();
 
     // Act
-    const { close } = await watch({
+    const { close, outDir } = await watch({
       cwd,
       staticFileDirectories,
       app,
-      outDir,
     });
 
     await timeout(1000 * 5);
