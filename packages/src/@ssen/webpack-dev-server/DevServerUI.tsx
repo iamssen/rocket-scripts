@@ -82,18 +82,14 @@ export function DevServerUI({
   }, [proxyMessage]);
 
   const webpackStatsJson = useMemo(() => {
-    const json =
-      webpackStats.status === 'done'
-        ? webpackStats.statsData.toJson({
-            all: false,
-            errors: true,
-            warnings: true,
-            timings: true,
-          })
-        : null;
-
-    console.log('DevServerUI.tsx..()', json);
-    return json;
+    return webpackStats.status === 'done'
+      ? webpackStats.statsData.toJson({
+          all: false,
+          errors: true,
+          warnings: true,
+          timings: true,
+        })
+      : null;
   }, [webpackStats]);
 
   const { isRawModeSupported } = useStdin();

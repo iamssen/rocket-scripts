@@ -26,7 +26,6 @@ describe('web/watch', () => {
       });
 
       // Assert
-      console.log(await glob(`${outDir}/*`));
       await expect(glob(`${outDir}/manifest.json`)).resolves.toHaveLength(1);
       await expect(glob(`${outDir}/favicon.ico`)).resolves.toHaveLength(1);
       await expect(glob(`${outDir}/index.js`)).resolves.toHaveLength(1);
@@ -59,7 +58,6 @@ describe('web/watch', () => {
     });
 
     // Assert
-    console.log(await glob(`${outDir}/*`));
     await expect(glob(`${outDir}/manifest.json`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/favicon.ico`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/index.js`)).resolves.toHaveLength(1);
@@ -91,7 +89,6 @@ describe('web/watch', () => {
     });
 
     // Assert
-    console.log(await glob(`${outDir}/*`));
     await expect(glob(`${outDir}/manifest.json`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/favicon.ico`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/index.js`)).resolves.toHaveLength(1);

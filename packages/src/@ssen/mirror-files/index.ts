@@ -48,8 +48,6 @@ export function mirrorFiles({
       .on('add', async (file) => {
         const relpath: string | undefined = toRelativePath(file);
 
-        console.log('mirrorFiles index.ts..()', { relpath });
-
         if (!relpath) {
           subscriber.next({
             type: 'undefined',
