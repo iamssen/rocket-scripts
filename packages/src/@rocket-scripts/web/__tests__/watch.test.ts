@@ -4,6 +4,8 @@ import { createInkWriteStream } from '@ssen/ink-helpers';
 import { glob } from '@ssen/promised';
 import { createTmpDirectory } from '@ssen/tmp-directory';
 
+const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
+
 describe('web/watch', () => {
   test.each(['start', 'webpack-config', 'css'])(
     'should build the project "fixtures/web/%s"',
@@ -28,7 +30,10 @@ describe('web/watch', () => {
           dir === 'webpack-config' ? '{cwd}/webpack.config.js' : undefined,
       });
 
+      await timeout(1000 * 5);
+
       // Assert
+      console.log(await glob(`${outDir}/*`));
       await expect(glob(`${outDir}/manifest.json`)).resolves.toHaveLength(1);
       await expect(glob(`${outDir}/favicon.ico`)).resolves.toHaveLength(1);
       await expect(glob(`${outDir}/index.js`)).resolves.toHaveLength(1);
@@ -62,7 +67,10 @@ describe('web/watch', () => {
       },
     });
 
+    await timeout(1000 * 5);
+
     // Assert
+    console.log(await glob(`${outDir}/*`));
     await expect(glob(`${outDir}/manifest.json`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/favicon.ico`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/index.js`)).resolves.toHaveLength(1);
@@ -95,7 +103,10 @@ describe('web/watch', () => {
       outDir,
     });
 
+    await timeout(1000 * 5);
+
     // Assert
+    console.log(await glob(`${outDir}/*`));
     await expect(glob(`${outDir}/manifest.json`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/favicon.ico`)).resolves.toHaveLength(1);
     await expect(glob(`${outDir}/index.js`)).resolves.toHaveLength(1);
