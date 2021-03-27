@@ -62,7 +62,7 @@ describe('web/watch', () => {
       },
     });
 
-    await timeout(1000 * 5);
+    await timeout(1000 * 15);
 
     // Assert
     console.log(await glob(`${outDir}/*`));
