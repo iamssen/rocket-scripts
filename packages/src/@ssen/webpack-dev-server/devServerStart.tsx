@@ -3,14 +3,11 @@ import fs from 'fs-extra';
 import { Box, render, Text } from 'ink';
 import path from 'path';
 import React, { ReactNode } from 'react';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import tmp from 'tmp';
 import { Configuration as WebpackConfiguration } from 'webpack';
-import { ProxyConfigArray, ProxyConfigMap } from 'webpack-dev-server';
 import { DevServer, DevServerParams } from './DevServer';
 import { DevServerUI } from './DevServerUI';
-import { TimeMessage } from './types';
-import { patchProxyLogger } from './utils/patchProxyLogger';
 
 export type WebpackConfigs =
   | {
@@ -68,24 +65,11 @@ export async function devServerStart({
     clearUI.push(restoreConsole);
   }
 
-  let proxy: ProxyConfigMap | ProxyConfigArray | undefined = undefined;
-  let proxySubject: Subject<TimeMessage[]> | undefined = undefined;
-  if (devServerConfig.proxy) {
-    proxySubject = new BehaviorSubject<TimeMessage[]>([]);
-    proxy = patchProxyLogger({
-      proxyConfig: devServerConfig.proxy,
-      subject: proxySubject,
-    });
-  }
-
   const server: DevServer = new DevServer({
     port,
     hostname,
     webpackConfigs,
-    devServerConfig: {
-      ...devServerConfig,
-      proxy,
-    },
+    devServerConfig,
   });
 
   if (interactiveUI) {
@@ -94,7 +78,6 @@ export async function devServerStart({
         header={header}
         devServer={server}
         cwd={cwd}
-        proxyMessage={proxySubject}
         logfile={logfile}
         restartAlarm={restartAlarm}
         children={children}
@@ -122,7 +105,6 @@ export async function devServerStart({
   return async () => {
     server.close();
     await server.waitUntilClose();
-    if (proxySubject) proxySubject.unsubscribe();
     clearUI.forEach((fn) => fn());
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };

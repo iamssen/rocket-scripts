@@ -14,7 +14,6 @@ export interface DevServerUIProps {
   devServer: DevServer;
   cwd: string;
   logfile: string;
-  proxyMessage?: Observable<TimeMessage[]>;
   restartAlarm?: Observable<string[]>;
   children?: ReactNode;
   exit: () => void;
@@ -25,7 +24,6 @@ export function DevServerUI({
   devServer,
   cwd,
   logfile,
-  proxyMessage,
   restartAlarm,
   children,
   exit,
@@ -37,17 +35,23 @@ export function DevServerUI({
     status: 'waiting',
   });
   const [restartMessages, setRestartMessages] = useState<string[] | null>(null);
-  const [proxyMessages, setProxyMessages] = useState<TimeMessage[]>([]);
+  const [devServerMessages, setDevServerMessages] = useState<TimeMessage[]>([]);
 
   useEffect(() => {
     const statusSubscription = devServer.status().subscribe(setStatus);
+
     const webpackStatsSubscription = devServer
       .webpackStats()
       .subscribe(setWebpackStats);
 
+    const devServerMessagesSubscription = devServer
+      .devServerMessages()
+      .subscribe(setDevServerMessages);
+
     return () => {
       statusSubscription.unsubscribe();
       webpackStatsSubscription.unsubscribe();
+      devServerMessagesSubscription.unsubscribe();
     };
   }, [devServer]);
 
@@ -68,18 +72,6 @@ export function DevServerUI({
       setRestartMessages(null);
     }
   }, [restartAlarm]);
-
-  useEffect(() => {
-    if (proxyMessage) {
-      const subscription = proxyMessage.subscribe((messages) => {
-        setProxyMessages(messages);
-      });
-
-      return () => {
-        subscription.unsubscribe();
-      };
-    }
-  }, [proxyMessage]);
 
   const webpackStatsJson = useMemo(() => {
     return webpackStats.status === 'done'
@@ -200,10 +192,10 @@ export function DevServerUI({
         </>
       )}
 
-      {proxyMessages.length > 0 && (
+      {devServerMessages.length > 0 && (
         <>
-          <Divider bold>Proxy</Divider>
-          {proxyMessages
+          <Divider bold>Webpack Dev Server</Divider>
+          {devServerMessages
             .slice()
             .reverse()
             .map(({ message, level, time }, i) => (

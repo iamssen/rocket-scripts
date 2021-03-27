@@ -8,5 +8,17 @@ import { copyFixture } from '@ssen/copy-fixture';
     cwd,
     staticFileDirectories: ['{cwd}/public'],
     app: 'app',
+    webpackDevServerConfig: {
+      proxy: {
+        '/api': {
+          target: 'http://labs.ssen.name',
+          changeOrigin: true,
+          logLevel: 'debug',
+          pathRewrite: {
+            '^/api': '',
+          },
+        },
+      },
+    },
   });
 })();

@@ -6,7 +6,7 @@ import webpack, {
 import WebpackDevServer, {
   Configuration as WebpackDevServerConfiguration,
 } from 'webpack-dev-server';
-import { DevServerStatus, WebpackStats } from './types';
+import { DevServerStatus, TimeMessage, WebpackStats } from './types';
 
 export interface DevServerParams {
   port: number;
@@ -22,6 +22,7 @@ export class DevServer {
 
   private readonly statusSubject: BehaviorSubject<DevServerStatus>;
   private readonly webpackStatsSubject: BehaviorSubject<WebpackStats>;
+  private readonly devServerSubject: BehaviorSubject<TimeMessage[]>;
 
   private readonly startResolvers: Set<() => void> = new Set();
   private readonly closeResolvers: Set<() => void> = new Set();
@@ -43,6 +44,7 @@ export class DevServer {
     this.webpackStatsSubject = new BehaviorSubject<WebpackStats>({
       status: 'waiting',
     });
+    this.devServerSubject = new BehaviorSubject<TimeMessage[]>([]);
 
     this.devServer = new WebpackDevServer(this.compiler, devServerConfig);
     this.devServer.listen(port, hostname, this.onStart);
@@ -59,11 +61,36 @@ export class DevServer {
         statsData,
       });
     });
+
+    this.compiler.hooks.infrastructureLog.tap(
+      'webpack-dev-server',
+      (plugin: string, level: string, msgs: string[]) => {
+        const prevMessages: TimeMessage[] = this.devServerSubject.getValue();
+        const nextMessages: TimeMessage[] = [
+          ...prevMessages.slice(0, 9),
+          {
+            time: Date.now(),
+            level:
+              level === 'log' ||
+              level === 'info' ||
+              level === 'warn' ||
+              level === 'debug' ||
+              level === 'error'
+                ? level
+                : 'info',
+            message: msgs.join('\n'),
+          },
+        ];
+        this.devServerSubject.next(nextMessages);
+      },
+    );
   }
 
   public status = () => this.statusSubject.asObservable();
 
   public webpackStats = () => this.webpackStatsSubject.asObservable();
+
+  public devServerMessages = () => this.devServerSubject.asObservable();
 
   public waitUntilStart = () =>
     new Promise<void>((resolve) => {
