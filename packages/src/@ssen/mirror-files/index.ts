@@ -60,7 +60,7 @@ export function mirrorFiles({
         const tofile: string = path.join(outDir, relpath);
 
         await fs.mkdirp(path.dirname(tofile));
-        await fs.copy(file, tofile, { dereference: false });
+        await fs.copyFile(file, tofile);
 
         subscriber.next({
           type: 'added',
@@ -83,7 +83,7 @@ export function mirrorFiles({
         const tofile: string = path.join(outDir, relpath);
 
         await fs.mkdirp(path.dirname(tofile));
-        await fs.copy(file, tofile, { dereference: false });
+        await fs.copyFile(file, tofile);
 
         subscriber.next({
           type: 'updated',
