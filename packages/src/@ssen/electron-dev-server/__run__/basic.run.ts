@@ -1,6 +1,6 @@
-import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import mainWebpackConfig from '@rocket-scripts/react-electron-preset/mainWebpackConfig';
 import rendererWebpackConfig from '@rocket-scripts/react-electron-preset/rendererWebpackConfig';
+import { ESBuildLoaderOptions } from '@rocket-scripts/react-preset/webpackLoaders/getWebpackScriptLoaders';
 import { getWebpackAlias } from '@rocket-scripts/utils';
 import { copyFixture } from '@ssen/copy-fixture';
 import { exec } from '@ssen/promised';
@@ -48,16 +48,10 @@ import { devServerStart } from '../devServerStart';
     NODE_ENV: process.env.NODE_ENV ?? 'development',
   };
 
-  const babelLoaderOptions: object = {
-    presets: [
-      [
-        require.resolve('@rocket-scripts/react-preset/babelPreset'),
-        {
-          modules: false,
-          targets: getBrowserslistQuery({ cwd, env: 'electron' }),
-        },
-      ],
-    ],
+  const esbuildLoaderOptions: ESBuildLoaderOptions = {
+    loader: 'tsx',
+    target: 'es2016',
+    tsconfigRaw: {},
   };
 
   await devServerStart({
@@ -67,7 +61,7 @@ import { devServerStart } from '../devServerStart';
     mainWebpackConfig: merge(
       mainWebpackConfig({
         tsconfig,
-        babelLoaderOptions,
+        esbuildLoaderOptions,
         cwd,
       }),
       {
@@ -123,7 +117,7 @@ import { devServerStart } from '../devServerStart';
       rendererWebpackConfig({
         publicPath,
         chunkPath,
-        babelLoaderOptions,
+        esbuildLoaderOptions,
         cwd,
         tsconfig,
         extractCss: false,

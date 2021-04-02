@@ -1,16 +1,14 @@
-import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import webpackReactConfig from '@rocket-scripts/react-preset/webpackConfig';
+import { ESBuildLoaderOptions } from '@rocket-scripts/react-preset/webpackLoaders/getWebpackScriptLoaders';
 import { getWebpackAlias, icuFormat } from '@rocket-scripts/utils';
 import { exec } from 'child_process';
+import { ESBuildMinifyPlugin } from 'esbuild-loader';
 import fs from 'fs-extra';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import os from 'os';
 import path from 'path';
-import safePostCssParser from 'postcss-safe-parser';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
-import TerserPlugin from 'terser-webpack-plugin';
 import webpack, {
   Configuration as WebpackConfiguration,
   DefinePlugin,
@@ -36,7 +34,7 @@ export async function build({
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
 
   webpackConfig: _webpackConfig,
-  babelLoaderOptions: _babelLoaderOptions,
+  esbuildLoaderOptions: _esbuildLoaderOptions,
 
   devtool = 'source-map',
 }: BuildParams) {
@@ -67,16 +65,11 @@ export async function build({
     NODE_ENV: process.env.NODE_ENV,
   };
 
-  const babelLoaderOptions: object = _babelLoaderOptions ?? {
-    presets: [
-      [
-        require.resolve('@rocket-scripts/react-preset/babelPreset'),
-        {
-          modules: false,
-          targets: getBrowserslistQuery({ cwd, env: 'production' }),
-        },
-      ],
-    ],
+  const esbuildLoaderOptions: ESBuildLoaderOptions = {
+    target: 'es2016',
+    loader: 'tsx',
+    tsconfigRaw: {},
+    ..._esbuildLoaderOptions,
   };
 
   const baseWebpackConfig: WebpackConfiguration = webpackMerge([
@@ -86,7 +79,7 @@ export async function build({
       publicPath,
       cwd,
       tsconfig,
-      babelLoaderOptions,
+      esbuildLoaderOptions,
       extractCss: true,
     }),
     {
@@ -132,44 +125,11 @@ export async function build({
         concatenateModules: true,
         minimize: true,
         minimizer: [
-          (new TerserPlugin({
-            terserOptions: {
-              ecma: 5,
-              parse: {
-                ecma: 2017,
-              },
-              compress: {
-                //ecma: 5,
-                drop_console: true,
-                comparisons: false,
-                inline: 2,
-              },
-              mangle: {
-                safari10: true,
-              },
-              output: {
-                ecma: 5,
-                comments: false,
-                ascii_only: true,
-              },
-            },
-            parallel: true,
-          }) as unknown) as WebpackPluginInstance,
-          new OptimizeCSSAssetsPlugin({
-            cssProcessorOptions: {
-              parser: safePostCssParser,
-              map: {
-                inline: false,
-                annotation: true,
-              },
-            },
-            cssProcessorPluginOptions: {
-              preset: [
-                'default',
-                { minifyFontValues: { removeQuotes: false } },
-              ],
-            },
-          }) as WebpackPluginInstance,
+          new ESBuildMinifyPlugin({
+            target: esbuildLoaderOptions.target,
+            minify: true,
+            css: true,
+          }),
         ],
 
         splitChunks: {
@@ -249,29 +209,10 @@ export async function build({
             concatenateModules: true,
             minimize: true,
             minimizer: [
-              (new TerserPlugin({
-                terserOptions: {
-                  ecma: 5,
-                  parse: {
-                    ecma: 2017,
-                  },
-                  compress: {
-                    //ecma: 5,
-                    drop_console: true,
-                    comparisons: false,
-                    inline: 2,
-                  },
-                  mangle: {
-                    safari10: true,
-                  },
-                  output: {
-                    ecma: 5,
-                    comments: false,
-                    ascii_only: true,
-                  },
-                },
-                parallel: true,
-              }) as unknown) as WebpackPluginInstance,
+              new ESBuildMinifyPlugin({
+                target: esbuildLoaderOptions.target,
+                minify: true,
+              }),
             ],
 
             splitChunks: {

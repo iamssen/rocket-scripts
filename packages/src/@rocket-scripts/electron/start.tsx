@@ -1,8 +1,8 @@
-import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import {
   mainWebpackConfig as webpackReactElectronMainConfig,
   rendererWebpackConfig as webpackReactElectronRendererConfig,
 } from '@rocket-scripts/react-electron-preset';
+import { ESBuildLoaderOptions } from '@rocket-scripts/react-preset/webpackLoaders/getWebpackScriptLoaders';
 import { getWebpackAlias, icuFormat, rocketTitle } from '@rocket-scripts/utils';
 import { filterReactEnv } from '@rocket-scripts/web/utils/filterReactEnv';
 import { observeAliasChange } from '@rocket-scripts/web/utils/observeAliasChange';
@@ -17,7 +17,11 @@ import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import tmp from 'tmp';
-import { Configuration as WebpackConfiguration, DefinePlugin, WebpackPluginInstance } from 'webpack';
+import {
+  Configuration as WebpackConfiguration,
+  DefinePlugin,
+  WebpackPluginInstance,
+} from 'webpack';
 import { merge as webpackMerge } from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
 import { StartParams } from './params';
@@ -37,7 +41,7 @@ export async function start({
 
   mainWebpackConfig: _mainWebpackConfig,
   rendererWebpackConfig: _rendererWebpackConfig,
-  babelLoaderOptions: _babelLoaderOptions,
+  esbuildLoaderOptions: _esbuildLoaderOptions,
 
   logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
   stdout = process.stdout,
@@ -77,23 +81,18 @@ export async function start({
     NODE_ENV: process.env.NODE_ENV,
   };
 
-  const babelLoaderOptions: object = _babelLoaderOptions ?? {
-    presets: [
-      [
-        require.resolve('@rocket-scripts/react-preset/babelPreset'),
-        {
-          modules: false,
-          targets: getBrowserslistQuery({ cwd, env: 'electron' }),
-        },
-      ],
-    ],
+  const esbuildLoaderOptions: ESBuildLoaderOptions = {
+    target: 'es2016',
+    loader: 'tsx',
+    tsconfigRaw: {},
+    ..._esbuildLoaderOptions,
   };
 
   const mainWebpackConfig: WebpackConfiguration = webpackMerge(
     userMainWebpackConfig,
     webpackReactElectronMainConfig({
       cwd,
-      babelLoaderOptions,
+      esbuildLoaderOptions,
       tsconfig,
     }),
     {
@@ -158,7 +157,7 @@ export async function start({
     webpackReactElectronRendererConfig({
       cwd,
       tsconfig,
-      babelLoaderOptions,
+      esbuildLoaderOptions,
       chunkPath,
       publicPath,
       extractCss: true,

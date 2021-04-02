@@ -1,6 +1,12 @@
-import { createTransformer } from 'babel-jest/build';
-import babelPreset from '../../babelPreset';
+import transformer, { Options } from 'esbuild-jest';
 
-export = createTransformer({
-  ...babelPreset(null, { modules: 'commonjs', targets: 'current node' }),
-});
+export = transformer.createTransformer?.({
+  target: 'es2018',
+  sourcemap: 'inline',
+  loaders: {
+    '.js': 'js',
+    '.jsx': 'jsx',
+    '.ts': 'ts',
+    '.tsx': 'tsx',
+  },
+} as Options);

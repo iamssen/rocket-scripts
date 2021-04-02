@@ -8,7 +8,7 @@ export interface RendererWebpackConfigOptions extends WebpackConfigOptions {}
 
 export default function ({
   cwd,
-  babelLoaderOptions,
+  esbuildLoaderOptions,
   chunkPath,
   publicPath,
   tsconfig,
@@ -17,7 +17,7 @@ export default function ({
   return merge(
     reactWebpackConfig({
       cwd,
-      babelLoaderOptions,
+      esbuildLoaderOptions,
       chunkPath,
       publicPath,
       tsconfig,

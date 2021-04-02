@@ -1,18 +1,16 @@
-import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import {
   mainWebpackConfig as webpackReactElectronMainConfig,
   rendererWebpackConfig as webpackReactElectronRendererConfig,
 } from '@rocket-scripts/react-electron-preset';
+import { ESBuildLoaderOptions } from '@rocket-scripts/react-preset/webpackLoaders/getWebpackScriptLoaders';
 import { getWebpackAlias, icuFormat } from '@rocket-scripts/utils';
 import { filterReactEnv } from '@rocket-scripts/web/utils/filterReactEnv';
+import { ESBuildMinifyPlugin } from 'esbuild-loader';
 import fs from 'fs-extra';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import path from 'path';
-import safePostCssParser from 'postcss-safe-parser';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
-import TerserPlugin from 'terser-webpack-plugin';
 import webpack, {
   Compiler,
   Configuration as WebpackConfiguration,
@@ -34,7 +32,7 @@ export async function build({
 
   mainWebpackConfig: _mainWebpackConfig,
   rendererWebpackConfig: _rendererWebpackConfig,
-  babelLoaderOptions: _babelLoaderOptions,
+  esbuildLoaderOptions: _esbuildLoaderOptions,
 }: BuildParams) {
   if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'production';
@@ -66,23 +64,18 @@ export async function build({
     NODE_ENV: process.env.NODE_ENV,
   };
 
-  const babelLoaderOptions: object = _babelLoaderOptions ?? {
-    presets: [
-      [
-        require.resolve('@rocket-scripts/react-preset/babelPreset'),
-        {
-          modules: false,
-          targets: getBrowserslistQuery({ cwd, env: 'electron' }),
-        },
-      ],
-    ],
+  const esbuildLoaderOptions: ESBuildLoaderOptions = {
+    target: 'es2019',
+    loader: 'tsx',
+    tsconfigRaw: {},
+    ..._esbuildLoaderOptions,
   };
 
   const mainWebpackConfig: WebpackConfiguration = webpackMerge(
     userMainWebpackConfig,
     webpackReactElectronMainConfig({
       cwd,
-      babelLoaderOptions,
+      esbuildLoaderOptions,
       tsconfig,
     }),
     {
@@ -118,29 +111,10 @@ export async function build({
         concatenateModules: true,
         minimize: true,
         minimizer: [
-          new TerserPlugin({
-            terserOptions: {
-              ecma: 5,
-              parse: {
-                ecma: 2017,
-              },
-              compress: {
-                //ecma: 5,
-                drop_console: true,
-                comparisons: false,
-                inline: 2,
-              },
-              mangle: {
-                safari10: true,
-              },
-              output: {
-                ecma: 5,
-                comments: false,
-                ascii_only: true,
-              },
-            },
-            parallel: true,
-          }) as unknown as WebpackPluginInstance,
+          new ESBuildMinifyPlugin({
+            target: esbuildLoaderOptions.target,
+            minify: true,
+          }),
         ],
       },
 
@@ -153,6 +127,8 @@ export async function build({
             },
             {} as Record<string, string>,
           ),
+
+          global: JSON.stringify([]),
         }),
       ],
     },
@@ -163,7 +139,7 @@ export async function build({
     webpackReactElectronRendererConfig({
       cwd,
       tsconfig,
-      babelLoaderOptions,
+      esbuildLoaderOptions,
       chunkPath,
       publicPath,
       extractCss: true,
@@ -191,44 +167,11 @@ export async function build({
         concatenateModules: true,
         minimize: true,
         minimizer: [
-          new TerserPlugin({
-            terserOptions: {
-              ecma: 5,
-              parse: {
-                ecma: 2017,
-              },
-              compress: {
-                //ecma: 5,
-                drop_console: true,
-                comparisons: false,
-                inline: 2,
-              },
-              mangle: {
-                safari10: true,
-              },
-              output: {
-                ecma: 5,
-                comments: false,
-                ascii_only: true,
-              },
-            },
-            parallel: true,
-          }) as unknown as WebpackPluginInstance,
-          new OptimizeCSSAssetsPlugin({
-            cssProcessorOptions: {
-              parser: safePostCssParser,
-              map: {
-                inline: false,
-                annotation: true,
-              },
-            },
-            cssProcessorPluginOptions: {
-              preset: [
-                'default',
-                { minifyFontValues: { removeQuotes: false } },
-              ],
-            },
-          }) as WebpackPluginInstance,
+          new ESBuildMinifyPlugin({
+            target: esbuildLoaderOptions.target,
+            minify: true,
+            css: true,
+          }),
         ],
 
         splitChunks: {
@@ -275,6 +218,8 @@ export async function build({
             },
             {} as Record<string, string>,
           ),
+
+          global: JSON.stringify([]),
         }),
       ],
     },

@@ -12,7 +12,7 @@ import puppeteer from 'puppeteer';
   });
 
   const browser = await puppeteer.launch({
-    //userDataDir: process.env.CHROMIUM_USER_DATA_DEBUG,
+    userDataDir: process.env.CHROMIUM_USER_DATA_DEBUG,
     headless: false,
     args: ['--start-fullscreen'],
     devtools: true,

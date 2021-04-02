@@ -1,5 +1,5 @@
-import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import webpackReactConfig from '@rocket-scripts/react-preset/webpackConfig';
+import { ESBuildLoaderOptions } from '@rocket-scripts/react-preset/webpackLoaders/getWebpackScriptLoaders';
 import { getWebpackAlias, icuFormat, rocketTitle } from '@rocket-scripts/utils';
 import {
   devServerStart,
@@ -38,7 +38,7 @@ export async function watch({
   tsconfig: _tsconfig = '{cwd}/tsconfig.json',
 
   webpackConfig: _webpackConfig,
-  babelLoaderOptions: _babelLoaderOptions,
+  esbuildLoaderOptions: _esbuildLoaderOptions,
 
   logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
   stdout = process.stdout,
@@ -75,16 +75,11 @@ export async function watch({
     NODE_ENV: process.env.NODE_ENV,
   };
 
-  const babelLoaderOptions: object = _babelLoaderOptions ?? {
-    presets: [
-      [
-        require.resolve('@rocket-scripts/react-preset/babelPreset'),
-        {
-          modules: false,
-          targets: getBrowserslistQuery({ cwd, env: 'development' }),
-        },
-      ],
-    ],
+  const esbuildLoaderOptions: ESBuildLoaderOptions = {
+    target: 'es2016',
+    loader: 'tsx',
+    tsconfigRaw: {},
+    ..._esbuildLoaderOptions,
   };
 
   const baseWebpackConfig: WebpackConfiguration = webpackMerge(
@@ -94,7 +89,7 @@ export async function watch({
       publicPath,
       cwd,
       tsconfig,
-      babelLoaderOptions,
+      esbuildLoaderOptions,
       extractCss: false,
     }),
     {

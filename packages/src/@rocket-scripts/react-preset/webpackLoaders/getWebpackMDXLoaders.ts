@@ -1,16 +1,17 @@
+import { ESBuildLoaderOptions } from './getWebpackScriptLoaders';
 import { RuleSetCondition, RuleSetRule } from 'webpack';
 
 interface Params {
   test?: RuleSetCondition;
   include: RuleSetCondition;
-  babelLoaderOptions: object;
+  esbuildLoaderOptions: ESBuildLoaderOptions;
   mdxLoaderOptions?: object;
 }
 
 export function getWebpackMDXLoaders({
   test = /\.mdx$/,
   include,
-  babelLoaderOptions,
+  esbuildLoaderOptions,
   mdxLoaderOptions = {},
 }: Params): RuleSetRule[] {
   return [
@@ -19,8 +20,11 @@ export function getWebpackMDXLoaders({
       include,
       use: [
         {
-          loader: require.resolve('babel-loader'),
-          options: babelLoaderOptions,
+          loader: require.resolve('esbuild-loader'),
+          options: {
+            ...esbuildLoaderOptions,
+            loader: 'jsx',
+          } as ESBuildLoaderOptions,
         },
         {
           loader: require.resolve('@mdx-js/loader'),

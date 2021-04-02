@@ -1,5 +1,8 @@
 import { getWebpackRawLoaders } from '@rocket-scripts/react-preset/webpackLoaders/getWebpackRawLoaders';
-import { getWebpackScriptLoaders } from '@rocket-scripts/react-preset/webpackLoaders/getWebpackScriptLoaders';
+import {
+  ESBuildLoaderOptions,
+  getWebpackScriptLoaders,
+} from '@rocket-scripts/react-preset/webpackLoaders/getWebpackScriptLoaders';
 import { getWebpackYamlLoaders } from '@rocket-scripts/react-preset/webpackLoaders/getWebpackYamlLoaders';
 import { eslintConfigExistsSync } from '@rocket-scripts/utils';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
@@ -9,13 +12,13 @@ import { Configuration, RuleSetRule, WatchIgnorePlugin } from 'webpack';
 
 export interface MainWebpackConfigOptions {
   cwd: string;
-  babelLoaderOptions: object;
+  esbuildLoaderOptions: ESBuildLoaderOptions;
   tsconfig: string;
 }
 
 export default function ({
   cwd,
-  babelLoaderOptions,
+  esbuildLoaderOptions,
   tsconfig,
 }: MainWebpackConfigOptions): Configuration {
   return {
@@ -57,7 +60,7 @@ export default function ({
             // ts, tsx, js, jsx - script
             ...getWebpackScriptLoaders({
               include: path.join(cwd, 'src'),
-              babelLoaderOptions,
+              esbuildLoaderOptions,
               useWebWorker: true,
               chunkPath: '',
               publicPath: '',

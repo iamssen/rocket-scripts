@@ -1,5 +1,5 @@
-import { getBrowserslistQuery } from '@rocket-scripts/browserslist';
 import webpackReactConfig from '@rocket-scripts/react-preset/webpackConfig';
+import { ESBuildLoaderOptions } from '@rocket-scripts/react-preset/webpackLoaders/getWebpackScriptLoaders';
 import { getWebpackAlias, icuFormat, rocketTitle } from '@rocket-scripts/utils';
 import { devServerStart, DevServerStartParams } from '@ssen/webpack-dev-server';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -41,7 +41,7 @@ export async function start({
 
   webpackConfig: _webpackConfig,
   webpackDevServerConfig: _webpackDevServerConfig,
-  babelLoaderOptions: _babelLoaderOptions,
+  esbuildLoaderOptions: _esbuildLoaderOptions,
 
   logfile: _logfile = tmp.fileSync({ mode: 0o644, postfix: '.log' }).name,
   stdout = process.stdout,
@@ -84,16 +84,11 @@ export async function start({
     NODE_ENV: process.env.NODE_ENV,
   };
 
-  const babelLoaderOptions: object = _babelLoaderOptions ?? {
-    presets: [
-      [
-        require.resolve('@rocket-scripts/react-preset/babelPreset'),
-        {
-          modules: false,
-          targets: getBrowserslistQuery({ cwd, env: 'development' }),
-        },
-      ],
-    ],
+  const esbuildLoaderOptions: ESBuildLoaderOptions = {
+    target: 'es2016',
+    loader: 'tsx',
+    tsconfigRaw: {},
+    ..._esbuildLoaderOptions,
   };
 
   const baseWebpackConfig: WebpackConfiguration = webpackMerge(
@@ -103,7 +98,7 @@ export async function start({
       publicPath,
       cwd,
       tsconfig,
-      babelLoaderOptions,
+      esbuildLoaderOptions,
       extractCss: false,
     }),
     {
@@ -208,7 +203,7 @@ export async function start({
     ...userWebpackDevServerConfig,
     hot: true,
     compress: true,
-    //@ts-ignore TODO webpack-dev-server 4.x
+    //@ts-ignore TODO update typescript declaration webpack-dev-server 4.x
     static: staticFileDirectories,
     historyApiFallback: true,
   };

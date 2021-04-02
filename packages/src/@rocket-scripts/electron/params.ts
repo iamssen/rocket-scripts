@@ -1,3 +1,4 @@
+import { ESBuildLoaderOptions } from '@rocket-scripts/react-preset/webpackLoaders/getWebpackScriptLoaders';
 import { ElectronSwitchesYargsValues } from '@ssen/electron-switches';
 import { ReactNode } from 'react';
 import { Configuration as WebpackConfiguration } from 'webpack';
@@ -117,58 +118,9 @@ export interface CommonParams {
       >;
 
   /**
-   * ⚠️ replace babel-loader options
-   *
-   * you can replace babel-loader options
-   *
-   * warn. but, this option can break rocket-scripts work
-   *
-   * @example
-   * {
-   *   // use rocket-scripts default preset
-   *   // this is safe because this just add some configs on default config.
-   *   presets: [
-   *     [
-   *       require.resolve('(at)rocket-scripts/react-preset/babelPreset'),
-   *       {
-   *         modules: false,
-   *         targets: getBrowserslistQuery({ cwd }),
-   *       },
-   *     ],
-   *   ],
-   *   // add your own config
-   *   plugins: [
-   *     require.resolve('babel-some-plugin'),
-   *   ],
-   * }
-   *
-   * @example
-   * {
-   *   // this is not safe
-   *   // when using a babel-loader option to overwrite everything,
-   *   // rocket-scripts may not work properly.
-   *   preset: [
-   *     require.resolve('babel-some-preset'),
-   *   ],
-   *   plugins: [
-   *     require.resolve('babel-some-plugin'),
-   *   ]
-   * }
-   *
-   * @default
-   * {
-   *   presets: [
-   *     [
-   *       require.resolve('(at)rocket-scripts/react-preset/babelPreset'),
-   *       {
-   *         modules: false,
-   *         targets: getBrowserslistQuery({ cwd }),
-   *       },
-   *     ],
-   *   ],
-   * }
+   * TODO
    */
-  babelLoaderOptions?: object;
+  esbuildLoaderOptions?: ESBuildLoaderOptions;
 
   /**
    * ⚠️ tsconfig path. (it will pass to fork-ts-checker-webpack-plugin)

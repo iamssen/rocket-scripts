@@ -7,7 +7,10 @@ import { getWebpackDataURILoaders } from './webpackLoaders/getWebpackDataURILoad
 import { getWebpackFileLoaders } from './webpackLoaders/getWebpackFileLoaders';
 import { getWebpackMDXLoaders } from './webpackLoaders/getWebpackMDXLoaders';
 import { getWebpackRawLoaders } from './webpackLoaders/getWebpackRawLoaders';
-import { getWebpackScriptLoaders } from './webpackLoaders/getWebpackScriptLoaders';
+import {
+  ESBuildLoaderOptions,
+  getWebpackScriptLoaders,
+} from './webpackLoaders/getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './webpackLoaders/getWebpackStyleLoaders';
 import { getWebpackYamlLoaders } from './webpackLoaders/getWebpackYamlLoaders';
 
@@ -15,7 +18,7 @@ export interface WebpackConfigOptions {
   cwd: string;
   chunkPath: string;
   publicPath: string;
-  babelLoaderOptions: object;
+  esbuildLoaderOptions: ESBuildLoaderOptions;
   tsconfig: string;
   extractCss: boolean;
 }
@@ -24,7 +27,7 @@ export default function ({
   cwd,
   chunkPath,
   publicPath,
-  babelLoaderOptions,
+  esbuildLoaderOptions,
   tsconfig,
   extractCss,
 }: WebpackConfigOptions): Configuration {
@@ -71,7 +74,7 @@ export default function ({
             // ts, tsx, js, jsx - script
             ...getWebpackScriptLoaders({
               include: path.join(cwd, 'src'),
-              babelLoaderOptions,
+              esbuildLoaderOptions,
               useWebWorker: true,
               chunkPath,
               publicPath,
@@ -80,7 +83,7 @@ export default function ({
             // mdx - script
             ...getWebpackMDXLoaders({
               include: path.join(cwd, 'src'),
-              babelLoaderOptions,
+              esbuildLoaderOptions,
             }),
 
             // html, ejs, txt, md - plain text

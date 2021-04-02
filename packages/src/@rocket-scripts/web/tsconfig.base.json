@@ -16,7 +16,7 @@
     "strictPropertyInitialization": true,
     // module
     "module": "ESNext",
-    "target": "ES5",
+    "target": "ES2016",
     "moduleResolution": "node",
     // lib
     "skipLibCheck": true,

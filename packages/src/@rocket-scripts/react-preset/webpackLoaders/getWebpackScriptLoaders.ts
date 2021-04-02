@@ -1,3 +1,4 @@
+import type { TsConfigJson } from 'type-fest';
 import { RuleSetCondition, RuleSetRule, RuleSetUse } from 'webpack';
 
 interface WorkerUseParams {
@@ -10,9 +11,26 @@ interface WorkerUnuseParams {
   useWebWorker: false;
 }
 
+export interface ESBuildLoaderOptions {
+  target:
+    | 'es2016'
+    | 'es2017'
+    | 'es2018'
+    | 'es2019'
+    | 'es2020'
+    | 'esnext'
+    | `chrome${number}`
+    | `firefox${number}`
+    | `safari${number}`
+    | `edge${number}`
+    | `node${number}`;
+  loader?: 'js' | 'jsx' | 'ts' | 'tsx';
+  tsconfigRaw: TsConfigJson;
+}
+
 type Params = (WorkerUseParams | WorkerUnuseParams) & {
   include: RuleSetCondition;
-  babelLoaderOptions: object;
+  esbuildLoaderOptions: ESBuildLoaderOptions;
 };
 
 export function getWebpackScriptLoaders(params: Params): RuleSetRule[] {
@@ -21,9 +39,12 @@ export function getWebpackScriptLoaders(params: Params): RuleSetRule[] {
   const scriptRegex: RegExp = /\.(ts|tsx|js|mjs|jsx)$/;
   const workerRegex: RegExp = /\.worker.(ts|tsx|js|mjs|jsx)$/;
 
-  const babelLoader: RuleSetUse = {
-    loader: require.resolve('babel-loader'),
-    options: params.babelLoaderOptions,
+  const esbuildLoader: RuleSetUse = {
+    loader: require.resolve('esbuild-loader'),
+    options: {
+      ...params.esbuildLoaderOptions,
+      loader: 'tsx',
+    } as ESBuildLoaderOptions,
   };
 
   if (params.useWebWorker) {
@@ -41,13 +62,13 @@ export function getWebpackScriptLoaders(params: Params): RuleSetRule[] {
               publicPath,
             },
           },
-          babelLoader,
+          esbuildLoader,
         ],
       },
       {
         test: scriptRegex,
         include,
-        use: babelLoader,
+        use: esbuildLoader,
       },
       {
         test: /\.mjs$/,
@@ -60,7 +81,7 @@ export function getWebpackScriptLoaders(params: Params): RuleSetRule[] {
       {
         test: scriptRegex,
         include,
-        use: babelLoader,
+        use: esbuildLoader,
       },
       {
         test: /\.mjs$/,
