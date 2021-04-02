@@ -118,7 +118,11 @@ export interface CommonParams {
       >;
 
   /**
-   * TODO
+   * ⚠️ custom esbuild configuration
+   *
+   * @example { target: 'esnext' }
+   *
+   * @default { target: 'es2019', loader: 'tsx', tsconfigRaw: {} }
    */
   esbuildLoaderOptions?: ESBuildLoaderOptions;
 
