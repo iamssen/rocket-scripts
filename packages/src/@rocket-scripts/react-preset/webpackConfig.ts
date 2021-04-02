@@ -21,6 +21,7 @@ export interface WebpackConfigOptions {
   esbuildLoaderOptions: ESBuildLoaderOptions;
   tsconfig: string;
   extractCss: boolean;
+  tsConfigIncludes: string[];
 }
 
 export default function ({
@@ -30,6 +31,7 @@ export default function ({
   esbuildLoaderOptions,
   tsconfig,
   extractCss,
+  tsConfigIncludes,
 }: WebpackConfigOptions): Configuration {
   return {
     resolve: {
@@ -158,6 +160,7 @@ export default function ({
                   compilerOptions: {
                     incremental: true,
                   },
+                  include: tsConfigIncludes,
                 },
               },
               formatter: {

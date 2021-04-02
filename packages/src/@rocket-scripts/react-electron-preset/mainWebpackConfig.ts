@@ -14,12 +14,14 @@ export interface MainWebpackConfigOptions {
   cwd: string;
   esbuildLoaderOptions: ESBuildLoaderOptions;
   tsconfig: string;
+  tsConfigIncludes: string[];
 }
 
 export default function ({
   cwd,
   esbuildLoaderOptions,
   tsconfig,
+  tsConfigIncludes,
 }: MainWebpackConfigOptions): Configuration {
   return {
     target: 'electron-main',
@@ -93,6 +95,7 @@ export default function ({
                   compilerOptions: {
                     incremental: true,
                   },
+                  include: tsConfigIncludes,
                 },
               },
               formatter: {

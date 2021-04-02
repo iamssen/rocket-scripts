@@ -20,6 +20,7 @@ import { merge as webpackMerge } from 'webpack-merge';
 import { BuildParams } from './params';
 import { filterReactEnv } from './utils/filterReactEnv';
 import { getAppEntry } from './utils/getAppEntry';
+import { getTsConfigIncludes } from './utils/getTsConfigIncludes';
 
 export async function build({
   cwd = process.cwd(),
@@ -72,6 +73,13 @@ export async function build({
     ..._esbuildLoaderOptions,
   };
 
+  const tsConfigIncludes: string[] = getTsConfigIncludes({
+    cwd,
+    entry,
+    app,
+    isolatedScripts,
+  });
+
   const baseWebpackConfig: WebpackConfiguration = webpackMerge([
     userWebpackConfig,
     webpackReactConfig({
@@ -81,6 +89,7 @@ export async function build({
       tsconfig,
       esbuildLoaderOptions,
       extractCss: true,
+      tsConfigIncludes,
     }),
     {
       mode: 'production',

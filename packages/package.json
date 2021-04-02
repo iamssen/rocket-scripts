@@ -63,7 +63,7 @@
     "@types/node-sass": "^4.11.1",
     "@types/nodemon": "^1.19.0",
     "@types/optimize-css-assets-webpack-plugin": "^5.0.3",
-    "@types/prompts": "^2.0.10",
+    "@types/prompts": "^2.4.0",
     "@types/puppeteer": "^5.4.3",
     "@types/puppeteer-core": "^5.4.0",
     "@types/ramda": "^0.27.39",
@@ -98,7 +98,7 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-loader": "^4.0.2",
     "file-loader": "^6.2.0",
-    "fork-ts-checker-webpack-plugin": "^5.2.1",
+    "fork-ts-checker-webpack-plugin": "^6.2.0",
     "fs-extra": "^9.1.0",
     "glob": "^7.1.6",
     "gray-matter": "^4.0.2",
@@ -164,6 +164,7 @@
   "dependencies": {
     "esbuild-jest": "^0.5.0",
     "esbuild-loader": "^2.11.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "type-fest": "^1.0.1"
   }
 }

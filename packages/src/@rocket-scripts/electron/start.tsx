@@ -25,6 +25,8 @@ import {
 import { merge as webpackMerge } from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
 import { StartParams } from './params';
+import { getMainTsConfigIncludes } from './utils/getMainTsConfigIncludes';
+import { getRendererTsConfigIncludes } from './utils/getRendererTsConfigIncludes';
 
 export interface Start extends DevServerStartParams {
   close: () => Promise<void>;
@@ -94,6 +96,7 @@ export async function start({
       cwd,
       esbuildLoaderOptions,
       tsconfig,
+      tsConfigIncludes: getMainTsConfigIncludes({ cwd, app }),
     }),
     {
       mode: 'development',
@@ -161,6 +164,7 @@ export async function start({
       chunkPath,
       publicPath,
       extractCss: true,
+      tsConfigIncludes: getRendererTsConfigIncludes({ cwd, app }),
     }),
     {
       mode: 'development',

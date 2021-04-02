@@ -13,6 +13,7 @@ export default function ({
   publicPath,
   tsconfig,
   extractCss,
+  tsConfigIncludes,
 }: RendererWebpackConfigOptions): Configuration {
   return merge(
     reactWebpackConfig({
@@ -22,6 +23,7 @@ export default function ({
       publicPath,
       tsconfig,
       extractCss,
+      tsConfigIncludes,
     }),
     {
       target: 'electron-renderer',

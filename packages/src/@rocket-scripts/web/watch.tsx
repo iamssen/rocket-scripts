@@ -20,6 +20,7 @@ import { merge as webpackMerge } from 'webpack-merge';
 import { WatchParams } from './params';
 import { filterReactEnv } from './utils/filterReactEnv';
 import { getAppEntry } from './utils/getAppEntry';
+import { getTsConfigIncludes } from './utils/getTsConfigIncludes';
 import { observeAliasChange } from './utils/observeAliasChange';
 import { observeAppEntryChange } from './utils/observeAppEntryChange';
 
@@ -82,6 +83,13 @@ export async function watch({
     ..._esbuildLoaderOptions,
   };
 
+  const tsConfigIncludes: string[] = getTsConfigIncludes({
+    cwd,
+    entry,
+    app,
+    isolatedScripts,
+  });
+
   const baseWebpackConfig: WebpackConfiguration = webpackMerge(
     userWebpackConfig,
     webpackReactConfig({
@@ -91,6 +99,7 @@ export async function watch({
       tsconfig,
       esbuildLoaderOptions,
       extractCss: false,
+      tsConfigIncludes,
     }),
     {
       mode: 'development',

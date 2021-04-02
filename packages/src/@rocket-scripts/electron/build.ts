@@ -21,6 +21,8 @@ import webpack, {
 import { merge as webpackMerge } from 'webpack-merge';
 import nodeExternals from 'webpack-node-externals';
 import { BuildParams } from './params';
+import { getMainTsConfigIncludes } from './utils/getMainTsConfigIncludes';
+import { getRendererTsConfigIncludes } from './utils/getRendererTsConfigIncludes';
 
 export async function build({
   cwd = process.cwd(),
@@ -77,6 +79,7 @@ export async function build({
       cwd,
       esbuildLoaderOptions,
       tsconfig,
+      tsConfigIncludes: getMainTsConfigIncludes({ cwd, app }),
     }),
     {
       mode: 'production',
@@ -143,6 +146,7 @@ export async function build({
       chunkPath,
       publicPath,
       extractCss: true,
+      tsConfigIncludes: getRendererTsConfigIncludes({ cwd, app }),
     }),
     {
       mode: 'production',

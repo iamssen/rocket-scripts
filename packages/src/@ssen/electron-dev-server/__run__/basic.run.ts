@@ -63,6 +63,11 @@ import { devServerStart } from '../devServerStart';
         tsconfig,
         esbuildLoaderOptions,
         cwd,
+        tsConfigIncludes: [
+          path.join(cwd, 'src/app/main.ts'),
+          path.join(cwd, 'src/app/preload.ts'),
+          path.join(cwd, 'src/**/*.d.ts'),
+        ],
       }),
       {
         mode: 'development',
@@ -121,6 +126,10 @@ import { devServerStart } from '../devServerStart';
         cwd,
         tsconfig,
         extractCss: false,
+        tsConfigIncludes: [
+          path.join(cwd, 'src/app/renderer.tsx'),
+          path.join(cwd, 'src/**/*.d.ts'),
+        ],
       }),
       {
         mode: 'development',
