@@ -12,6 +12,7 @@ import {
   getWebpackScriptLoaders,
 } from './webpackLoaders/getWebpackScriptLoaders';
 import { getWebpackStyleLoaders } from './webpackLoaders/getWebpackStyleLoaders';
+import { getWebpackSVGLoaders } from './webpackLoaders/getWebpackSVGLoaders';
 import { getWebpackYamlLoaders } from './webpackLoaders/getWebpackYamlLoaders';
 
 export interface WebpackConfigOptions {
@@ -80,6 +81,12 @@ export default function ({
               useWebWorker: true,
               chunkPath,
               publicPath,
+            }),
+
+            // svg - script
+            ...getWebpackSVGLoaders({
+              chunkPath,
+              esbuildLoaderOptions,
             }),
 
             // mdx - script

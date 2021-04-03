@@ -10,7 +10,7 @@ export function getWebpackFileLoaders({
       loader: require.resolve('file-loader'),
       exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.json$/],
       options: {
-        name: `${chunkPath}[name].[fullhash].[ext]`,
+        name: `${chunkPath}[name].[contenthash].[ext]`,
         esModule: false,
       },
     },

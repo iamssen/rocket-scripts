@@ -35,6 +35,30 @@ describe('web/build', () => {
     },
   );
 
+  test('should create the bundle svg file', async () => {
+    // Arrange : project directories
+    const cwd: string = await copyFixture(`test/fixtures/web/bundle`);
+    const outDir: string = await createTmpDirectory();
+    const staticFileDirectories: string[] = ['{cwd}/public'];
+    const app: string = 'app';
+
+    // Act
+    await build({
+      cwd,
+      staticFileDirectories,
+      app,
+      outDir,
+    });
+
+    // Assert
+    await expect(glob(`${outDir}/manifest.json`)).resolves.toHaveLength(1);
+    await expect(glob(`${outDir}/size-report.html`)).resolves.toHaveLength(1);
+    await expect(glob(`${outDir}/favicon.ico`)).resolves.toHaveLength(1);
+    await expect(glob(`${outDir}/index.*.js`)).resolves.toHaveLength(1);
+    await expect(glob(`${outDir}/index.html`)).resolves.toHaveLength(1);
+    await expect(glob(`${outDir}/test.*.svg`)).resolves.toHaveLength(1);
+  });
+
   test('should create an isolated script', async () => {
     // Arrange : project directories
     const cwd: string = await copyFixture(`test/fixtures/web/isolated-scripts`);
