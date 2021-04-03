@@ -1,8 +1,5 @@
 module.exports = {
-  extends: [
-    '@ssen',
-    'prettier',
-  ],
+  extends: ['@ssen'],
   rules: {
     'import/no-anonymous-default-export': 0,
   },

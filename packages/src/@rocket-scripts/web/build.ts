@@ -251,7 +251,7 @@ export async function build({
   const compiler: MultiCompiler = webpack(webpackConfigs);
   // FIXME webpack-bundle-analyzer related monkey patch https://github.com/webpack-contrib/webpack-bundle-analyzer/pull/384
   compiler.compilers.forEach(
-    (compiler) => (compiler.outputFileSystem.constructor = () => {}),
+    (childCompiler) => (childCompiler.outputFileSystem.constructor = () => {}),
   );
 
   await new Promise<void>((resolve, reject) => {

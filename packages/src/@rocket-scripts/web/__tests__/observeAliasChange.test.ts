@@ -1,7 +1,7 @@
 import { getWebpackAlias } from '@rocket-scripts/utils';
 import { observeAliasChange } from '@rocket-scripts/web/utils/observeAliasChange';
 import { copyFixture } from '@ssen/copy-fixture';
-import { waitFor } from '@testing-library/dom';
+import { waitFor } from '@testing-library/react';
 import fs from 'fs-extra';
 import path from 'path';
 

@@ -45,12 +45,14 @@ const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
     }
   }
 
-  const pages = await browser.pages();
+  const browserPages = await browser.pages();
 
-  const page = pages.find((page) => /index\.html$/.test(page.url()));
-  if (!page) throw new Error(`Undefined index.html`);
+  const indexPage = browserPages.find((page) =>
+    /index\.html$/.test(page.url()),
+  );
+  if (!indexPage) throw new Error(`Undefined index.html`);
 
-  await page.waitForSelector('#app h1', { timeout: 1000 * 60 });
+  await indexPage.waitForSelector('#app h1', { timeout: 1000 * 60 });
   //const text = await page.$eval('#app h1', (e) => e.innerHTML);
 
   const file: string = path.join(cwd, 'src/app/preload.ts');
@@ -61,5 +63,5 @@ const timeout = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
 
   await timeout(1000 * 5);
 
-  await page.reload();
+  await indexPage.reload();
 })();

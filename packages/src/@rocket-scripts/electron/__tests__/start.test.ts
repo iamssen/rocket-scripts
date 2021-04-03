@@ -59,13 +59,15 @@ describe('electron/start', () => {
         }
       }
 
-      const pages = await browser.pages();
+      const browserPages = await browser.pages();
 
-      const page = pages.find((page) => /index\.html$/.test(page.url()));
-      if (!page) throw new Error(`Undefined index.html`);
+      const indexPage = browserPages.find((page) =>
+        /index\.html$/.test(page.url()),
+      );
+      if (!indexPage) throw new Error(`Undefined index.html`);
 
       // Assert
-      await page.waitForFunction(
+      await indexPage.waitForFunction(
         `document.querySelector('#app h1').innerHTML === 'Hello World!'`,
         {
           timeout: 1000 * 60,
@@ -85,12 +87,15 @@ describe('electron/start', () => {
       const watchTimeout: number = Date.now() + 1000 * 60;
 
       while (true) {
-        await page.reload({ waitUntil: 'load' });
+        await indexPage.reload({ waitUntil: 'load' });
 
         await timeout(1000 * 5);
 
         // Assert : update browser text by webpack watch
-        const text: string = await page.$eval('#app h1', (e) => e.innerHTML);
+        const text: string = await indexPage.$eval(
+          '#app h1',
+          (e) => e.innerHTML,
+        );
         if (text === 'Hi World!') {
           break;
         } else if (Date.now() > watchTimeout) {

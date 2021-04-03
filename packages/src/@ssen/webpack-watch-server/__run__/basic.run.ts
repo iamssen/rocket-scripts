@@ -14,5 +14,6 @@ import path from 'path';
     header: '\nBASIC SAMPLE!!!\n',
     logfile: path.join(cwd, 'rocket-test.log'),
     webpackConfigs: [webpackConfig],
+    outDir: path.join(cwd, 'dev'),
   });
 })();

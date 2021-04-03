@@ -15,5 +15,6 @@ import path from 'path';
     header: '\nMULTI SAMPLE!!!\n',
     logfile: path.join(cwd, 'rocket-test.log'),
     webpackConfigs: [indexWebpackConfig, anotherWebpackConfig],
+    outDir: path.join(cwd, 'dev'),
   });
 })();
