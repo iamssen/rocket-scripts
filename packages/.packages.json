@@ -1,12 +1,12 @@
 {
   "$schema": "https://rocket-hangar.github.io/rocket-punch/schemas/packages.json",
   "@ssen/*": {
-    "version": "3.0.0",
+    "version": "3.0.1",
     "tag": "latest",
     "module": "commonjs"
   },
   "@rocket-scripts/*": {
-    "version": "3.0.0",
+    "version": "3.0.1",
     "tag": "latest",
     "module": "commonjs"
   }
