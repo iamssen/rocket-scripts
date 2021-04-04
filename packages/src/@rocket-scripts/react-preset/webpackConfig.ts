@@ -112,31 +112,23 @@ export default function ({
                 }),
               ];
 
-              try {
-                if (require.resolve('node-sass').length > 0) {
-                  styleLoaders.push(
-                    ...getWebpackStyleLoaders({
-                      cssRegex: /\.(scss|sass)$/,
-                      cssModuleRegex: /\.module.(scss|sass)$/,
-                      extractCss,
-                      preProcessor: require.resolve('sass-loader'),
-                    }),
-                  );
-                }
-              } catch {}
+              styleLoaders.push(
+                ...getWebpackStyleLoaders({
+                  cssRegex: /\.(scss|sass)$/,
+                  cssModuleRegex: /\.module.(scss|sass)$/,
+                  extractCss,
+                  preProcessor: require.resolve('sass-loader'),
+                }),
+              );
 
-              try {
-                if (require.resolve('less').length > 0) {
-                  styleLoaders.push(
-                    ...getWebpackStyleLoaders({
-                      cssRegex: /\.less$/,
-                      cssModuleRegex: /\.module.less$/,
-                      extractCss,
-                      preProcessor: require.resolve('less-loader'),
-                    }),
-                  );
-                }
-              } catch {}
+              styleLoaders.push(
+                ...getWebpackStyleLoaders({
+                  cssRegex: /\.less$/,
+                  cssModuleRegex: /\.module.less$/,
+                  extractCss,
+                  preProcessor: require.resolve('less-loader'),
+                }),
+              );
 
               return styleLoaders;
             })(),

@@ -1,1 +1,1 @@
-/// <reference types="rocket-scripts/typings"/>
+/// <reference types="@rocket-scripts/web/typings"/>
