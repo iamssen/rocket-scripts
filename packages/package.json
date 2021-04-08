@@ -104,7 +104,7 @@
     "fs-extra": "^9.1.0",
     "glob": "^7.1.6",
     "gray-matter": "^4.0.2",
-    "html-webpack-plugin": "^4.5.2",
+    "html-webpack-plugin": "iamssen/html-webpack-plugin#5.3.1-fixed",
     "ink": "^3.0.8",
     "ink-testing-library": "^2.1.0",
     "ink-use-stdout-dimensions": "^1.0.5",
