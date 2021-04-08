@@ -140,9 +140,9 @@ import { devServerStart } from '../devServerStart';
         },
 
         plugins: [
-          new MiniCssExtractPlugin({
+          (new MiniCssExtractPlugin({
             filename: `[name].css`,
-          }),
+          }) as unknown) as WebpackPluginInstance,
 
           new HtmlWebpackPlugin({
             template: path.join(cwd, 'src/app/index.html'),

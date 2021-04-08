@@ -187,9 +187,9 @@ export async function start({
       },
 
       plugins: [
-        new MiniCssExtractPlugin({
+        (new MiniCssExtractPlugin({
           filename: `[name].css`,
-        }) as WebpackPluginInstance,
+        }) as unknown) as WebpackPluginInstance,
 
         new HtmlWebpackPlugin({
           template: path.join(cwd, `src/${app}/index.html`),

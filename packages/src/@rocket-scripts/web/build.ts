@@ -163,10 +163,10 @@ export async function build({
 
       plugins: [
         // create css files
-        new MiniCssExtractPlugin({
+        (new MiniCssExtractPlugin({
           filename: `${chunkPath}[name].[fullhash].css`,
           chunkFilename: `${chunkPath}[name].[fullhash].css`,
-        }) as WebpackPluginInstance,
+        }) as unknown) as WebpackPluginInstance,
 
         // create size report
         new BundleAnalyzerPlugin({

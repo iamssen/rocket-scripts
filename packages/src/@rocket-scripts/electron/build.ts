@@ -131,7 +131,7 @@ export async function build({
             {} as Record<string, string>,
           ),
 
-          global: JSON.stringify([]),
+          'global': JSON.stringify([]),
         }),
       ],
     },
@@ -199,9 +199,9 @@ export async function build({
       },
 
       plugins: [
-        new MiniCssExtractPlugin({
+        (new MiniCssExtractPlugin({
           filename: `[name].css`,
-        }) as WebpackPluginInstance,
+        }) as unknown) as WebpackPluginInstance,
 
         new HtmlWebpackPlugin({
           template: path.join(cwd, `src/${app}/index.html`),
@@ -223,7 +223,7 @@ export async function build({
             {} as Record<string, string>,
           ),
 
-          global: JSON.stringify([]),
+          'global': JSON.stringify([]),
         }),
       ],
     },
