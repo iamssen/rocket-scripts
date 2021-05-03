@@ -71,7 +71,7 @@ export function getWebpackScriptLoaders(params: Params): RuleSetRule[] {
         use: esbuildLoader,
       },
       {
-        test: /\.mjs$/,
+        test: /\.(js|mjs)$/,
         include: /node_modules/,
         type: 'javascript/auto',
       },
@@ -84,7 +84,7 @@ export function getWebpackScriptLoaders(params: Params): RuleSetRule[] {
         use: esbuildLoader,
       },
       {
-        test: /\.mjs$/,
+        test: /\.(js|mjs)$/,
         include: /node_modules/,
         type: 'javascript/auto',
       },

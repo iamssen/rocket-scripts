@@ -133,6 +133,8 @@ export interface StartParams extends CommonParams {
   /**
    * dev server hostname. (it will pass to hostname option of webpack-dev-server)
    *
+   * if you want to access from outside, set this value to '0.0.0.0'
+   *
    * @example { hostname: '127.0.0.1' }
    *
    * @default localhost
@@ -156,7 +158,7 @@ export interface StartParams extends CommonParams {
     | string
     | Omit<
         WebpackDevServerConfiguration,
-        'hot' | 'compress' | 'contentBase' | 'stats'
+        'host' | 'port' | 'hot' | 'compress' | 'contentBase' | 'stats'
       >;
 
   /**
