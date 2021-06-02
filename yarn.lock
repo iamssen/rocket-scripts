@@ -2659,7 +2659,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prompts@npm:^2.0.12":
+"@types/prompts@npm:^2.4.0":
   version: 2.4.0
   resolution: "@types/prompts@npm:2.4.0"
   checksum: ec75655f07fbc3cb2df60a3e3bdd13bfda0554a16f5541285c4b1cc0610756838a2863dccfc911cbb1385492054c07210512164e3dbef272ec638d631783b278
@@ -5993,28 +5993,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild-loader@npm:^2.11.0":
-  version: 2.11.0
-  resolution: "esbuild-loader@npm:2.11.0"
+"esbuild-loader@npm:^2.13.1":
+  version: 2.13.1
+  resolution: "esbuild-loader@npm:2.13.1"
   dependencies:
-    esbuild: ^0.10.2
+    esbuild: ^0.11.19
     joycon: ^3.0.1
     json5: ^2.2.0
     loader-utils: ^2.0.0
+    tapable: ^2.2.0
     type-fest: ^1.0.1
     webpack-sources: ^2.2.0
   peerDependencies:
     webpack: ^4.40.0 || ^5.0.0
-  checksum: 7184547f81df9bcf0132c0fca76af5515c055577213be0a48c09f9ab4c3d1e560e9c665b55e665b8be9b503ab4eab7f34c582c3372819ffae7bc33848accf145
+  checksum: 2b2cad7c7f0364d210706bab6558e9adfc3325b1ba0447b18a816260ea450f48e3846f11670c505162b19bebe9c77fe81cc21f9e7820f1304a74df3edfd0c131
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.10.2":
-  version: 0.10.2
-  resolution: "esbuild@npm:0.10.2"
+"esbuild@npm:^0.11.19":
+  version: 0.11.23
+  resolution: "esbuild@npm:0.11.23"
   bin:
     esbuild: bin/esbuild
-  checksum: eff6deffa4d2b1734ad6ff9f0f6b66f3ee73d392c58798f1e4ee7390c0e1e7357ff975892de3f5173ebed8b670975952328247d745256050d76739236d84bba7
+  checksum: d55bea84f94e7854fa6fb013ffc63747f2286001b3d73c2a7beb605e6e4847c24ff2cde0660f03045d06d083695c8082423b007a9ee8687e70b52719458bfdd6
   languageName: node
   linkType: hard
 
@@ -11078,7 +11079,7 @@ __metadata:
     "@types/node": ^15.6.2
     "@types/node-fetch": ^2.5.10
     "@types/nodemon": ^1.19.0
-    "@types/prompts": ^2.0.12
+    "@types/prompts": ^2.4.0
     "@types/ramda": ^0.27.40
     "@types/react": ^17.0.9
     "@types/react-dev-utils": ^9.0.6
@@ -11107,7 +11108,7 @@ __metadata:
     date-fns: ^2.22.1
     electron: ^12.0.2
     esbuild-jest: ^0.5.0
-    esbuild-loader: ^2.11.0
+    esbuild-loader: ^2.13.1
     escape-string-regexp: ^4.0.0
     eslint: ^7.23.0
     eslint-config-prettier: ^8.1.0
