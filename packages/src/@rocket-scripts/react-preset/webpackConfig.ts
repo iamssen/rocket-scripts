@@ -17,9 +17,7 @@ export interface WebpackConfigOptions {
   chunkPath: string;
   publicPath: string;
   esbuildLoaderOptions: ESBuildLoaderOptions;
-  tsconfig: string;
   extractCss: boolean;
-  tsConfigIncludes: string[];
 }
 
 export default function ({
