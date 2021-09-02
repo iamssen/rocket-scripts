@@ -1,6 +1,5 @@
 import { ESBuildMinifyPlugin } from 'esbuild-loader';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import path from 'path';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { Configuration, WebpackPluginInstance } from 'webpack';
 
@@ -29,7 +28,7 @@ export function createEntry({
       return html
         ? new HtmlWebpackPlugin({
             template: html,
-            filename: path.basename(html),
+            filename: `${name}.html`,
             chunks: [name],
           })
         : null;
