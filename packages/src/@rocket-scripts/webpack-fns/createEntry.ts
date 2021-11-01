@@ -2,6 +2,7 @@ import { ESBuildMinifyPlugin } from 'esbuild-loader';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { Configuration, WebpackPluginInstance } from 'webpack';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 interface EntryParams {
   outDir: string;
@@ -12,6 +13,7 @@ interface EntryParams {
   filename?: string;
   optimization?: 'minify-and-split-chunks' | 'minify' | false;
   splitChunks?: boolean;
+  analyzerOptions?: BundleAnalyzerPlugin.Options;
 }
 
 export function createEntry({
@@ -22,6 +24,7 @@ export function createEntry({
   chunkPath = '',
   filename: _filename,
   optimization = false,
+  analyzerOptions,
 }: EntryParams): Configuration {
   const plugins: WebpackPluginInstance[] = entry
     .map(({ name, html }) => {
@@ -46,8 +49,14 @@ export function createEntry({
     );
   }
 
+  if (analyzerOptions) {
+    plugins.push(new BundleAnalyzerPlugin(analyzerOptions));
+  }
+
   const filename =
-    _filename ?? hasHtml
+    typeof _filename === 'string'
+      ? _filename
+      : hasHtml
       ? `${chunkPath}[name].[fullhash].js`
       : `${chunkPath}[name].js`;
 
